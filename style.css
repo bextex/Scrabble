@@ -1,0 +1,14 @@
+/*Game-start button*/
+.start-button {
+  color: rgb(3, 3, 3);
+  position: absolute;
+  top: 35vh;
+  left: 40vw;
+  text-align: center;
+  width: 18vw;
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 43px 0 10px 10px;
+  cursor: pointer;
+  background-image: url("startbutton-1.gif");
+}
