@@ -1,14 +1,24 @@
+/* background-image */
+body {
+  background-image: url("background-img.gif");
+  background-position: center center;
+  background-attachment: fixed;
+ 
+}
+
+
+
 /*Game-start button*/
 .start-button {
-  color: rgb(3, 3, 3);
-  position: absolute;
-  top: 35vh;
-  left: 40vw;
-  text-align: center;
-  width: 18vw;
-  background-color: #fff;
-  border-radius: 10px;
-  padding: 43px 0 10px 10px;
-  cursor: pointer;
   background-image: url("startbutton-1.gif");
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: fixed;
+  top: 39vh;
+  left: 42.5vw;
+  width: 15vw;
+  border-color: black;
+  padding: 30px 0 5px 5px;
+  cursor: pointer;
+  
 }
