@@ -1,25 +1,47 @@
-/* background-image */
-body {
-  background-image: url("background-img.gif");
-  background-position: center center;
-  background-attachment: fixed;
- 
+.container {
+  position: relative;
+  width: 100%;
+  max-width: auto;
 }
 
+.container img {
+  width: 100%;
+  height: auto;
+}
 
+@keyframes changeColor {
+  from {color: black;}
+  to {color:aliceblue;}
+}
 
-/*Game-start button*/
-.start-button {
-  background-image: url("startbutton-1.gif");
-  background-repeat: no-repeat;
-  background-size: cover;
-  position: fixed;
-  top: 39vh;
-  left: 43vw;
-  width: 15vw;
-  border-color: rgb(187, 33, 33);
-  border-radius: 5px;
-  padding: 30px 0 5px 5px;
-  cursor: pointer;
+.container .startBtn {
+  font-family: 'Neucha', cursive;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  background-color: rgb(22, 19, 19);
   
+  color: aliceblue;
+  
+  animation-name: changeColor;
+  animation-duration: 3s;
+  
+  opacity: 0.7;
+  font-size: 17px;
+  padding: 16px 30px;
+  border: 1ps;
+  border-color: aliceblue;
+  cursor: pointer;
+  border-radius: 5px;
+  text-align: center;
 }
+
+.container .startBtn:hover {
+  background-color: azure;
+  color: black;
+}
+
+
+
