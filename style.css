@@ -15,9 +15,10 @@ body {
   background-size: cover;
   position: fixed;
   top: 39vh;
-  left: 42.5vw;
+  left: 43vw;
   width: 15vw;
-  border-color: black;
+  border-color: rgb(187, 33, 33);
+  border-radius: 5px;
   padding: 30px 0 5px 5px;
   cursor: pointer;
   
