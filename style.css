@@ -1,0 +1,26 @@
+select {
+  width: 50px;
+  height: 20px;
+  border: 1px solid black;
+  overflow: auto;
+  color: black;
+}
+
+.playersChoosen {
+  color: black;
+  font-size: 100px;
+}
+
+#content {
+    width: 500px;
+    margin: 0px auto;
+    text-align:left;
+    padding: 15px;
+    border: 1px dashed 333;
+    background-color: #eee;
+}
+body {
+    margin: 50px 0px;
+    padding: 0px;
+    text-align: center;
+}
