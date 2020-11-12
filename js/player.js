@@ -13,8 +13,32 @@ function choosePlayers() {
 function setPlayerNames(numOfPlayers) {
   $('div#content').html(""); // Empty the div so correct number of text fields appear
   for (i = 1; i <= numOfPlayers; i++) {
-    $('div#content').append(`<input type="text" id="newPlayer${i}"/>`); // Add text fields depending on how many players
+    $('div#content form#setNames').append(`<input type="text" id="newPlayer${i}"/>`); // Add text fields depending on how many players
   }
+
+  function startGame() {
+    for (i = 1; i <= numOfPlayers; i++) {
+      let name = document.getElementById(`#newPlayer${i}`).value;
+      players.push(name);
+      console.log(name);
+      console.log(players);
+    }
+  }
+
+
+
+  /*
+
+  if (player1 === null) { return; }
+  if (document.getElementById(`#newPlayer${i}`).value === null) { return; }
+
+  for (i = 1; i <= numOfPlayers; i++) {
+    let name = document.getElementById(`#newPlayer${i}`).name;
+    players.push(name);
+  }
+
+  console.log(players);
+  /*
 
   $("input").keyup(function () {
     let value = $(this).val();
@@ -26,7 +50,7 @@ function setPlayerNames(numOfPlayers) {
     let name = document.getElementById(`newPlayer${i}`).value;
     players.push(name);
     console.log(players);
-  }
+  }*/
 
   /*
   
