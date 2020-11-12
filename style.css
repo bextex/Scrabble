@@ -75,5 +75,27 @@ button{
   color: black;
 }
 
+button#add-player{
+  border-radius: 5px;
+  font: 300;
+  font-family: 'Open Sans', sans-serif;
+  background-color: rgb(255, 255, 255);
+  padding: 5px;
+  margin: 0 auto;
+}
+button#add-player:disabled{
+  border-radius: 5px;
+  font: 300;
+  font-family: 'Open Sans', sans-serif;
+  background-color: rgb(160, 160, 160);
+}
+
+div.playersName {
+  font-family: 'Open Sans', sans-serif;
+  width: 200px;
+  margin: 0 auto;
+  padding-top: 10px;
+}
+
 
 

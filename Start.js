@@ -1,6 +1,7 @@
 // This is our main-file called game
 
-// import Player from "./Player.js"
+import Player from './js/player.js';
+
 
 export default class Start {
 
@@ -15,6 +16,11 @@ export default class Start {
   }
 
   addStartBtnEvent() {
+    let player = new Player();
+    player.choosePlayers();
+    $('.startBtn').on('click', function () {
+      player.setPlayerNames();
+    });
     $('.startBtn').click(this.clickFunction);
   }
 
