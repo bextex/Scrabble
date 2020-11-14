@@ -19,5 +19,8 @@ export default class Start {
   }
 }
 
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> 935e27657dcb45821098995c78dce698bafcbbb4
