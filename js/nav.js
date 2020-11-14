@@ -1,4 +1,4 @@
-$('nav .rulesBtn').click(function () {
+$('.rulesBtn').click(function () {
   $('.rulesContainer').css(
     "display", "block"
   );

@@ -131,7 +131,7 @@ font-family: 'Stalinist One', cursive;
 }
 
 /* Rules-button */
-.gamecontainer .rules {
+.gamecontainer .rulesBtn {
    
   font-family: 'Neucha', cursive;
   position: absolute;
@@ -157,7 +157,20 @@ font-family: 'Stalinist One', cursive;
  
 }
 
-.gamecontainer .rules:hover {
+.rulesContainer{
+  position: absolute;
+  margin-left: auto;
+  margin-right: auto;
+  z-index: 1;
+  overflow-y: scroll;
+  height: 40vh;
+  width: 30vh;
+  display: none;
+  background-color: rgba(135, 147, 214, 0.431);
+  color:rgba(29, 39, 94, 0.431);
+}
+
+.gamecontainer .rulesBtn:hover {
   background-color: rgb(114, 161, 161);
   color: black;
 }
