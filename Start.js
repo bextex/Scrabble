@@ -4,6 +4,7 @@
 
 export default class Start {
 
+  // Start button
   constructor() {
     this.addStartBtnEvent();
   }
@@ -13,9 +14,25 @@ export default class Start {
     $('.game-screen').fadeIn(1350);
 
   }
-
   addStartBtnEvent() {
     $('.startBtn').click(this.clickFunction);
   }
 }
+
+
+// rules open-close 
+$(document).ready(function () {
+
+  $(".gamecontainer .add-rules").hide();
+
+  $('.rules').click(function () {
+    $('.add-rules').show();
+  });
+  $('.close').click(function () {
+    $('.add-rules').hide();
+  });
+
+});
+
+
 
