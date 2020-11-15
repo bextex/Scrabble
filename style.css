@@ -199,7 +199,13 @@ font-family: 'Stalinist One', cursive;
   background-color: rgb(114, 161, 161);
   color: black;
 }
-  
+
+.gamecontainer .rule-title {
+  color: rgb(29, 36, 43);
+  font-family: 'Big Shoulders Stencil Text', cursive;
+  font-size: 35px;
+}
+
 .gamecontainer .add-rules {
   font-family: 'Neucha', cursive;
   position: fixed;
@@ -220,11 +226,7 @@ font-family: 'Stalinist One', cursive;
   
 }
 
-.gamecontainer .rule-title {
-  color: rgb(29, 36, 43);
-  font-family: 'Big Shoulders Stencil Text', cursive;
-  font-size: 35px;
-}
+
 
 .gamecontainer .close {
   position: absolute;
