@@ -200,16 +200,17 @@ font-family: 'Stalinist One', cursive;
   color: black;
 }
 
-.gamecontainer .rule-title {
+.rules-window .rule-title {
   color: rgb(29, 36, 43);
   font-family: 'Big Shoulders Stencil Text', cursive;
   font-size: 35px;
 }
 
-.gamecontainer .add-rules {
+.rules-window .add-rules {
   font-family: 'Neucha', cursive;
-  position: absolute;
-  top: 20vh;
+  position: relative;
+  /*removed top. Doesn't work when position is relative*/
+  /*doen't work with percentage '%'*/
   left: 30%;
   color: rgb(40, 20, 20);
   
@@ -228,11 +229,11 @@ font-family: 'Stalinist One', cursive;
 
 
 
-.gamecontainer .close {
+.rules-window .close {
   position: absolute;
   cursor: pointer;
-  top: 5%;
-  left: 90%
+  top: 6%;
+  left: 87%;
  
 }
 
