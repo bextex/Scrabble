@@ -8,6 +8,9 @@
   <link href="https://fonts.googleapis.com/css2?family=Neucha&display=swap" rel="stylesheet">
   <link rel="preconnect" href="https://fonts.gstatic.com">
   <link href="https://fonts.googleapis.com/css2?family=Stalinist+One&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Stencil+Text:wght@300&display=swap"
+    rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 
@@ -17,7 +20,7 @@
     <img src="background2.gif" alt="start-background" style="width: 100%;">
 
 
-    <button class="startBtn" style="vertical-align:midle"><span>START GAME
+    <button class="startBtn" style="vertical-align:midle"><span>STARTA SPELET
 
       </span></button>
 
@@ -26,8 +29,126 @@
   <!--game-screen-->
   <div class="game-screen gamecontainer">
     <p class="scrabble">SCRABBLE</p>
-    <button class="rules">RULES</button>
-    <button class="players">ADD PLAYERS</button>
+    <button class="rules">REGLER</button>
+    <button class="players">LÄGG TILL SPELARE</button>
+
+    <!--Rules-->
+    <ul class="add-rules">
+
+      <!--close window button-->
+
+      <button class="close">X
+        <span class="hover-text">Stäng</span></button>
+
+      <h2 class="rule-title">Regler</h2>
+
+      <li>Man spelar endast matcher med två spelare</li><br>
+
+      <li>Arrangörerna väljer om turneringen ska spelas med<br>
+        antingen 25 eller 30 minuters betänketid per deltagar och
+        parti.</li><br>
+
+      <li>Innan turnering ställs klockan om utefter vilken speltid som<br>
+        gäller och en schackklocka ska användas.</li>
+
+      <li>En spelare vars tid har gått ut får ändå fortsätta att spela,<br>
+        men får ett poängavdrag på tio poäng för varje påbörjad<br>
+        minut över maxtiden. Med digital klocka räknas 00:00 som<br>
+        övertid.</li><br>
+
+      <li>En spelare som får ett tidsöverdrag på 5 minuter har<br>
+        omedelbart förlorat matchen. Förloraren får poängavdrag<br>
+        för kvarvarande brickor och -50 poäng för tidsöverdrag.<br>
+        Vinnaren får avdrag för eventuellt tidsöverdrag. Förlorarens<br>
+        poäng justeras nedåt om poängskillnaden understiger 150,<br>
+        vid negativa poäng blir resultatet dock 150-0.</li><br>
+
+      <li>Den spelare som har fått fördel i lottningen kan välja mellan<br>
+        två fördelar: att få börja matchen eller att få välja hur<br>
+        brädet ska läggas. Brädet ska läggas så att en spelare får<br>
+        brädet rättvänt (inte på tvären). Den andra spelaren får den<br>
+        andra av dessa två fördelar.</li><br>
+
+      <li>Den spelare som inte börjar partiet har rätt att slå igång<br>
+        klockan inför första draget så snart den första spelaren har<br>
+        sett någon av brickorna.</li><br>
+
+      <li>Båda spelarna måste föra protokoll över varje drag såväl<br>
+        som de sammanlagda poängsummorna. Innan man slår på<br>
+        klockan måste man ha lagt ut sitt drag och talat om hur<br>
+        mycket poäng det ger. Efter att man slagit på klockan för<br>
+        man in den poängen och den sammanlagda poängen i sitt<br>
+        protokoll. Man får inte dra nya brickor förrän motståndaren<br>
+        har antecknat poängen i sitt protokoll, och man måste<br>
+        bokföra motståndarens drag innan man själv gör ett drag.</li><br>
+
+      <li>Genom att påbörja anteckning av motståndarens drag i sitt<br>
+        protokoll accepterar man draget. Vill man utmana ska man<br>
+        istället stanna klockan. Man talar då om vilket eller vilka av<br>
+        de nyss bildade orden man vill utmana. Vid utmaning av<br>
+        flera ord får spelarna bara reda på om draget som helhet är<br>
+        giltigt eller ogiltigt, inte vilka ord som är godkända eller ej.<br>
+        Ordkollen kan utföras av en utsedd orddomare, eller av<br>
+        båda spelarna gemensamt på en dator med speciellt<br>
+        ordkollsprogram. Om draget är ogiltigt måste spelaren som<br>
+        gjorde det ta upp de utlagda brickorna igen och har förlorat<br>
+        sin tur. Om det är giltigt blir i stället den som utmanade<br>
+        bestraffad med ett poängavdrag på 10 poäng.</li><br>
+
+      <li>Man har inte gjort sitt drag förrän man har slagit på klockan<br>
+        så det går bra att ångra sitt drag innan dess. Detta gäller<br>
+        även om motståndaren redan meddelat att denne vill utmana draget.<br>
+        Om man har glömt att slå på klockan så blir ens drag ändå försent<br>
+        att ångra i och med att man sticker handen i påsen för att dra nya<br>
+        brickor (varpå motståndaren kan hejda en för att utmana draget).</li><br>
+
+      <li>Om man byter brickor istället för att lägga ut ett ord ska<br>
+        man lägga dem på bordet upp och ner, tala om hur många brickor<br>
+        man byter, och därefter slå på klockan. Efteråt drar man nya brickor<br>
+        och lägger slutligen tillbaka de gamla brickorna i påsen.</li><br>
+
+      <li>När det finns färre än sju brickor kvar att dra är det<br>
+        inte längre tillåtet att byta brickor. Däremot är det då som<br>
+        alltid tillåtet att passa.</li><br>
+
+      <li>Ifall sex drag i rad görs utan att en ny bricka hamnar på<br>
+        spelplanen är spelet slut och båda spelarna får poängavdrag<br>
+        för de brickor de har kvar på ställen. De sätt sådana drag kan<br>
+        ske på är genom passningar, byten och utlägg som tas tillbaka<br>
+        på grund av ogiltiga ord.</li><br>
+
+      <li>Den som går ut slår på klockan som vanligt, eftersom motståndaren<br>
+        kan vilja utmana något ord. En motståndare som accepterar draget ska<br>
+        stanna klockan efter att ha antecknat draget i sitt protokoll. Båda<br>
+        spelarna kontrollerar att de har kommit fram till samma slutpoäng<br>
+        och signerar sina protokoll.</li><br>
+
+      <li>Det är tillåtet att föra vilka anteckningar som helst<br>
+        under spelets gång. I synnerhet är det tillåtet att pricka av<br>
+        vilka brickor som har gått, och man får även ha gjort i ordning<br>
+        en avprickningslista i förväg.</li><br>
+
+      <li>Om en spelare drar för många brickor ur påsen men inte<br>
+        hunnit titta på fler än dem som ska dras, skall överskjutande<br>
+        brickor läggas tillbaks i påsen.</li><br>
+
+      <li>Om en spelare dragit för många brickor och hunnit titta<br>
+        på dem får motståndaren dra så många brickor som spelaren tog<br>
+        för mycket, och ytterligare en bricka, och titta på dem.<br>
+        Motståndaren väljer sedan vilken eller vilka brickor som ska<br>
+        kastas tillbaks. (Om spelaren drar en bricka för mycket får<br>
+        motståndaren alltså dra två brickor, och välja vilken av dessa<br>
+        två som ska läggas tillbaks.) Motståndaren får välja mellan att<br>
+        dra brickorna från enbart de nyss dragna brickorna<br>
+        (om dessa fortfarande går att urskilja) eller bland alla spelarens brickor.<br>
+        Om det är färre än sju brickor kvar i påsen innan draget<br>
+        så får motståndaren dra ytterligare en extra bricka att välja<br>
+        kastad bricka från.</li><br>
+
+
+    </ul>
+
+
 
   </div>
 
