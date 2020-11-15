@@ -23,13 +23,17 @@ export default class Start {
 // rules open-close 
 $(document).ready(function () {
 
-  $(".gamecontainer .add-rules").hide();
+  $(".rules-window .add-rules").hide();
 
   $('.rules').click(function () {
-    $('.add-rules').show();
+    $('.game-screen').hide();
+    $('.add-rules').animate({
+      height: 'toggle'
+    });
   });
   $('.close').click(function () {
     $('.add-rules').hide();
+    $('.game-screen').fadeIn(850);
   });
 
 });
