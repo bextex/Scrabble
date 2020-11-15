@@ -1,8 +1,16 @@
+$('.addPlayersBtn').click(function () {
+  $('.addPlayersContainer').css({
+    "display": "block"
+  })
+  console.log("clicked addPlayers");
+})
+
+
 $('.rulesBtn').click(function () {
   $('.rulesContainer').css(
     "display", "block"
   );
-  console.log("clicked close");
+  console.log("clicked rulesBtn");
 });
 
 $('.rulesContainer .closeRulesBtn').click(function () {
@@ -11,3 +19,4 @@ $('.rulesContainer .closeRulesBtn').click(function () {
   );
   console.log("clicked close");
 });
+
