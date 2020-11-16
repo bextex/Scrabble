@@ -36,13 +36,13 @@ export default class Player {
 
 
 }
-loopPlayersArr();
-function loopPlayersArr() {
-  let player = new Player('berit')
-  // loop through array players[]
-  console.log('name from for..of-loop', player.setPlayerNames(name));
+// loopPlayersArr();
+// function loopPlayersArr() {
+//   let player = new Player('berit')
+//   // loop through array players[]
+//   console.log('name from for..of-loop', player.setPlayerNames(name));
 
-}
+// }
 
 
 

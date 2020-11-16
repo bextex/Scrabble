@@ -1,4 +1,4 @@
-$('.addPlayersBtn').click(function () {
+$('.players').click(function () {
   $('.addPlayersContainer').css({
     "display": "block"
   })
