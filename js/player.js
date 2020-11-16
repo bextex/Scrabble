@@ -1,8 +1,7 @@
 export default class Player {
 
-  players = [
+  players = []
 
-  ]; // Array of players and their tiles
 
   constructor(name) {
     this.name = name;
@@ -22,19 +21,26 @@ export default class Player {
   }
 
 
-  setPlayerNames(name) {
-    let index = 1;
-    $(".playersName").children().each(function () {
-      let name;
-      if (document.getElementById(`player${index}Name`).value === null) {
-        name = 'Player ' + index;
-      } else {
-        name = document.getElementById(`player${index}Name`).value;
+  setPlayerNames() {
+    if (countClicks == 1) {
+      console.log(document.getElementById(`player1Name`).value);
+      if (document.getElementById(`player1Name`).value === null) {
       }
-      index++;
+    }
 
-    });
-    // players.push(new Player(inputName));
 
+
+
+    // let index = 1;
+    //   $(".playersName").children().each(function () {
+    //     let name;
+    //     if (document.getElementById(`player${index}Name`).value === null) {
+    //       name = 'Player ' + index;
+    //     } else {
+    //       name = document.getElementById(`player${index}Name`).value;
+    //     }
+    //     index++;
+    //   });
+    // }
   }
 }
