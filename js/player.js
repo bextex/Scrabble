@@ -1,8 +1,6 @@
+const players = []; // Array of players and their tiles
+
 export default class Player {
-
-  players = []; // Array of players and their tiles
-  countClicks = 2;
-
 
   constructor(name) {
     this.name = name;
@@ -11,6 +9,7 @@ export default class Player {
   choosePlayers() {
 
     $('.players').on('click', function () {
+      let countClicks = 2;
       if (countClicks === 2) {
         $('.playersName').append(`<input type="names" id="player3Name" class="newPlayerInput" placeholder="Spelare 3" />`)
       } else if (countClicks === 1) {

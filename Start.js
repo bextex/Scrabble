@@ -32,10 +32,12 @@ $('.start-game').on('click', function () {
   for (let i = 1; i < 5; i++) {
     console.log('im in the loop');
     let playerName = document.getElementById(`player${i}Name`).value;
-    console.log(playerName);
+    if (playerName === '') {
+      playerName = `Spelare ${i}`;
+    }
+    console.log(`${playerName}`);
     let newPlayer = new Player();
     newPlayer.setPlayerNames(playerName);
-
   }
 });
 
