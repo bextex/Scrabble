@@ -41,6 +41,14 @@ $(document).ready(function () {
 });
 
 
+// $(".new-start-Btn").click(function{
+//   for (let i = 1; i < 5; i++) {
+//     new playerName = getElementById(`player${i}Name`).value;
+//     Player.setPlayerNames(playerName);
+//   }
+// });
+
+
 
 
 

@@ -1,9 +1,11 @@
 export default class Player {
 
-  players = []; // Array of players and their tiles
+  players = [
 
-  constructor() {
+  ]; // Array of players and their tiles
 
+  constructor(name) {
+    this.name = name;
   }
 
   choosePlayers() {
@@ -20,7 +22,7 @@ export default class Player {
   }
 
 
-  setPlayerNames() {
+  setPlayerNames(name) {
     let index = 1;
     $(".playersName").children().each(function () {
       let name;
@@ -30,6 +32,9 @@ export default class Player {
         name = document.getElementById(`player${index}Name`).value;
       }
       index++;
+
     });
+    // players.push(new Player(inputName));
+
   }
 }
