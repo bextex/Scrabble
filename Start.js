@@ -2,6 +2,10 @@
 
 import Player from "./js/player.js";
 
+// This is our main-file called game
+import Game from './js/game.js';
+Game.countScore();
+
 export default class Start {
 
 
