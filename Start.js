@@ -8,15 +8,14 @@ export default class Start {
 
   // Start button
   constructor() {
-    $('.start-screen').fadeOut(1700);
-    $('.game-screen').fadeIn(1350);
+
     let player = new Player();
     player.choosePlayers();
     //this.addStartBtnEvent();
   }
 
   clickFunction() {
-    $('.game-screen').fadeIn(1350);
+
     let player = new Player();
     player.choosePlayers();
   }
@@ -50,14 +49,14 @@ $(document).ready(function () {
   $(".rules-window .add-rules").hide();
 
   $('.rules').click(function () {
-    $('.game-screen').hide();
+    $('.game-menu').hide();
     $('.add-rules').animate({
       height: 'toggle'
     });
   });
   $('.close').click(function () {
     $('.add-rules').hide();
-    $('.game-screen').fadeIn(850);
+    $('.game-menu').fadeIn(850);
   });
 
 });
