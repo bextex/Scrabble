@@ -10,9 +10,8 @@ export default class Player {
   }
 
   choosePlayers() {
-
+    let countClicks = 2;
     $('.players').on('click', function () {
-      let countClicks = 2;
       if (countClicks === 2) {
         $('.playersName').append(`<input type="names" id="player3Name" class="newPlayerInput" placeholder="Spelare 3" />`)
       } else if (countClicks === 1) {
