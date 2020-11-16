@@ -4,6 +4,9 @@ export default class Player {
 
   constructor(name) {
     this.name = name;
+    this.tiles = [];
+    // Change to this when we have tiles function
+    // this.tiles = [...this.game.getTiles(), ' '];
   }
 
   choosePlayers() {
