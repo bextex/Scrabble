@@ -1,6 +1,6 @@
 // This is our main-file called game
 
-// import Player from "./Player.js"
+import Player from "./js/player.js";
 
 export default class Start {
 
