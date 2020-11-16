@@ -1,6 +1,7 @@
 export default class Player {
 
   players = []; // Array of players and their tiles
+  countClicks = 2;
 
 
   constructor(name) {
@@ -8,7 +9,7 @@ export default class Player {
   }
 
   choosePlayers() {
-    let countClicks = 2;
+
     $('.players').on('click', function () {
       if (countClicks === 2) {
         $('.playersName').append(`<input type="names" id="player3Name" class="newPlayerInput" placeholder="Spelare 3" />`)
@@ -21,14 +22,15 @@ export default class Player {
   }
 
 
-  setPlayerNames() {
-    if (countClicks == 1) {
-      console.log(document.getElementById(`player1Name`).value);
-      if (document.getElementById(`player1Name`).value === null) {
-      }
-    }
+  setPlayerNames(inputName) {
+    // if (countClicks == 1) {
+    //   console.log(document.getElementById(`player1Name`).value);
+    //   if (document.getElementById(`player1Name`).value === null) {
+    //   }
+    // }
 
-
+    players.push(new Player(inputName));
+    console.log(players);
 
 
     // let index = 1;
