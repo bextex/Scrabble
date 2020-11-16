@@ -195,6 +195,34 @@ font-family: 'Stalinist One', cursive;
   color: black;
 }
 
+.gamecontainer .start-game {
+  font-family: 'Neucha', cursive;
+  position: absolute;
+  top: 10vh;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  background-color: rgb(22, 19, 19);
+  
+  color: aliceblue;
+  
+  animation-name: changeColor;
+  animation-duration: 4s;
+  
+  opacity: 0.7;
+  font-size: 30px;
+  padding: 16px 20vh;
+  border: double;
+  border-color: aliceblue;
+  cursor: pointer;
+  border-radius: 5px;
+  text-align: center;
+}
+.gamecontainer .start-game:hover {
+  background-color: rgb(114, 161, 161);
+  color: black;
+}
+
 .gamecontainer .players:hover {
   background-color: rgb(114, 161, 161);
   color: black;
