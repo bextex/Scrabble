@@ -1,6 +1,6 @@
 // This is our main-file called game
 
-// import Player from "./Player.js"
+import Player from "./js/player.js";
 
 export default class Start {
 
@@ -12,6 +12,8 @@ export default class Start {
   clickFunction() {
     $('.start-screen').fadeOut(1700);
     $('.game-screen').fadeIn(1350);
+    let player = new Player();
+    player.choosePlayers();
 
   }
   addStartBtnEvent() {
@@ -37,6 +39,10 @@ $(document).ready(function () {
   });
 
 });
+
+
+
+
 
 
 
