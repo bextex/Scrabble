@@ -4,6 +4,8 @@ import Player from "./js/player.js";
 
 export default class Start {
 
+
+
   // Start button
   constructor() {
     this.addStartBtnEvent();
@@ -14,15 +16,30 @@ export default class Start {
     $('.game-screen').fadeIn(1350);
     let player = new Player();
     player.choosePlayers();
-    $('.start-game').on('click', function () {
-      player.setPlayerNames();
-    });
+    // $('.start-game').on('click', function () {
+    //   player.setPlayerNames();
+    // });
+
 
   }
   addStartBtnEvent() {
     $('.startBtn').click(this.clickFunction);
   }
 }
+
+$('.start-game').on('click', function () {
+  console.log('clicking the button');
+  for (let i = 1; i < 5; i++) {
+    console.log('im in the loop');
+    let playerName = document.getElementById(`player${i}Name`).value;
+    console.log(playerName);
+    let newPlayer = new Player();
+    newPlayer.setPlayerNames(playerName);
+
+  }
+});
+
+
 
 
 // rules open-close 
