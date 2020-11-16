@@ -27,10 +27,6 @@ export default class Player {
       if (document.getElementById(`player1Name`).value === null) {
       }
     }
-
-
-
-
     // let index = 1;
     //   $(".playersName").children().each(function () {
     //     let name;
