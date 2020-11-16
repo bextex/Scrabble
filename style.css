@@ -11,6 +11,13 @@ body{
   animation-iteration-count: infinite;
 }
 
+ul {
+  width: auto;
+  text-align: center;
+}
+
+
+
 @keyframes colorchange
 {
   10%   {background: rgb(192, 177, 177);}
@@ -172,8 +179,6 @@ font-family: 'Stalinist One', cursive;
   
   color: aliceblue;
   
-  animation-name: changeColor;
-  animation-duration: 4s;
   
   opacity: 0.7;
   font-size: 30px;
@@ -230,19 +235,72 @@ div.playersName {
   padding-top: 10px;
 }
 
-.addPlayersContainer{
-  display: none;
-  position: absolute;
-  margin-left: auto;
-  margin-right: auto;
-  z-index: 1;
-  height: 40vh;
-  width: 30vh;
-  background-color: rgba(135, 147, 214, 0.431);
-  color:rgba(29, 39, 94, 0.431);
+.rules-window .rule-title {
+  color: rgb(29, 36, 43);
+  font-family: 'Big Shoulders Stencil Text', cursive;
+  font-size: 35px;
+}
+
+.rules-window .add-rules {
+  font-family: 'Neucha', cursive;
+  position: relative;
+  /*removed top. Doesn't work when position is relative*/
+  /*doen't work with percentage '%'*/
+  left: 30%;
+  color: rgb(40, 20, 20);
+  
+   font-size: 18px;
+  border: 3px solid aliceblue;
+  border-radius: 10px;
+  background-color: lightblue;
+  width: 35%;
+  height: 50vh;
+  padding: 5vh;
+
+  overflow: auto;
+
+  
 }
 
 
-  
 
+.rules-window .close {
+  position: absolute;
+  cursor: pointer;
+  top: 6%;
+  left: 87%;
+ 
+}
 
+.close .hover-text {
+    visibility: hidden;
+  width: 120px;
+  background-color: #555;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 3px 0;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%;
+  left: 50%;
+  margin-left: -60px;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.close .hover-text::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #555 transparent transparent transparent;
+}
+
+.close:hover .hover-text {
+  visibility: visible;
+  opacity: 1;
+}
