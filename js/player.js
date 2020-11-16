@@ -2,8 +2,8 @@ export default class Player {
 
   players = []; // Array of players and their tiles
 
-  constructor() {
-
+  constructor(name) {
+    this.name = name;
   }
 
   choosePlayers() {
@@ -31,7 +31,19 @@ export default class Player {
       }
       index++;
     });
+    return new Player(name);
   }
+
+
 }
+loopPlayersArr();
+function loopPlayersArr() {
+  let player = new Player('berit')
+  // loop through array players[]
+  console.log('name from for..of-loop', player.setPlayerNames(name));
+
+}
+
+
 
 
