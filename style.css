@@ -1,24 +1,55 @@
-select {
+
+/* Background and button
+       Start page */
+
+body{
+  margin: 0;
+  overflow: hidden;
+  background-color: rgb(207, 248, 237);
+  animation-name: colorchange;
+  animation-duration: 10s;
+  animation-iteration-count: infinite;
+}
+
+ul {
+  width: auto;
+  text-align: center;
+}
+
+
+
+@keyframes colorchange
+{
+  10%   {background: rgb(192, 177, 177);}
+  25%  {background: rgb(233, 164, 164);}
+  55%  {background: rgb(76, 243, 174);}
+  75%  {background: rgb(83, 250, 250);}
+  90% {background: rgb(239, 203, 120);}
+  30% {background: rgb(102, 238, 165);}
+}
+/* select {
   width: 50px;
   height: 20px;
   border: 1px solid black;
   overflow: auto;
   color: black;
-}
+} */
+
 
 .playersChoosen {
   color: black;
   font-size: 100px;
 }
 
-#content {
+/* #content {
     width: 500px;
     margin: 0px auto;
     text-align:left;
     padding: 15px;
     border: 1px dashed 333;
     background-color: #eee;
-}
+} */
+
 body {
     margin: 50px 0px;
     padding: 0px;
@@ -40,7 +71,7 @@ button{
 
 .container img {
   width: 100%;
-  height: auto;
+  height: 100vh;
 }
 
 @keyframes changeColor {
@@ -62,21 +93,126 @@ button{
   animation-name: changeColor;
   animation-duration: 3s;
   
+  opacity: 0.8;
+  font-size: 30px;
+  padding: 16px 40px;
+  border-color: aliceblue;
+  cursor: pointer;
+  border-radius: 5px;
+  text-align: center;
+
+  transition: all 0.5s;
+}
+
+/* Animated button */
+.container .startBtn:hover {
+  background-color: azure;
+  color: black;
+}
+
+.container .startBtn span {
+  display: inline-block;
+  position: relative;
+  transition: 0.5s;
+}
+ 
+.container .startBtn span:after {
+  content: '\00bb';
+  position: absolute;
+  opacity: 0;
+  top: 0px;
+  right: -20px;
+  transition: 0.5s;
+}
+
+.container .startBtn:hover span{
+  padding-right: 35px;
+}
+
+.container .startBtn:hover span:after{
+  opacity: 1;
+  right: 0;
+}
+
+/* Text */
+p.scrabble {
+font-family: 'Stalinist One', cursive;
+ font-size: 10vh;
+ text-align: center;
+ color: rgba(135, 147, 214, 0.431);
+ text-shadow: 3px 3px rgb(42, 30, 24);
+  animation-name: move;
+  animation-duration: 7s;
+ cursor: default;
+}
+
+.gamecontainer {
+  position: relative;
+  width: 100%;
+  max-width: auto;
+}
+
+@keyframes move {
+  0% {
+    transform: translate(-20%, 0);
+  }
+
+  50% {
+    text-shadow: 0 15px 40px;
+  }
+
+  5% {
+    transform: translate(20%, 0);
+  }
+}
+
+/* Start screen buttons */
+.gamecontainer .rulesBtn, .gamecontainer .addPlayersBtn {
+   
+  font-family: 'Neucha', cursive;
+  position: absolute;
+  top: 35vh;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  background-color: rgb(22, 19, 19);
+  
+  color: aliceblue;
+  
+  
   opacity: 0.7;
-  font-size: 17px;
-  padding: 16px 30px;
-  border: 1ps;
+  font-size: 30px;
+  padding: 16px 20vh;
+  border: double;
   border-color: aliceblue;
   cursor: pointer;
   border-radius: 5px;
   text-align: center;
 }
 
-.container .startBtn:hover {
-  background-color: azure;
+.gamecontainer .addPlayersBtn{
+  top: 47vh;
+}
+
+.gamecontainer .rulesBtn:hover, .gamecontainer .addPlayersBtn:hover {
+  background-color: rgb(114, 161, 161);
   color: black;
 }
 
+.rulesContainer{
+  position: absolute;
+  margin-left: auto;
+  margin-right: auto;
+  z-index: 1;
+  overflow-y: scroll;
+  height: 40vh;
+  width: 30vh;
+  display: none;
+  background-color: rgba(135, 147, 214, 0.431);
+  color:rgba(29, 39, 94, 0.431);
+}
+
+/* game start add players */
 button#add-player{
   border-radius: 5px;
   font: 300;
@@ -99,46 +235,72 @@ div.playersName {
   padding-top: 10px;
 }
 
-/* nav */
-nav {
-  height: 35px;
-  padding: 4px;
-  display: flex;
-  justify-content: space-between;
-  background-color: red;
+.rules-window .rule-title {
+  color: rgb(29, 36, 43);
+  font-family: 'Big Shoulders Stencil Text', cursive;
+  font-size: 35px;
+}
+
+.rules-window .add-rules {
   font-family: 'Neucha', cursive;
+  position: relative;
+  /*removed top. Doesn't work when position is relative*/
+  /*doen't work with percentage '%'*/
+  left: 30%;
+  color: rgb(40, 20, 20);
+  
+   font-size: 18px;
+  border: 3px solid aliceblue;
+  border-radius: 10px;
+  background-color: lightblue;
+  width: 35%;
+  height: 50vh;
+  padding: 5vh;
+
+  overflow: auto;
+
+  
 }
 
-nav button {
-  width: 60px;
-  cursor: pointer;
-}
 
-nav .rulesBtn{
-  background-color: blue;
-  color: rgb(230, 250, 250);
-}
 
-.rulesContainer{
-  z-index: 1;
+.rules-window .close {
   position: absolute;
-  top:0;
-  right:0;
-  height: 100%;
-  width: 40vw;
-  padding: 15px;
-  background-color: rgb(200, 200, 200);
-  overflow-x: hidden;
-  overflow-y: scroll;
-  display: none;
-}
-
-.rulesContainer .closeRulesBtn{
-  height: 40px;
-  width: 50px;
-  background-color: orangered;
-  color: white;
   cursor: pointer;
+  top: 6%;
+  left: 87%;
+ 
 }
 
+.close .hover-text {
+    visibility: hidden;
+  width: 120px;
+  background-color: #555;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 3px 0;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%;
+  left: 50%;
+  margin-left: -60px;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
 
+.close .hover-text::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #555 transparent transparent transparent;
+}
+
+.close:hover .hover-text {
+  visibility: visible;
+  opacity: 1;
+}

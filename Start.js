@@ -5,15 +5,16 @@ import Player from './js/player.js';
 
 export default class Start {
 
+  // Start button
   constructor() {
     this.addStartBtnEvent();
   }
 
   clickFunction() {
-    $('.start-screen').fadeOut(2000);
-    $('.game-screen').fadeIn(2000);
-  }
+    $('.start-screen').fadeOut(1700);
+    $('.game-screen').fadeIn(1350);
 
+  }
   addStartBtnEvent() {
     let player = new Player();
     player.choosePlayers();
@@ -24,5 +25,25 @@ export default class Start {
     });
   }
 }
+
+
+// rules open-close 
+$(document).ready(function () {
+
+  $(".rules-window .add-rules").hide();
+
+  $('.rules').click(function () {
+    $('.game-screen').hide();
+    $('.add-rules').animate({
+      height: 'toggle'
+    });
+  });
+  $('.close').click(function () {
+    $('.add-rules').hide();
+    $('.game-screen').fadeIn(850);
+  });
+
+});
+
 
 

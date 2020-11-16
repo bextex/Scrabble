@@ -9,76 +9,169 @@
   <link rel="preconnect" href="https://fonts.gstatic.com">
   <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Neucha&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Stalinist+One&display=swap" rel="stylesheet">
+  <<<<<<< HEAD=======<link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Stencil+Text:wght@300&display=swap"
+      rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    >>>>>>> My-own-branch
 </head>
 
 <body>
-
-  <!-- nav -->
-  <nav class="nav">
-    <button>Start Over</button>
-    <button class="rulesBtn">Rules</button>
-  </nav>
-  <div class="rulesContainer">
-    <button class="closeRulesBtn">X Close</button>
-    <p>The first player combines two or more of his or her letters to form a word and places it on the board to read
-      either across or down with one letter on the center square. Diagonal words are not allowed.
-      <br><br>Complete your turn by counting and announcing your score for that turn. Then draw as many new letters as
-      you played;
-      always keep seven letters on your rack, as long as there are enough tiles left in the bag.
-      <br><br>Play passes to the left. The second player, and then each in turn, adds one or more letters to those
-      already played to
-      form new words. All letters played on a turn must be placed in one row across or down the board, to form at
-      least one
-      complete word. If, at the same time, they touch others letters in adjacent rows, those must also form complete
-      words,
-      crossword fashion, with all such letters. The player gets full credit for all words formed or modified on his
-      or her
-      turn.
-      <br><br>words may be formed by:
-    <ul>
-      <li> Adding one or more letters to a word or letters already on the board.</li>
-      <li>Placing a word at right angles to a word already on the board. The new word must use one of the letters
-        already on the
-        board or must add a letter to it. (See Turns 2, 3 and 4 below.)</li>
-      <li>Placing a complete word parallel to a word already played so that adjacent letters also form complete
-        words. (See Turn 5
-        in the Scoring Examples section below.)</li>
-    </ul>
-    <br><br>No tile may be shifted or replaced after it has been played and scored.
-    <br><br>Blanks: The two blank tiles may be used as any letters. When playing a blank, you must state which letter it
-    represents.
-    It remains that letter for the rest of the game.
-    <br><br>You may use a turn to exchange all, some, or none of the letters. To do this, place your discarded letter(s)
-    facedown.
-    Draw the same number of letters from the pool, then mix your discarded letter(s) into the pool. This ends your
-    turn.
-    <br><br>Any play may be challenged before the next player starts a turn. If the play challenged is unacceptable, the
-    challenged
-    player takes back his or her tiles and loses that turn. If the play challenged is acceptable, the challenger
-    loses his
-    or her next turn. Consult the dictionary for challenges only. All words made in one play are challenged
-    simultaneously.
-    If any word is unacceptable, then the entire play is unacceptable. Only one turn is lost on any challenge.
-    <br><br>The game ends when all letters have been drawn and one player uses his or her last letter; or when all
-    possible plays
-    have been made.</p>
-  </div>
-  <div>testing remerge</div>
   <!--Game-start button and start-background-->
   <div class="start-screen container">
-    <img src="background-img.gif" alt="start-background" style="width: 100%;">
-    <button class="startBtn">START GAME</button>
-    <!--Players name when starting new game-->
-    <button id="add-player">Lägg till spelare</button>
-    <div class="playersName">
-      <input type="names" id="player1Name" class="newPlayerInput" placeholder="Spelare 1" />
-      <input type="names" id="player2Name" class="newPlayerInput" placeholder="Spelare 2" />
+    <img src="background2.gif" alt="start-background" style="width: 100%;">
+
+
+    <button class="startBtn" style="vertical-align:midle"><span>STARTA SPELET
+
+      </span></button>
+
+  </div>
+
+  <!--game-screen-->
+  <div class="game-screen gamecontainer">
+
+    <button class="rules">REGLER</button>
+    <button class="players">LÄGG TILL SPELARE</button>
+
+  </div>
+  <div class="rules-window">
+    <p class="scrabble">SCRABBLE</p>
+    <!--Rules-->
+    <ul class="add-rules">
+
+      <!--close window button-->
+
+      <button class="close">X
+        <span class="hover-text">Stäng</span></button>
+
+      <p class="rule-title">Regler</p>
+
+      <li>Man spelar endast matcher med två spelare</li><br>
+
+      <li>Arrangörerna väljer om turneringen ska spelas med<br>
+        antingen 25 eller 30 minuters betänketid per deltagar och
+        parti.</li><br>
+
+      <li>Innan turnering ställs klockan om utefter vilken speltid som<br>
+        gäller och en schackklocka ska användas.</li>
+
+      <li>En spelare vars tid har gått ut får ändå fortsätta att spela,<br>
+        men får ett poängavdrag på tio poäng för varje påbörjad<br>
+        minut över maxtiden. Med digital klocka räknas 00:00 som<br>
+        övertid.</li><br>
+
+      <li>En spelare som får ett tidsöverdrag på 5 minuter har<br>
+        omedelbart förlorat matchen. Förloraren får poängavdrag<br>
+        för kvarvarande brickor och -50 poäng för tidsöverdrag.<br>
+        Vinnaren får avdrag för eventuellt tidsöverdrag. Förlorarens<br>
+        poäng justeras nedåt om poängskillnaden understiger 150,<br>
+        vid negativa poäng blir resultatet dock 150-0.</li><br>
+
+      <li>Den spelare som har fått fördel i lottningen kan välja mellan<br>
+        två fördelar: att få börja matchen eller att få välja hur<br>
+        brädet ska läggas. Brädet ska läggas så att en spelare får<br>
+        brädet rättvänt (inte på tvären). Den andra spelaren får den<br>
+        andra av dessa två fördelar.</li><br>
+
+      <li>Den spelare som inte börjar partiet har rätt att slå igång<br>
+        klockan inför första draget så snart den första spelaren har<br>
+        sett någon av brickorna.</li><br>
+
+      <li>Båda spelarna måste föra protokoll över varje drag såväl<br>
+        som de sammanlagda poängsummorna. Innan man slår på<br>
+        klockan måste man ha lagt ut sitt drag och talat om hur<br>
+        mycket poäng det ger. Efter att man slagit på klockan för<br>
+        man in den poängen och den sammanlagda poängen i sitt<br>
+        protokoll. Man får inte dra nya brickor förrän motståndaren<br>
+        har antecknat poängen i sitt protokoll, och man måste<br>
+        bokföra motståndarens drag innan man själv gör ett drag.</li><br>
+
+      <li>Genom att påbörja anteckning av motståndarens drag i sitt<br>
+        protokoll accepterar man draget. Vill man utmana ska man<br>
+        istället stanna klockan. Man talar då om vilket eller vilka av<br>
+        de nyss bildade orden man vill utmana. Vid utmaning av<br>
+        flera ord får spelarna bara reda på om draget som helhet är<br>
+        giltigt eller ogiltigt, inte vilka ord som är godkända eller ej.<br>
+        Ordkollen kan utföras av en utsedd orddomare, eller av<br>
+        båda spelarna gemensamt på en dator med speciellt<br>
+        ordkollsprogram. Om draget är ogiltigt måste spelaren som<br>
+        gjorde det ta upp de utlagda brickorna igen och har förlorat<br>
+        sin tur. Om det är giltigt blir i stället den som utmanade<br>
+        bestraffad med ett poängavdrag på 10 poäng.</li><br>
+
+      <li>Man har inte gjort sitt drag förrän man har slagit på klockan<br>
+        så det går bra att ångra sitt drag innan dess. Detta gäller<br>
+        även om motståndaren redan meddelat att denne vill utmana draget.<br>
+        Om man har glömt att slå på klockan så blir ens drag ändå försent<br>
+        att ångra i och med att man sticker handen i påsen för att dra nya<br>
+        brickor (varpå motståndaren kan hejda en för att utmana draget).</li><br>
+
+      <li>Om man byter brickor istället för att lägga ut ett ord ska<br>
+        man lägga dem på bordet upp och ner, tala om hur många brickor<br>
+        man byter, och därefter slå på klockan. Efteråt drar man nya brickor<br>
+        och lägger slutligen tillbaka de gamla brickorna i påsen.</li><br>
+
+      <li>När det finns färre än sju brickor kvar att dra är det<br>
+        inte längre tillåtet att byta brickor. Däremot är det då som<br>
+        alltid tillåtet att passa.</li><br>
+
+      <li>Ifall sex drag i rad görs utan att en ny bricka hamnar på<br>
+        spelplanen är spelet slut och båda spelarna får poängavdrag<br>
+        för de brickor de har kvar på ställen. De sätt sådana drag kan<br>
+        ske på är genom passningar, byten och utlägg som tas tillbaka<br>
+        på grund av ogiltiga ord.</li><br>
+
+      <li>Den som går ut slår på klockan som vanligt, eftersom motståndaren<br>
+        kan vilja utmana något ord. En motståndare som accepterar draget ska<br>
+        stanna klockan efter att ha antecknat draget i sitt protokoll. Båda<br>
+        spelarna kontrollerar att de har kommit fram till samma slutpoäng<br>
+        och signerar sina protokoll.</li><br>
+
+      <li>Det är tillåtet att föra vilka anteckningar som helst<br>
+        under spelets gång. I synnerhet är det tillåtet att pricka av<br>
+        vilka brickor som har gått, och man får även ha gjort i ordning<br>
+        en avprickningslista i förväg.</li><br>
+
+      <li>Om en spelare drar för många brickor ur påsen men inte<br>
+        hunnit titta på fler än dem som ska dras, skall överskjutande<br>
+        brickor läggas tillbaks i påsen.</li><br>
+
+      <li>Om en spelare dragit för många brickor och hunnit titta<br>
+        på dem får motståndaren dra så många brickor som spelaren tog<br>
+        för mycket, och ytterligare en bricka, och titta på dem.<br>
+        Motståndaren väljer sedan vilken eller vilka brickor som ska<br>
+        kastas tillbaks. (Om spelaren drar en bricka för mycket får<br>
+        motståndaren alltså dra två brickor, och välja vilken av dessa<br>
+        två som ska läggas tillbaks.) Motståndaren får välja mellan att<br>
+        dra brickorna från enbart de nyss dragna brickorna<br>
+        (om dessa fortfarande går att urskilja) eller bland alla spelarens brickor.<br>
+        Om det är färre än sju brickor kvar i påsen innan draget<br>
+        så får motståndaren dra ytterligare en extra bricka att välja<br>
+        kastad bricka från.</li><br>
+
+
+    </ul>
+
+
+
+    <div class="addPlayersContainer">
+      <!-- <img src="background-img.gif" alt="start-background" style="width: 100%;"> -->
+      <button class="beginGame">START GAME</button>
+      <!--Players name when starting new game-->
+      <button id="add-player">Lägg till spelare</button>
+      <div class="playersName">
+        <input type="names" id="player1Name" class="newPlayerInput" placeholder="Spelare 1" />
+        <input type="names" id="player2Name" class="newPlayerInput" placeholder="Spelare 2" />
+      </div>
     </div>
   </div>
-  <script src="https://code.jquery.com/jquery-3.5.1.min.js"
-    integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
-  <script src="main.js" type="module"></script>
-  <script src="js/board.js"></script>
+
 </body>
+<script src='jquery-3.4.1.min.js'></script>
+<script src="js/nav.js"></script>
+<script src="main.js" type="module"></script>
+
 
 </html>
