@@ -8,22 +8,20 @@ export default class Start {
 
   // Start button
   constructor() {
-    this.addStartBtnEvent();
+    $('.start-screen').fadeOut(1700);
+    $('.game-screen').fadeIn(1350);
+    let player = new Player();
+    player.choosePlayers();
+    //this.addStartBtnEvent();
   }
 
   clickFunction() {
-    $('.start-screen').fadeOut(1700);
     $('.game-screen').fadeIn(1350);
     let player = new Player();
     player.choosePlayers();
     // $('.start-game').on('click', function () {
     //   player.setPlayerNames();
     // });
-
-
-  }
-  addStartBtnEvent() {
-    $('.startBtn').click(this.clickFunction);
   }
 }
 
@@ -42,6 +40,7 @@ $('.start-game').on('click', function () {
     let newPlayer = new Player();
     newPlayer.setPlayerNames(playerName);
   }
+  $('.game-screen').fadeOut(1700);
 
 });
 
