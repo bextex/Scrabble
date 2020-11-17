@@ -8,6 +8,10 @@ import Board from './js/board.js';
 //
 import Player from "./js/player.js";
 
+import Bag from './js/bag.js';
+let tiles = [];
+tiles = Bag.tilesFromFile();
+
 
 export default class Start {
 
