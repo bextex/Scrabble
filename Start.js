@@ -46,8 +46,9 @@ $('.start-game').on('click', function () {
   }
   $('.game-screen').fadeOut(1700);
   $('.game-menu').fadeOut(1700);
-  new Board().start();
-
+  setTimeout(() => {
+    new Board().start();
+  }, 2000);
 });
 
 

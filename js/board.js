@@ -14,7 +14,7 @@ export default class Board {
 
   render() {
     $('.board').remove();
-    let $board = $('<div class="board"/>').appendTo('body');
+    let $board = $('<div class="board"/>').appendTo('.playing-window');
     this.board.flat().forEach(x => $board.append('<div/>'));
 
   }

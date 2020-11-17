@@ -219,4 +219,11 @@ ul {
   margin: 1px;
 }
 
+.playing-window{
+  margin-top: 170px;
+  overflow: hidden;
+  text-align: center;
+  display: inline-block;
+}
+
 
