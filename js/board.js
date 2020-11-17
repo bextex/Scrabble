@@ -1,9 +1,12 @@
+import { players } from './player.js';
+
 export default class Board {
 
   async start() {
     this.createBoard();
     console.log(this.board);
     this.render();
+    this.showPlayers();
   }
 
   createBoard() {
@@ -64,7 +67,19 @@ export default class Board {
 
   }
 
+  showPlayers() {
+    players.forEach(player => {
+      $('.playing-window-left').append(`
+        <div class="playername">${player.name}</div>
+        <div class="playertiles">${player.tiles}</div>
+      `);
+    });
+    console.log(players);
+  }
+
 }
+
+
 // nav
 $('nav .rulesBtn').click(function () {
   $('.rulesContainer').css(

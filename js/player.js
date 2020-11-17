@@ -1,4 +1,4 @@
-const players = []; // Array of players and their tiles
+export const players = []; // Array of players and their tiles
 
 export default class Player {
 

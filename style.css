@@ -210,7 +210,7 @@ ul {
 }
 
 .board > div::after {
-  display:block;
+  display: block;
   text-align: center;
 }
 
@@ -221,6 +221,7 @@ ul {
 
 .playing-window{
   margin-top: 170px;
+  margin-right: 220px;
   overflow: hidden;
   text-align: center;
   display: inline-block;
@@ -289,5 +290,37 @@ ul {
   margin-top: 1vh;
   color: white;
 }
+
+/*************************** PLAYER NAMES AND TILES ****************************/
+
+
+.playername{
+  font-family: 'Neucha', cursive;
+  font-size: large;
+  font-size: 20px;
+  color: black;
+  padding: 1.5vh;
+}
+
+.playertiles{
+  width: 220px;
+  height: 30px;
+  background-color: #02b802;
+  padding-bottom: 1vh;
+}
+
+div.playing-window-left{
+  float: left;
+}
+
+.playing-window-left{
+  margin-top: 30vh;
+  margin-left: 5vh;
+  overflow: hidden;
+  text-align: center;
+  display: inline-block;
+}
+
+
 
 
