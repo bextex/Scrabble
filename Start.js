@@ -2,7 +2,7 @@
 import Game from './js/game.js';
 new Game().countScore();
 import Board from './js/board.js';
-new Board().start();
+
 //
 //!!!! Kalla new Board().start(); där ni vill ha brädet! 
 //
@@ -45,6 +45,7 @@ $('.start-game').on('click', function () {
     newPlayer.setPlayerNames(playerName);
   }
   $('.game-screen').fadeOut(1700);
+  new Board().start();
 
 });
 
