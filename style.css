@@ -190,5 +190,32 @@ ul {
   background-color: azure;
  }
       
+.board {
+  border: 10px solid #245a4c;
+  border-radius: 3px;
+  display: inline-block;
+}
+
+.board > div {
+  border: 1px solid #dbfff8;
+  width: 6.2vh;
+  height: 6.2vh;
+  background-color: #54aa79;
+  float: left;
+}
+
+.board > div:nth-child(15n+1){
+  clear: both;
+}
+
+.board > div::after {
+  display:block;
+  text-align: center;
+}
+
+.board .tile {
+  position: absolute;
+  margin: 1px;
+}
 
 
