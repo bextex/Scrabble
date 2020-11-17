@@ -14,26 +14,7 @@ export default class Player {
     let countClicks = 2;
     $('.players').on('click', function () {
       if (countClicks === 2) {
-        $('.playersName').append(`<input type="names" id="player3Name" class="newPlayerInput" placeholder="Spelare 3" />
-         <style>
-        .newPlayerInput {
-        background-color:black;
-        position: relative;
-        top:80vh;
-        margin-right: auto;
-        margin-left: auto;
-        font-family: 'Neucha', cursive;
-        font-size: 25px;
-        opacity: 0.8;
-        border: 5px solid aliceblue;
-        border-radius: 5px;
-        color: white;
-        }
-        .newPlayerInput:hover {
-           background-color: azure;
-        }
-        </style>
-        `)
+        $('.playersName').append(`<input type="names" id="player3Name" class="newPlayerInput" placeholder="Spelare 3" /> `)
 
       } else if (countClicks === 1) {
         $('.playersName').append(`<input type="names" id="player4Name" class="newPlayerInput" placeholder="Spelare 4" />`)
