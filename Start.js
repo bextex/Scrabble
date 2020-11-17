@@ -45,6 +45,7 @@ $('.start-game').on('click', function () {
     newPlayer.setPlayerNames(playerName);
   }
   $('.game-screen').fadeOut(1700);
+  $('.game-menu').fadeOut(1700);
   new Board().start();
 
 });
