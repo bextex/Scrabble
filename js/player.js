@@ -23,4 +23,9 @@ export default class Player {
     });
   }
 
+  setPlayerNames(inputName) {
+    players.push(new Player(inputName));
+    console.log(players);
+  }
+
 }
