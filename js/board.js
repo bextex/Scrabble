@@ -71,7 +71,7 @@ export default class Board {
     players.forEach(player => {
       $('.playing-window-left').append(`
         <div class="playername">${player.name}</div>
-        <div class="playertiles">${player.tiles}</div>
+        <div class="playertiles-box"><div class="playertiles">${player.tiles}</div></div>
       `);
     });
     console.log(players);
