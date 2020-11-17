@@ -9,6 +9,7 @@ body{
   animation-name: colorchange;
   animation-duration: 10s;
   animation-iteration-count: infinite;
+  text-align: center;
 }
 
 ul {
@@ -16,112 +17,31 @@ ul {
   text-align: center;
 }
 
-
-
-@keyframes colorchange
-{
-  10%   {background: rgb(192, 177, 177);}
-  25%  {background: rgb(233, 164, 164);}
-  55%  {background: rgb(76, 243, 174);}
-  75%  {background: rgb(83, 250, 250);}
-  90% {background: rgb(239, 203, 120);}
-  30% {background: rgb(102, 238, 165);}
-}
-
-.container {
-  position: relative;
-  width: 100%;
-  max-width: auto;
-}
-
-.container img {
-  width: 100%;
-  height: 100vh;
-}
-
-@keyframes changeColor {
-  from {color: black;}
-  to {color:aliceblue;}
-}
-
-.container .startBtn {
-  font-family: 'Neucha', cursive;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  -ms-transform: translate(-50%, -50%);
-  background-color: rgb(22, 19, 19);
-  
-  color: aliceblue;
-  
-  animation-name: changeColor;
-  animation-duration: 3s;
-  
-  opacity: 0.8;
-  font-size: 30px;
-  padding: 16px 40px;
-  border-color: aliceblue;
-  cursor: pointer;
-  border-radius: 5px;
-  text-align: center;
-
-  transition: all 0.5s;
-}
-
-/* Animated button */
-.container .startBtn:hover {
-  background-color: azure;
-  color: black;
-}
-
-.container .startBtn span {
-  display: inline-block;
-  position: relative;
-  transition: 0.5s;
-}
- 
-.container .startBtn span:after {
-   content: '\00bb';
-  position: absolute;
-  opacity: 0;
-  top: 0px;
-  right: -20px;
-  transition: 0.5s;
-}
-
-.container .startBtn:hover span{
-  padding-right: 35px;
-}
-
-.container .startBtn:hover span:after{
-  opacity: 1;
-  right: 0;
-}
-
-
-
 /* Text */
 
 .gamecontainer {
-  position: relative;
+  position: absolute;
   width: 100%;
-  max-width: auto;
+  height: 100%;
+  /*max-width: auto;*/
 }
-p.scrabble {
 
-
-font-family: 'Stalinist One', cursive;
+.scrabble {
+ font-family: 'Stalinist One', cursive;
+ position: absolute;
  font-size: 10vh;
  text-align: center;
  color: rgba(135, 147, 214, 0.431);
  text-shadow: 3px 3px rgb(42, 30, 24);
-  animation-name: move;
-  animation-duration: 7s;
+ animation-name: move;
+ animation-duration: 2s; 
  cursor: default;
+ margin-left: auto;
+ margin-top: auto;
+ top:10vh;
+ left: 0;
+ right: 0;
 }
-
-
 
 @keyframes move {
   0% {
@@ -137,97 +57,6 @@ font-family: 'Stalinist One', cursive;
   }
 }
 
-/* Rules-button */
-.gamecontainer .rules {
-   
-  font-family: 'Neucha', cursive;
-  position: absolute;
-  top: 35vh;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  -ms-transform: translate(-50%, -50%);
-  background-color: rgb(22, 19, 19);
-  
-  color: aliceblue;
-  
-  
-  opacity: 0.7;
-  font-size: 30px;
-  padding: 16px 20vh;
-  border: double;
-  border-color: aliceblue;
-  cursor: pointer;
-  border-radius: 5px;
-  text-align: center;
- 
-}
-
-.gamecontainer .rules:hover {
-  background-color: rgb(114, 161, 161);
-  color: black;
-}
-
-.gamecontainer .players {
-  font-family: 'Neucha', cursive;
-  position: absolute;
-  top: 50vh;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  -ms-transform: translate(-50%, -50%);
-  background-color: rgb(22, 19, 19);
-  
-  color: aliceblue;
-  
-  animation-name: changeColor;
-  animation-duration: 4s;
-  
-  opacity: 0.7;
-  font-size: 30px;
-  padding: 16px 20vh;
-  border: double;
-  border-color: aliceblue;
-  cursor: pointer;
-  border-radius: 5px;
-  text-align: center;
-}
-.gamecontainer .players:hover {
-  background-color: rgb(114, 161, 161);
-  color: black;
-}
-
-.gamecontainer .start-game {
-  font-family: 'Neucha', cursive;
-  position: absolute;
-  top: 10vh;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  -ms-transform: translate(-50%, -50%);
-  background-color: rgb(22, 19, 19);
-  
-  color: aliceblue;
-  
-  animation-name: changeColor;
-  animation-duration: 4s;
-  
-  opacity: 0.7;
-  font-size: 30px;
-  padding: 16px 20vh;
-  border: double;
-  border-color: aliceblue;
-  cursor: pointer;
-  border-radius: 5px;
-  text-align: center;
-}
-.gamecontainer .start-game:hover {
-  background-color: rgb(114, 161, 161);
-  color: black;
-}
-
-.gamecontainer .players:hover {
-  background-color: rgb(114, 161, 161);
-  color: black;
-}
-
 .rules-window .rule-title {
   color: rgb(29, 36, 43);
   font-family: 'Big Shoulders Stencil Text', cursive;
@@ -241,28 +70,21 @@ font-family: 'Stalinist One', cursive;
   /*doen't work with percentage '%'*/
   left: 30%;
   color: rgb(40, 20, 20);
-  
-   font-size: 18px;
+  font-size: 18px;
   border: 3px solid aliceblue;
   border-radius: 10px;
   background-color: lightblue;
   width: 35%;
   height: 50vh;
   padding: 5vh;
-
   overflow: auto;
-
-  
 }
-
-
 
 .rules-window .close {
   position: absolute;
   cursor: pointer;
   top: 6%;
   left: 87%;
- 
 }
 
 .close .hover-text {
@@ -298,23 +120,207 @@ font-family: 'Stalinist One', cursive;
   opacity: 1;
 }
 
-.boxForWord {
-  background-color: #fdfdfd;
-  float: left;
-  padding: 20px;
-  margin: 10px;
-  width: calc(25% - 62px);
-  border-radius: 5px;
-}
-
-.boxForWord:nth-child(4n){
-  clear:both;
-}
-
-.boxForWord .word {
-  font-family: Verdana;
+.game-menu button {
+  font-family: 'Neucha', cursive;
   font-size: 20px;
-  font-weight: bold;
-  letter-spacing: 3px;
-  color: blue;
+  background-color: black; /* black background */
+  opacity: 0.7;
+  border: 5px solid aliceblue; /* Aliceblue border */
+  border-radius: 5px;
+  color: white; /* White text */
+  padding: 20px; /* Some padding */
+  cursor: pointer; /* Pointer/hand icon */
+  width: 20%; /* Set a width if needed */
+  display: block; /* Make the buttons appear below each other */
+  position: relative;
+  left: 40%;
+  top: 40vh;
+  animation-name: move, changeColorText;
+  animation-duration: 2s; 
 }
+
+.game-menu button:hover {
+    background-color: azure;
+  color: black;
+}
+
+.game-menu button span {
+  display: inline-block;
+  position: relative;
+  transition: 0.5s;
+}
+
+.game-menu button span:after {
+  content: '\00bb';
+  position: absolute;
+  opacity: 0;
+  top: 0px;
+  right: -20px;
+  transition: 0.5s;
+}
+
+.game-menu button:hover span {
+  padding-right: 30px;
+}
+
+.game-menu button:hover span:after {
+   opacity: 1;
+   right: 0;
+}
+
+@keyframes changeColorText {
+  from {color: black};
+  to {color: aliceblue};
+}
+
+
+.newPlayerInput {
+ background-color:black;
+ position: relative;
+ top:80vh;
+ margin-right: auto;
+ margin-left: auto;
+ font-family: 'Neucha', cursive;
+ font-size: 25px;
+ opacity: 0.8;
+ border: 5px solid rgb(15, 59, 97);
+ border-radius: 5px;
+ color: white;
+ }
+ .newPlayerInput:hover {
+  background-color: azure;
+ }
+      
+.board {
+  border: 10px solid #02b802;
+  border-radius: 3px;
+  display: inline-block;
+}
+
+.board > div {
+  border: 1px solid #000000;
+  width: 4vh;
+  height: 4vh;
+  background-color: #54aa79;
+  float: left;
+}
+
+.board > div:nth-child(15n+1){
+  clear: both;
+}
+
+.board > div::after {
+  display: block;
+  text-align: center;
+}
+
+.board .tile {
+  position: absolute;
+  margin: 1px;
+}
+
+.playing-window{
+  margin-top: 170px;
+  margin-right: 220px;
+  overflow: hidden;
+  text-align: center;
+  display: inline-block;
+}
+
+/****************** My special colors ******************/
+.board > div.special-3xWS {
+  background-color: red;
+}
+.board > div.special-2xWS {
+  background-color: palevioletred;
+}
+.board > div.special-3xLS {
+  background-color: darkblue;
+}
+.board > div.special-2xLS {
+  background-color: rgb(145, 227, 255);
+}
+
+.board > div.special-middle-star {
+  background-color: palevioletred;
+}
+
+/* The pseudo-element after can have text */
+.board > div.special-3xWS::after {
+  content: '3xWS';
+  display: block;
+  text-align: center;
+  font-size: 1.5vh;
+  margin-top: 1vh;
+  color: white;
+}
+
+.board > div.special-2xWS::after {
+  content: '2xWS';
+  display: block;
+  text-align: center;
+  font-size: 1.5vh;
+  margin-top: 1vh;
+  color: white;
+} 
+
+.board > div.special-3xLS::after {
+  content: '3xLS';
+  display: block;
+  text-align: center;
+  font-size: 1.5vh;
+  margin-top: 1vh;
+  color: white;
+}
+
+.board > div.special-2xLS::after {
+  content: '2xLS';
+  display: block;
+  text-align: center;
+  font-size: 1.5vh;
+  margin-top: 1vh;
+  color: white;
+}
+
+.board > div.special-middle-star::after {
+  content: '\2605';
+  display: block;
+  text-align: center;
+  font-size: 1.5vh;
+  margin-top: 1vh;
+  color: white;
+}
+
+/*************************** PLAYER NAMES AND TILES ****************************/
+
+
+.playername{
+  font-family: 'Neucha', cursive;
+  font-size: large;
+  font-size: 20px;
+  color: black;
+  padding: 1.5vh;
+}
+
+.playertiles-box{
+  width: 220px;
+  height: 30px;
+  background-color: #02b802;
+  padding-bottom: 1vh;
+}
+
+div.playing-window-left{
+  float: left;
+}
+
+.playing-window-left{
+  margin-top: 30vh;
+  margin-left: 5vh;
+  overflow: hidden;
+  text-align: center;
+  display: inline-block;
+}
+
+
+
+

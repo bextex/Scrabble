@@ -1,8 +1,11 @@
 // This is our main-file called game
 import Game from './js/game.js';
+new Game().countScore();
+import Board from './js/board.js';
 
-/*new Game().countScore(); */
-
+//
+//!!!! Kalla new Board().start(); där ni vill ha brädet! 
+//
 import Player from "./js/player.js";
 
 import Bag from './js/bag.js';
@@ -46,7 +49,10 @@ $('.start-game').on('click', function () {
     newPlayer.setPlayerNames(playerName);
   }
   $('.game-screen').fadeOut(1700);
-
+  $('.game-menu').fadeOut(1700);
+  setTimeout(() => {
+    new Board().start();
+  }, 2000);
 });
 
 
