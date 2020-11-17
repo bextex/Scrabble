@@ -36,7 +36,7 @@ $('.start-game').on('click', function () {
     let newPlayer = new Player();
     newPlayer.setPlayerNames(playerName);
   }
-  $('.game-screen').fadeOut(1700);
+  $('.game-menu').fadeOut(1700);
 
 });
 
@@ -50,6 +50,7 @@ $(document).ready(function () {
 
   $('.rules').click(function () {
     $('.game-menu').hide();
+    $('.newPlayerInput').hide();
     $('.add-rules').animate({
       height: 'toggle'
     });
@@ -57,6 +58,7 @@ $(document).ready(function () {
   $('.close').click(function () {
     $('.add-rules').hide();
     $('.game-menu').fadeIn(850);
+    $('.newPlayerInput').fadeIn(850);
   });
 
 });

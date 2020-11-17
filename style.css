@@ -9,6 +9,8 @@ body{
   animation-name: colorchange;
   animation-duration: 10s;
   animation-iteration-count: infinite;
+  text-align: center;
+
 }
 
 ul {
@@ -34,17 +36,20 @@ ul {
   max-width: auto;
 }
 
-p.scrabble {
-font-family: 'Stalinist One', cursive;
+.scrabble {
+ font-family: 'Stalinist One', cursive;
+ position: absolute;
  font-size: 10vh;
  text-align: center;
  color: rgba(135, 147, 214, 0.431);
  text-shadow: 3px 3px rgb(42, 30, 24);
  animation-name: move;
- animation-duration: 4s; 
+ animation-duration: 2s; 
  cursor: default;
-
-
+ margin-left: auto;
+ margin-top: auto;
+ left: 0;
+ right: 0;
 }
 
 @keyframes move {
@@ -140,7 +145,9 @@ font-family: 'Stalinist One', cursive;
   display: block; /* Make the buttons appear below each other */
   position: relative;
   left: 40%;
-  top: 60vh;
+  top: 45vh;
+  animation-name: move, changeColorText;
+  animation-duration: 2s; 
 }
 
 .game-menu button:hover {
@@ -172,3 +179,7 @@ font-family: 'Stalinist One', cursive;
    right: 0;
 }
 
+@keyframes changeColorText {
+  from {color: black};
+  to {color: aliceblue};
+}
