@@ -199,8 +199,8 @@ ul {
 
 .board > div {
   border: 1px solid #000000;
-  width: 3vh;
-  height: 3vh;
+  width: 4vh;
+  height: 4vh;
   background-color: #54aa79;
   float: left;
 }
@@ -224,6 +224,70 @@ ul {
   overflow: hidden;
   text-align: center;
   display: inline-block;
+}
+
+/****************** My special colors ******************/
+.board > div.special-3xWS {
+  background-color: red;
+}
+.board > div.special-2xWS {
+  background-color: palevioletred;
+}
+.board > div.special-3xLS {
+  background-color: darkblue;
+}
+.board > div.special-2xLS {
+  background-color: rgb(145, 227, 255);
+}
+
+.board > div.special-middle-star {
+  background-color: palevioletred;
+}
+
+/* The pseudo-element after can have text */
+.board > div.special-3xWS::after {
+  content: '3xWS';
+  display: block;
+  text-align: center;
+  font-size: 1.5vh;
+  margin-top: 1vh;
+  color: white;
+}
+
+.board > div.special-2xWS::after {
+  content: '2xWS';
+  display: block;
+  text-align: center;
+  font-size: 1.5vh;
+  margin-top: 1vh;
+  color: white;
+} 
+
+.board > div.special-3xLS::after {
+  content: '3xLS';
+  display: block;
+  text-align: center;
+  font-size: 1.5vh;
+  margin-top: 1vh;
+  color: white;
+}
+
+.board > div.special-2xLS::after {
+  content: '2xLS';
+  display: block;
+  text-align: center;
+  font-size: 1.5vh;
+  margin-top: 1vh;
+  color: white;
+}
+
+.board > div.special-middle-star::after {
+  content: '\2605';
+  display: block;
+  text-align: center;
+  font-size: 1.5vh;
+  margin-top: 1vh;
+  color: white;
 }
 
 
