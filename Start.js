@@ -1,8 +1,13 @@
 // This is our main-file called game
 import Game from './js/game.js';
-new Game().countScore();
+
+/*new Game().countScore(); */
 
 import Player from "./js/player.js";
+
+import Bag from './js/bag.js';
+let tiles = [];
+tiles = Bag.tilesFromFile();
 
 
 export default class Start {
