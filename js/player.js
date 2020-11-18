@@ -1,12 +1,14 @@
+//import { tiles } from './bag.js';
+import Bag from './bag.js';
+//import { tiles } from '../Start.js';
+
 export const players = []; // Array of players and their tiles
 
 export default class Player {
 
-  constructor(name) {
+  constructor(name, tiles) {
     this.name = name;
-    this.tiles = [];
-    // Change to this when we have tiles function
-    // this.tiles = [...this.game.getTiles(), ' '];
+    this.tiles = [tiles, ' '];
   }
 
 
@@ -25,14 +27,13 @@ export default class Player {
   }
 
 
-  setPlayerNames(inputName) {
+  setPlayerNames(inputName, tiles) {
     // if (countClicks == 1) {
     //   console.log(document.getElementById(`player1Name`).value);
     //   if (document.getElementById(`player1Name`).value === null) {
     //   }
     // }
-
-    players.push(new Player(inputName));
+    players.push(new Player(inputName, tiles));
     console.log(players);
 
 

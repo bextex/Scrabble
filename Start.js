@@ -9,10 +9,10 @@ import Board from './js/board.js';
 import Player from "./js/player.js";
 import Bag from './js/bag.js';
 
+let that;
+
 
 export default class Start {
-
-  tiles = [];
 
   // Start button
   constructor() {
@@ -20,14 +20,14 @@ export default class Start {
     $('.game-screen').fadeIn(1350);
     let player = new Player();
     player.choosePlayers();
-    //this.addStartBtnEvent();
+    this.clickFunction();
   }
 
   async clickFunction() {
-    this.tiles = await Bag.tilesFromFile();
-    $('.game-screen').fadeIn(1350);
-    let player = new Player();
-    player.choosePlayers();
+    let bag = new Bag();
+    this.tiles = await bag.tilesFromFile();
+    that = this;
+    console.log(this.tiles);
   }
 }
 
@@ -35,7 +35,6 @@ $('.start-game').on('click', function () {
   console.log('clicking the button');
   console.log($('.playersName > input').length);
   let length = $('.playersName > input').length
-  //console.log(document.getElementsByClassName('playersName').childElementCount);
   for (let i = 1; i <= length; i++) {
     console.log('im in the loop');
     let playerName = document.getElementById(`player${i}Name`).value;
@@ -44,7 +43,8 @@ $('.start-game').on('click', function () {
     }
     console.log(`${playerName}`);
     let newPlayer = new Player();
-    newPlayer.setPlayerNames(playerName);
+    let tilesFromBag = that.tiles.splice(0, 7);
+    newPlayer.setPlayerNames(playerName, tilesFromBag);
   }
   $('.game-screen').fadeOut(1700);
   $('.game-menu').fadeOut(1700);
