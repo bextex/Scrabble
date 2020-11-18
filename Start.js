@@ -7,15 +7,12 @@ import Board from './js/board.js';
 //!!!! Kalla new Board().start(); där ni vill ha brädet! 
 //
 import Player from "./js/player.js";
-
 import Bag from './js/bag.js';
-let tiles = [];
-tiles = Bag.tilesFromFile();
 
 
 export default class Start {
 
-
+  tiles = [];
 
   // Start button
   constructor() {
@@ -26,7 +23,8 @@ export default class Start {
     //this.addStartBtnEvent();
   }
 
-  clickFunction() {
+  async clickFunction() {
+    this.tiles = await Bag.tilesFromFile();
     $('.game-screen').fadeIn(1350);
     let player = new Player();
     player.choosePlayers();
