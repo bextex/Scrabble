@@ -19,14 +19,15 @@ export default class Start {
 
   // Start button
   constructor() {
-
+    $('.start-screen').fadeOut(1700);
+    $('.game-screen').fadeIn(1350);
     let player = new Player();
     player.choosePlayers();
     //this.addStartBtnEvent();
   }
 
   clickFunction() {
-
+    $('.game-screen').fadeIn(1350);
     let player = new Player();
     player.choosePlayers();
   }
@@ -47,7 +48,6 @@ $('.start-game').on('click', function () {
     let newPlayer = new Player();
     newPlayer.setPlayerNames(playerName);
   }
-
   $('.game-screen').fadeOut(1700);
   $('.game-menu').fadeOut(1700);
   setTimeout(() => {
@@ -64,16 +64,14 @@ $(document).ready(function () {
   $(".rules-window .add-rules").hide();
 
   $('.rules').click(function () {
-    $('.game-menu').hide();
-    $('.newPlayerInput').hide();
+    $('.game-screen').hide();
     $('.add-rules').animate({
       height: 'toggle'
     });
   });
   $('.close').click(function () {
     $('.add-rules').hide();
-    $('.game-menu').fadeIn(850);
-    $('.newPlayerInput').fadeIn(850);
+    $('.game-screen').fadeIn(850);
   });
 
 });
