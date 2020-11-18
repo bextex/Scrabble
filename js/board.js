@@ -78,7 +78,7 @@ export default class Board {
       while (index < player.tiles[0].length) {
         console.log('appending tiles');
         $(`.box${players.indexOf(player)}`).append(`
-        <div class="playertiles">${player.tiles[0][index].char}</div>
+        <div class="playertiles">${player.tiles[0][index].char}<div class="points">${player.tiles[0][index].points}</div>
       `);
         index++;
       }
