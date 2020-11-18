@@ -1,6 +1,6 @@
 export default class Bag {
 
-  static async tilesFromFile() {
+  async tilesFromFile() {
     this.tiles = [];
     // Read the tile info from file
     (await $.get('data/tiles.txt'))
@@ -21,3 +21,5 @@ export default class Bag {
   }
 
 }
+
+
