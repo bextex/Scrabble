@@ -7,6 +7,8 @@ export default class Board {
     console.log(this.board);
     this.render();
     this.showPlayers();
+
+    this.addEvents();
   }
 
   createBoard() {
@@ -63,10 +65,56 @@ export default class Board {
 
     // render the tiles
     // $('.tiles').html(
-    //   this.tiles.map(x => `<div>${x.char}</div>`).join('')
-    // );
+    //  this.tiles.map(x => `<div>${x.char}</div>`).join('')
+    //);
+    //this.addEvents();
+
+    this.addDragEvents();
 
   }
+
+  addDragEvents() {
+    let that = this;
+    // let tile in the stands be draggable
+    $('.playing-window-left').draggabilly({ containment: 'body' }).on('dragMove', function () {
+      // set a high z-index so that the tile being drag
+      // is on top of everything  
+      $(this).css({ zIndex: 100 });
+    })
+      .on('dragMove', function (e, pointer) {
+        let { pageX, pageY } = pointer;
+        let me = $(this);
+
+        // reset the z-index
+        me.css({ zIndex: '' });
+
+        let player = that.players[+me.attr('data-player')];
+        let tileIndex = +me.attr('data-title');
+        let tile = player.tiles[tileIndex];
+        let $playingW = me.parent('.playertiles');
+        let { top, left } = $playingW.offset();
+        let bottom = top + $playingW.height();
+        let right = left + $playingW.width();
+
+        if (pageX > left && pageX < right
+          && pageY > top && pageY < bottom) {
+          let newIndex = Math.floor(8 * (pageX - left) / $playingW.width());
+          let pt = player.tiles;
+
+
+          pt.splice(tileIndex, 1, ' ');
+          pt.splice(newIndex, 0, tile);
+          //preserve the space where the tile used to be
+          while (pt.length > 8) { pt.splice(pt[tileIndex > newIndex ? 'indexOf' : 'lastIndexOf'](' '), 1); }
+        }
+        that.render();
+
+      })
+
+
+  }
+
+
 
   showPlayers() {
     players.forEach(player => {
@@ -81,6 +129,7 @@ export default class Board {
         $(`.box${players.indexOf(player)}`).append(`
         <div class="playertiles">${player.tiles[0][index].char}<div class="points">${player.tiles[0][index].points}</div>
       `);
+
         index++;
       }
       $(`.box${players.indexOf(player)}`).append(`
@@ -92,6 +141,9 @@ export default class Board {
   }
 
 }
+
+
+
 
 
 // nav
@@ -109,3 +161,6 @@ $('.rulesContainer .closeRulesBtn').click(function () {
   );
 });
 
+/*let $draggable = $('.draggable').draggability({
+
+})*/
