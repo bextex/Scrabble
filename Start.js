@@ -1,6 +1,17 @@
 // This is our main-file called game
+import Game from './js/game.js';
+new Game().countScore();
+import Board from './js/board.js';
 
+//
+//!!!! Kalla new Board().start(); där ni vill ha brädet! 
+//
 import Player from "./js/player.js";
+
+import Bag from './js/bag.js';
+let tiles = [];
+tiles = Bag.tilesFromFile();
+
 
 export default class Start {
 
@@ -36,8 +47,12 @@ $('.start-game').on('click', function () {
     let newPlayer = new Player();
     newPlayer.setPlayerNames(playerName);
   }
-  $('.game-menu').fadeOut(1700);
 
+  $('.game-screen').fadeOut(1700);
+  $('.game-menu').fadeOut(1700);
+  setTimeout(() => {
+    new Board().start();
+  }, 2000);
 });
 
 
