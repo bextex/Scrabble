@@ -10,16 +10,12 @@ body{
   animation-duration: 10s;
   animation-iteration-count: infinite;
   text-align: center;
-
-
 }
 
 ul {
   width: auto;
   text-align: center;
 }
-
-
 
 /* Text */
 
@@ -42,10 +38,7 @@ ul {
  cursor: default;
  margin-left: auto;
  margin-top: auto;
-
-
  top:10vh;
-
  left: 0;
  right: 0;
 }
@@ -72,10 +65,9 @@ ul {
 
 .rules-window .add-rules {
   font-family: 'Neucha', cursive;
-  position: fixed;
+  position: relative;
   /*removed top. Doesn't work when position is relative*/
   /*doen't work with percentage '%'*/
-  top: 30%;
   left: 30%;
   color: rgb(40, 20, 20);
   font-size: 18px;
@@ -127,6 +119,7 @@ ul {
   visibility: visible;
   opacity: 1;
 }
+
 .game-menu button {
   font-family: 'Neucha', cursive;
   font-size: 20px;
@@ -327,5 +320,7 @@ div.playing-window-left{
   text-align: center;
   display: inline-block;
 }
+
+
 
 
