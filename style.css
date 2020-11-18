@@ -299,14 +299,35 @@ ul {
   font-size: large;
   font-size: 20px;
   color: black;
-  padding: 1.5vh;
+  padding: 2vh;
 }
 
-.playertiles-box{
-  width: 220px;
-  height: 30px;
+.tiles-box{
+  width: 310px;
+  height: 40px;
   background-color: #02b802;
-  padding-bottom: 1vh;
+  padding: 1vh;
+  text-align: center;
+  border: 1px solid black;
+}
+
+.playertiles.none{
+  background-color: #02b802;
+  border: 0;
+}
+
+.playertiles{
+  font-family: 'Source Code Pro', monospace;
+  font-size: large;
+  padding: 4px;
+  margin: 1px;
+  width: 25px;
+  height: 25px;
+  background-color: white;
+  text-align: center;
+  border: 2px solid black;
+  position: relative;
+  float: left;
 }
 
 div.playing-window-left{

@@ -69,10 +69,23 @@ export default class Board {
 
   showPlayers() {
     players.forEach(player => {
+      let index = 0
       $('.playing-window-left').append(`
         <div class="playername">${player.name}</div>
-        <div class="playertiles-box"><div class="playertiles">${player.tiles}</div></div>
+        <div class="tiles-box"><div class="box${players.indexOf(player)}"></div></div>
+        `);
+      console.log(player.tiles[0].length);
+      while (index < player.tiles[0].length) {
+        console.log('appending tiles');
+        $(`.box${players.indexOf(player)}`).append(`
+        <div class="playertiles">${player.tiles[0][index].char}</div>
       `);
+        index++;
+      }
+      $(`.box${players.indexOf(player)}`).append(`
+        <div class="playertiles ${player.tiles[1][0].char === ' ' ? '' : 'none'}"></div>
+      `);
+      console.log(player);
     });
     console.log(players);
   }
