@@ -46,11 +46,14 @@ $('.start-game').on('click', function () {
     let tilesFromBag = that.tiles.splice(0, 7);
     newPlayer.setPlayerNames(playerName, tilesFromBag);
   }
+
   $('.game-screen').fadeOut(1700);
   $('.game-menu').fadeOut(1700);
   setTimeout(() => {
     new Board().start();
-  }, 2000);
+  }, 1700);
+  $('.scrabble').animate({ top: '12px' }, 'slow');
+  $('.scrabble').animate({ fontSize: '40px' }, 'slow');
 });
 
 
