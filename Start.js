@@ -52,7 +52,9 @@ $('.start-game').on('click', function () {
   $('.game-menu').fadeOut(1700);
   setTimeout(() => {
     new Board().start();
-  }, 2000);
+  }, 1700);
+  $('.scrabble').animate({ top: '12px' }, 'slow');
+  $('.scrabble').animate({ fontSize: '40px' }, 'slow');
 });
 
 

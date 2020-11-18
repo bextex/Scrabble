@@ -60,6 +60,7 @@ export default class Board {
       `).join('')
     );
 
+
     // render the tiles
     // $('.tiles').html(
     //   this.tiles.map(x => `<div>${x.char}</div>`).join('')
