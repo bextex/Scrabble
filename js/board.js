@@ -1,15 +1,15 @@
+import Game from './game.js';
 import { players } from './player.js';
 
 export default class Board {
 
-  async start() {
+  async start(tilesFromBag) {
     this.createBoard();
     console.log(this.board);
     this.render();
     this.showPlayers();
-
     this.showPlayerButtons();
-
+    new Game(tilesFromBag);
   }
 
   createBoard() {
@@ -121,18 +121,18 @@ export default class Board {
       let index = 0
       $('.playing-window-left').append(`
         <div class="playername">${player.name}</div>
-        <div class="tiles-box"><div class="box${players.indexOf(player)}"></div></div>
+        <div class="tiles-box"><div id="box${players.indexOf(player)}"></div></div>
         `);
       console.log(player.tiles[0].length);
       while (index < player.tiles[0].length) {
         console.log('appending tiles');
-        $(`.box${players.indexOf(player)}`).append(`
+        $(`#box${players.indexOf(player)}`).append(`
         <div class="playertiles">${player.tiles[0][index].char}<div class="points">${player.tiles[0][index].points}</div>
       `);
 
         index++;
       }
-      $(`.box${players.indexOf(player)}`).append(`
+      $(`#box${players.indexOf(player)}`).append(`
         <div class="playertiles ${player.tiles[1][0].char === ' ' ? '' : 'none'}"></div>
       `);
 
