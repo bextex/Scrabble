@@ -1,7 +1,17 @@
-import { players } from './player.js';
+import Player, { players } from './player.js';
 import SAOLchecker from './SAOLchecker.js';
 
 export default class Game {
+
+  async playerTurn() {
+    for (let playerIndex = 0; playerIndex < players.length; playerIndex++) {
+      let currentPlayer = players[playerIndex];
+      console.log("- - - >" + currentPlayer.name + "'s Turn < - - -")
+      // add function calls
+      // ex: countScore(currentPLayer)
+    }
+
+  }
 
   async lettersFromFile() {
     let letters = [];

@@ -1,6 +1,5 @@
 // This is our main-file called game
 import Game from './js/game.js';
-new Game().countScore();
 import Board from './js/board.js';
 
 //
@@ -55,6 +54,9 @@ $('.start-game').on('click', function () {
   }, 1700);
   $('.scrabble').animate({ top: '12px' }, 'slow');
   $('.scrabble').animate({ fontSize: '40px' }, 'slow');
+  console.log("new Game().playerTurn - called")
+  new Game().countScore();
+  new Game().playerTurn();
 });
 
 

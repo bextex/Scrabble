@@ -303,8 +303,8 @@ ul {
 }
 
 .tiles-box{
-  width: 310px;
-  height: 40px;
+  width: 300px;
+  height: 70px;
   background-color: #02b802;
   padding: 1vh;
   text-align: center;
@@ -330,7 +330,7 @@ ul {
   float: left;
 }
 
-.points{
+div.points{
   font-family: 'Source Code Pro', monospace;
   font-size: 10px;
   position: relative;
@@ -338,16 +338,22 @@ ul {
   right: -10px;
 }
 
+
+/* BRICKOR */
 div.playing-window-left{
   float: left;
 }
 
 .playing-window-left{
+
+  position: relative;
+  z-index: 1;
   margin-top: 30vh;
-  margin-left: 5vh;
-  overflow: hidden;
+  margin-left: 1px;
+  /*overflow: hidden;*/
   text-align: center;
   display: inline-block;
+  
 }
 
 
