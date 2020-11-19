@@ -303,8 +303,8 @@ ul {
 }
 
 .tiles-box{
-  width: 500px;
-  height: 100px;
+  width: 300px;
+  height: 70px;
   background-color: #02b802;
   padding: 1vh;
   text-align: center;
@@ -350,7 +350,7 @@ div.playing-window-left{
   z-index: 1;
   margin-top: 30vh;
   margin-left: 1px;
-  overflow: hidden;
+  /*overflow: hidden;*/
   text-align: center;
   display: inline-block;
   

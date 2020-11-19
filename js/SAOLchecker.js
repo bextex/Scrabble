@@ -17,7 +17,8 @@ export default class SAOLchecker {
 
   static async scrabbleOk(word) { // returns true/false (use with await)
     word = this.eq(word);
-    //let html = $('<div>' + await this.lookupWord(word) + '</div>');
+    return; // no we don't output anything 
+    let html = $('<div>' + await this.lookupWord(word) + '</div>');
     let text = this.eq(html.find('h1').text());
     let text2 = this.eq(html.find('.fm').text());
     return text === word || text2 === word;

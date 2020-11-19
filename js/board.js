@@ -8,7 +8,7 @@ export default class Board {
     this.render();
     this.showPlayers();
 
-    this.addEvents();
+    //this.addEvents();
   }
 
   createBoard() {
@@ -69,19 +69,18 @@ export default class Board {
     //);
     //this.addEvents();
 
-    this.addDragEvents();
-
   }
 
   addDragEvents() {
     let that = this;
+    console.log("HEJ HÅ HEJ HÅ", $('.playertiles').length)
     // let tile in the stands be draggable
-    $('.playing-window-left').draggabilly({ containment: 'body' }).on('dragMove', function () {
+    $('.playertiles').draggabilly({ containment: 'body' }).on('dragStart', function () {
       // set a high z-index so that the tile being drag
       // is on top of everything  
       $(this).css({ zIndex: 100 });
     })
-      .on('dragMove', function (e, pointer) {
+      .on('XdragMove', function (e, pointer) {
         let { pageX, pageY } = pointer;
         let me = $(this);
 
@@ -138,6 +137,7 @@ export default class Board {
       console.log(player);
     });
     console.log(players);
+    this.addDragEvents();
   }
 
 }
