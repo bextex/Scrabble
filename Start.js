@@ -27,7 +27,7 @@ export default class Start {
     this.tiles = await bag.tilesFromFile();
     that = this;
     console.log(this.tiles);
-    new Game().playerTurn(this.tiles);
+    //new Game().playerTurn(this.tiles);
   }
 }
 

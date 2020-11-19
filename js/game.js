@@ -88,19 +88,19 @@ export default class Game {
       }
 
     }
-    playersTurn(tilesFromBag){
+    // playersTurn(tilesFromBag){
 
 
-      if (players[0].tiles[0].length < 7) {
-        let numberOfTiles = 0;
-        for (let i = 0; i < 7; i++) {
-          if (!players[0].tiles[0][i]) {
-            numberOfTiles++;
-          }
-        }
-        players[0].tiles[0].push(bagTiles.splice(0, numberOfTiles));
-      }
-    }
+    //   if (players[0].tiles[0].length < 7) {
+    //     let numberOfTiles = 0;
+    //     for (let i = 0; i < 7; i++) {
+    //       if (!players[0].tiles[0][i]) {
+    //         numberOfTiles++;
+    //       }
+    //     }
+    //     players[0].tiles[0].push(bagTiles.splice(0, numberOfTiles));
+    //   }
+    // }
 
   }
 }
