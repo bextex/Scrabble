@@ -1,6 +1,15 @@
+import Player, { players } from './player.js';
 import SAOLchecker from './SAOLchecker.js';
 
 export default class Game {
+
+  async playerTurn() {
+    for (let playerIndex = 0; playerIndex < players.length; playerIndex++) {
+      let currentPlayer = players[playerIndex];
+      console.log("- - - >" + currentPlayer.name + "'s Turn < - - -")
+    }
+
+  }
 
   async lettersFromFile() {
     let letters = [];
@@ -77,6 +86,5 @@ export default class Game {
       }
 
     }
-
   }
 }

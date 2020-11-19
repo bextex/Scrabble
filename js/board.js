@@ -109,11 +109,7 @@ export default class Board {
         that.render();
 
       })
-
-
   }
-
-
 
   showPlayers() {
     players.forEach(player => {
@@ -134,32 +130,13 @@ export default class Board {
       $(`.box${players.indexOf(player)}`).append(`
         <div class="playertiles ${player.tiles[1][0].char === ' ' ? '' : 'none'}"></div>
       `);
-      console.log(player);
+
     });
     console.log(players);
     this.addDragEvents();
   }
 
 }
-
-
-
-
-
-// nav
-$('nav .rulesBtn').click(function () {
-  $('.rulesContainer').css(
-    "display", "block"
-  );
-});
-
-$('.rulesContainer .closeRulesBtn').click(function () {
-  $('.rulesContainer').css(
-    "display", "none"
-    // "height": "0",
-    // "width": "0"
-  );
-});
 
 /*let $draggable = $('.draggable').draggability({
 
