@@ -6,6 +6,7 @@ export default class Game {
   constructor(tilesFromBag) {
     this.tilesFromBag = tilesFromBag;
     this.playerIndex = 0;
+    this.lettersFromFile();
     this.start();
   }
 
@@ -17,6 +18,10 @@ export default class Game {
     // look up word in SAOL and count score in
     // countScores();
     // start();
+
+    $('.pass').click(() => {
+      this.start();
+    });
 
     // if button 'stå över'
     // start();
@@ -32,8 +37,20 @@ export default class Game {
     //   // ex: countScore(currentPLayer)
     // }
 
-    /* Alternative to switch between players turns */
+    /* Change playerIndex so next player will be this.player next round */
 
+    console.log('player name ' + this.player);
+    console.log('current index ' + this.playerIndex);
+    console.log('player array length ' + players.length);
+
+
+    if (this.playerIndex >= players.length) {
+      this.playerIndex = 0;
+    }
+
+
+
+    /* Alternative to switch between players turns */
     this.player = players[this.playerIndex].name;
     this.tiles = [];
 
@@ -41,6 +58,8 @@ export default class Game {
 
     // If the players has played tiles and they have less than 7, push new tiles to their playing board
 
+    console.log(this.tiles[0].length);
+    console.log(this.tiles[0]);
     if (this.tiles[0].length < 7) {
       let numberOfTiles = 0;
       for (let i = 0; i < 7; i++) {
@@ -53,24 +72,36 @@ export default class Game {
 
     /* Disable all other players tile fields */
 
-    players.forEach(player => {
-      let indexOfPlayer = players.indexOf(player);
-      if (this.player === player.name) {
-        $(`#box${indexOfPlayer}`).show();
+    for (let i = 0; i < players.length; i++) {
+      if (this.player === players[i].name) {
+        console.log(`#box${players.indexOf(players[i])} ska visas`);
+        $(`#box${players.indexOf(players[i])}`).css('display', 'inline');
       } else {
-        $(`#box${indexOfPlayer}`).hide();
+        console.log(`#box${players.indexOf(players[i])} ska inte visas`);
+        $(`#box${players.indexOf(players[i])}`).css('display', 'none');
       }
-    });
-
-    /* Change playerIndex so next player will be this.player next round */
-
-    console.log(this.player);
-    this.playerIndex++;
-    if (this.playerIndex >= players.length - 1) {
-      this.playerIndex = 0;
     }
-    console.log(this.playerIndex);
+
+    // let currPlayer = this.player;
+    // players.forEach((p) => {
+    //   let indexOfPlayer = players.indexOf(p);
+    //   console.log('loopar igenom vilka fält som ska synas, index just nu ' + indexOfPlayer);
+    //   console.log(currPlayer + ' in for each loop');
+    //   if (currPlayer === p.name) {
+    //     console.log(`#box${indexOfPlayer} ska visas`);
+    //     $(`#box${indexOfPlayer}`).show();
+    //   } else {
+    //     console.log(`#box${indexOfPlayer} ska inte visas`);
+    //     $(`#box${indexOfPlayer}`).hide();
+    //   }
+    // });
+
+    this.playerIndex++;
+    console.log('new index ' + this.playerIndex);
+
   }
+
+
 
   async lettersFromFile() {
     let letters = [];
