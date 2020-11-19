@@ -345,6 +345,7 @@ ul {
   border: 2px solid black;
   position: relative;
   float: left;
+  cursor: grab;
 }
 
 div.points{

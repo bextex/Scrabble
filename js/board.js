@@ -76,44 +76,66 @@ export default class Board {
     let that = this;
     console.log("HEJ HÅ HEJ HÅ", $('.playertiles').length)
     // let tile in the stands be draggable
-    $('.playertiles').draggabilly({ containment: 'body' }).on('dragStart', function () {
-      // set a high z-index so that the tile being drag
-      // is on top of everything  
-      $(this).css({ zIndex: 100 });
-    })
-      .on('dragMove', function (e, pointer) {
-        let { pageX, pageY } = pointer;
-        let me = $(this);
-
-        // reset the z-index
-        me.css({ zIndex: '' });
-
-        // add data-player
-        // add data-title 
-
-        let player = that.players[+me.attr('data-player')];
-        let tileIndex = +me.attr('data-title');
-
-        let tile = player.tiles[tileIndex];
-        let $playingW = me.parent('.playertiles');
-        let { top, left } = $playingW.offset();
-        let bottom = top + $playingW.height();
-        let right = left + $playingW.width();
-
-        if (pageX > left && pageX < right
-          && pageY > top && pageY < bottom) {
-          let newIndex = Math.floor(8 * (pageX - left) / $playingW.width());
-          let pt = player.tiles;
-
-
-          pt.splice(tileIndex, 1, ' ');
-          pt.splice(newIndex, 0, tile);
-          //preserve the space where the tile used to be
-          while (pt.length > 8) { pt.splice(pt[tileIndex > newIndex ? 'indexOf' : 'lastIndexOf'](' '), 1); }
-        }
-        that.render();
-
+    $('.playertiles').draggabilly({ containment: 'body' })
+      .on('dragStart', function () {
+        // set a high z-index so that the tile being drag
+        // is on top of everything  
+        $(this).css({ zIndex: 100 });
       })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /* .on('dragMove', function (e, pointer) {
+     let { pageX, pageY } = pointer;
+   })
+
+   .on('dragEnd', function (e, pointer) {
+     let { pageX, pageY } = pointer;
+     let me = $(this);
+
+     // reset the z-index
+     me.css({ zIndex: '' });
+
+     // add data-player
+     // add data-title 
+
+     let player = that.players[+me.attr('board')];
+     let tileIndex = +me.attr('title');
+     let tile = player.tiles[tileIndex];
+
+
+     let $playertiles = me.parent('.playertiles');
+     let { top, left } = $playertiles.offset();
+     let bottom = top + $playertiles.height();
+     let right = left + $playertiles.width();
+
+     if (pageX > left && pageX < right
+       && pageY > top && pageY < bottom) {
+       let newIndex = Math.floor(8 * (pageX - left) / $playertiles.width());
+       let pt = player.tiles;
+
+
+       pt.splice(tileIndex, 1, ' ');
+       pt.splice(newIndex, 0, tile);
+       //preserve the space where the tile used to be
+       while (pt.length > 8) { pt.splice(pt[tileIndex > newIndex ? 'indexOf' : 'lastIndexOf'](' '), 1); }
+     }
+     that.render();
+
+   })*/
   }
 
   showPlayers() {
