@@ -7,6 +7,7 @@ export default class Board {
     console.log(this.board);
     this.render();
     this.showPlayers();
+    this.showPlayerButtons();
   }
 
   createBoard() {
@@ -88,6 +89,13 @@ export default class Board {
       console.log(player);
     });
     console.log(players);
+  }
+
+  showPlayerButtons() {
+    $('.playing-window').append(
+      `<button class="play-tiles">Lägg brickor</button>
+      <button class="pass">Stå över</button>`
+    );
   }
 
 }

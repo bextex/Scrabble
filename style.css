@@ -351,5 +351,35 @@ div.playing-window-left{
 }
 
 
+/****************** PASS AND PLAY TILES BUTTONS ******************/
 
+.play-tiles{
+  font-family: 'Source Code Pro', monospace;
+  font-size: large;
+  background-color: white;
+  color: black;
+  cursor: pointer;
+}
+.play-tiles:hover{
+  font-family: 'Source Code Pro', monospace;
+  font-size: large;
+  background-color: rgb(190, 190, 190);
+  color: black;
+  cursor: pointer;
+}
 
+.pass{
+  font-family: 'Source Code Pro', monospace;
+  font-size: large;
+  background-color: white;
+  color: black;
+  cursor: pointer;
+}
+
+.pass:hover{
+  font-family: 'Source Code Pro', monospace;
+  font-size: large;
+  background-color: rgb(190, 190, 190);
+  color: black;
+  cursor: pointer;
+}
