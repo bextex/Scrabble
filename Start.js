@@ -62,8 +62,6 @@ $('.start-game').on('click', function () {
 // rules open-close 
 $(document).ready(function () {
 
-  $(".rules-window .add-rules").hide();
-
   $('.rules').click(function () {
     $('.game-screen').hide();
     $('.add-rules').animate({
