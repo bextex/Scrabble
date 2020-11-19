@@ -220,6 +220,37 @@ ul {
   text-align: center;
 }
 
+
+/*---------------------------*/
+.tiles {
+  clear: both;
+  padding-top: 20px;
+}
+
+.tiles > div, .tile {
+  position: relative;
+  float: left;
+  width: 5.5vh;
+  height: 5.5vh;
+  border: 1px solid #000000;
+  text-align: center;
+  cursor: pointer;
+  padding-top: 0.2vh;
+  font-size: 4.5vh;
+  background-color: #fff;
+}
+
+/*---------------------------*/
+
+
+
+/*-------------------------------*/
+
+
+
+/*-------------------------------*/
+
+
 .board .tile {
   position: absolute;
   margin: 1px;
@@ -319,6 +350,8 @@ ul {
   z-index: 10;
 }
 
+
+
 .tiles-box{
   width: 300px;
   height: 70px;
@@ -374,6 +407,11 @@ div.playing-window-left{
   
 }
 
+.is-dragging {
+  z-index: 1;
+  margin-left: -4vh;
+  margin-top: -4vh;
+}
 
 /****************** PASS AND PLAY TILES BUTTONS ******************/
 

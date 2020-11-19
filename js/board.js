@@ -66,13 +66,14 @@ export default class Board {
 
     // render the tiles
     // $('.tiles').html(
-    //  this.tiles.map(x => `<div>${x.char}</div>`).join('')
+    // this.tiles.map(x => `<div>${x.char}</div>`).join('')
     //);
-    //this.addEvents();
+
+    // this.addEvents();
 
   }
 
-  addDragEvents() {
+  addEvents() {
     let that = this;
     console.log("HEJ HÅ HEJ HÅ", $('.playertiles').length)
     // let tile in the stands be draggable
@@ -83,8 +84,35 @@ export default class Board {
         $(this).css({ zIndex: 100 });
       })
 
-
-
+    /* $('.board > div').mouseenter(e => {
+       let me = $(e.currentTarget);
+       if ($('.is-dragging').length && !me.find('.tile').length) {
+         me.addClass('hover')
+       }
+     });
+     $('.board > div').mouseleave(e =>
+       $(e.currentTarget).removeClass('hover')
+     );
+ 
+     $('.tiles > div').draggabilly().on('dragEnd', e => {
+       // get the dropZone square - if none render and return
+       let $dropZone = $('.hover');
+       if (!$dropZone.length) { this.render(); return; }
+ 
+       let squareIndex = $('.board > div').index($dropZone);
+ 
+       // convert to y and x coords in this.board
+       let y = Math.floor(squareIndex / 10);
+       let x = squareIndex % 10;
+ 
+       // the index of the chosen tile
+       let $tile = $(e.currentTarget);
+       let tileIndex = $('.tiles > div').index($tile);
+ 
+       // put the tile on the board and re-render
+       this.board[y][x].tile = this.tiles.splice(tileIndex, 1)[0];
+       this.render();
+     });*/
 
 
 
@@ -160,7 +188,9 @@ export default class Board {
 
     });
     console.log(players);
-    this.addDragEvents();
+    // this.addDragEvents();
+
+    this.addEvents();
   }
 
   showPlayerButtons() {
