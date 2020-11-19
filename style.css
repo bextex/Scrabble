@@ -57,11 +57,16 @@ ul {
   }
 }
 
-.rules-window .rule-title {
+.rules-window .add-rules {
+  display: none;
+}
+
+/*.rules-window .rule-title {
   color: rgb(29, 36, 43);
   font-family: 'Big Shoulders Stencil Text', cursive;
   font-size: 35px;
-}
+
+}*/
 
 .rules-window .add-rules {
   font-family: 'Neucha', cursive;
@@ -78,6 +83,7 @@ ul {
   height: 50vh;
   padding: 5vh;
   overflow: auto;
+  display: none;
 }
 
 .rules-window .close {
@@ -357,5 +363,35 @@ div.playing-window-left{
 }
 
 
+/****************** PASS AND PLAY TILES BUTTONS ******************/
 
+.play-tiles{
+  font-family: 'Source Code Pro', monospace;
+  font-size: large;
+  background-color: white;
+  color: black;
+  cursor: pointer;
+}
+.play-tiles:hover{
+  font-family: 'Source Code Pro', monospace;
+  font-size: large;
+  background-color: rgb(190, 190, 190);
+  color: black;
+  cursor: pointer;
+}
 
+.pass{
+  font-family: 'Source Code Pro', monospace;
+  font-size: large;
+  background-color: white;
+  color: black;
+  cursor: pointer;
+}
+
+.pass:hover{
+  font-family: 'Source Code Pro', monospace;
+  font-size: large;
+  background-color: rgb(190, 190, 190);
+  color: black;
+  cursor: pointer;
+}

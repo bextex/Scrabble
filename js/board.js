@@ -8,7 +8,8 @@ export default class Board {
     this.render();
     this.showPlayers();
 
-    //this.addEvents();
+    this.showPlayerButtons();
+
   }
 
   createBoard() {
@@ -80,15 +81,19 @@ export default class Board {
       // is on top of everything  
       $(this).css({ zIndex: 100 });
     })
-      .on('XdragMove', function (e, pointer) {
+      .on('dragMove', function (e, pointer) {
         let { pageX, pageY } = pointer;
         let me = $(this);
 
         // reset the z-index
         me.css({ zIndex: '' });
 
+        // add data-player
+        // add data-title 
+
         let player = that.players[+me.attr('data-player')];
         let tileIndex = +me.attr('data-title');
+
         let tile = player.tiles[tileIndex];
         let $playingW = me.parent('.playertiles');
         let { top, left } = $playingW.offset();
@@ -134,6 +139,13 @@ export default class Board {
     });
     console.log(players);
     this.addDragEvents();
+  }
+
+  showPlayerButtons() {
+    $('.playing-window').append(
+      `<button class="play-tiles">Lägg brickor</button>
+      <button class="pass">Stå över</button>`
+    );
   }
 
 }
