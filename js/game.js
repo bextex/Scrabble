@@ -1,3 +1,4 @@
+import { players } from './player.js';
 import SAOLchecker from './SAOLchecker.js';
 
 export default class Game {
@@ -76,6 +77,19 @@ export default class Game {
           await SAOLchecker.lookupWord(word) + '</div');
       }
 
+    }
+    playersTurn(tilesFromBag){
+
+
+      if (players[0].tiles[0].length < 7) {
+        let numberOfTiles = 0;
+        for (let i = 0; i < 7; i++) {
+          if (!players[0].tiles[0][i]) {
+            numberOfTiles++;
+          }
+        }
+        players[0].tiles[0].push(bagTiles.splice(0, numberOfTiles));
+      }
     }
 
   }
