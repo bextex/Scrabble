@@ -1,5 +1,5 @@
 import Player, { players } from './player.js';
-import Score from './js/score.js';
+import Score from './score.js';
 
 export default class Game {
 
