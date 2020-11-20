@@ -1,5 +1,6 @@
 import Game from './game.js';
 import { players } from './player.js';
+export let copyOfBoard = [];
 
 export default class Board {
 
@@ -36,6 +37,8 @@ export default class Board {
     [12, 2], [12, 12], [13, 1], [13, 13]]
       .forEach(([y, x]) => this.board[y][x].special = '2xWS');
     this.board[7][7].special = 'middle-star';
+
+    copyOfBoard = this.board;
 
   }
 

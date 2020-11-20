@@ -1,5 +1,6 @@
 import Player, { players } from './player.js';
 import SAOLchecker from './SAOLchecker.js';
+import { copyOfBoard } from './board.js';
 
 export default class Game {
 
@@ -44,6 +45,7 @@ export default class Game {
     console.log('player array length ' + players.length);
 
 
+    // If player index is more och equal to player array length then go back to index 0
     if (this.playerIndex >= players.length) {
       this.playerIndex = 0;
     }
@@ -51,13 +53,16 @@ export default class Game {
 
 
     /* Alternative to switch between players turns */
+
+    // Set this.player to the player with playerindex in players array
+    // so this.player will be the new player each round
     this.player = players[this.playerIndex].name;
     this.tiles = [];
 
+    // set this.tiles to the current players tiles
     this.tiles.push(players[this.playerIndex].tiles[0]);
 
     // If the players has played tiles and they have less than 7, push new tiles to their playing board
-
     console.log(this.tiles[0].length);
     console.log(this.tiles[0]);
     if (this.tiles[0].length < 7) {
@@ -67,6 +72,8 @@ export default class Game {
           numberOfTiles++;
         }
       }
+      // Push new tiles to the this.tiles, take so many from bag that the player needs,
+      // gets determined in loop above
       this.tiles.push(this.tilesFromBag.splice(0, numberOfTiles));
     }
 
@@ -96,6 +103,7 @@ export default class Game {
     //   }
     // });
 
+    // Inrease player index so when new round, the next player will this.player
     this.playerIndex++;
     console.log('new index ' + this.playerIndex);
 
