@@ -12,6 +12,7 @@ export default class Player {
   }
 
 
+
   choosePlayers() {
     let countClicks = 2;
     $('.players').on('click', function () {
