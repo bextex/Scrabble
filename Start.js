@@ -26,7 +26,7 @@ export default class Start {
     let bag = new Bag();
     this.tiles = await bag.tilesFromFile();
     that = this;
-    console.log(this.tiles);
+    console.log("this.tiles:  " + this.tiles);
   }
 }
 
