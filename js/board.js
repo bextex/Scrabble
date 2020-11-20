@@ -13,12 +13,17 @@ export default class Board {
     /*this.tiles = 'ABCDEFGH'.split('')
       .map(x => ({ char: x }));*/
     new Game(tilesFromBag);
-
-
     this.createBoard();
     this.render();
 
-    console.log(this.board);
+
+    //this.createBoard();
+    // this.render();
+
+    this.showPlayers();
+    this.showPlayerButtons();
+
+    //console.log(this.board);
 
 
 
@@ -70,18 +75,21 @@ export default class Board {
     );
 
     // render the tiles
-    $('.tiles').html(
-      this.tiles.map(x => `<div>${x.char}</div>`).join('')
+    /* $('.tiles').html(
+       this.tiles.map(x => `<div>${x.char}</div>`).join('')
+ 
+     );*/
 
-    );
+    // this.addEvents();
 
-    this.addEvents();
+
   }
 
 
   addEvents() {
     // Set a css-class hover on the square the mouse is above
     // if we are dragging and there is no tile in the square
+    //.board > div
     $('.board > div').mouseenter(e => {
       let me = $(e.currentTarget);
       if ($('.is-dragging').length && !me.find('.tile').length) {
@@ -93,7 +101,8 @@ export default class Board {
     );
 
     // Drag-events: We only check if a tile is in place on dragEnd
-    $('.tiles > div').draggabilly().on('dragEnd', e => {
+    //tiles > div
+    $('.playertiles').draggabilly().on('dragEnd', e => {
       // get the dropZone square - if none render and return
       let $dropZone = $('.hover');
       if (!$dropZone.length) { this.render(); return; }
@@ -107,12 +116,46 @@ export default class Board {
 
       // the index of the chosen tile
       let $tile = $(e.currentTarget);
-      let tileIndex = $('.tiles > div').index($tile);
+      //.tiles > div
+      let tileIndex = $('.playertiles').index($tile);
 
       // put the tile on the board and re-render
       this.board[y][x].tile = this.tiles.splice(tileIndex, 1)[0];
       this.render();
     });
   }
+
+  showPlayers() {
+    players.forEach(player => {
+      let index = 0
+      $('.playing-window-left').append(`
+        <div class="playername">${player.name}</div>
+        <div class="tiles-box"><div id="box${players.indexOf(player)}"></div></div>
+        `);
+      console.log(player.tiles[0].length);
+      while (index < player.tiles[0].length) {
+        console.log('appending tiles');
+        $(`#box${players.indexOf(player)}`).append(`
+        <div class="playertiles">${player.tiles[0][index].char}<div class="points">${player.tiles[0][index].points}</div>
+      `);
+
+        index++;
+      }
+      $(`#box${players.indexOf(player)}`).append(`
+        <div class="playertiles ${player.tiles[1][0].char === ' ' ? '' : 'none'}"></div>
+      `);
+
+    });
+    console.log(players);
+    this.addEvents();
+  }
+
+  showPlayerButtons() {
+    $('.playing-window').append(
+      `<button class="play-tiles">Lägg brickor</button>
+      <button class="pass">Stå över</button>`
+    );
+  }
+
 
 }
