@@ -65,7 +65,7 @@ export default class Board {
 
 
     // render the tiles
-    // $('.tiles').html(
+    //$('.tiles').html(
     // this.tiles.map(x => `<div>${x.char}</div>`).join('')
     //);
 
@@ -84,36 +84,35 @@ export default class Board {
         $(this).css({ zIndex: 100 });
       })
 
-    /* $('.board > div').mouseenter(e => {
-       let me = $(e.currentTarget);
-       if ($('.is-dragging').length && !me.find('.tile').length) {
-         me.addClass('hover')
-       }
-     });
-     $('.board > div').mouseleave(e =>
-       $(e.currentTarget).removeClass('hover')
-     );
- 
-     $('.tiles > div').draggabilly().on('dragEnd', e => {
-       // get the dropZone square - if none render and return
-       let $dropZone = $('.hover');
-       if (!$dropZone.length) { this.render(); return; }
- 
-       let squareIndex = $('.board > div').index($dropZone);
- 
-       // convert to y and x coords in this.board
-       let y = Math.floor(squareIndex / 10);
-       let x = squareIndex % 10;
- 
-       // the index of the chosen tile
-       let $tile = $(e.currentTarget);
-       let tileIndex = $('.tiles > div').index($tile);
- 
-       // put the tile on the board and re-render
-       this.board[y][x].tile = this.tiles.splice(tileIndex, 1)[0];
-       this.render();
-     });*/
+    $('.board').mouseenter(e => {
+      let me = $(e.currentTarget);
+      if ($('.is-dragging').length && !me.find('.tile').length) {
+        me.addClass('hover')
+      }
+    });
+    $('.board > div').mouseleave(e =>
+      $(e.currentTarget).removeClass('hover')
+    );
 
+    $('.playertiles').draggabilly().on('dragEnd', e => {
+      // get the dropZone square - if none render and return
+      let $dropZone = $('.hover');
+      if (!$dropZone.length) { this.render(); return; }
+
+      let squareIndex = $('.board > div').index($dropZone);
+
+      // convert to y and x coords in this.board
+      let y = Math.floor(squareIndex / 10);
+      let x = squareIndex % 10;
+
+      // the index of the chosen tile
+      let $tile = $(e.currentTarget);
+      let tileIndex = $('.tiles > div').index($tile);
+
+      // put the tile on the board and re-render
+      this.board[y][x].tile = this.tiles.splice(tileIndex, 1)[0];
+      this.render();
+    });
 
 
 
@@ -181,16 +180,18 @@ export default class Board {
       `);
 
         index++;
+
       }
       $(`#box${players.indexOf(player)}`).append(`
         <div class="playertiles ${player.tiles[1][0].char === ' ' ? '' : 'none'}"></div>
+        
       `);
 
     });
     console.log(players);
     // this.addDragEvents();
-
     this.addEvents();
+
   }
 
   showPlayerButtons() {
