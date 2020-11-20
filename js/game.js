@@ -4,9 +4,12 @@ import SAOLchecker from './SAOLchecker.js';
 export default class Game {
 
   async playerTurn() {
+    $('div.playing-window-left .playername').css('backgroundColor', 'yellow');
     for (let playerIndex = 0; playerIndex < players.length; playerIndex++) {
       let currentPlayer = players[playerIndex];
       console.log("- - - >" + currentPlayer.name + "'s Turn < - - -")
+      let highlightPlayerName = playerIndex + 1;
+
       // add function calls
       // ex: countScore(currentPLayer)
     }
