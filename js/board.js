@@ -65,26 +65,25 @@ export default class Board {
 
 
     // render the tiles
-    //$('.tiles').html(
+    // $('.tiles').html(
     // this.tiles.map(x => `<div>${x.char}</div>`).join('')
     //);
 
-    // this.addEvents();
 
   }
 
   addEvents() {
-    let that = this;
-    console.log("HEJ HÅ HEJ HÅ", $('.playertiles').length)
-    // let tile in the stands be draggable
-    $('.playertiles').draggabilly({ containment: 'body' })
-      .on('dragStart', function () {
-        // set a high z-index so that the tile being drag
-        // is on top of everything  
-        $(this).css({ zIndex: 100 });
-      })
+    /* let that = this;
+     console.log("HEJ HÅ HEJ HÅ", $('.playertiles').length)
+     // let tile in the stands be draggable
+     $('.playertiles').draggabilly({ containment: 'body' })
+       .on('dragStart', function () {
+         // set a high z-index so that the tile being drag
+         // is on top of everything  
+         $(this).css({ zIndex: 100 });
+       })*/
 
-    $('.board').mouseenter(e => {
+    $('.board > div').mouseenter(e => {
       let me = $(e.currentTarget);
       if ($('.is-dragging').length && !me.find('.tile').length) {
         me.addClass('hover')
@@ -102,8 +101,8 @@ export default class Board {
       let squareIndex = $('.board > div').index($dropZone);
 
       // convert to y and x coords in this.board
-      let y = Math.floor(squareIndex / 10);
-      let x = squareIndex % 10;
+      let y = Math.floor(squareIndex / 15);
+      let x = squareIndex % 15;
 
       // the index of the chosen tile
       let $tile = $(e.currentTarget);
@@ -169,23 +168,23 @@ export default class Board {
     players.forEach(player => {
       let index = 0
       $('.playing-window-left').append(`
-        <div class="playername">${player.name}</div>
-        <div class="tiles-box"><div id="box${players.indexOf(player)}"></div></div>
-        `);
+         <div class="playername">${player.name}</div>
+         <div class="tiles-box"><div id="box${players.indexOf(player)}"></div></div>
+         `);
       console.log(player.tiles[0].length);
       while (index < player.tiles[0].length) {
         console.log('appending tiles');
         $(`#box${players.indexOf(player)}`).append(`
-        <div class="playertiles">${player.tiles[0][index].char}<div class="points">${player.tiles[0][index].points}</div>
-      `);
+         <div class="playertiles">${player.tiles[0][index].char}<div class="points">${player.tiles[0][index].points}</div>
+       `);
 
         index++;
 
       }
       $(`#box${players.indexOf(player)}`).append(`
-        <div class="playertiles ${player.tiles[1][0].char === ' ' ? '' : 'none'}"></div>
-        
-      `);
+         <div class="playertiles ${player.tiles[1][0].char === ' ' ? '' : 'none'}"></div>
+         
+       `);
 
     });
     console.log(players);
@@ -197,7 +196,7 @@ export default class Board {
   showPlayerButtons() {
     $('.playing-window').append(
       `<button class="play-tiles">Lägg brickor</button>
-      <button class="pass">Stå över</button>`
+       <button class="pass">Stå över</button>`
     );
   }
 
