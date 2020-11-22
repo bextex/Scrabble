@@ -260,6 +260,7 @@ ul {
   background-color: #fff;
 }
 
+
 /****************** My special colors ******************/
 
 .board > div.special-3xWS {
@@ -341,7 +342,7 @@ ul {
   font-size: 20px;
   color: black;
   padding: 2vh;
-}*/
+}*
 
 /*.not-current-player{
   content: 'Not your turn';

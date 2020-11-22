@@ -20,6 +20,7 @@ export default class Bag {
     return this.tiles.splice(0, 100);
   }
 
+
 }
 
 

@@ -1,9 +1,15 @@
-export default class Board {
 
+
+
+export default class Board {
   constructor() {
     // Create some tiles
+
+    // Need to use 'bag' (tilesFromFile()) instead
     this.tiles = 'ABCDEFGH'.split('')
       .map(x => ({ char: x }));
+    /*-----------------------------------------*/
+
     this.createBoard();
     this.render();
   }
@@ -56,6 +62,11 @@ export default class Board {
     $('.tiles').html(
       this.tiles.map(x => `<div>${x.char}</div>`).join('')
     );
+
+
+
+
+
 
     this.addEvents();
   }
