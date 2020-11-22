@@ -1,3 +1,4 @@
+import Board from './board.js';
 import Player, { players } from './player.js';
 import SAOLchecker from './SAOLchecker.js';
 
@@ -7,6 +8,8 @@ export default class Game {
     this.tilesFromBag = tilesFromBag;
     this.playerIndex = 0;
     this.start();
+
+
   }
 
   /* The game that will run, taking turns between players*/
@@ -18,8 +21,6 @@ export default class Game {
     // countScores();
     // start();
 
-    // if button 'stå över'
-    // start();
 
   }
 
@@ -57,12 +58,18 @@ export default class Game {
 
     /* Change playerIndex so next player will be this.player next round */
 
+    // if button 'stå över'
+    // start();
+
     console.log(this.player);
     this.playerIndex++;
     if (this.playerIndex >= players.length - 1) {
       this.playerIndex = 0;
     }
     console.log(this.playerIndex);
+
+
+
   }
 
   async lettersFromFile() {
@@ -142,4 +149,5 @@ export default class Game {
     }
 
   }
+
 }

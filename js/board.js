@@ -142,13 +142,38 @@ export default class Board {
   }
 
   showPlayerButtons() {
-    $('.playing-window').append(
-      `<button class="play-tiles">Lägg brickor</button>
-      <button class="pass">Stå över</button>`
-    );
+
+    //dynamically creates elements with event handlers
+    const playTilesBtn = document.createElement('button')
+    const passBtn = document.createElement('button')
+
+    playTilesBtn.classList.add('play-tiles');
+    passBtn.classList.add('pass');
+
+    playTilesBtn.textContent = 'Lägg brickor'
+    passBtn.textContent = 'Stå över'
+
+    $('.playing-window').append(playTilesBtn, passBtn);
+
+    document.querySelector('.play-tiles').addEventListener('click', playTilesEventHandler)
+    document.querySelector('.pass').addEventListener('click', passEventHandler)
   }
 
 }
+
+//The event handlers assign to .pass and .play-tiles
+function passEventHandler() {
+  // måste man göra en New Game??
+  let newGame = new Game();
+  newGame.playerTurn();
+}
+function playTilesEventHandler() {
+  console.log("play tiles clicked")
+}
+
+
+
+
 
 /*let $draggable = $('.draggable').draggability({
 
