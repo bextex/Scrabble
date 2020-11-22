@@ -1,5 +1,9 @@
 
-
+  *, *:before, *:after {
+  box-sizing: border-box;
+  user-select: none;
+  -webkit-user-select: none;
+}
 
 /* Background and button
        Start page */
@@ -199,10 +203,14 @@ ul {
   background-color: azure;
  }
       
-/*.board {
+
+  /*--------------------------------------------------------*/
+
+.board {
   border: 10px solid #02b802;
   border-radius: 3px;
   display: inline-block;
+  padding-top: 65px;
 }
 
 .board > div {
@@ -224,255 +232,20 @@ ul {
 .board > div::after {
   display: block;
   text-align: center;
-}*/
-
-
-/*---------------------------*/
-/*.tiles {
-  clear: both;
-  padding-top: 10vh;
-  float: left;
-  
-  
-}
-
-.tiles > div, .tile {
-  position: relative;
-  float: left;
-  width: 5.5vh;
-  height: 5.5vh;
-  border: 1px solid #000000;
-  text-align: center;
-  cursor: pointer;
-  padding-top: 0.2vh;
-  font-size: 4.5vh;
-  background-color: #fff;
-}*/
-
-/*---------------------------*/
-
-
-
-/*-------------------------------*/
-
-
-
-/*-------------------------------*/
-
-
-/*.board .tile {
- /* position: absolute;
-  margin: 1px;*/
-
-  /*position: absolute;
-  top: 0.1vh;
-  left: 0.1vh;
 }
 
 
+/*---------------------------------------------------*/
 
-.playing-window{
-  margin-top: 170px;
-  margin-right: 220px;
-  overflow: hidden;
-  text-align: center;
-  display: inline-block;
-}*/
-
-/****************** My special colors ******************/
-/*.board > div.special-3xWS {
-  background-color: red;
-}
-.board > div.special-2xWS {
-  background-color: palevioletred;
-}
-.board > div.special-3xLS {
-  background-color: darkblue;
-}
-.board > div.special-2xLS {
-  background-color: rgb(145, 227, 255);
-}
-
-.board > div.special-middle-star {
-  background-color: palevioletred;
-}*/
-
-/* The pseudo-element after can have text */
-/*.board > div.special-3xWS::after {
-  content: '3xWS';
-  display: block;
-  text-align: center;
-  font-size: 1.5vh;
-  margin-top: 1vh;
-  color: white;
-}
-
-.board > div.special-2xWS::after {
-  content: '2xWS';
-  display: block;
-  text-align: center;
-  font-size: 1.5vh;
-  margin-top: 1vh;
-  color: white;
-} 
-
-.board > div.special-3xLS::after {
-  content: '3xLS';
-  display: block;
-  text-align: center;
-  font-size: 1.5vh;
-  margin-top: 1vh;
-  color: white;
-}
-
-.board > div.special-2xLS::after {
-  content: '2xLS';
-  display: block;
-  text-align: center;
-  font-size: 1.5vh;
-  margin-top: 1vh;
-  color: white;
-}
-
-.board > div.special-middle-star::after {
-  content: '\2605';
-  display: block;
-  text-align: center;
-  font-size: 1.5vh;
-  margin-top: 1vh;
-  color: white;
-}*/
-
-/*************************** PLAYER NAMES AND TILES ****************************/
-
-
-/*.playername{
-  font-family: 'Neucha', cursive;
-  font-size: large;
-  font-size: 20px;
-  color: black;
-  padding: 2vh;
-}
-
-.not-current-player{
-  content: 'Not your turn';
-  width: 300px;
-  height: 70px;
-  background-color: #02b802;
-  padding: 1vh;
-  text-align: center;
-  border: 1px solid black;
-  z-index: 10;
-}
-
-
-
-.tiles-box{
-  width: 300px;
-  height: 70px;
-  background-color: #02b802;
-  padding: 1vh;
-  text-align: center;
-  border: 1px solid black;
-}
-
-.playertiles.none{
-  background-color: #02b802;
-  border: 0;
-}
-
-.playertiles{
-  font-family: 'Source Code Pro', monospace;
-  font-size: large;
-  padding: 4px;
-  margin: 1px;
-  width: 25px;
-  height: 25px;
-  background-color: white;
-  text-align: center;
-  border: 2px solid black;
-  position: relative;
-  float: left;
-  cursor: grab;
-}
-
-div.points{
-  font-family: 'Source Code Pro', monospace;
-  font-size: 10px;
-  position: relative;
-  top: -10px;
-  right: -10px;
-}*/
-
-
-/* BRICKOR */
-/*div.playing-window-left{
-  float: left;
-}
-
-.playing-window-left{
-
-  position: relative;
-  z-index: 1;
-  margin-top: 30vh;
-  margin-left: 1px;*/
-  /*overflow: hidden;*/
- /* text-align: center;
-  display: inline-block;
-  
-}
-
-.is-dragging {
-  z-index: 1;
-  margin-left: -3vh;
-  margin-top: -3vh;
-}*/
-
-/****************** PASS AND PLAY TILES BUTTONS ******************/
-
-
-.board {
-  border: 3px solid #02b802;
-  border-radius: 3px;
-  display: inline-block;
-  
-}
-
-.board > div {
-  border: 1px solid #000000;
-  width: 5vh;
-  height: 5vh;
-  background-color: #54aa79;
-  position: relative;
-  bottom: 20vh;
-  
-  float: left;
-}
-
-.board > div.hover {
-  opacity: 0.5;
-}
-
-.board > div:nth-child(15n+1){
-  clear: both;
-}
-
-.board > div::after {
-  display: block;
-  text-align: center;
-}
-
-
-/*---------------------------*/
 .tiles {
   clear: both;
   padding-top: 20px;
 }
 
-/*.tiles > div, .tile {
+.tiles > div, .tile {
   position: relative;
   float: left;
-  width: 4vh;
+  width: 4.5vh;
   height: 4.5vh;
   border: 1px solid #000000;
   text-align: center;
@@ -480,25 +253,9 @@ div.points{
   padding-top: 0.2vh;
   font-size: 4vh;
   background-color: #fff;
-}*/
-
-
-
-/*---------------------------*/
-
-
-
-/*-------------------------------*/
-
-
-
-/*-------------------------------*/
-
-
-
+}
 
 /****************** My special colors ******************/
-
 
 .board > div.special-3xWS {
   background-color: red;
@@ -565,7 +322,6 @@ div.points{
 
 /*************************** PLAYER NAMES AND TILES ****************************/
 
-
 .playername{
   font-family: 'Neucha', cursive;
   font-size: large;
@@ -585,18 +341,13 @@ div.points{
   z-index: 10;
 }
 
-
-
 .tiles-box{
   width: 300px;
-  height: 90px;
+  height: 70px;
   background-color: #02b802;
   padding: 1vh;
   text-align: center;
   border: 1px solid black;
-  position: relative;
-  
-  
 }
 
 .playertiles.none{
@@ -604,38 +355,20 @@ div.points{
   border: 0;
 }
 
-.playertiles {
-
+.playertiles{
   font-family: 'Source Code Pro', monospace;
   font-size: large;
   padding: 4px;
   margin: 1px;
-  width: 35px;
-  height: 35px;
+  width: 25px;
+  height: 25px;
   background-color: white;
   text-align: center;
   border: 2px solid black;
   position: relative;
   float: left;
   cursor: grab;
-  
 }
-
-
-  /*  position: relative;
-  float: left;
-  width: 4vh;
-  height: 4vh;
-  border: 1px solid #000000;
-  text-align: center;
-  cursor: pointer;
-  padding-top: 0.2vh;
-  font-size: 4vh;
-  background-color: #fff;*/
-
-
-
-
 
 div.points{
   font-family: 'Source Code Pro', monospace;
@@ -645,10 +378,11 @@ div.points{
   right: -10px;
 }
 
-
-
 .is-dragging {
   z-index: 1;
   margin-left: -4vh;
   margin-top: -4vh;
 }
+
+
+  
