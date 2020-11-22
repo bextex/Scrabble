@@ -18,6 +18,15 @@ body{
   text-align: center;
 }
 
+@keyframes colorchange {
+  15%   {background: rgb(245, 241, 241);}
+  25%  {background: rgb(238, 198, 229);}
+  35%  {background: rgb(76, 243, 174);}
+  75%  {background: rgb(83, 250, 250);}
+  90% {background: rgb(239, 203, 120);}
+  30% {background: rgb(102, 238, 165);}
+}
+
 ul {
   width: auto;
   text-align: center;
@@ -79,7 +88,7 @@ ul {
   position: relative;
   /*removed top. Doesn't work when position is relative*/
   /*doen't work with percentage '%'*/
-  left: 30%;
+  left: 33%;
   color: rgb(40, 20, 20);
   font-size: 18px;
   border: 3px solid aliceblue;
