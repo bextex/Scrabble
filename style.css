@@ -76,12 +76,6 @@ ul {
   display: none;
 }
 
-/*.rules-window .rule-title {
-  color: rgb(29, 36, 43);
-  font-family: 'Big Shoulders Stencil Text', cursive;
-  font-size: 35px;
-
-}*/
 
 .rules-window .add-rules {
   font-family: 'Neucha', cursive;
@@ -207,6 +201,8 @@ ul {
  border: 5px solid rgb(15, 59, 97);
  border-radius: 5px;
  color: white;
+ animation-name: move, changeColorText;
+ animation-duration: 2s; 
  }
  .newPlayerInput:hover {
   background-color: azure;
@@ -364,7 +360,7 @@ ul {
   border: 0;
 }
 
-.playertiles{
+/*.playertiles{
   font-family: 'Source Code Pro', monospace;
   font-size: large;
   padding: 4px;
@@ -377,7 +373,7 @@ ul {
   position: relative;
   float: left;
   cursor: grab;
-}
+}*/
 
 div.points{
   font-family: 'Source Code Pro', monospace;
