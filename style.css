@@ -309,6 +309,17 @@ ul {
   background-color: white;
 }
 
+.not-current-player{
+  content: 'Not your turn';
+  width: 300px;
+  height: 70px;
+  background-color: #02b802;
+  padding: 1vh;
+  text-align: center;
+  border: 1px solid black;
+  z-index: 10;
+}
+
 .tiles-box{
   width: 300px;
   height: 70px;

@@ -26,7 +26,7 @@ export default class Start {
     let bag = new Bag();
     this.tiles = await bag.tilesFromFile();
     that = this;
-    console.log(this.tiles);
+    console.log("this.tiles:  " + this.tiles);
   }
 }
 
@@ -49,13 +49,14 @@ $('.start-game').on('click', function () {
   $('.game-screen').fadeOut(1700);
   $('.game-menu').fadeOut(1700);
   setTimeout(() => {
-    new Board().start();
+    new Board().start(that.tiles);
   }, 1700);
   $('.scrabble').animate({ top: '12px' }, 'slow');
   $('.scrabble').animate({ fontSize: '40px' }, 'slow');
   console.log("new Game().playerTurn - called")
-  new Game().countScore();
-  new Game().playerTurn();
+  //new Game(that.tiles);
+  // new Game().countScore();
+  // new Game().playerTurn();
 });
 
 
