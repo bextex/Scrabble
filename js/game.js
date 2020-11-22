@@ -25,13 +25,6 @@ export default class Game {
 
   async playerTurn() {
 
-    // for (let playerIndex = 0; playerIndex < players.length; playerIndex++) {
-    //   let currentPlayer = players[playerIndex];
-    //   console.log("- - - >" + currentPlayer.name + "'s Turn < - - -")
-    //   // add function calls
-    //   // ex: countScore(currentPLayer)
-    // }
-
     /* Alternative to switch between players turns */
 
     this.player = players[this.playerIndex].name;
