@@ -205,7 +205,7 @@ ul {
  animation-duration: 2s; 
  }
  .newPlayerInput:hover {
-  background-color: azure;
+  background-color: rgb(66, 64, 64);
  }
       
 
