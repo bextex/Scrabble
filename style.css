@@ -198,7 +198,7 @@ ul {
  font-family: 'Neucha', cursive;
  font-size: 25px;
  opacity: 0.8;
- border: 5px solid rgb(15, 59, 97);
+ border: 5px solid aliceblue;
  border-radius: 5px;
  color: white;
  animation-name: move, changeColorText;
@@ -240,7 +240,7 @@ ul {
 }
 
 
-/*---------------------------------------------------*/
+/*--------------------- TILES ---------------------*/
 
 .tiles {
   clear: both;
@@ -325,17 +325,25 @@ ul {
   color: white;
 }
 
+/* ------- DRAG -------  */
+
+.is-dragging {
+  z-index: 1;
+  margin-left: -4vh;
+  margin-top: -4vh;
+}
+
 /*************************** PLAYER NAMES AND TILES ****************************/
 
-.playername{
+/*.playername{
   font-family: 'Neucha', cursive;
   font-size: large;
   font-size: 20px;
   color: black;
   padding: 2vh;
-}
+}*/
 
-.not-current-player{
+/*.not-current-player{
   content: 'Not your turn';
   width: 300px;
   height: 70px;
@@ -344,21 +352,21 @@ ul {
   text-align: center;
   border: 1px solid black;
   z-index: 10;
-}
+}*/
 
-.tiles-box{
+/*.tiles-box{
   width: 300px;
   height: 70px;
   background-color: #02b802;
   padding: 1vh;
   text-align: center;
   border: 1px solid black;
-}
+}*/
 
-.playertiles.none{
+/*.playertiles.none{
   background-color: #02b802;
   border: 0;
-}
+}*/
 
 /*.playertiles{
   font-family: 'Source Code Pro', monospace;
@@ -375,19 +383,14 @@ ul {
   cursor: grab;
 }*/
 
-div.points{
+/*div.points{
   font-family: 'Source Code Pro', monospace;
   font-size: 10px;
   position: relative;
   top: -10px;
   right: -10px;
-}
+}*/
 
-.is-dragging {
-  z-index: 1;
-  margin-left: -4vh;
-  margin-top: -4vh;
-}
 
 
   
