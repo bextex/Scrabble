@@ -482,6 +482,8 @@ div.points{
   background-color: #fff;
 }*/
 
+
+
 /*---------------------------*/
 
 
@@ -602,7 +604,7 @@ div.points{
   border: 0;
 }
 
-.playertiles{
+.playertiles {
 
   font-family: 'Source Code Pro', monospace;
   font-size: large;
@@ -616,6 +618,8 @@ div.points{
   position: relative;
   float: left;
   cursor: grab;
+  
+}
 
 
   /*  position: relative;
@@ -629,7 +633,7 @@ div.points{
   font-size: 4vh;
   background-color: #fff;*/
 
-}
+
 
 
 

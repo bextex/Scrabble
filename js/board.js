@@ -5,15 +5,16 @@ import { players } from './player.js';
 
 
 export default class Board {
-  //constructor() {
-  async start(tilesFromBag) {
+  constructor(tilesFromFile) {
+    //async start(tilesFromFile) {
     // Create some tiles
 
 
     /*this.tiles = 'ABCDEFGH'.split('')
       .map(x => ({ char: x }));*/
-    new Game(tilesFromBag);
+
     this.createBoard();
+
     this.render();
 
 
@@ -21,6 +22,8 @@ export default class Board {
     // this.render();
 
     this.showPlayers();
+    this.tilesFromFile();
+
     this.showPlayerButtons();
 
     //console.log(this.board);
@@ -120,7 +123,7 @@ export default class Board {
       let tileIndex = $('.playertiles').index($tile);
 
       // put the tile on the board and re-render
-      this.board[y][x].tile = this.tiles.splice(tileIndex, 1)[0];
+      this.board[y][x].tile = this.tilesFromFile.splice(tileIndex, 1)[0];
       this.render();
     });
   }
