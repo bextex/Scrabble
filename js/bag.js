@@ -1,10 +1,13 @@
 export default class Bag {
 
   async tilesFromFile() {
-    this.tiles = [];
+    //this.tiles = [];
+
+    this.tiles = await $.get('data/tiles.txt');
+
     // Read the tile info from file
-    (await $.get('data/tiles.txt'))
-      .split('\r').join('') // Windows safe :)
+    //(await $.get('data/tiles.txt'))
+    this.tiles.split('\r').join('') // Windows safe :)
       .split('\n').forEach(x => {
         // For each line split content by ' '
         // x[0] = char, x[1] = points, x[2] = occurences
