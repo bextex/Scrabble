@@ -31,8 +31,9 @@ export default class Game {
     $('.play-tiles').on('click', () => {
       console.log('im clicking the play tiles button');
       // get points for word
-      // this.render();
+      this.render();
       this.playerTurn();
+      this.addEvents();
     });
 
 
@@ -319,6 +320,7 @@ export default class Game {
     console.log(copyOfBoard.flat());
     $('.board').html(
       copyOfBoard.flat().map(x => `
+       <div class="${x.special ? 'special-' + x.special : ''}">
           ${x.tile ? `<div class="tile">${x.tile.char}</div>` : ''}
         </div>
       `).join('')
