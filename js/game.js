@@ -7,12 +7,22 @@ import Board, { copyOfBoard } from './board.js';
 export default class Game {
 
   constructor(tilesFromBag) {
+
+    this.createBoard();
+
+    this.render();
+
+    // this.showPlayers();
+
+    this.showPlayerButtons();
+
     this.tilesFromBag = tilesFromBag;
     this.playerIndex = 0;
     this.lettersFromFile();
-    // this.render();
+
     this.addEvents();
     this.start();
+
   }
 
   /* The game that will run, taking turns between players*/
@@ -32,16 +42,10 @@ export default class Game {
       console.log('im clicking the play tiles button');
       // get points for word
       this.render();
+      // board.render();
       this.playerTurn();
       this.addEvents();
     });
-
-
-
-
-
-
-
 
 
     // // lock in word with button 'lägg brickor'
@@ -60,17 +64,6 @@ export default class Game {
   }
 
   async playerTurn() {
-
-    // for (let playerIndex = 0; playerIndex < players.length; playerIndex++) {
-    //   let currentPlayer = players[playerIndex];
-    //   console.log("- - - >" + currentPlayer.name + "'s Turn < - - -")
-    //   // add function calls
-    //   // ex: countScore(currentPLayer)
-    // }
-
-    /* Change playerIndex so next player will be this.player next round */
-
-
     console.log('current index ' + this.playerIndex);
     console.log('player array length ' + players.length);
 
@@ -79,9 +72,6 @@ export default class Game {
     if (this.playerIndex >= players.length) {
       this.playerIndex = 0;
     }
-
-
-
     /* Alternative to switch between players turns */
 
     // Set this.player to the player with playerindex in players array
@@ -109,9 +99,6 @@ export default class Game {
       this.tiles.push(this.tilesFromBag.splice(0, numberOfTiles));
     }
 
-    // Export tiles to board 
-    // playerTiles = this.tiles;
-
     /* Disable all other players tile fields */
 
     for (let i = 0; i < players.length; i++) {
@@ -123,26 +110,150 @@ export default class Game {
         $(`#box${players.indexOf(players[i])}`).hide();
       }
     }
-
-    // let currPlayer = this.player;
-    // players.forEach((p) => {
-    //   let indexOfPlayer = players.indexOf(p);
-    //   console.log('loopar igenom vilka fält som ska synas, index just nu ' + indexOfPlayer);
-    //   console.log(currPlayer + ' in for each loop');
-    //   if (currPlayer === p.name) {
-    //     console.log(`#box${indexOfPlayer} ska visas`);
-    //     $(`#box${indexOfPlayer}`).show();
-    //   } else {
-    //     console.log(`#box${indexOfPlayer} ska inte visas`);
-    //     $(`#box${indexOfPlayer}`).hide();
-    //   }
-    // });
-
     // Inrease player index so when new round, the next player will this.player
     this.playerIndex++;
     console.log('new index ' + this.playerIndex);
 
   }
+
+  addEvents() {
+
+    console.log('im inside add events');
+
+    $('.board > div').mouseenter(e => {
+      let me = $(e.currentTarget);
+      if ($('.is-dragging').length && !me.find('.tiles').length) {
+        console.log('me is = ' + me);
+        me.addClass('hover');
+      }
+    });
+    $('.board > div').mouseleave(e =>
+      $(e.currentTarget).removeClass('hover')
+    );
+
+    let that = this;
+
+    // Drag-events: We only check if a tile is in place on dragEnd
+    // $('.stand .tile').not('.none').draggabilly({ containment: 'body' })
+    $('.playertiles').not('.none').draggabilly({ containment: 'body' }).on('dragEnd', e => {
+      console.log('were in player tiles draggabilly on');
+      // get the dropZone square - if none render and return
+      let $dropZone = $('.hover');
+      if (!$dropZone.length) { /*Board.render();*/ return; }
+
+      // the index of the square we are hovering over
+      let squareIndex = $('.board > div').index($dropZone);
+      console.log('square index is ' + squareIndex);
+
+      // convert to y and x coords in this.board
+      let y = Math.floor(squareIndex / 15);
+      let x = squareIndex % 15;
+
+      // the index of the chosen tile
+      let $tile = $(e.currentTarget);
+      let tileIndex = $('.playertiles').index($tile);
+      console.log('the current player tile is ' + tileIndex);
+
+
+      // put the tile on the board and re-render
+      //Add the move tile from players tile array to the boards tiles
+      this.board[y][x].tile = that.tiles[0].splice(tileIndex, 1);
+      // that.tiles[0][tileIndex].removeClass('playertiles');
+
+    });
+
+  }
+
+
+  render() {
+    // $('.board').remove();
+    // let $board = $('<div class="board"/>').appendTo('.playing-window');
+    // this.board.flat().forEach(x => $board.append('<div/>'));
+
+    //********************************************* */
+
+    if (!$('.board').length) {
+      $('.playing-window').append(`
+        <div class="board"></div>
+        <div class="tiles"></div>
+      `);
+    }
+
+    // render the board RENDER THE BOARD AFTER EACH PLAYER
+    console.log(this.board.flat());
+    $('.board').html(
+      this.board.flat().map(x => `
+        <div class="${x.special ? 'special-' + x.special : ''}">
+        ${x.tile ? `<div class="tile">${x.tile[0].char}<div class="points">${x.tile[0].points}</div></div>` : ''}
+        </div>
+      `).join('')
+    );
+
+    $('.playing-window-left').empty();
+    this.showPlayers();
+
+  }
+
+  createBoard() {
+    // this.board = [...new Array(15)].map(x => new Array(15).fill({
+    //   specialValue: '2w', tile: undefined
+    // }));
+
+    this.board = [...new Array(15)].map(x => [...new Array(15)].map(x => ({})));
+
+
+    // Add some info about special squares
+    // Triple word score (3xWs) or swedish (3xOp) Op = Ordpoäng
+    [[0, 0], [0, 7], [0, 14], [7, 0], [7, 14], [14, 0], [14, 7], [14, 14]]
+      .forEach(([y, x]) => this.board[y][x].special = '3xWS');
+    // Double letter score (2xLs) or swedish (2xBp) Bp = bokstavspoäng
+    [[0, 3], [0, 11], [2, 6], [2, 8], [3, 0], [3, 7], [3, 14], [6, 2], [6, 6], [6, 8], [6, 12], [7, 3], [7, 11],
+    [8, 2], [8, 6], [8, 8], [8, 12], [11, 0], [11, 7], [11, 14], [12, 6], [12, 8], [14, 3], [14, 11]]
+      .forEach(([y, x]) => this.board[y][x].special = '2xLS');
+    // Triple letter score (3xLs) or swedish (3xOp)
+    [[1, 5], [1, 9], [5, 1], [5, 5], [5, 9], [5, 13], [9, 1], [9, 5], [9, 9], [9, 13], [13, 5], [13, 9]]
+      .forEach(([y, x]) => this.board[y][x].special = '3xLS');
+    // Double word score (2xWs) or swedish (3xBp)
+    [[1, 1], [1, 13], [2, 2], [2, 12], [3, 3], [3, 11], [4, 4], [4, 10], [7, 7], [10, 4], [10, 10], [11, 3], [11, 11],
+    [12, 2], [12, 12], [13, 1], [13, 13]]
+      .forEach(([y, x]) => this.board[y][x].special = '2xWS');
+    this.board[7][7].special = 'middle-star';
+
+  }
+
+
+  showPlayers() {
+    players.forEach(player => {
+      let index = 0
+      $('.playing-window-left').append(`
+        <div class="playername">${player.name}</div>
+        <div class="tiles-box"><div id="box${players.indexOf(player)}"></div></div>
+        `);
+      console.log(player.tiles[0].length);
+      while (index < player.tiles[0].length) {
+        console.log('appending tiles');
+        $(`#box${players.indexOf(player)}`).append(`
+        <div class="playertiles">${player.tiles[0][index].char}<div class="points">${player.tiles[0][index].points}</div>
+      `);
+
+        index++;
+      }
+      $(`#box${players.indexOf(player)}`).append(`
+        <div class="playertiles ${player.tiles[1][0].char === ' ' ? '' : 'none'}"></div>
+      `);
+
+    });
+    console.log(players);
+  }
+
+  showPlayerButtons() {
+    $('.playing-window').append(
+      `<button class="play-tiles">Lägg brickor</button>
+      <button class="pass">Stå över</button>`
+    );
+  }
+
+
 
 
 
@@ -223,110 +334,6 @@ export default class Game {
     }
 
   }
-
-
-
-  renderPlayerTiles() {
-    players.forEach(player => {
-      $(`#box${players.indexOf(player)}`).map(x => `<div>${x.char}</div>`)
-    });
-  }
-
-  addEvents() {
-
-    console.log('im inside add events');
-
-
-
-    $('.board > div').mouseenter(e => {
-      let me = $(e.currentTarget);
-      if ($('.is-dragging').length && !me.find('.tiles').length) {
-        console.log('me is = ' + me);
-        me.addClass('hover');
-      }
-    });
-    $('.board > div').mouseleave(e =>
-      $(e.currentTarget).removeClass('hover')
-    );
-
-    let that = this;
-
-    // Drag-events: We only check if a tile is in place on dragEnd
-    // $('.stand .tile').not('.none').draggabilly({ containment: 'body' })
-    $('.playertiles').not('.none').draggabilly({ containment: 'body' }).on('dragEnd', function (e, pointer) {
-      console.log('were in player tiles draggabilly on');
-      // get the dropZone square - if none render and return
-      let $dropZone = $('.hover');
-      if (!$dropZone.length) { /*Board.render();*/ return; }
-
-      // the index of the square we are hovering over
-      let squareIndex = $('.board > div').index($dropZone);
-      console.log('square index is ' + squareIndex);
-
-      // convert to y and x coords in this.board
-      let y = Math.floor(squareIndex / 15);
-      let x = squareIndex % 15;
-
-      // the index of the chosen tile
-      let $tile = $(e.currentTarget);
-      let tileIndex = $('.playertiles').index($tile);
-      console.log('the current player tile is ' + tileIndex);
-
-      // put the tile on the board and re-render
-      //Add the move tile from players tile array to the boards tiles
-      copyOfBoard[y][x].tile = that.tiles[0].splice(tileIndex, 1);
-      // that.tiles[0][tileIndex].removeClass('playertiles');
-      console.log(that.tiles[0]);
-      console.log(copyOfBoard);
-
-
-
-      // but we do have the code that let you
-      // drag the tiles in a different order in the stands
-      let { pageX, pageY } = pointer;
-
-
-      let me = $(e.currentTarget);
-      console.log('me: ');
-      console.log(me);
-
-      let $stand = me.parent('div');
-      console.log('stand: ');
-      console.log($stand);
-
-      let { top, left } = $stand.offset();
-      let bottom = top + $stand.height();
-      let right = left + $stand.width();
-      // if dragged within the limit of the stand
-      if (pageX > left && pageX < right
-        && pageY > top && pageY < bottom) {
-        let newIndex = Math.floor(8 * (pageX - left) / $stand.width());
-        let pt = that.tiles[0];
-        // move around
-        pt.splice(tileIndex, 1, ' ');
-        pt.splice(newIndex, 0, tile);
-        //preserve the space where the tile used to be
-        while (pt.length > 8) { pt.splice(pt[tileIndex > newIndex ? 'indexOf' : 'lastIndexOf'](' '), 1); }
-      }
-
-    });
-
-
-
-  }
-
-  render() {
-    console.log('im in render');
-    console.log(copyOfBoard.flat());
-    $('.board').html(
-      copyOfBoard.flat().map(x => `
-       <div class="${x.special ? 'special-' + x.special : ''}">
-          ${x.tile ? `<div class="tile">${x.tile.char}</div>` : ''}
-        </div>
-      `).join('')
-    );
-  }
-
 
 
 }
