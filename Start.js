@@ -60,8 +60,6 @@ $('.start-game').on('click', function () {
 });
 
 
-
-
 // rules open-close 
 $(document).ready(function () {
 
