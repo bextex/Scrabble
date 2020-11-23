@@ -2,64 +2,43 @@ import Player, { players } from './player.js';
 import SAOLchecker from './SAOLchecker.js';
 import Board, { copyOfBoard } from './board.js';
 
-// export let playerTiles = [];
-
 export default class Game {
 
   constructor(tilesFromBag) {
 
     this.createBoard();
-
     this.render();
-
-    // this.showPlayers();
-
     this.showPlayerButtons();
-
     this.tilesFromBag = tilesFromBag;
     this.playerIndex = 0;
     this.lettersFromFile();
-
-    this.addEvents();
     this.start();
-
   }
 
-  /* The game that will run, taking turns between players*/
+  /* Starting up the game with start() to set how's the first player */
 
   start() {
     console.log('im inside start');
-    // this.addEvents();
+
     this.playerTurn();
 
-
+    // When click on 'Stå över'-button, there will be a new player and the board will render
     $('.pass').on('click', () => {
       console.log('im clicking the pass button');
       this.playerTurn();
+      this.render();
     });
 
+    // When click on 'Lägg brickor'-button, there will be a new player and the board will render
+    // Shoul also count score on word
     $('.play-tiles').on('click', () => {
       console.log('im clicking the play tiles button');
       // get points for word
-      this.render();
-      // board.render();
+      // CountScores(); ??? 
       this.playerTurn();
-      this.addEvents();
+      this.render();
+
     });
-
-
-    // // lock in word with button 'lägg brickor'
-    // // look up word in SAOL and count score in
-    // // countScores();
-    // // start();
-
-    // $('.pass').click(() => {
-    //   this.playerTurn();
-    // });
-    // Game.render();
-
-    // if button 'stå över'
-    // start();
 
   }
 
@@ -67,53 +46,69 @@ export default class Game {
     console.log('current index ' + this.playerIndex);
     console.log('player array length ' + players.length);
 
-
-    // If player index is more och equal to player array length then go back to index 0
+    // If player index is more och equal to player array length then go back to index 0.
+    // Because the current player is the last player, and the next player will be the first.
+    // It all starts over.
     if (this.playerIndex >= players.length) {
       this.playerIndex = 0;
     }
-    /* Alternative to switch between players turns */
 
     // Set this.player to the player with playerindex in players array
     // so this.player will be the new player each round
     this.player = players[this.playerIndex].name;
 
-    console.log('player name ' + this.player);
+    // Set this.tiles to empty so the current players tiles can be this.tiles
     this.tiles = [];
 
     // set this.tiles to the current players tiles
     this.tiles.push(players[this.playerIndex].tiles[0]);
 
     // If the players has played tiles and they have less than 7, push new tiles to their playing board
-    console.log(this.tiles[0].length);
-    console.log(this.tiles[0]);
     if (this.tiles[0].length < 7) {
+      // numberOfTiles will be how many new tiles the player will need
       let numberOfTiles = 0;
       for (let i = 0; i < 7; i++) {
         if (!this.tiles[0][i]) {
           numberOfTiles++;
+          console.log(numberOfTiles);
         }
       }
-      // Push new tiles to the this.tiles, take so many from bag that the player needs,
-      // gets determined in loop above
-      this.tiles.push(this.tilesFromBag.splice(0, numberOfTiles));
+
+      // newTiles will get x number of new tiles from tilesFromBag
+      let newTiles = [...this.tilesFromBag.splice(0, numberOfTiles)];
+      // push the new tiles to the players current tiles
+      for (let i = 0; i < numberOfTiles; i++) {
+        this.tiles[0].push(newTiles[i]);
+      }
+
+      console.log(this.tiles[0]);
+      // console.log(this.tiles);
     }
 
     /* Disable all other players tile fields */
 
-    for (let i = 0; i < players.length; i++) {
-      if (this.player === players[i].name) {
-        console.log(`#box${players.indexOf(players[i])} ska visas`);
-        $(`#box${players.indexOf(players[i])}`).show();
-      } else {
-        console.log(`#box${players.indexOf(players[i])} ska inte visas`);
-        $(`#box${players.indexOf(players[i])}`).hide();
-      }
-    }
+    this.showAndHidePlayers();
+
     // Inrease player index so when new round, the next player will this.player
     this.playerIndex++;
     console.log('new index ' + this.playerIndex);
 
+  }
+
+  showAndHidePlayers() {
+    // Hide all other players tileboards except for the current player
+    for (let i = 0; i < players.length; i++) {
+      // If this.player ( a name ) is the same as any player in the array
+      // Than show the players tileboard
+      if (this.player === players[i].name) {
+        console.log(`#box${players.indexOf(players[i])} ska visas`);
+        $(`#box${players.indexOf(players[i])}`).show();
+      } else {
+        // Else hide the players tileboards
+        console.log(`#box${players.indexOf(players[i])} ska inte visas`);
+        $(`#box${players.indexOf(players[i])}`).hide();
+      }
+    }
   }
 
   addEvents() {
@@ -177,6 +172,7 @@ export default class Game {
 
     //********************************************* */
 
+
     if (!$('.board').length) {
       $('.playing-window').append(`
         <div class="board"></div>
@@ -195,15 +191,17 @@ export default class Game {
       `).join('')
     );
 
+    // Empty the player tileboards window before rendering, otherwise there will be double each time it renders
     $('.playing-window-left').empty();
+    // showPlayers needs to be first
     this.showPlayers();
-
+    // showAndHide cannot be done unless we have read the showPlayers method
+    this.showAndHidePlayers();
+    // We want the addEvents to be last so the player can make their move
+    this.addEvents();
   }
 
   createBoard() {
-    // this.board = [...new Array(15)].map(x => new Array(15).fill({
-    //   specialValue: '2w', tile: undefined
-    // }));
 
     this.board = [...new Array(15)].map(x => [...new Array(15)].map(x => ({})));
 
@@ -250,6 +248,7 @@ export default class Game {
 
     });
     console.log(players);
+
   }
 
   showPlayerButtons() {
@@ -258,10 +257,6 @@ export default class Game {
       <button class="pass">Stå över</button>`
     );
   }
-
-
-
-
 
   async lettersFromFile() {
     let letters = [];
