@@ -2,6 +2,7 @@ export default class Bag {
 
   async tilesFromFile() {
     this.tiles = [];
+
     // Read the tile info from file
     (await $.get('data/tiles.txt'))
       .split('\r').join('') // Windows safe :)
