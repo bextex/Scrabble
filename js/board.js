@@ -90,6 +90,7 @@ export default class Board {
     $('.board > div').mouseenter(e => {
       let me = $(e.currentTarget);
       if ($('.is-dragging').length && !me.find('.playertiles').length) {
+        console.log('me is = ' + me);
         me.addClass('hover')
       }
     });
