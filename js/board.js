@@ -75,12 +75,16 @@ export default class Board {
       `);
     }
 
-    // render the board
+    // render the board RENDER THE BOARD AFTER EACH PLAYER
     console.log(this.board.flat());
     $('.board').html(
       this.board.flat().map(x => `
         <div class="${x.special ? 'special-' + x.special : ''}">
+<<<<<<< Updated upstream
           ${x.tile ? `<div class="tile">${x.tile[0].char}</div>` : ''}
+=======
+          ${x.tile ? `<div class="playertiles">${x.tile.char}</div>` : ''}
+>>>>>>> Stashed changes
         </div>
       `).join('')
     );
@@ -90,6 +94,7 @@ export default class Board {
     // render the tiles
 
 
+<<<<<<< Updated upstream
 
     // if ($('.tiles').length) {
     //   $('.tiles').html(
@@ -98,10 +103,50 @@ export default class Board {
     // }
 
 
+=======
+  addDragEvents() {
+    // Set a css-class hover on the square the mouse is above
+    // if we are dragging and there is no tile in the square
+    $('.board > div').mouseenter(e => {
+      let me = $(e.currentTarget);
+      if ($('.is-dragging').length && !me.find('.tiles').length) {
+        me.addClass('hover')
+      }
+    });
+    $('.board > div').mouseleave(e =>
+      $(e.currentTarget).removeClass('hover')
+    );
+
+    // Drag-events: We only check if a tile is in place on dragEnd
+    $('.tiles > div').draggabilly().on('dragEnd', e => {
+      // get the dropZone square - if none render and return
+      let $dropZone = $('.hover');
+      if (!$dropZone.length) { this.render(); return; }
+
+      // the index of the square we are hovering over
+      let squareIndex = $('.board > div').index($dropZone);
+
+      // convert to y and x coords in this.board
+      let y = Math.floor(squareIndex / 15);
+      let x = squareIndex % 15;
+
+      // the index of the chosen tile
+      let $tile = $(e.currentTarget);
+      let tileIndex = $('.tiles > div').index($tile);
+
+      // put the tile on the board and re-render
+      this.board[y][x].tile = this.tiles.splice(tileIndex, 1)[0];
+      this.render();
+    });
+>>>>>>> Stashed changes
   }
 
 
 
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
   // let that = this;
   // console.log("HEJ HÅ HEJ HÅ", $('.playertiles').length)
   // // let tile in the stands be draggable
@@ -142,7 +187,11 @@ export default class Board {
   //     }
   //     that.render();
 
+<<<<<<< Updated upstream
   // })
+=======
+  //   })
+>>>>>>> Stashed changes
 
 
   showPlayers() {
