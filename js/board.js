@@ -12,7 +12,11 @@ export default class Board {
 
     this.createBoard();
     this.render();
+
   }
+
+
+
 
   createBoard() {
     // this.board = [...new Array(15)].map(x => new Array(15).fill({
@@ -62,11 +66,6 @@ export default class Board {
     $('.tiles').html(
       this.tiles.map(x => `<div>${x.char}</div>`).join('')
     );
-
-
-
-
-
 
     this.addEvents();
   }
