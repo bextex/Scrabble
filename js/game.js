@@ -135,6 +135,7 @@ export default class Game {
       // get the dropZone square - if none render and return
       let $dropZone = $('.hover');
       if (!$dropZone.length) { this.render(); return; }
+      console.log($dropZone);
 
       // the index of the square we are hovering over
       let squareIndex = $('.board > div').index($dropZone);
@@ -151,16 +152,16 @@ export default class Game {
       let tileIndex = $(`.box${players.indexOf(this.player)}`).index($tile);
       console.log('the current player tile is ' + tileIndex);
 
-
-      // put the tile on the board and re-render
       // Add the moved tile from players tile array to the boards tiles
       console.log(that.player);
       console.log(that.tiles[0]);
       this.board[y][x].tile = that.tiles[0].splice(tileIndex, 1);
       console.log(this.board);
-      // that.tiles[0][tileIndex].removeClass('playertiles');
 
+      // When droped a tile on the board, re-render
+      this.render();
     });
+
 
   }
 
