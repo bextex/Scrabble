@@ -21,7 +21,7 @@ export default class Game {
     // start();
 
     $('.pass').click(() => {
-      this.start();
+      this.playerTurn();
     });
 
     // if button 'stå över'
@@ -82,10 +82,10 @@ export default class Game {
     for (let i = 0; i < players.length; i++) {
       if (this.player === players[i].name) {
         console.log(`#box${players.indexOf(players[i])} ska visas`);
-        $(`#box${players.indexOf(players[i])}`).css('display', 'inline');
+        $(`#box${players.indexOf(players[i])}`).show();
       } else {
         console.log(`#box${players.indexOf(players[i])} ska inte visas`);
-        $(`#box${players.indexOf(players[i])}`).css('display', 'none');
+        $(`#box${players.indexOf(players[i])}`).hide();
       }
     }
 

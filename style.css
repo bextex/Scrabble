@@ -205,8 +205,8 @@ ul {
 
 .board > div {
   border: 1px solid #000000;
-  width: 5vh;
-  height: 5vh;
+  width: 4vh;
+  height: 4vh;
   background-color: #54aa79;
   float: left;
 }
