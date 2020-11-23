@@ -1,11 +1,15 @@
 import Game from './game.js';
 import { players } from './player.js';
+
+
+
+
 export let copyOfBoard = [];
 
 export default class Board {
 
   async start(tilesFromBag) {
-    new Game(tilesFromBag);
+
 
 
     this.createBoard();
@@ -14,13 +18,17 @@ export default class Board {
 
     this.showPlayers();
 
-    this.addEvents();
+    this.showPlayerButtons();
+
+    new Game(tilesFromBag);
+
+    // this.addEvents();
 
 
     console.log(this.board);
 
 
-    this.showPlayerButtons();
+
 
   }
 
@@ -72,99 +80,70 @@ export default class Board {
     $('.board').html(
       this.board.flat().map(x => `
         <div class="${x.special ? 'special-' + x.special : ''}">
-          ${x.tile ? `<div class="tile">${x.tile.char}</div>` : ''}
+          ${x.tile ? `<div class="tile">${x.tile[0].char}</div>` : ''}
         </div>
       `).join('')
     );
 
 
+
     // render the tiles
-    // $('.tiles').html(
-    //  this.tiles.map(x => `<div>${x.char}</div>`).join('')
-    //);
+
+
+
+    // if ($('.tiles').length) {
+    //   $('.tiles').html(
+    //     this.tiles.map(x => `<div>${x.char}</div>`).join('')
+    //   );
+    // }
+
 
   }
 
-  addEvents() {
-
-    $('.board > div').mouseenter(e => {
-      let me = $(e.currentTarget);
-      if ($('.is-dragging').length && !me.find('.playertiles').length) {
-        console.log('me is = ' + me);
-        me.addClass('hover')
-      }
-    });
-    $('.board > div').mouseleave(e =>
-      $(e.currentTarget).removeClass('hover')
-    );
-
-    // Drag-events: We only check if a tile is in place on dragEnd
-    $('.playertiles').draggabilly().on('dragEnd', e => {
-      console.log('were in player tiles draggabilly on');
-      // get the dropZone square - if none render and return
-      let $dropZone = $('.hover');
-      if (!$dropZone.length) { this.render(); return; }
-
-      // the index of the square we are hovering over
-      let squareIndex = $('.board > div').index($dropZone);
-
-      // convert to y and x coords in this.board
-      let y = Math.floor(squareIndex / 15);
-      let x = squareIndex % 15;
-
-      // the index of the chosen tile
-      let $tile = $(e.currentTarget);
-      let tileIndex = $('.playertiles').index($tile);
-
-      // put the tile on the board and re-render
-      this.board[y][x].tile = this.tiles.splice(tileIndex, 1)[0];
-      this.render();
-    });
 
 
+  // let that = this;
+  // console.log("HEJ HÅ HEJ HÅ", $('.playertiles').length)
+  // // let tile in the stands be draggable
+  // $('.playertiles').draggabilly({ containment: 'body' }).on('dragStart', function () {
+  //   // set a high z-index so that the tile being drag
+  //   // is on top of everything  
+  //   $(this).css({ zIndex: 100 });
+  // })
+  //   .on('dragMove', function (e, pointer) {
+  //     let { pageX, pageY } = pointer;
+  //     let me = $(this);
 
-    // let that = this;
-    // console.log("HEJ HÅ HEJ HÅ", $('.playertiles').length)
-    // // let tile in the stands be draggable
-    // $('.playertiles').draggabilly({ containment: 'body' }).on('dragStart', function () {
-    //   // set a high z-index so that the tile being drag
-    //   // is on top of everything  
-    //   $(this).css({ zIndex: 100 });
-    // })
-    //   .on('dragMove', function (e, pointer) {
-    //     let { pageX, pageY } = pointer;
-    //     let me = $(this);
+  //     // reset the z-index
+  //     me.css({ zIndex: '' });
 
-    //     // reset the z-index
-    //     me.css({ zIndex: '' });
+  //     // add data-player
+  //     // add data-title 
 
-    //     // add data-player
-    //     // add data-title 
+  //     let player = that.players[+me.attr('data-player')];
+  //     let tileIndex = +me.attr('data-title');
 
-    //     let player = that.players[+me.attr('data-player')];
-    //     let tileIndex = +me.attr('data-title');
+  //     let tile = player.tiles[tileIndex];
+  //     let $playingW = me.parent('.playertiles');
+  //     let { top, left } = $playingW.offset();
+  //     let bottom = top + $playingW.height();
+  //     let right = left + $playingW.width();
 
-    //     let tile = player.tiles[tileIndex];
-    //     let $playingW = me.parent('.playertiles');
-    //     let { top, left } = $playingW.offset();
-    //     let bottom = top + $playingW.height();
-    //     let right = left + $playingW.width();
-
-    //     if (pageX > left && pageX < right
-    //       && pageY > top && pageY < bottom) {
-    //       let newIndex = Math.floor(8 * (pageX - left) / $playingW.width());
-    //       let pt = player.tiles;
+  //     if (pageX > left && pageX < right
+  //       && pageY > top && pageY < bottom) {
+  //       let newIndex = Math.floor(8 * (pageX - left) / $playingW.width());
+  //       let pt = player.tiles;
 
 
-    //       pt.splice(tileIndex, 1, ' ');
-    //       pt.splice(newIndex, 0, tile);
-    //       //preserve the space where the tile used to be
-    //       while (pt.length > 8) { pt.splice(pt[tileIndex > newIndex ? 'indexOf' : 'lastIndexOf'](' '), 1); }
-    //     }
-    //     that.render();
+  //       pt.splice(tileIndex, 1, ' ');
+  //       pt.splice(newIndex, 0, tile);
+  //       //preserve the space where the tile used to be
+  //       while (pt.length > 8) { pt.splice(pt[tileIndex > newIndex ? 'indexOf' : 'lastIndexOf'](' '), 1); }
+  //     }
+  //     that.render();
 
-    // })
-  }
+  // })
+
 
   showPlayers() {
     players.forEach(player => {

@@ -345,6 +345,7 @@ ul {
   border: 2px solid black;
   position: relative;
   float: left;
+  cursor: pointer;
 }
 
 div.points{
@@ -408,8 +409,37 @@ div.playing-window-left{
 }
 
 
-/* .is-dragging {
+/*********************** NEW STUFF ***********************/
+
+.is-dragging {
   z-index: 1;
   margin-left: -4vh;
   margin-top: -4vh;
+}
+
+.board > div.hover {
+  opacity: 0.5;
+}
+/* 
+.board > div:nth-child(15n+1){
+  clear: both;
 } */
+
+.board > div::after {
+  display: block;
+  text-align: center;
+}
+
+.tile{
+  font-family: 'Source Code Pro', monospace;
+  font-size: large;
+  /* padding: 4px; */
+  margin: 1px;
+  width: 4vh;
+  height: 4vh;
+  background-color: white;
+  text-align: center;
+  border: 2px solid black;
+  position: relative;
+  float: left;
+}

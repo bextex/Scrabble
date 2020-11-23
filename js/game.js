@@ -1,6 +1,8 @@
 import Player, { players } from './player.js';
 import SAOLchecker from './SAOLchecker.js';
-import { copyOfBoard } from './board.js';
+import Board, { copyOfBoard } from './board.js';
+
+// export let playerTiles = [];
 
 export default class Game {
 
@@ -8,21 +10,48 @@ export default class Game {
     this.tilesFromBag = tilesFromBag;
     this.playerIndex = 0;
     this.lettersFromFile();
+    // this.render();
+    this.addEvents();
     this.start();
   }
 
   /* The game that will run, taking turns between players*/
 
   start() {
+    console.log('im inside start');
+    // this.addEvents();
     this.playerTurn();
-    // lock in word with button 'lägg brickor'
-    // look up word in SAOL and count score in
-    // countScores();
-    // start();
 
-    $('.pass').click(() => {
+
+    $('.pass').on('click', () => {
+      console.log('im clicking the pass button');
       this.playerTurn();
     });
+
+    $('.play-tiles').on('click', () => {
+      console.log('im clicking the play tiles button');
+      // get points for word
+      this.render();
+      this.playerTurn();
+    });
+
+
+
+
+
+
+
+
+
+    // // lock in word with button 'lägg brickor'
+    // // look up word in SAOL and count score in
+    // // countScores();
+    // // start();
+
+    // $('.pass').click(() => {
+    //   this.playerTurn();
+    // });
+    // Game.render();
 
     // if button 'stå över'
     // start();
@@ -40,7 +69,7 @@ export default class Game {
 
     /* Change playerIndex so next player will be this.player next round */
 
-    console.log('player name ' + this.player);
+
     console.log('current index ' + this.playerIndex);
     console.log('player array length ' + players.length);
 
@@ -57,6 +86,8 @@ export default class Game {
     // Set this.player to the player with playerindex in players array
     // so this.player will be the new player each round
     this.player = players[this.playerIndex].name;
+
+    console.log('player name ' + this.player);
     this.tiles = [];
 
     // set this.tiles to the current players tiles
@@ -76,6 +107,9 @@ export default class Game {
       // gets determined in loop above
       this.tiles.push(this.tilesFromBag.splice(0, numberOfTiles));
     }
+
+    // Export tiles to board 
+    // playerTiles = this.tiles;
 
     /* Disable all other players tile fields */
 
@@ -188,4 +222,109 @@ export default class Game {
     }
 
   }
+
+
+
+  renderPlayerTiles() {
+    players.forEach(player => {
+      $(`#box${players.indexOf(player)}`).map(x => `<div>${x.char}</div>`)
+    });
+  }
+
+  addEvents() {
+
+    console.log('im inside add events');
+
+
+
+    $('.board > div').mouseenter(e => {
+      let me = $(e.currentTarget);
+      if ($('.is-dragging').length && !me.find('.tiles').length) {
+        console.log('me is = ' + me);
+        me.addClass('hover');
+      }
+    });
+    $('.board > div').mouseleave(e =>
+      $(e.currentTarget).removeClass('hover')
+    );
+
+    let that = this;
+
+    // Drag-events: We only check if a tile is in place on dragEnd
+    // $('.stand .tile').not('.none').draggabilly({ containment: 'body' })
+    $('.playertiles').not('.none').draggabilly({ containment: 'body' }).on('dragEnd', function (e, pointer) {
+      console.log('were in player tiles draggabilly on');
+      // get the dropZone square - if none render and return
+      let $dropZone = $('.hover');
+      if (!$dropZone.length) { /*Board.render();*/ return; }
+
+      // the index of the square we are hovering over
+      let squareIndex = $('.board > div').index($dropZone);
+      console.log('square index is ' + squareIndex);
+
+      // convert to y and x coords in this.board
+      let y = Math.floor(squareIndex / 15);
+      let x = squareIndex % 15;
+
+      // the index of the chosen tile
+      let $tile = $(e.currentTarget);
+      let tileIndex = $('.playertiles').index($tile);
+      console.log('the current player tile is ' + tileIndex);
+
+      // put the tile on the board and re-render
+      //Add the move tile from players tile array to the boards tiles
+      copyOfBoard[y][x].tile = that.tiles[0].splice(tileIndex, 1);
+      // that.tiles[0][tileIndex].removeClass('playertiles');
+      console.log(that.tiles[0]);
+      console.log(copyOfBoard);
+
+
+
+      // but we do have the code that let you
+      // drag the tiles in a different order in the stands
+      let { pageX, pageY } = pointer;
+
+
+      let me = $(e.currentTarget);
+      console.log('me: ');
+      console.log(me);
+
+      let $stand = me.parent('div');
+      console.log('stand: ');
+      console.log($stand);
+
+      let { top, left } = $stand.offset();
+      let bottom = top + $stand.height();
+      let right = left + $stand.width();
+      // if dragged within the limit of the stand
+      if (pageX > left && pageX < right
+        && pageY > top && pageY < bottom) {
+        let newIndex = Math.floor(8 * (pageX - left) / $stand.width());
+        let pt = that.tiles[0];
+        // move around
+        pt.splice(tileIndex, 1, ' ');
+        pt.splice(newIndex, 0, tile);
+        //preserve the space where the tile used to be
+        while (pt.length > 8) { pt.splice(pt[tileIndex > newIndex ? 'indexOf' : 'lastIndexOf'](' '), 1); }
+      }
+
+    });
+
+
+
+  }
+
+  render() {
+    console.log('im in render');
+    console.log(copyOfBoard.flat());
+    $('.board').html(
+      copyOfBoard.flat().map(x => `
+          ${x.tile ? `<div class="tile">${x.tile.char}</div>` : ''}
+        </div>
+      `).join('')
+    );
+  }
+
+
+
 }
