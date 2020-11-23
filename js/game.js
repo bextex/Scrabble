@@ -31,7 +31,7 @@ export default class Game {
     $('.play-tiles').on('click', () => {
       console.log('im clicking the play tiles button');
       // get points for word
-      this.render();
+      // this.render();
       this.playerTurn();
     });
 
