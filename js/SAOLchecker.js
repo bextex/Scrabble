@@ -1,53 +1,40 @@
-//import { tiles } from './bag.js';
-import Bag from './bag.js';
-//import { tiles } from '../Start.js';
+export default class SAOLchecker {
+  // v 2.0, 2020-11-11 19:12
 
-export const players = []; // Array of players and their tiles
-
-export default class Player {
-
-  constructor(name, tiles) {
-    this.name = name;
-    this.tiles = [tiles, ' '];
-  }
-
-
-  choosePlayers() {
-    let countClicks = 2;
-    $('.players').on('click', function () {
-      if (countClicks === 2) {
-        $('.playersName').append(`<input type="names" id="player3Name" class="newPlayerInput" placeholder="Spelare 3" /> `)
-
-      } else if (countClicks === 1) {
-        $('.playersName').append(`<input type="names" id="player4Name" class="newPlayerInput" placeholder="Spelare 4" />`)
-        $('.players').attr('disabled', true);
-      }
-      countClicks--;
+  static lookupWord(word) { // returns html/text (use with await)
+    word = this.eq(word);
+    this.toResolve = this.toResolve || {};
+    this.cache = this.cache || {};
+    window.saolCheckCallback = window.saolCheckCallback || ((word, explain) => {
+      this.cache[word] = explain;
+      this.toResolve[word](explain);
     });
+    let p = new Promise(res => { this.toResolve[word] = res; });
+    if (this.cache[word]) { this.toResolve[word](this.cache[word]); }
+    else { $.getScript('https://saol.nodehill.se/' + encodeURIComponent(word)); }
+    return p;
   }
 
+  static async scrabbleOk(word) { // returns true/false (use with await)
+    word = this.eq(word);
+    return; // no we don't output anything 
+    let html = $('<div>' + await this.lookupWord(word) + '</div>');
+    let text = this.eq(html.find('h1').text());
+    let text2 = this.eq(html.find('.fm').text());
+    return text === word || text2 === word;
+  }
 
-  setPlayerNames(inputName, tiles) {
-    // if (countClicks == 1) {
-    //   console.log(document.getElementById(`player1Name`).value);
-    //   if (document.getElementById(`player1Name`).value === null) {
-    //   }
-    // }
-    players.push(new Player(inputName, tiles));
-    console.log(players);
-
-
-    // let index = 1;
-    //   $(".playersName").children().each(function () {
-    //     let name;
-    //     if (document.getElementById(`player${index}Name`).value === null) {
-    //       name = 'Player ' + index;
-    //     } else {
-    //       name = document.getElementById(`player${index}Name`).value;
-    //     }
-    //     index++;
-    //   });
-    // }
+  static eq(word) {
+    word = word.toLowerCase();
+    let clean = '';
+    for (let c of word) {
+      clean += c.toUpperCase() !== c || c === ' ' ? c : '';
+    }
+    let a = 'åäö'.split(''), b = 'ABC'.split('');
+    a.forEach((x, i) => clean = clean.split(x).join(b[i]));
+    clean = clean.normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim();
+    b.forEach((x, i) => clean = clean.split(x).join(a[i]));
+    return clean;
   }
 
 }
