@@ -2,7 +2,6 @@ export default class Bag {
 
   async tilesFromFile() {
     this.tiles = [];
-
     // Read the tile info from file
     (await $.get('data/tiles.txt'))
       .split('\r').join('') // Windows safe :)
@@ -20,7 +19,6 @@ export default class Bag {
     this.tiles.sort(() => Math.random() - 0.5);
     return this.tiles.splice(0, 100);
   }
-
 
 }
 
