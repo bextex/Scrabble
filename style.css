@@ -10,7 +10,7 @@
 
 body{
   margin: 0;
-  overflow: hidden;
+  /* overflow: hidden; */
   background-color: rgb(207, 248, 237);
   animation-name: colorchange;
   animation-duration: 10s;
@@ -283,7 +283,7 @@ ul {
 
 /* The pseudo-element after can have text */
 .board > div.special-3xWS::after {
-  content: '3xWS';
+  content: '3x \A ORD';
   display: block;
   text-align: center;
   font-size: 1.5vh;
@@ -292,7 +292,7 @@ ul {
 }
 
 .board > div.special-2xWS::after {
-  content: '2xWS';
+  content: '2x \A ORD';
   display: block;
   text-align: center;
   font-size: 1.5vh;
@@ -301,7 +301,7 @@ ul {
 } 
 
 .board > div.special-3xLS::after {
-  content: '3xLS';
+  content: '3x \A BOKSTAV';
   display: block;
   text-align: center;
   font-size: 1.5vh;
@@ -310,7 +310,7 @@ ul {
 }
 
 .board > div.special-2xLS::after {
-  content: '2xLS';
+  content: '2x \A BOKSTAV';
   display: block;
   text-align: center;
   font-size: 1.5vh;
@@ -322,7 +322,7 @@ ul {
   content: '\2605';
   display: block;
   text-align: center;
-  font-size: 1.5vh;
+  font-size: 2vh;
   margin-top: 1vh;
   color: white;
 }
@@ -373,17 +373,19 @@ ul {
 /*.playertiles{
   font-family: 'Source Code Pro', monospace;
   font-size: large;
-  padding: 4px;
-  margin: 1px;
-  width: 25px;
-  height: 25px;
+  /* padding: 4px; */
+  /*margin: 1px;
+  width: 4vh;
+  height: 4vh;
   background-color: white;
   text-align: center;
   border: 2px solid black;
   position: relative;
   float: left;
-  cursor: grab;
+
+  cursor: pointer;
 }*/
+
 
 /*div.points{
   font-family: 'Source Code Pro', monospace;
@@ -395,4 +397,72 @@ ul {
 
 
 
-  
+
+.play-tiles{
+  font-family: 'Source Code Pro', monospace;
+  font-size: large;
+  background-color: white;
+  color: black;
+  cursor: pointer;
+}
+.play-tiles:hover{
+  font-family: 'Source Code Pro', monospace;
+  font-size: large;
+  background-color: rgb(190, 190, 190);
+  color: black;
+  cursor: pointer;
+}
+
+.pass{
+  font-family: 'Source Code Pro', monospace;
+  font-size: large;
+  background-color: white;
+  color: black;
+  cursor: pointer;
+}
+
+.pass:hover{
+  font-family: 'Source Code Pro', monospace;
+  font-size: large;
+  background-color: rgb(190, 190, 190);
+  color: black;
+  cursor: pointer;
+}
+
+
+/*********************** NEW STUFF ***********************/
+
+.is-dragging {
+  z-index: 1;
+  margin-left: -4vh;
+  margin-top: -4vh;
+}
+
+.board > div.hover {
+  opacity: 0.5;
+}
+/* 
+.board > div:nth-child(15n+1){
+  clear: both;
+} */
+
+.board > div::after {
+  display: block;
+  text-align: center;
+}
+
+.tile {
+  font-family: 'Source Code Pro', monospace;
+  font-size: large;
+  /* padding: 4px; */
+  margin: 1px;
+  width: 4vh;
+  height: 4vh;
+  background-color: white;
+  text-align: center;
+  border: 2px solid black;
+  position: relative;
+  float: left;
+}
+
+
