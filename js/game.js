@@ -7,6 +7,7 @@ export default class Game {
 
   constructor(tilesFromBag) {
 
+
     this.createBoard();
     this.render();
     this.showPlayerButtons();
@@ -19,13 +20,13 @@ export default class Game {
   /* Starting up the game with start() to set how's the first player */
 
   start() {
-    console.log('im inside start');
+    // console.log('im inside start');
 
     this.playerTurn();
 
     // When click on 'Stå över'-button, there will be a new player and the board will render
     $('.pass').on('click', () => {
-      console.log('im clicking the pass button');
+      // console.log('im clicking the pass button');
       this.playerTurn();
       this.render();
     });
@@ -33,7 +34,7 @@ export default class Game {
     // When click on 'Lägg brickor'-button, there will be a new player and the board will render
     // Shoul also count score on word
     $('.play-tiles').on('click', () => {
-      console.log('im clicking the play tiles button');
+      // console.log('im clicking the play tiles button');
       // get points for word
       // CountScores(); ??? 
       this.playerTurn();
@@ -44,8 +45,8 @@ export default class Game {
   }
 
   async playerTurn() {
-    console.log('current index ' + this.playerIndex);
-    console.log('player array length ' + players.length);
+    // console.log('current index ' + this.playerIndex);
+    // console.log('player array length ' + players.length);
 
     /* Alternative to switch between players turns */
     // If player index is more och equal to player array length then go back to index 0.
@@ -72,7 +73,7 @@ export default class Game {
       for (let i = 0; i < 7; i++) {
         if (!this.tiles[0][i]) {
           numberOfTiles++;
-          console.log(numberOfTiles);
+          // console.log(numberOfTiles);
         }
       }
 
@@ -83,7 +84,7 @@ export default class Game {
         this.tiles[0].push(newTiles[i]);
       }
 
-      console.log(this.tiles[0]);
+      // console.log(this.tiles[0]);
       // console.log(this.tiles);
     }
 
@@ -93,7 +94,7 @@ export default class Game {
 
     // Inrease player index so when new round, the next player will this.player
     this.playerIndex++;
-    console.log('new index ' + this.playerIndex);
+    // console.log('new index ' + this.playerIndex);
 
   }
 
@@ -103,11 +104,11 @@ export default class Game {
       // If this.player ( a name ) is the same as any player in the array
       // Than show the players tileboard
       if (this.player === players[i].name) {
-        console.log(`#box${players.indexOf(players[i])} ska visas`);
+        // console.log(`#box${players.indexOf(players[i])} ska visas`);
         $(`#box${players.indexOf(players[i])}`).show();
       } else {
         // Else hide the players tileboards
-        console.log(`#box${players.indexOf(players[i])} ska inte visas`);
+        // console.log(`#box${players.indexOf(players[i])} ska inte visas`);
         $(`#box${players.indexOf(players[i])}`).hide();
       }
     }
@@ -120,7 +121,7 @@ export default class Game {
     $('.board > div').mouseenter(e => {
       let me = $(e.currentTarget);
       if ($('.is-dragging').length && !me.find('.tiles').length) {
-        console.log('me is = ' + me);
+        // console.log('me is = ' + me);
         me.addClass('hover');
       }
     });
@@ -135,36 +136,70 @@ export default class Game {
     $('.playertiles').not('.none').draggabilly({ containment: 'body' }).on('dragEnd', e => {
       console.log('were in player tiles draggabilly on');
       // get the dropZone square - if none render and return
+
       let $dropZone = $('.hover');
       if (!$dropZone.length) { this.render(); return; }
-      console.log($dropZone);
+
+      // console.log($dropZone);
 
       // the index of the square we are hovering over
       let squareIndex = $('.board > div').index($dropZone);
-      console.log('square index is ' + squareIndex);
+      // console.log('square index is ' + squareIndex);
+      // console.log();
 
       // convert to y and x coords in this.board
       let y = Math.floor(squareIndex / 15);
       let x = squareIndex % 15;
-      console.log(y);
-      console.log(x);
+      // console.log('y: ' + y);
+      // console.log('x: ' + x);
+      // console.log('Tiles on this position: ');
+      // console.log(!this.board[y][x].tile);
 
       // the index of the chosen tile
 
       let $tile = $(e.currentTarget);
-      // Check vad index the tile have that lays in a div under each players individual id="box"
+      // Check what index the tile have that lays in a div under each players individual id="box"
       let tileIndex = $(`#box${(this.playerIndex - 1)} > div`).index($tile);
-      console.log($tile);
-      console.log('the current player tile is ' + tileIndex);
+      // console.log($tile);
+      // console.log('the current player tile is ' + tileIndex);
+
+      // If board doesn't have any div with class '.tile' then there isn't any tiles on board
+      if (!$('.board > div > .tile').length) {
+        // If there isn't any tiles on board, and the squareIndex is not in the middle
+        // Re-render and return
+        if (squareIndex !== 112) {
+          this.render();
+          return;
+        }
+        // If there is at least one tile on board then check if the new tile the player is trying to drop
+        // has another tile around, if not - re-render and return. Or else place the tile and render the new board (As before)
+        // It most be specific conditions for the board squares on the outer rim otherwise it will return error 
+        // when we try to check if a square on the board has a tile and that square doesn't exist.
+      } else if ((y === 0 && x === 0 && !this.board[y + 1][x].tile && !this.board[y][x + 1].tile)
+        || (x === 0 && y > 0 && y < 14 && !this.board[y - 1][x].tile && !this.board[y + 1][x].tile && !this.board[y][x + 1].tile)
+        || (x === 14 && y === 0 && !this.board[y][x - 1].tile && !this.board[y + 1][x].tile)
+        || (x === 14 && y > 0 && y < 14 && !this.board[y - 1][x].tile && !this.board[y - 1][x].tile && !this.board[y][x - 1].tile)
+        || (x === 14 && y === 14 && !this.board[y - 1][x].tile && !this.board[y][x - 1].tile)
+        || (y === 14 && x > 0 && x < 14 && !this.board[y][x + 1].tile && !this.board[y][x - 1].tile && !this.board[y - 1][x].tile)
+        || (y === 14 && x === 0 && !this.board[y - 1][x].tile && !this.board[y][x + 1].tile)
+        || (y === 0 && x > 0 && x < 14 && !this.board[y][x - 1].tile && !this.board[y][x + 1].tile && !this.board[y + 1][x].tile)
+        || (x > 0 && x < 14 && y > 0 && y < 14 && !this.board[y - 1][x].tile && !this.board[y + 1][x].tile && !this.board[y][x + 1].tile && !this.board[y][x - 1].tile)) {
+        this.render();
+        return;
+      }
 
       // Add the moved tile from players tile array to the boards tiles
-      console.log(that.player);
-      console.log(that.tiles[0]);
+      // console.log(that.player);
+      // console.log(that.tiles[0]);
       this.board[y][x].tile = that.tiles[0].splice(tileIndex, 1);
-      console.log(this.board);
-
+      // console.log(this.board);
+      // console.log(this.board[y][x].tile);
       // When droped a tile on the board, re-render
+
+      this.checkForNewWords(y, x);
+
       this.render();
+
     });
 
 
@@ -172,6 +207,8 @@ export default class Game {
 
 
   render() {
+
+
     // $('.board').remove();
     // let $board = $('<div class="board"/>').appendTo('.playing-window');
     // this.board.flat().forEach(x => $board.append('<div/>'));
@@ -186,6 +223,7 @@ export default class Game {
       `);
     }
 
+
     $('.board').empty();
     // render the board RENDER THE BOARD AFTER EACH PLAYER
     console.log(this.board.flat());
@@ -197,6 +235,8 @@ export default class Game {
       `).join('')
     );
 
+    // this.checkForNewWords(y, x);
+
     // Empty the player tileboards window before rendering, otherwise there will be double each time it renders
     $('.playing-window-left').empty();
     // showPlayers needs to be first
@@ -206,6 +246,66 @@ export default class Game {
     // We want the addEvents to be last so the player can make their move
     this.addEvents();
   }
+
+  checkForNewWords(y, x) {
+
+    let wordHorisontal = '';
+    let wordVertical = '';
+    let wordArray = [];
+
+    console.log('y: ' + y);
+    console.log('x: ' + x);
+
+    /* KOLLA RAD FÖR RAD, SPARA UNDAN FÖRST VERTIKAL OCH SEN HORISONTELLA ORD,
+    LÄGG I ARRAY SOM KOLLAR AV MOT SAOL HELA TIDEN */
+
+
+
+    // CHECK HORISONTAL
+    for (let i = 0; i < this.board.length; i++) {
+      // CHECK VERTICAL
+      for (let j = 0; j < this.board[i].length; j++) {
+        // If we come across a board square that has a tile on it 
+        if (this.board[i][j].tile) {
+          // if (i === y && j === x) {
+
+
+          // First check if we have another tile above/below AND side/side
+          // Add the letter to both vertical and horisontal word
+          if ((this.board[i + 1][j].tile || this.board[i - 1][j].tile) && (this.board[i][j + 1].tile || this.board[i][j - 1].tile)) {
+            wordVertical += this.board[i][j].tile[0].char;
+            wordHorisontal += this.board[i][j].tile[0].char;
+            // If we only have a tile above/below, add the letter to vertical word
+          } else if (this.board[i + 1][j].tile || this.board[i - 1][j].tile) {
+            wordVertical += this.board[i][j].tile[0].char;
+            // If we only have a tile side/side, add the letter to horisontal word
+          } else if (this.board[i][j + 1].tile || this.board[i][j - 1].tile) {
+            wordHorisontal += this.board[i][j].tile[0].char;
+            // If we have a tile but no other tile beside us, add to both vertical and horisontal word
+            // This will only be at the start of game, when the first tile is placed
+          } else {
+            wordVertical += this.board[i][j].tile[0].char;
+            wordHorisontal += this.board[i][j].tile[0].char;
+          }
+        }
+      }
+    }
+    console.log('vertical word: ' + wordVertical);
+    console.log('horisontal word: ' + wordHorisontal);
+
+    // if the horisontal word is longer than one character, add it to the array
+    if (wordHorisontal.length > 1) {
+      wordArray.push(wordHorisontal);
+    }
+    // Same for the vertical word
+    if (wordVertical.length > 1) {
+      wordArray.push(wordVertical);
+    }
+
+    console.log('the words currently on board: ' + wordArray);
+  }
+
+
 
   createBoard() {
 
@@ -239,9 +339,9 @@ export default class Game {
         <div class="playername">${player.name}</div>
         <div class="tiles-box"><div id="box${players.indexOf(player)}"></div></div>
         `);
-      console.log(player.tiles[0].length);
+      // console.log(player.tiles[0].length);
       while (index < player.tiles[0].length) {
-        console.log('appending tiles');
+        // console.log('appending tiles');
         $(`#box${players.indexOf(player)}`).append(`
         <div class="playertiles">${player.tiles[0][index].char}<div class="points">${player.tiles[0][index].points}</div>
       `);
@@ -253,7 +353,7 @@ export default class Game {
       `);
 
     });
-    console.log(players);
+    // console.log(players);
 
   }
 
