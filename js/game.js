@@ -1,6 +1,6 @@
 import Player, { players } from './player.js';
 import SAOLchecker from './SAOLchecker.js';
-import Board, { copyOfBoard } from './board.js';
+import Board from './board.js';
 import Score from './score.js';
 
 export default class Game {
@@ -47,6 +47,7 @@ export default class Game {
     console.log('current index ' + this.playerIndex);
     console.log('player array length ' + players.length);
 
+    /* Alternative to switch between players turns */
     // If player index is more och equal to player array length then go back to index 0.
     // Because the current player is the last player, and the next player will be the first.
     // It all starts over.
@@ -149,8 +150,11 @@ export default class Game {
       console.log(x);
 
       // the index of the chosen tile
+
       let $tile = $(e.currentTarget);
-      let tileIndex = $(`.box${players.indexOf(this.player)}`).index($tile);
+      // Check vad index the tile have that lays in a div under each players individual id="box"
+      let tileIndex = $(`#box${(this.playerIndex - 1)} > div`).index($tile);
+      console.log($tile);
       console.log('the current player tile is ' + tileIndex);
 
       // Add the moved tile from players tile array to the boards tiles
