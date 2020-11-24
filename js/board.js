@@ -2,7 +2,7 @@ import Game from './game.js';
 import { players } from './player.js';
 
 
-export let copyOfBoard = [];
+
 
 export default class Board {
 

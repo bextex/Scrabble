@@ -1,6 +1,6 @@
 import Player, { players } from './player.js';
 import SAOLchecker from './SAOLchecker.js';
-import Board, { copyOfBoard } from './board.js';
+import Board from './board.js';
 import Score from './score.js';
 
 export default class Game {
