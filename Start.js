@@ -19,17 +19,15 @@ export default class Start {
     $('.game-screen').fadeIn(1350);
     let player = new Player();
     player.choosePlayers();
-
+    this.clickFunction();
   }
 
   async clickFunction() {
-
     let bag = new Bag();
     this.tiles = await bag.tilesFromFile();
     that = this;
     // console.log("this.tiles:  " + this.tiles);
   }
-
 }
 
 $('.start-game').on('click', function () {
@@ -48,36 +46,36 @@ $('.start-game').on('click', function () {
     newPlayer.setPlayerNames(playerName, tilesFromBag);
   }
 
-
-  /*$('.game-screen').fadeOut(1700);
+  $('.game-screen').fadeOut(1700);
   $('.game-menu').fadeOut(1700);
   setTimeout(() => {
     new Board().start(that.tiles);
   }, 1700);
   $('.scrabble').animate({ top: '12px' }, 'slow');
   $('.scrabble').animate({ fontSize: '40px' }, 'slow');
-
+  // console.log("new Game().playerTurn - called")
   //new Game(that.tiles);
   // new Game().countScore();
   // new Game().playerTurn();
-});*/
+});
 
 
-  // rules open-close 
-  $(document).ready(function () {
+// rules open-close 
+$(document).ready(function () {
 
-    $('.rules').click(function () {
-      $('.game-screen').hide();
-      $('.add-rules').animate({
-        height: 'toggle'
-      });
+  $('.rules').click(function () {
+    $('.game-screen').hide();
+    $('.add-rules').animate({
+      height: 'toggle'
     });
-    $('.close').click(function () {
-      $('.add-rules').hide();
-      $('.game-screen').fadeIn(850);
-    });
-
   });
+  $('.close').click(function () {
+    $('.add-rules').hide();
+    $('.game-screen').fadeIn(850);
+  });
+
+});
+
 
 
 
