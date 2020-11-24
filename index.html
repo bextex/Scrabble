@@ -11,33 +11,29 @@
   <link rel="preconnect" href="https://fonts.gstatic.com">
   <link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Stencil+Text:wght@300&display=swap"
     rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-  <!--Game-start button and start-background-->
-  <div class="start-screen container">
-    <img src="background2.gif" alt="start-background" style="width: 100%;">
-
-
-    <button class="startBtn" style="vertical-align:midle"><span>STARTA SPELET
-
-      </span></button>
-
-  </div>
 
   <!--game-screen-->
+
   <div class="game-screen gamecontainer">
 
-    <button class="start-game">STARTA SPELET</button>
-    <button class="rules">REGLER</button>
-    <button class="players">LÄGG TILL SPELARE</button>
 
     <div class="playersName">
       <input type="names" id="player1Name" class="newPlayerInput" placeholder="Spelare 1" />
       <input type="names" id="player2Name" class="newPlayerInput" placeholder="Spelare 2" />
     </div>
 
+  </div>
+
+  <div class="game-menu">
+    <button class="start-game"><span>STARTA SPELET</span></button>
+    <button class="rules"><span>REGLER</span></button>
+    <button class="players"><span>LÄGG TILL SPELARE</span></button>
   </div>
 
   <div class="rules-window">
@@ -157,14 +153,18 @@
 
 
     </ul>
-
-
-
   </div>
+  <div class="playing-window-left"></div>
+  <div class="playing-window"></div>
+
 
   <!--jQuery-->
   <script src="https://code.jquery.com/jquery-3.5.1.min.js"
     integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+
+  <!--DragAbility-->
+  <script src="https://unpkg.com/draggabilly@2/dist/draggabilly.pkgd.min.js">
+  </script>
 
   <!--JavaScript-->
   <script src="main.js" type="module"></script>

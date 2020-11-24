@@ -1,15 +1,18 @@
+import Game from './game.js';
+import { players } from './player.js';
 
-// nav
-$('nav .rulesBtn').click(function () {
-  $('.rulesContainer').css(
-    "display", "block"
-  );
-});
 
-$('.rulesContainer .closeRulesBtn').click(function () {
-  $('.rulesContainer').css(
-    "display", "none"
-    // "height": "0",
-    // "width": "0"
-  );
-});
+export let copyOfBoard = [];
+
+export default class Board {
+
+  // Doesn't really need board anymore, easier to have all in board 
+
+  async start(tilesFromBag) {
+
+    new Game(tilesFromBag);
+
+    console.log(this.board);
+
+  }
+}
