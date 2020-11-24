@@ -12,7 +12,7 @@ export default class Board {
 
     new Game(tilesFromBag);
 
-    console.log(this.board);
+    // console.log(this.board);
 
   }
 }
