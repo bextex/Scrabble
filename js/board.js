@@ -1,3 +1,5 @@
+import Game from './game.js';
+import { players } from './player.js';
 
 export default class Board {
 
@@ -11,4 +13,3 @@ export default class Board {
 
   }
 }
-
