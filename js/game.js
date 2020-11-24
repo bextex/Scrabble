@@ -135,36 +135,67 @@ export default class Game {
     $('.playertiles').not('.none').draggabilly({ containment: 'body' }).on('dragEnd', e => {
       console.log('were in player tiles draggabilly on');
       // get the dropZone square - if none render and return
+
       let $dropZone = $('.hover');
       if (!$dropZone.length) { this.render(); return; }
+
       console.log($dropZone);
 
       // the index of the square we are hovering over
       let squareIndex = $('.board > div').index($dropZone);
       console.log('square index is ' + squareIndex);
+      console.log();
 
       // convert to y and x coords in this.board
       let y = Math.floor(squareIndex / 15);
       let x = squareIndex % 15;
-      console.log(y);
-      console.log(x);
+      console.log('y: ' + y);
+      console.log('x: ' + x);
+      console.log('Tiles on this position: ');
+      console.log(!this.board[y][x].tile);
 
       // the index of the chosen tile
 
       let $tile = $(e.currentTarget);
-      // Check vad index the tile have that lays in a div under each players individual id="box"
+      // Check what index the tile have that lays in a div under each players individual id="box"
       let tileIndex = $(`#box${(this.playerIndex - 1)} > div`).index($tile);
       console.log($tile);
       console.log('the current player tile is ' + tileIndex);
+
+      // If board doesn't have any div with class '.tile' then there isn't any tiles on board
+      if (!$('.board > div > .tile').length) {
+        // If there isn't any tiles on board, and the squareIndex is not in the middle
+        // Re-render and return
+        if (squareIndex !== 112) {
+          this.render();
+          return;
+        }
+        // If there is at least one tile on board then check if the new tile the player is trying to drop
+        // has another tile around, if not - re-render and return. Or else place the tile and render the new board (As before)
+        // It most be specific conditions for the board squares on the outer rim otherwise it will return error 
+        // when we try to check if a square on the board has a tile and that square doesn't exist.
+      } else if ((y === 0 && x === 0 && !this.board[y + 1][x].tile && !this.board[y][x + 1].tile)
+        || (x === 0 && y > 0 && y < 14 && !this.board[y - 1][x].tile && !this.board[y + 1][x].tile && !this.board[y][x + 1].tile)
+        || (x === 14 && y === 0 && !this.board[y][x - 1].tile && !this.board[y + 1][x].tile)
+        || (x === 14 && y > 0 && y < 14 && !this.board[y - 1][x].tile && !this.board[y - 1][x].tile && !this.board[y][x - 1].tile)
+        || (x === 14 && y === 14 && !this.board[y - 1][x].tile && !this.board[y][x - 1].tile)
+        || (y === 14 && x > 0 && x < 14 && !this.board[y][x + 1].tile && !this.board[y][x - 1].tile && !this.board[y - 1][x].tile)
+        || (y === 14 && x === 0 && !this.board[y - 1][x].tile && !this.board[y][x + 1].tile)
+        || (y === 0 && x > 0 && x < 14 && !this.board[y][x - 1].tile && !this.board[y][x + 1].tile && !this.board[y + 1][x].tile)
+        || (x > 0 && x < 14 && y > 0 && y < 14 && !this.board[y - 1][x].tile && !this.board[y + 1][x].tile && !this.board[y][x + 1].tile && !this.board[y][x - 1].tile)) {
+        this.render();
+        return;
+      }
 
       // Add the moved tile from players tile array to the boards tiles
       console.log(that.player);
       console.log(that.tiles[0]);
       this.board[y][x].tile = that.tiles[0].splice(tileIndex, 1);
       console.log(this.board);
-
+      console.log(this.board[y][x].tile);
       // When droped a tile on the board, re-render
       this.render();
+
     });
 
 
