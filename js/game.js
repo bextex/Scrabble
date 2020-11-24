@@ -249,17 +249,61 @@ export default class Game {
 
   checkForNewWords(y, x) {
 
-    let wordHorisontal = '';
-    let wordVertical = '';
+    let wordHorisontal = [];
+    let wordVertical = [];
     let wordArray = [];
 
     console.log('y: ' + y);
     console.log('x: ' + x);
 
+    let howManyWords = 0;
+
+
     /* KOLLA RAD FÖR RAD, SPARA UNDAN FÖRST VERTIKAL OCH SEN HORISONTELLA ORD,
     LÄGG I ARRAY SOM KOLLAR AV MOT SAOL HELA TIDEN */
 
 
+    // lägg till bokstäverna på rätt plats i en array beroende på om dom kommer efter eller före, 
+    // använd sedan join() för att få ihop det till en sträng innan det läggs till i en annan array
+
+
+
+
+
+
+    // console.log(this.board[y - 1][x].tile);
+    // console.log(this.board[y + 1][x].tile);
+    // if (this.board[y - 1][x].tile || this.board[y + 1][x].tile) {
+    //   while (this.board[y - 1][x].tile) {
+    //     y = y - 1;
+    //     console.log('y: ' + y);
+    //   }
+    //   while (this.board[y + 1].tile) {
+    //     wordVertical.push(this.board[y][x].tile[0].char);
+    //     y = y + 1;
+    //   }
+    // }
+    // console.log(wordVertical);
+
+
+
+    // while (this.board[y - 1][x].tile) {
+    //   wordVertical.unshift(this.board[y][x].tile[0].char);
+    //   y = y - 1;
+    // }
+    // console.log(wordVertical);
+
+    // while (this.board[y + 1][x].tile) {
+    //   wordVertical.push(this.board[y][x].tile[0].char);
+    //   y = y + 1;
+    // }
+
+
+    // if (this.board[y - 1][x].tile) {
+    //   wordVertical.unshift(this.board[y][x].tile[0].char);
+    // } else if (this.board[y + 1][x].tile) {
+
+    // }
 
     // CHECK HORISONTAL
     for (let i = 0; i < this.board.length; i++) {
@@ -268,8 +312,6 @@ export default class Game {
         // If we come across a board square that has a tile on it 
         if (this.board[i][j].tile) {
           // if (i === y && j === x) {
-
-
           // First check if we have another tile above/below AND side/side
           // Add the letter to both vertical and horisontal word
           if ((this.board[i + 1][j].tile || this.board[i - 1][j].tile) && (this.board[i][j + 1].tile || this.board[i][j - 1].tile)) {
