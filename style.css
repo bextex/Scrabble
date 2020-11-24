@@ -1,10 +1,4 @@
 
-  *, *:before, *:after {
-  box-sizing: border-box;
-  user-select: none;
-  -webkit-user-select: none;
-}
-
 /* Background and button
        Start page */
 
@@ -16,15 +10,6 @@ body{
   animation-duration: 10s;
   animation-iteration-count: infinite;
   text-align: center;
-}
-
-@keyframes colorchange {
-  15%   {background: rgb(245, 241, 241);}
-  25%  {background: rgb(238, 198, 229);}
-  35%  {background: rgb(76, 243, 174);}
-  75%  {background: rgb(83, 250, 250);}
-  90% {background: rgb(239, 203, 120);}
-  30% {background: rgb(102, 238, 165);}
 }
 
 ul {
@@ -76,13 +61,19 @@ ul {
   display: none;
 }
 
+/*.rules-window .rule-title {
+  color: rgb(29, 36, 43);
+  font-family: 'Big Shoulders Stencil Text', cursive;
+  font-size: 35px;
+
+}*/
 
 .rules-window .add-rules {
   font-family: 'Neucha', cursive;
   position: relative;
   /*removed top. Doesn't work when position is relative*/
   /*doen't work with percentage '%'*/
-  left: 33%;
+  left: 30%;
   color: rgb(40, 20, 20);
   font-size: 18px;
   border: 3px solid aliceblue;
@@ -198,24 +189,18 @@ ul {
  font-family: 'Neucha', cursive;
  font-size: 25px;
  opacity: 0.8;
- border: 5px solid aliceblue;
+ border: 5px solid rgb(15, 59, 97);
  border-radius: 5px;
  color: white;
- animation-name: move, changeColorText;
- animation-duration: 2s; 
  }
  .newPlayerInput:hover {
-  background-color: rgb(66, 64, 64);
+  background-color: azure;
  }
       
-
-  /*--------------------------------------------------------*/
-
 .board {
   border: 10px solid #02b802;
   border-radius: 3px;
   display: inline-block;
-  padding-top: 65px;
 }
 
 .board > div {
@@ -224,10 +209,6 @@ ul {
   height: 5vh;
   background-color: #54aa79;
   float: left;
-}
-
-.board > div.hover {
-  opacity: 0.5;
 }
 
 .board > div:nth-child(15n+1){
@@ -239,31 +220,20 @@ ul {
   text-align: center;
 }
 
-
-/*--------------------- TILES ---------------------*/
-
-.tiles {
-  clear: both;
-  position: fixed;
-  top: 50vh;
+.board .tile {
+  position: absolute;
+  margin: 1px;
 }
 
-.tiles > div, .tile {
-  position: relative;
-  float: left;
-  width: 4.5vh;
-  height: 4.5vh;
-  border: 1px solid #000000;
+.playing-window{
+  margin-top: 170px;
+  margin-right: 220px;
+  overflow: hidden;
   text-align: center;
-  cursor: pointer;
-  padding-top: 0.2vh;
-  font-size: 4vh;
-  background-color: #fff;
+  display: inline-block;
 }
-
 
 /****************** My special colors ******************/
-
 .board > div.special-3xWS {
   background-color: red;
 }
@@ -327,25 +297,18 @@ ul {
   color: white;
 }
 
-/* ------- DRAG -------  */
-
-.is-dragging {
-  z-index: 1;
-  margin-left: -4vh;
-  margin-top: -4vh;
-}
-
 /*************************** PLAYER NAMES AND TILES ****************************/
 
-/*.playername{
+
+.playername{
   font-family: 'Neucha', cursive;
   font-size: large;
   font-size: 20px;
   color: black;
   padding: 2vh;
-}*
+}
 
-/*.not-current-player{
+.not-current-player{
   content: 'Not your turn';
   width: 300px;
   height: 70px;
@@ -354,27 +317,27 @@ ul {
   text-align: center;
   border: 1px solid black;
   z-index: 10;
-}*/
+}
 
-/*.tiles-box{
+.tiles-box{
   width: 300px;
   height: 70px;
   background-color: #02b802;
   padding: 1vh;
   text-align: center;
   border: 1px solid black;
-}*/
+}
 
-/*.playertiles.none{
+.playertiles.none{
   background-color: #02b802;
   border: 0;
-}*/
+}
 
-/*.playertiles{
+.playertiles{
   font-family: 'Source Code Pro', monospace;
   font-size: large;
   /* padding: 4px; */
-  /*margin: 1px;
+  margin: 1px;
   width: 4vh;
   height: 4vh;
   background-color: white;
@@ -382,21 +345,37 @@ ul {
   border: 2px solid black;
   position: relative;
   float: left;
-
   cursor: pointer;
-}*/
+}
 
-
-/*div.points{
+div.points{
   font-family: 'Source Code Pro', monospace;
   font-size: 10px;
   position: relative;
   top: -10px;
   right: -10px;
-}*/
+}
 
 
+/* BRICKOR */
+div.playing-window-left{
+  float: left;
+}
 
+.playing-window-left{
+
+  position: relative;
+  z-index: 1;
+  margin-top: 30vh;
+  margin-left: 1px;
+  /*overflow: hidden;*/
+  text-align: center;
+  display: inline-block;
+  
+}
+
+
+/****************** PASS AND PLAY TILES BUTTONS ******************/
 
 .play-tiles{
   font-family: 'Source Code Pro', monospace;
@@ -464,5 +443,3 @@ ul {
   position: relative;
   float: left;
 }
-
-
