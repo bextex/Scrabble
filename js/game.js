@@ -150,8 +150,11 @@ export default class Game {
       console.log(x);
 
       // the index of the chosen tile
+
       let $tile = $(e.currentTarget);
-      let tileIndex = $(`.box${players.indexOf(this.player)}`).index($tile);
+      // Check vad index the tile have that lays in a div under each players individual id="box"
+      let tileIndex = $(`#box${(this.playerIndex - 1)} > div`).index($tile);
+      console.log($tile);
       console.log('the current player tile is ' + tileIndex);
 
       // Add the moved tile from players tile array to the boards tiles
