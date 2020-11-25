@@ -7,8 +7,6 @@ import Score from './score.js';
 export default class Game {
 
   constructor(tilesFromBag) {
-
-
     this.createBoard();
     this.render();
     this.showPlayerButtons();
@@ -16,17 +14,92 @@ export default class Game {
     this.playerIndex = 0;
     this.lettersFromFile();
     this.start();
+  }
 
+  createBoard() {
+    this.board = [...new Array(15)].map(x => [...new Array(15)].map(x => ({})));
+    // Add some info about special squares
+    // Triple word score (3xWs) or swedish (3xOp) Op = Ordpoäng
+    [[0, 0], [0, 7], [0, 14], [7, 0], [7, 14], [14, 0], [14, 7], [14, 14]]
+      .forEach(([y, x]) => this.board[y][x].special = '3xWS');
+    // Double letter score (2xLs) or swedish (2xBp) Bp = bokstavspoäng
+    [[0, 3], [0, 11], [2, 6], [2, 8], [3, 0], [3, 7], [3, 14], [6, 2], [6, 6], [6, 8], [6, 12], [7, 3], [7, 11],
+    [8, 2], [8, 6], [8, 8], [8, 12], [11, 0], [11, 7], [11, 14], [12, 6], [12, 8], [14, 3], [14, 11]]
+      .forEach(([y, x]) => this.board[y][x].special = '2xLS');
+    // Triple letter score (3xLs) or swedish (3xOp)
+    [[1, 5], [1, 9], [5, 1], [5, 5], [5, 9], [5, 13], [9, 1], [9, 5], [9, 9], [9, 13], [13, 5], [13, 9]]
+      .forEach(([y, x]) => this.board[y][x].special = '3xLS');
+    // Double word score (2xWs) or swedish (3xBp)
+    [[1, 1], [1, 13], [2, 2], [2, 12], [3, 3], [3, 11], [4, 4], [4, 10], [7, 7], [10, 4], [10, 10], [11, 3], [11, 11],
+    [12, 2], [12, 12], [13, 1], [13, 13]]
+      .forEach(([y, x]) => this.board[y][x].special = '2xWS');
+    this.board[7][7].special = 'middle-star';
+  }
 
+  render() {
+    //********************************************* */
+    // $('.board').remove();
+    // let $board = $('<div class="board"/>').appendTo('.playing-window');
+    // this.board.flat().forEach(x => $board.append('<div/>'));
+    //********************************************* */
+    if (!$('.board').length) {
+      $('.playing-window').append(`
+        <div class="board"></div>
+        <div class="tiles"></div>
+      `);
+    }
+    $('.board').empty();
+
+    // RENDER THE BOARD AFTER EACH PLAYER
+    // console.log(this.board.flat());
+
+    $('.board').html(
+      this.board.flat().map(x => `
+        <div class="${x.special ? 'special-' + x.special : ''}">
+        ${x.tile ? `<div class="tile">${x.tile[0].char}<div class="points">${x.tile[0].points}</div></div>` : ''}
+        </div>
+      `).join('')
+    );
+
+    // this.checkForNewWords(y, x);
+
+    // Empty the player tile boards window before calling showPlayers() etc...
+    // otherwise there will be double each time it renders
+    $('.playing-window-left').empty();
+    // showPlayers needs to be first
+    this.showPlayers();
+    // showAndHide cannot be done unless we have read the showPlayers method
+    this.showAndHidePlayers();
+    // We want the addEvents to be last so the player can make their move
+    this.addEvents();
+  }
+
+  showPlayerButtons() {
+    $('.playing-window').append(
+      `<button class="play-tiles">Lägg brickor</button>
+      <button class="pass">Stå över</button>`
+    );
+  }
+
+  async lettersFromFile() {
+    let letters = [];
+    // Read the tile info from file
+    (await $.get('data/tiles.txt'))
+      .split('\r').join('') // Windows safe :)
+      .split('\n').forEach(x => {
+        // For each line split content by ' '
+        // x[0] = char, x[1] = points, x[2] = occurences
+        x = x.split(' ');
+        x[0] = x[0] === '_' ? ' ' : x[0];
+        // add tiles to this.tiles
+        letters.push({ char: x[0], points: +x[1] });
+      });
+    return letters;
   }
 
   /* Starting up the game with start() to set how's the first player */
-
   start() {
-    // console.log('im inside start');
-
     this.playerTurn();
-
     // When click on 'Stå över'-button, there will be a new player and the board will render
     $('.pass').on('click', () => {
       // console.log('im clicking the pass button');
@@ -48,17 +121,16 @@ export default class Game {
   }
 
   async playerTurn() {
-    // console.log('current index ' + this.playerIndex);
-    // console.log('player array length ' + players.length);
+    // 1. see who's turn it is.
+    // 2. Refill player tiles from bag if neccessary.
+    // 3. Disable the other players tile fields.
 
-    /* Alternative to switch between players turns */
-    // If player index is more och equal to player array length then go back to index 0.
+    // If player index is more or equal to player array length then go back to index 0.
     // Because the current player is the last player, and the next player will be the first.
     // It all starts over.
     if (this.playerIndex >= players.length) {
       this.playerIndex = 0;
     }
-
     // Set this.player to the player with playerindex in players array
     // so this.player will be the new player each round
     this.player = players[this.playerIndex].name;
@@ -86,18 +158,37 @@ export default class Game {
       for (let i = 0; i < numberOfTiles; i++) {
         this.tiles[0].push(newTiles[i]);
       }
-
       // console.log(this.tiles[0]);
       // console.log(this.tiles);
     }
-
     /* Disable all other players tile fields */
-
     this.showAndHidePlayers();
-
     // Inrease player index so when new round, the next player will this.player
     this.playerIndex++;
-    // console.log('new index ' + this.playerIndex);
+  }
+
+  showPlayers() {
+    players.forEach(player => {
+      $('.playing-window-left').append(`
+        <div class="playername">${player.name}</div>
+        <div class="tiles-box"><div id="box${players.indexOf(player)}"></div></div>
+        `);
+
+      let index = 0
+      while (index < player.tiles[0].length) {
+        // appending tiles
+        $(`#box${players.indexOf(player)}`).append(`
+        <div class="playertiles">${player.tiles[0][index].char}<div class="points">${player.tiles[0][index].points}</div>
+      `);
+        index++;
+      }
+
+      $(`#box${players.indexOf(player)}`).append(`
+        <div class="playertiles ${player.tiles[1][0].char === ' ' ? '' : 'none'}"></div>
+      `);
+
+    });
+    // console.log(players);
 
   }
 
@@ -118,9 +209,10 @@ export default class Game {
   }
 
   addEvents() {
-
     console.log('im inside add events');
 
+    // Mouse enter/leave board
+    // adds and removes hover effect
     $('.board > div').mouseenter(e => {
       let me = $(e.currentTarget);
       if ($('.is-dragging').length && !me.find('.tiles').length) {
@@ -136,7 +228,6 @@ export default class Game {
     );
 
     let that = this;
-
     // Drag-events: We only check if a tile is in place on dragEnd
     // $('.stand .tile').not('.none').draggabilly({ containment: 'body' })
     $('.playertiles').not('.none').draggabilly({ containment: 'body' }).on('dragEnd', e => {
@@ -210,47 +301,6 @@ export default class Game {
   }
 
 
-  render() {
-
-
-    // $('.board').remove();
-    // let $board = $('<div class="board"/>').appendTo('.playing-window');
-    // this.board.flat().forEach(x => $board.append('<div/>'));
-
-    //********************************************* */
-
-
-    if (!$('.board').length) {
-      $('.playing-window').append(`
-        <div class="board"></div>
-        <div class="tiles"></div>
-      `);
-    }
-
-
-    $('.board').empty();
-    // render the board RENDER THE BOARD AFTER EACH PLAYER
-    console.log(this.board.flat());
-    $('.board').html(
-      this.board.flat().map(x => `
-        <div class="${x.special ? 'special-' + x.special : ''}">
-        ${x.tile ? `<div class="tile">${x.tile[0].char}<div class="points">${x.tile[0].points}</div></div>` : ''}
-        </div>
-      `).join('')
-    );
-
-    // this.checkForNewWords(y, x);
-
-    // Empty the player tileboards window before rendering, otherwise there will be double each time it renders
-    $('.playing-window-left').empty();
-    // showPlayers needs to be first
-    this.showPlayers();
-    // showAndHide cannot be done unless we have read the showPlayers method
-    this.showAndHidePlayers();
-    // We want the addEvents to be last so the player can make their move
-    this.addEvents();
-  }
-
   checkForNewWords(y, x) {
 
     let wordHorisontal = [];
@@ -269,11 +319,6 @@ export default class Game {
 
     // lägg till bokstäverna på rätt plats i en array beroende på om dom kommer efter eller före,
     // använd sedan join() för att få ihop det till en sträng innan det läggs till i en annan array
-
-
-
-
-
 
     // console.log(this.board[y - 1][x].tile);
     // console.log(this.board[y + 1][x].tile);
@@ -351,80 +396,6 @@ export default class Game {
     console.log('the words currently on board: ' + wordArray);
   }
 
-
-
-  createBoard() {
-
-    this.board = [...new Array(15)].map(x => [...new Array(15)].map(x => ({})));
-
-
-    // Add some info about special squares
-    // Triple word score (3xWs) or swedish (3xOp) Op = Ordpoäng
-    [[0, 0], [0, 7], [0, 14], [7, 0], [7, 14], [14, 0], [14, 7], [14, 14]]
-      .forEach(([y, x]) => this.board[y][x].special = '3xWS');
-    // Double letter score (2xLs) or swedish (2xBp) Bp = bokstavspoäng
-    [[0, 3], [0, 11], [2, 6], [2, 8], [3, 0], [3, 7], [3, 14], [6, 2], [6, 6], [6, 8], [6, 12], [7, 3], [7, 11],
-    [8, 2], [8, 6], [8, 8], [8, 12], [11, 0], [11, 7], [11, 14], [12, 6], [12, 8], [14, 3], [14, 11]]
-      .forEach(([y, x]) => this.board[y][x].special = '2xLS');
-    // Triple letter score (3xLs) or swedish (3xOp)
-    [[1, 5], [1, 9], [5, 1], [5, 5], [5, 9], [5, 13], [9, 1], [9, 5], [9, 9], [9, 13], [13, 5], [13, 9]]
-      .forEach(([y, x]) => this.board[y][x].special = '3xLS');
-    // Double word score (2xWs) or swedish (3xBp)
-    [[1, 1], [1, 13], [2, 2], [2, 12], [3, 3], [3, 11], [4, 4], [4, 10], [7, 7], [10, 4], [10, 10], [11, 3], [11, 11],
-    [12, 2], [12, 12], [13, 1], [13, 13]]
-      .forEach(([y, x]) => this.board[y][x].special = '2xWS');
-    this.board[7][7].special = 'middle-star';
-
-  }
-
-
-  showPlayers() {
-    players.forEach(player => {
-      let index = 0
-      $('.playing-window-left').append(`
-        <div class="playername">${player.name}</div>
-        <div class="tiles-box"><div id="box${players.indexOf(player)}"></div></div>
-        `);
-      // console.log(player.tiles[0].length);
-      while (index < player.tiles[0].length) {
-        // console.log('appending tiles');
-        $(`#box${players.indexOf(player)}`).append(`
-        <div class="playertiles">${player.tiles[0][index].char}<div class="points">${player.tiles[0][index].points}</div>
-      `);
-
-        index++;
-      }
-      $(`#box${players.indexOf(player)}`).append(`
-        <div class="playertiles ${player.tiles[1][0].char === ' ' ? '' : 'none'}"></div>
-      `);
-
-    });
-    // console.log(players);
-
-  }
-
-  showPlayerButtons() {
-    $('.playing-window').append(
-      `<button class="play-tiles">Lägg brickor</button>
-      <button class="pass">Stå över</button>`
-    );
-  }
-
-  async lettersFromFile() {
-    let letters = [];
-    // Read the tile info from file
-    (await $.get('data/tiles.txt'))
-      .split('\r').join('') // Windows safe :)
-      .split('\n').forEach(x => {
-        // For each line split content by ' '
-        // x[0] = char, x[1] = points, x[2] = occurences
-        x = x.split(' ');
-        x[0] = x[0] === '_' ? ' ' : x[0];
-        // add tiles to this.tiles
-        letters.push({ char: x[0], points: +x[1] });
-      });
-    return letters;
-  }
 
   async countScore() {
 
