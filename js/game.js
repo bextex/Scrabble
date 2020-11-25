@@ -121,8 +121,11 @@ export default class Game {
     $('.board > div').mouseenter(e => {
       let me = $(e.currentTarget);
       if ($('.is-dragging').length && !me.find('.tiles').length) {
-        // console.log('me is = ' + me);
-        me.addClass('hover');
+        // If the current square on the board has a class '.tile', don't add hover,
+        // because then there already is a tile in that square
+        if (me.find('.tile').length === 0) {
+          me.addClass('hover');
+        }
       }
     });
     $('.board > div').mouseleave(e =>
@@ -201,8 +204,6 @@ export default class Game {
       this.render();
 
     });
-
-
   }
 
 
