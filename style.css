@@ -197,7 +197,7 @@ ul {
  animation-duration: 2s;*/
  
  animation-name: playerAnimation;
- animation-duration: 2s;
+ animation-duration: 1.5s;
  animation-fill-mode: forwards;
 
 }
@@ -207,7 +207,7 @@ ul {
  }
 
  @keyframes playerAnimation {
-   from {top: 1000px;}
+   from {top: 150vh;}
    to {top: 80vh;}
  }
 
