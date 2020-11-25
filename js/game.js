@@ -351,9 +351,9 @@ export default class Game {
     }
 
     console.log('the words currently on board: ' + wordArray);
-    if (wordArray.length > 0) {
-      this.countScore(wordArray);
-    }
+    // if (wordArray.length > 0) {
+    //   this.countScore(wordArray);
+    // }
 
   }
 
