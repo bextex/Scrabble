@@ -1,4 +1,4 @@
-import Board from './board.js';
+
 import Player, { players } from './player.js';
 import SAOLchecker from './SAOLchecker.js';
 import Board from './board.js';
@@ -188,12 +188,10 @@ export default class Game {
       `);
 
     });
-    // console.log(players);
-
   }
 
   showAndHidePlayers() {
-    // Hide all other players tileboards except for the current player
+    // Hide all other players tile boards except for the current player
     for (let i = 0; i < players.length; i++) {
       // If this.player ( a name ) is the same as any player in the array
       // Than show the players tileboard
@@ -209,7 +207,7 @@ export default class Game {
   }
 
   addEvents() {
-    console.log('im inside add events');
+    console.log('im inside addEvents()');
 
     // Mouse enter/leave board
     // adds and removes hover effect
@@ -242,7 +240,6 @@ export default class Game {
       // the index of the square we are hovering over
       let squareIndex = $('.board > div').index($dropZone);
       // console.log('square index is ' + squareIndex);
-      // console.log();
 
       // convert to y and x coords in this.board
       let y = Math.floor(squareIndex / 15);
@@ -287,11 +284,11 @@ export default class Game {
 
       // Add the moved tile from players tile array to the boards tiles
       // console.log(that.player);
-      // console.log(that.tiles[0]);
       this.board[y][x].tile = that.tiles[0].splice(tileIndex, 1);
+      console.log("that.tiles: " + that.tiles[0].length);
       // console.log(this.board);
       // console.log(this.board[y][x].tile);
-      // When droped a tile on the board, re-render
+      // When dropped a tile on the board, re-render
 
       this.checkForNewWords(y, x);
 
