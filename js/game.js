@@ -106,7 +106,6 @@ export default class Game {
       this.playerTurn();
       this.render();
     });
-
     // When click on 'Lägg brickor'-button, there will be a new player and the board will render
     // Shoul also count score on word
     $('.play-tiles').on('click', () => {
@@ -115,9 +114,7 @@ export default class Game {
       // CountScores(); ??? 
       this.playerTurn();
       this.render();
-
     });
-
   }
 
   async playerTurn() {
@@ -186,7 +183,6 @@ export default class Game {
       $(`#box${players.indexOf(player)}`).append(`
         <div class="playertiles ${player.tiles[1][0].char === ' ' ? '' : 'none'}"></div>
       `);
-
     });
   }
 
@@ -208,7 +204,6 @@ export default class Game {
 
   addEvents() {
     console.log('im inside addEvents()');
-
     // Mouse enter/leave board
     // adds and removes hover effect
     $('.board > div').mouseenter(e => {
@@ -226,6 +221,7 @@ export default class Game {
     );
 
     let that = this;
+
     // Drag-events: We only check if a tile is in place on dragEnd
     // $('.stand .tile').not('.none').draggabilly({ containment: 'body' })
     $('.playertiles').not('.none').draggabilly({ containment: 'body' }).on('dragEnd', e => {
@@ -283,7 +279,7 @@ export default class Game {
       }
 
       // Add the moved tile from players tile array to the boards tiles
-      // console.log(that.player);
+      console.log("that.players: " + that.player);
       this.board[y][x].tile = that.tiles[0].splice(tileIndex, 1);
       console.log("that.tiles: " + that.tiles[0].length);
       // console.log(this.board);
