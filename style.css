@@ -207,7 +207,7 @@ ul {
  }
 
  @keyframes playerAnimation {
-   from {top: 50px;}
+   from {top: 1000px;}
    to {top: 80vh;}
  }
 
