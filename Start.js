@@ -64,6 +64,7 @@ $('.start-game').on('click', function () {
 $(document).ready(function () {
 
   $('.rules').click(function () {
+    $('.game-menu').hide();
     $('.game-screen').hide();
     $('.add-rules').animate({
       height: 'toggle'
@@ -71,6 +72,7 @@ $(document).ready(function () {
   });
   $('.close').click(function () {
     $('.add-rules').hide();
+    $('.game-menu').fadeIn(850);
     $('.game-screen').fadeIn(850);
   });
 

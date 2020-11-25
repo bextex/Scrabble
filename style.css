@@ -73,6 +73,7 @@ ul {
   position: relative;
   /*removed top. Doesn't work when position is relative*/
   /*doen't work with percentage '%'*/
+  top: 30vh;
   left: 30%;
   color: rgb(40, 20, 20);
   font-size: 18px;
