@@ -183,19 +183,34 @@ ul {
 .newPlayerInput {
  background-color:black;
  position: relative;
- top:80vh;
+ /*top:80vh;*/
  margin-right: auto;
  margin-left: auto;
  font-family: 'Neucha', cursive;
  font-size: 25px;
  opacity: 0.8;
- border: 5px solid rgb(15, 59, 97);
+ border: 5px solid aliceblue;
  border-radius: 5px;
  color: white;
- }
+ 
+ /*animation-name: move;
+ animation-duration: 2s;*/
+ 
+ animation-name: playerAnimation;
+ animation-duration: 2s;
+ animation-fill-mode: forwards;
+
+}
+
  .newPlayerInput:hover {
   background-color: azure;
  }
+
+ @keyframes playerAnimation {
+   from {top: 50px;}
+   to {top: 80vh;}
+ }
+
       
 .board {
   border: 10px solid #02b802;
