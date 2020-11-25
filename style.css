@@ -351,10 +351,9 @@ ul {
 div.points{
   font-family: 'Source Code Pro', monospace;
   font-size: 10px;
-  position: relative;
-  float: right;
-  top: 14px;
-  right: 3px;
+  position: absolute;
+  top: 16px;
+  right: 1px;
   z-index: 5;
 }
 
