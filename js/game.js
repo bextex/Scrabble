@@ -1,5 +1,6 @@
 import Player, { players } from './player.js';
 import SAOLchecker from './SAOLchecker.js';
+// importera tom array [] - global variabel
 import Board, { copyOfBoard } from './board.js';
 import Score from './score.js';
 
@@ -15,6 +16,7 @@ export default class Game {
     this.lettersFromFile();
     this.start();
   }
+
 
   /* Starting up the game with start() to set how's the first player */
 
@@ -34,6 +36,8 @@ export default class Game {
     // Shoul also count score on word
     $('.play-tiles').on('click', () => {
       console.log('im clicking the play tiles button');
+      // let word = read the word placed
+      //SAOLchecker.scrabbleOK(word)
       // get points for word
       // CountScores(); ??? 
       this.playerTurn();
@@ -120,7 +124,7 @@ export default class Game {
     $('.board > div').mouseenter(e => {
       let me = $(e.currentTarget);
       if ($('.is-dragging').length && !me.find('.tiles').length) {
-        console.log('me is = ' + me);
+        console.log('me is = ' + this);
         me.addClass('hover');
       }
     });
@@ -146,8 +150,8 @@ export default class Game {
       // convert to y and x coords in this.board
       let y = Math.floor(squareIndex / 15);
       let x = squareIndex % 15;
-      console.log(y);
-      console.log(x);
+      console.log("y: " + y);
+      console.log("x:" + x);
 
       // the index of the chosen tile
       let $tile = $(e.currentTarget);
