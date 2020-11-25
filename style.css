@@ -183,7 +183,7 @@ ul {
 .newPlayerInput {
  background-color:black;
  position: relative;
- /*top:80vh;*/
+ top: 80vh;
  margin-right: auto;
  margin-left: auto;
  font-family: 'Neucha', cursive;
@@ -196,9 +196,12 @@ ul {
  /*animation-name: move;
  animation-duration: 2s;*/
  
- animation-name: playerAnimation;
- animation-duration: 1.5s;
- animation-fill-mode: forwards;
+  animation-name: playerAnimation;
+  animation-iteration-count: 1;
+	animation-timing-function: ease-in;
+	animation-duration: 2s;
+ /*animation-duration: 1.5s;
+ animation-fill-mode: forwards;*/
 
 }
 
@@ -207,8 +210,12 @@ ul {
  }
 
  @keyframes playerAnimation {
-   from {top: 150vh;}
-   to {top: 80vh;}
+     0% {
+		         opacity: 0;
+	     }
+	   100% {
+		        opacity: 0.7;
+	  }
  }
 
       
