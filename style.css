@@ -242,7 +242,7 @@ ul {
 }
 
 .playing-window{
-  margin-top: 50px;
+  margin-top: 30px;
   margin-right: 50px;
   overflow: hidden;
   text-align: center;
@@ -270,18 +270,20 @@ ul {
 /* The pseudo-element after can have text */
 .board > div.special-3xWS::after {
   content: '3x \A ORD';
+  white-space: pre;
   display: block;
   text-align: center;
-  font-size: 1.5vh;
+  font-size: 1.3vh;
   margin-top: 1vh;
   color: white;
 }
 
 .board > div.special-2xWS::after {
   content: '2x \A ORD';
+  white-space: pre;
   display: block;
   text-align: center;
-  font-size: 1.5vh;
+  font-size: 1.3vh;
   margin-top: 1vh;
   color: white;
 } 
@@ -290,7 +292,7 @@ ul {
   content: '3x \A BOKSTAV';
   display: block;
   text-align: center;
-  font-size: 1.5vh;
+  font-size: 1.2vh;
   margin-top: 1vh;
   color: white;
 }
@@ -299,7 +301,7 @@ ul {
   content: '2x \A BOKSTAV';
   display: block;
   text-align: center;
-  font-size: 1.5vh;
+  font-size: 1.2vh;
   margin-top: 1vh;
   color: white;
 }
@@ -324,7 +326,7 @@ ul {
   padding: 2vh;
 }
 
-.not-current-player{
+/* .not-current-player{
   content: 'Not your turn';
   width: 300px;
   height: 70px;
@@ -333,11 +335,11 @@ ul {
   text-align: center;
   border: 1px solid black;
   z-index: 10;
-}
+} */
 
 .tiles-box{
   width: 350px;
-  height: 80px;
+  height: 37px;
   background-color: #02b802;
   padding: 1vh;
   text-align: center;
@@ -369,7 +371,7 @@ div.points{
   font-size: 10px;
   position: absolute;
   top: 16px;
-  right: 1px;
+  right: 1.5px;
   z-index: 5;
 }
 
@@ -451,7 +453,7 @@ div.playing-window-left{
   font-family: 'Source Code Pro', monospace;
   font-size: large;
   /* padding: 4px; */
-  margin: 1px;
+  margin: 0.5px;
   width: 4.5vh;
   height: 4.5vh;
   background-color: white;
