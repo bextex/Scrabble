@@ -37,6 +37,7 @@ export default class Game {
       // console.log('im clicking the play tiles button');
       // get points for word
       // CountScores(); ??? 
+
       this.playerTurn();
       this.render();
 
@@ -116,6 +117,7 @@ export default class Game {
 
   addEvents() {
 
+
     console.log('im inside add events');
 
     $('.board > div').mouseenter(e => {
@@ -137,6 +139,7 @@ export default class Game {
     // Drag-events: We only check if a tile is in place on dragEnd
     // $('.stand .tile').not('.none').draggabilly({ containment: 'body' })
     $('.playertiles').not('.none').draggabilly({ containment: 'body' }).on('dragEnd', e => {
+
       console.log('were in player tiles draggabilly on');
       // get the dropZone square - if none render and return
 
@@ -201,9 +204,11 @@ export default class Game {
 
       this.checkForNewWords(y, x);
 
+
       this.render();
 
     });
+
   }
 
 
@@ -346,6 +351,10 @@ export default class Game {
     }
 
     console.log('the words currently on board: ' + wordArray);
+    // if (wordArray.length > 0) {
+    //   this.countScore(wordArray);
+    // }
+
   }
 
 
@@ -440,28 +449,37 @@ export default class Game {
     return letters;
   }
 
-  async countScore() {
+  async countScore(wordsInArray) {
+    console.log('im in countScores');
+    console.log(wordsInArray);
 
-    let wordsToCheck = [
-      'silkscreen', // false (two words),
-      'Ecuador', // true
-      'Malmö', // true
-      'nerd',  // false (does not exist in SAOL)
-      'nörd',  // true
-      'zoo', // true,
-      'programmerare', // true
-      'utvecklaren', // false (not grundform),
-      'renomme', // true (ignore accents)
-      'bh', // true (alternate version of grundform),
-      'kvalite', // true (alternate version + ignore accents),
-      'sprang' // false (not grundform),
-    ].map(x => x.toUpperCase());
+    let wordsToCheck = wordsInArray.map(x => { console.log('x in countScore: ' + x.toUpperCase()); x.toUpperCase(); });
+
+    console.log(wordsToCheck);
+
+    // let wordsToCheck = [
+    //   'silkscreen', // false (two words),
+    //   'Ecuador', // true
+    //   'Malmö', // true
+    //   'nerd',  // false (does not exist in SAOL)
+    //   'nörd',  // true
+    //   'zoo', // true,
+    //   'programmerare', // true
+    //   'utvecklaren', // false (not grundform),
+    //   'renomme', // true (ignore accents)
+    //   'bh', // true (alternate version of grundform),
+    //   'kvalite', // true (alternate version + ignore accents),
+    //   'sprang' // false (not grundform),
+    // ].map(x => x.toUpperCase());
 
     //read the file to the array
-    let letters = await this.lettersFromFile();
+    // let letters = await this.lettersFromFile();
 
     for (let word of wordsToCheck) {
+      console.log('im in loop word for wordstoCheck');
+      console.log('word: ' + word);
       if (await SAOLchecker.scrabbleOk(word) === false) {
+
         $('body').append('<div class="boxForWord"><span class="word">' +
           word + '</span><hr>ok in Scrabble: ' +
           // check if ok scrabble words
@@ -479,19 +497,19 @@ export default class Game {
           // check if ok scrabble words
           // by calling await SAOLchecker.scrabbleOk(word)
           await SAOLchecker.scrabbleOk(word) + '<hr>');
-        let wordPoints = 0;
-        for (let i = 0; i < word.length; i++) {
-          let letterInWord = word.charAt(i);
-          //find the letters points          
-          let letterPoints = letters
-            // get char
-            .filter(letter => letter.char === letterInWord)
-            // get their points
-            .map(letter => letter.points);
-          let points = letterPoints[0];
-          wordPoints += points;
-        }
-        $(`#${word}-box`).append(`<div><span class = "points"></span><hr> points: ${wordPoints}<hr>` +
+        // let wordPoints = 0;
+        // for (let i = 0; i < word.length; i++) {
+        //   let letterInWord = word.charAt(i);
+        //   //find the letters points          
+        //   let letterPoints = letters
+        //     // get char
+        //     .filter(letter => letter.char === letterInWord)
+        //     // get their points
+        //     .map(letter => letter.points);
+        //   let points = letterPoints[0];
+        //   wordPoints += points;
+        // }
+        $(`#${word}-box`).append(`<div><span class="points"></span><hr> points: ${wordPoints}<hr>` +
           // add explanations/entries from SAOL in body
           // by using await SAOLchecker.lookupWord(word)
           // (maybe fun to show in scrabble at some point?)
