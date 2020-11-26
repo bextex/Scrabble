@@ -46,13 +46,21 @@ $('.start-game').on('click', function () {
     newPlayer.setPlayerNames(playerName, tilesFromBag);
   }
 
-  $('.game-screen').fadeOut(1700);
-  $('.game-menu').fadeOut(1700);
+  $('.game-screen').fadeOut(1000);
+  $('.game-menu').fadeOut(1000);
   setTimeout(() => {
     new Board().start(that.tiles);
   }, 1700);
-  $('.scrabble').animate({ top: '12px' }, 'slow');
-  $('.scrabble').animate({ fontSize: '40px' }, 'slow');
+  // $('.scrabble').animate({ top: '12px' }, 'slow');
+  // $('.scrabble').animate({ fontSize: '40px' }, 'slow');
+  $('.scrabble').fadeOut(1);
+  //$('.scrabble').fadeIn(2000);
+  $('.scrabble').css({
+    'text-orientation': 'upright',
+    'writing-mode': 'vertical-rl'
+  }).animate({ fontSize: '60px', top: '100px' });
+  $('.scrabble').fadeIn(2000);
+
   // console.log("new Game().playerTurn - called")
   //new Game(that.tiles);
   // new Game().countScore();

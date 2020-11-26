@@ -41,6 +41,13 @@ ul {
  top:10vh;
  left: 0;
  right: 0;
+
+
+     /*writing-mode: vertical-rl;
+     text-orientation: upright;
+    position: absolute;*/
+  
+
 }
 
 @keyframes move {
@@ -193,7 +200,7 @@ ul {
  border: 5px solid aliceblue;
  border-radius: 5px;
  color: white;
- 
+
   animation-name: playerAnimation;
   animation-iteration-count: 1;
 	animation-timing-function: ease-in;
@@ -214,16 +221,29 @@ ul {
  }
 
 .board {
-  border: 10px solid #02b802;
-  border-radius: 3px;
+  /*border: 25px solid rgba(97, 33, 33, 0.931);*/
+  /*border-radius: 5px;*/
+   border: 30px solid transparent;
+  /*padding: 5px;*/
+  border-image: url(border.png) 20% round;
   display: inline-block;
+
+   /*border: 20px solid white;
+  border-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='50' height='50'><defs><linearGradient id='redgradient'><stop offset='0' stop-color='%23FFC14D'/><stop offset='0.362' stop-color='%23FF4834'/><stop offset='1' stop-color='%233B0300'/></linearGradient></defs><g id='Layer_1'><path d='M0,0 L50,0 L50,50 L0,50 L0,0 z' fill='url(%23redgradient)' width='100%' height='100%'/></g></svg>") 10% stretch;
+}*/
+/* styling for Pen, unrelated to border-image */
+/** {
+  box-sizing: border-box;
+}*/
 }
+
+
 
 .board > div {
   border: 1px solid #000000;
-  width: 5vh;
-  height: 5vh;
-  background-color: #54aa79;
+  width: 6vh;
+  height: 5.7vh;
+  background-color: rgba(76, 206, 119, 0.815);
   float: left;
 }
 
@@ -242,11 +262,35 @@ ul {
 }
 
 .playing-window{
-  margin-top: 170px;
-  margin-right: 220px;
+  font-family: 'Neucha', cursive;
+  margin-top: 15px;
+  margin-left: 20vh;
   overflow: hidden;
   text-align: center;
   display: inline-block;
+  background-color: rgb(0, 0, 0); /* black background */
+  opacity: 1;
+ 
+
+
+
+   /*font-family: 'Neucha', cursive;
+  font-size: 20px;
+  background-color: black; 
+  opacity: 0.7;
+  border: 5px solid aliceblue; 
+  border-radius: 5px;
+  color: white; 
+  padding: 20px; /
+  cursor: pointer; 
+  width: 20%; 
+  display: block; 
+  position: relative;
+  left: 40%;
+  top: 40vh;
+  animation-name: move, changeColorText;
+  animation-duration: 2s; */
+
 }
 
 /****************** My special colors ******************/
@@ -336,26 +380,38 @@ ul {
 }
 
 .tiles-box{
-  width: 300px;
-  height: 70px;
-  background-color: #02b802;
+  position: relative;
+  width: 410px;
+  height: 100px;
+  left: 7vh;
+  /*background-color: rgb(48, 109, 58);*/
+  background-image: url('stump.jpg');
   padding: 1vh;
   text-align: center;
   border: 1px solid black;
+
+  border: 7px solid white;
+  border-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='50' height='50'><defs><linearGradient id='redgradient'><stop offset='0' stop-color='%23FFC14D'/><stop offset='0.362' stop-color='%23FF4834'/><stop offset='1' stop-color='%233B0300'/></linearGradient></defs><g id='Layer_1'><path d='M0,0 L50,0 L50,50 L0,50 L0,0 z' fill='url(%23redgradient)' width='100%' height='100%'/></g></svg>") 10% stretch;
+}
+/* styling for Pen, unrelated to border-image */
+ * { 
+ box-sizing: border-box;
 }
 
+
 .playertiles.none{
-  background-color: #02b802;
+  background-color: rgb(109, 48, 48);
   border: 0;
+  display: none; 
 }
 
 .playertiles{
   font-family: 'Source Code Pro', monospace;
-  font-size: large;
+  font-size: 25px;
   /* padding: 4px; */
   margin: 1px;
-  width: 4vh;
-  height: 4vh;
+  width: 5.5vh;
+  height: 5.5vh;
   background-color: white;
   text-align: center;
   border: 2px solid black;
@@ -366,7 +422,7 @@ ul {
 
 div.points{
   font-family: 'Source Code Pro', monospace;
-  font-size: 10px;
+  font-size: 15px;
   position: relative;
   top: -10px;
   right: -10px;
