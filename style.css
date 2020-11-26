@@ -422,18 +422,13 @@ ul {
 
 div.points{
   font-family: 'Source Code Pro', monospace;
-<<<<<<< HEAD
-  font-size: 15px;
-  position: relative;
-  top: -10px;
-  right: -10px;
-=======
+
   font-size: 10px;
   position: absolute;
   top: 16px;
   right: 1px;
   z-index: 5;
->>>>>>> main
+
 }
 
 
