@@ -422,10 +422,18 @@ ul {
 
 div.points{
   font-family: 'Source Code Pro', monospace;
+<<<<<<< HEAD
   font-size: 15px;
   position: relative;
   top: -10px;
   right: -10px;
+=======
+  font-size: 10px;
+  position: absolute;
+  top: 16px;
+  right: 1px;
+  z-index: 5;
+>>>>>>> main
 }
 
 
@@ -514,4 +522,28 @@ div.playing-window-left{
   border: 2px solid black;
   position: relative;
   float: left;
+}
+
+
+/******************* BOX FOR WORDS FROM SAOL *********************/
+
+.boxForWord {
+  background-color: #fdfdfd;
+  float: left;
+  padding: 20px;
+  margin: 10px;
+  width: calc(25% - 62px);
+  border-radius: 5px;
+}
+
+.box:nth-child(4n){
+  clear:both;
+}
+
+.word {
+  font-family: Verdana;
+  font-size: 20px;
+  font-weight: bold;
+  letter-spacing: 3px;
+  color: blue;
 }
