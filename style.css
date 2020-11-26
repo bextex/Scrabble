@@ -94,7 +94,7 @@ ul {
 }
 
 .close .hover-text {
-    visibility: hidden;
+  visibility: hidden;
   width: 120px;
   background-color: #555;
   color: #fff;
@@ -127,7 +127,7 @@ ul {
 }
 
 .game-menu button {
-  font-family: 'Neucha', cursive;
+  font-family: 'Source Code Pro', monospace;
   font-size: 20px;
   background-color: black; /* black background */
   opacity: 0.7;
@@ -146,7 +146,7 @@ ul {
 }
 
 .game-menu button:hover {
-    background-color: azure;
+    background-color: rgb(153, 153, 153);
   color: black;
 }
 
@@ -186,15 +186,15 @@ ul {
  top:80vh;
  margin-right: auto;
  margin-left: auto;
- font-family: 'Neucha', cursive;
- font-size: 25px;
+ font-family: 'Source Code Pro', monospace;
+ font-size: 20px;
  opacity: 0.8;
  border: 5px solid rgb(15, 59, 97);
  border-radius: 5px;
  color: white;
  }
  .newPlayerInput:hover {
-  background-color: azure;
+  background-color: rgb(153, 153, 153);
  }
       
 .board {
@@ -205,8 +205,8 @@ ul {
 
 .board > div {
   border: 1px solid #000000;
-  width: 5vh;
-  height: 5vh;
+  width: 5.5vh;
+  height: 5.5vh;
   background-color: #54aa79;
   float: left;
 }
@@ -226,7 +226,7 @@ ul {
 }
 
 .playing-window{
-  margin-top: 170px;
+  margin-top: 20px;
   margin-right: 220px;
   overflow: hidden;
   text-align: center;
@@ -256,7 +256,7 @@ ul {
   content: '3x \A ORD';
   display: block;
   text-align: center;
-  font-size: 1.5vh;
+  font-size: 1.2vh;
   margin-top: 1vh;
   color: white;
 }
@@ -265,7 +265,7 @@ ul {
   content: '2x \A ORD';
   display: block;
   text-align: center;
-  font-size: 1.5vh;
+  font-size: 1.2vh;
   margin-top: 1vh;
   color: white;
 } 
@@ -274,7 +274,7 @@ ul {
   content: '3x \A BOKSTAV';
   display: block;
   text-align: center;
-  font-size: 1.5vh;
+  font-size: 1.2vh;
   margin-top: 1vh;
   color: white;
 }
@@ -283,7 +283,7 @@ ul {
   content: '2x \A BOKSTAV';
   display: block;
   text-align: center;
-  font-size: 1.5vh;
+  font-size: 1.2vh;
   margin-top: 1vh;
   color: white;
 }
@@ -321,7 +321,7 @@ ul {
 
 .tiles-box{
   width: 300px;
-  height: 70px;
+  height: 35px;
   background-color: #02b802;
   padding: 1vh;
   text-align: center;
@@ -335,11 +335,11 @@ ul {
 
 .playertiles{
   font-family: 'Source Code Pro', monospace;
-  font-size: large;
+  font-size: 20px;
   /* padding: 4px; */
   margin: 1px;
-  width: 4vh;
-  height: 4vh;
+  width: 4.5vh;
+  height: 4.5vh;
   background-color: white;
   text-align: center;
   border: 2px solid black;
@@ -367,7 +367,7 @@ div.playing-window-left{
 
   position: relative;
   z-index: 1;
-  margin-top: 30vh;
+  margin-top: 50px;
   margin-left: 1px;
   /*overflow: hidden;*/
   text-align: center;
@@ -433,11 +433,11 @@ div.playing-window-left{
 
 .tile {
   font-family: 'Source Code Pro', monospace;
-  font-size: large;
+  font-size: 20px;
   /* padding: 4px; */
   margin: 1px;
-  width: 4vh;
-  height: 4vh;
+  width: 4.5vh;
+  height: 4.5vh;
   background-color: white;
   text-align: center;
   border: 2px solid black;
