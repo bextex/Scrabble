@@ -179,24 +179,40 @@ ul {
   to {color: aliceblue};
 }
 
-
 .newPlayerInput {
  background-color:black;
  position: relative;
- top:80vh;
+ top: 80vh;
  margin-right: auto;
  margin-left: auto;
  font-family: 'Neucha', cursive;
  font-size: 25px;
  opacity: 0.8;
- border: 5px solid rgb(15, 59, 97);
+ border: 5px solid aliceblue;
  border-radius: 5px;
  color: white;
- }
+
+  animation-name: playerAnimation;
+  animation-iteration-count: 1;
+  animation-timing-function: ease-in;
+  animation-duration: 2s;
+
+}
  .newPlayerInput:hover {
-  background-color: azure;
+    background-color: azure;
+    color: black;
+}
+ @keyframes playerAnimation {
+     0% {
+             opacity: 0;
+       }
+     100% {
+            opacity: 0.7;
+    }
  }
+
       
+
 .board {
   border: 10px solid #02b802;
   border-radius: 3px;
