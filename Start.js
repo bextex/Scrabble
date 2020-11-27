@@ -28,22 +28,22 @@ export default class Start {
     // create all tiles in bag.js and returns and stores them in this.tiles,
     // and therefore stored in global variable "allTilesArr".
     this.tiles = await bag.tilesFromFile();
-    allTilesArr = this;
-    console.log("this.tiles:  " + this.tiles);
+    that = this;
+    // console.log("this.tiles:  " + this.tiles);
   }
 }
 
 $('.start-game').on('click', function () {
-  console.log('clicking the button');
-  console.log($('.playersName > input').length);
+  // console.log('clicking the button');
+  // console.log($('.playersName > input').length);
   let length = $('.playersName > input').length
   for (let i = 1; i <= length; i++) {
-    console.log('im in the loop');
+    // console.log('im in the loop');
     let playerName = document.getElementById(`player${i}Name`).value;
     if (playerName === '') {
       playerName = `Spelare ${i}`;
     }
-    console.log(`${playerName}`);
+    // console.log(`${playerName}`);
     let newPlayer = new Player();
     //allTilesArr.tiles is all the tiles from the bag. Which has been created in clickFunctions
     let tilesFromBag = allTilesArr.tiles.splice(0, 7);
@@ -55,10 +55,11 @@ $('.start-game').on('click', function () {
   setTimeout(() => {
     new Board().start(allTilesArr.tiles);
   }, 1700);
-  $('.scrabble').animate({ top: '12px' }, 'slow');
-  $('.scrabble').animate({ fontSize: '40px' }, 'slow');
-  console.log("new Game().playerTurn - called")
-  //new Game(allTilesArr.tiles);
+  $('.scrabble').fadeOut(2000);
+  // $('.scrabble').animate({ top: '12px' }, 'slow');
+  //$('.scrabble').animate({ fontSize: '40px' }, 'slow');
+  // console.log("new Game().playerTurn - called")
+  //new Game(that.tiles);
   // new Game().countScore();
   // new Game().playerTurn();
 });
