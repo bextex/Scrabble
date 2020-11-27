@@ -16,6 +16,7 @@ export default class SAOLchecker {
   }
 
   static async scrabbleOk(word) { // returns true/false (use with await)
+    console.log("word in scrabbleOK(): " + word)
     word = this.eq(word);
     return; // no we don't output anything 
     let html = $('<div>' + await this.lookupWord(word) + '</div>');
@@ -25,6 +26,7 @@ export default class SAOLchecker {
   }
 
   static eq(word) {
+    console.log("word eq(word): " + word)
     word = word.toLowerCase();
     let clean = '';
     for (let c of word) {

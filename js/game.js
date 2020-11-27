@@ -354,16 +354,12 @@ export default class Game {
     // if (wordArray.length > 0) {
     //   this.countScore(wordArray);
     // }
+    this.countScore(wordArray);
 
   }
 
-
-
   createBoard() {
-
     this.board = [...new Array(15)].map(x => [...new Array(15)].map(x => ({})));
-
-
     // Add some info about special squares
     // Triple word score (3xWs) or swedish (3xOp) Op = Ordpoäng
     [[0, 0], [0, 7], [0, 14], [7, 0], [7, 14], [14, 0], [14, 7], [14, 14]]
@@ -380,7 +376,6 @@ export default class Game {
     [12, 2], [12, 12], [13, 1], [13, 13]]
       .forEach(([y, x]) => this.board[y][x].special = '2xWS');
     this.board[7][7].special = 'middle-star';
-
   }
 
 
@@ -453,12 +448,9 @@ export default class Game {
   }
 
   async countScore(wordsInArray) {
-    console.log('im in countScores');
-    console.log(wordsInArray);
+    console.log('---------im in countScore()-------------');
 
-    let wordsToCheck = wordsInArray.map(x => { console.log('x in countScore: ' + x.toUpperCase()); x.toUpperCase(); });
-
-    console.log(wordsToCheck);
+    let wordsToCheck = wordsInArray.map(x => x.toLowerCase());
 
     // let wordsToCheck = [
     //   'silkscreen', // false (two words),
@@ -479,10 +471,9 @@ export default class Game {
     // let letters = await this.lettersFromFile();
 
     for (let word of wordsToCheck) {
-      console.log('im in loop word for wordstoCheck');
-      console.log('word: ' + word);
+      console.log('---------im in loop word for wordstoCheck------------');
+      console.log("SAOLchecker.scrabbleOK return true/false of word: " + await SAOLchecker.scrabbleOk(word))
       if (await SAOLchecker.scrabbleOk(word) === false) {
-
         $('body').append('<div class="boxForWord"><span class="word">' +
           word + '</span><hr>ok in Scrabble: ' +
           // check if ok scrabble words
