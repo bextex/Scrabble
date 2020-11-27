@@ -383,7 +383,10 @@ export default class Game {
     players.forEach(player => {
       let index = 0
       $('.playing-window-left').append(`
+        <div class="playerWrapper">
         <div class="playername">${player.name}</div>
+        <div class="score">Poäng :<div id="score${players.indexOf(player)}"></div></div>
+        </div>
         <div class="tiles-box"><div id="box${players.indexOf(player)}"></div></div>
         `);
       // console.log(player.tiles[0].length);
