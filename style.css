@@ -187,7 +187,6 @@ ul {
   to {color: aliceblue};
 }
 
-
 .newPlayerInput {
  background-color:black;
  position: relative;
@@ -203,8 +202,10 @@ ul {
 
   animation-name: playerAnimation;
   animation-iteration-count: 1;
-	animation-timing-function: ease-in;
-	animation-duration: 2s;
+
+  animation-timing-function: ease-in;
+  animation-duration: 1s;
+
 
 }
  .newPlayerInput:hover {
@@ -213,13 +214,14 @@ ul {
 }
  @keyframes playerAnimation {
      0% {
-		         opacity: 0;
-	     }
-	   100% {
-		        opacity: 0.7;
-	  }
+             opacity: 0;
+       }
+     100% {
+            opacity: 0.7;
+    }
  }
 
+      
 .board {
   /*border: 25px solid rgba(97, 33, 33, 0.931);*/
   /*border-radius: 5px;*/
@@ -241,9 +243,9 @@ ul {
 
 .board > div {
   border: 1px solid #000000;
-  width: 6vh;
-  height: 5.7vh;
-  background-color: rgba(76, 206, 119, 0.815);
+  width: 5.5vh;
+  height: 5.5vh;
+  background-color: #54aa79;
   float: left;
 }
 
@@ -262,9 +264,9 @@ ul {
 }
 
 .playing-window{
-  font-family: 'Neucha', cursive;
-  margin-top: 15px;
-  margin-left: 20vh;
+ /* margin-top: 170px; */
+  margin-top: 80px;
+  margin-right: 220px;
   overflow: hidden;
   text-align: center;
   display: inline-block;
@@ -314,18 +316,20 @@ ul {
 /* The pseudo-element after can have text */
 .board > div.special-3xWS::after {
   content: '3x \A ORD';
+  white-space: pre;
   display: block;
   text-align: center;
-  font-size: 1.5vh;
+  font-size: 1.3vh;
   margin-top: 1vh;
   color: white;
 }
 
 .board > div.special-2xWS::after {
   content: '2x \A ORD';
+  white-space: pre;
   display: block;
   text-align: center;
-  font-size: 1.5vh;
+  font-size: 1.3vh;
   margin-top: 1vh;
   color: white;
 } 
@@ -334,7 +338,7 @@ ul {
   content: '3x \A BOKSTAV';
   display: block;
   text-align: center;
-  font-size: 1.5vh;
+  font-size: 1.2vh;
   margin-top: 1vh;
   color: white;
 }
@@ -343,7 +347,7 @@ ul {
   content: '2x \A BOKSTAV';
   display: block;
   text-align: center;
-  font-size: 1.5vh;
+  font-size: 1.2vh;
   margin-top: 1vh;
   color: white;
 }
@@ -358,7 +362,12 @@ ul {
 }
 
 /*************************** PLAYER NAMES AND TILES ****************************/
-
+.playerWrapper {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  width:300px;  
+}
 
 .playername{
   font-family: 'Neucha', cursive;
@@ -366,9 +375,23 @@ ul {
   font-size: 20px;
   color: black;
   padding: 2vh;
+  text-align: left;
+  width: 100px;
+  height: 10px;
 }
 
-.not-current-player{
+.score{
+  font-family: 'Neucha', cursive;
+  font-size: large;
+  font-size: 20px;
+  color: black;
+  padding: 2vh;  
+  text-align: left;
+  width: 100px;
+  height: 10px;
+}
+
+/* .not-current-player{
   content: 'Not your turn';
   width: 300px;
   height: 70px;
@@ -377,7 +400,7 @@ ul {
   text-align: center;
   border: 1px solid black;
   z-index: 10;
-}
+} */
 
 .tiles-box{
   position: relative;
@@ -410,8 +433,8 @@ ul {
   font-size: 25px;
   /* padding: 4px; */
   margin: 1px;
-  width: 5.5vh;
-  height: 5.5vh;
+  width: 4.5vh;
+  height: 4.5vh;
   background-color: white;
   text-align: center;
   border: 2px solid black;
@@ -422,10 +445,11 @@ ul {
 
 div.points{
   font-family: 'Source Code Pro', monospace;
-  font-size: 15px;
-  position: relative;
-  top: -10px;
-  right: -10px;
+  font-size: 10px;
+  position: absolute;
+  top: 16px;
+  right: 1.5px;
+  z-index: 5;
 }
 
 
@@ -438,8 +462,10 @@ div.playing-window-left{
 
   position: relative;
   z-index: 1;
-  margin-top: 30vh;
-  margin-left: 1px;
+ /* margin-top: 30vh;
+  margin-left: 1px; */
+  margin-top: 15vh;
+  margin-left: 10px;
   /*overflow: hidden;*/
   text-align: center;
   display: inline-block;
@@ -506,9 +532,9 @@ div.playing-window-left{
   font-family: 'Source Code Pro', monospace;
   font-size: large;
   /* padding: 4px; */
-  margin: 1px;
-  width: 4vh;
-  height: 4vh;
+  margin: 0.5px;
+  width: 4.5vh;
+  height: 4.5vh;
   background-color: white;
   text-align: center;
   border: 2px solid black;
