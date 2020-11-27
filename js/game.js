@@ -17,6 +17,7 @@ export default class Game {
     this.start();
   }
 
+
   /* Starting up the game with start() to set how's the first player */
 
   start() {
@@ -34,7 +35,7 @@ export default class Game {
     // When click on 'Lägg brickor'-button, there will be a new player and the board will render
     // Shoul also count score on word
     $('.play-tiles').on('click', () => {
-      // console.log('im clicking the play tiles button');
+      console.log('im clicking the play tiles button');
       // get points for word
       // CountScores(); ??? 
 
@@ -232,7 +233,7 @@ export default class Game {
 
     $('.board').empty();
     // render the board RENDER THE BOARD AFTER EACH PLAYER
-    console.log(this.board.flat());
+    //console.log(this.board.flat());
     $('.board').html(
       this.board.flat().map(x => `
         <div class="${x.special ? 'special-' + x.special : ''}">
@@ -448,32 +449,19 @@ export default class Game {
   }
 
   async countScore(wordsInArray) {
-    console.log('---------im in countScore()-------------');
+    console.log('------im in countScore()------');
+    console.log(wordsInArray[0])
 
-    let wordsToCheck = wordsInArray.map(x => x.toLowerCase());
-
-    // let wordsToCheck = [
-    //   'silkscreen', // false (two words),
-    //   'Ecuador', // true
-    //   'Malmö', // true
-    //   'nerd',  // false (does not exist in SAOL)
-    //   'nörd',  // true
-    //   'zoo', // true,
-    //   'programmerare', // true
-    //   'utvecklaren', // false (not grundform),
-    //   'renomme', // true (ignore accents)
-    //   'bh', // true (alternate version of grundform),
-    //   'kvalite', // true (alternate version + ignore accents),
-    //   'sprang' // false (not grundform),
-    // ].map(x => x.toUpperCase());
+    let wordsToCheck = [`${wordsInArray[0]}`].map(x => x.toUpperCase());
 
     //read the file to the array
     // let letters = await this.lettersFromFile();
 
     for (let word of wordsToCheck) {
-      console.log('---------im in loop word for wordstoCheck------------');
-      console.log("SAOLchecker.scrabbleOK return true/false of word: " + await SAOLchecker.scrabbleOk(word))
+      console.log(word + "is: " + await SAOLchecker.scrabbleOk(word))
+
       if (await SAOLchecker.scrabbleOk(word) === false) {
+        // (false === false) --> (true)
         $('body').append('<div class="boxForWord"><span class="word">' +
           word + '</span><hr>ok in Scrabble: ' +
           // check if ok scrabble words

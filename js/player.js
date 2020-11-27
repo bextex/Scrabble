@@ -34,7 +34,6 @@ export default class Player {
     //   }
     // }
     players.push(new Player(inputName, tiles));
-    console.log(players);
 
 
     // let index = 1;
