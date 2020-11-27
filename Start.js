@@ -8,7 +8,7 @@ import Board from './js/board.js';
 import Player from "./js/player.js";
 import Bag from './js/bag.js';
 
-let allTilesArr;
+let that;
 
 
 export default class Start {
@@ -26,7 +26,7 @@ export default class Start {
   async clickFunction() {
     let bag = new Bag();
     // create all tiles in bag.js and returns and stores them in this.tiles,
-    // and therefore stored in global variable "allTilesArr".
+    // and therefore stored in global variable "that".
     this.tiles = await bag.tilesFromFile();
     that = this;
     // console.log("this.tiles:  " + this.tiles);
@@ -45,15 +45,15 @@ $('.start-game').on('click', function () {
     }
     // console.log(`${playerName}`);
     let newPlayer = new Player();
-    //allTilesArr.tiles is all the tiles from the bag. Which has been created in clickFunctions
-    let tilesFromBag = allTilesArr.tiles.splice(0, 7);
+    //that is all the tiles from the bag. Which has been created in clickFunctions
+    let tilesFromBag = that.tiles.splice(0, 7);
     newPlayer.setPlayerNames(playerName, tilesFromBag);
   }
 
   $('.game-screen').fadeOut(1700);
   $('.game-menu').fadeOut(1700);
   setTimeout(() => {
-    new Board().start(allTilesArr.tiles);
+    new Board().start(that.tiles);
   }, 1700);
   $('.scrabble').fadeOut(2000);
   // $('.scrabble').animate({ top: '12px' }, 'slow');
