@@ -226,7 +226,8 @@ ul {
 }
 
 .playing-window{
-  margin-top: 170px;
+ /* margin-top: 170px; */
+  margin-top: 80px;
   margin-right: 220px;
   overflow: hidden;
   text-align: center;
@@ -298,7 +299,12 @@ ul {
 }
 
 /*************************** PLAYER NAMES AND TILES ****************************/
-
+.playerWrapper {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  width:300px;  
+}
 
 .playername{
   font-family: 'Neucha', cursive;
@@ -306,6 +312,20 @@ ul {
   font-size: 20px;
   color: black;
   padding: 2vh;
+  text-align: left;
+  width: 100px;
+  height: 10px;
+}
+
+.score{
+  font-family: 'Neucha', cursive;
+  font-size: large;
+  font-size: 20px;
+  color: black;
+  padding: 2vh;  
+  text-align: left;
+  width: 100px;
+  height: 10px;
 }
 
 .not-current-player{
@@ -366,8 +386,10 @@ div.playing-window-left{
 
   position: relative;
   z-index: 1;
-  margin-top: 30vh;
-  margin-left: 1px;
+ /* margin-top: 30vh;
+  margin-left: 1px; */
+  margin-top: 15vh;
+  margin-left: 10px;
   /*overflow: hidden;*/
   text-align: center;
   display: inline-block;
