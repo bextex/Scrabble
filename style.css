@@ -41,13 +41,6 @@ ul {
  top:10vh;
  left: 0;
  right: 0;
-
-
-     /*writing-mode: vertical-rl;
-     text-orientation: upright;
-    position: absolute;*/
-  
-
 }
 
 @keyframes move {
@@ -80,7 +73,6 @@ ul {
   position: relative;
   /*removed top. Doesn't work when position is relative*/
   /*doen't work with percentage '%'*/
-  top: 30vh;
   left: 30%;
   color: rgb(40, 20, 20);
   font-size: 18px;
@@ -202,10 +194,8 @@ ul {
 
   animation-name: playerAnimation;
   animation-iteration-count: 1;
-
   animation-timing-function: ease-in;
   animation-duration: 1s;
-
 
 }
  .newPlayerInput:hover {
@@ -222,24 +212,12 @@ ul {
  }
 
       
+
 .board {
-  /*border: 25px solid rgba(97, 33, 33, 0.931);*/
-  /*border-radius: 5px;*/
-   border: 30px solid transparent;
-  /*padding: 5px;*/
-  border-image: url(border.png) 20% round;
+  border: 10px solid #02b802;
+  border-radius: 3px;
   display: inline-block;
-
-   /*border: 20px solid white;
-  border-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='50' height='50'><defs><linearGradient id='redgradient'><stop offset='0' stop-color='%23FFC14D'/><stop offset='0.362' stop-color='%23FF4834'/><stop offset='1' stop-color='%233B0300'/></linearGradient></defs><g id='Layer_1'><path d='M0,0 L50,0 L50,50 L0,50 L0,0 z' fill='url(%23redgradient)' width='100%' height='100%'/></g></svg>") 10% stretch;
-}*/
-/* styling for Pen, unrelated to border-image */
-/** {
-  box-sizing: border-box;
-}*/
 }
-
-
 
 .board > div {
   border: 1px solid #000000;
@@ -270,29 +248,6 @@ ul {
   overflow: hidden;
   text-align: center;
   display: inline-block;
-  background-color: rgb(0, 0, 0); /* black background */
-  opacity: 1;
- 
-
-
-
-   /*font-family: 'Neucha', cursive;
-  font-size: 20px;
-  background-color: black; 
-  opacity: 0.7;
-  border: 5px solid aliceblue; 
-  border-radius: 5px;
-  color: white; 
-  padding: 20px; /
-  cursor: pointer; 
-  width: 20%; 
-  display: block; 
-  position: relative;
-  left: 40%;
-  top: 40vh;
-  animation-name: move, changeColorText;
-  animation-duration: 2s; */
-
 }
 
 /****************** My special colors ******************/
@@ -403,34 +358,22 @@ ul {
 } */
 
 .tiles-box{
-  position: relative;
-  width: 410px;
-  height: 100px;
-  left: 7vh;
-  /*background-color: rgb(48, 109, 58);*/
-  background-image: url('stump.jpg');
+  width: 300px;
+  height: 70px;
+  background-color: #02b802;
   padding: 1vh;
   text-align: center;
   border: 1px solid black;
-
-  border: 7px solid white;
-  border-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='50' height='50'><defs><linearGradient id='redgradient'><stop offset='0' stop-color='%23FFC14D'/><stop offset='0.362' stop-color='%23FF4834'/><stop offset='1' stop-color='%233B0300'/></linearGradient></defs><g id='Layer_1'><path d='M0,0 L50,0 L50,50 L0,50 L0,0 z' fill='url(%23redgradient)' width='100%' height='100%'/></g></svg>") 10% stretch;
 }
-/* styling for Pen, unrelated to border-image */
- * { 
- box-sizing: border-box;
-}
-
 
 .playertiles.none{
-  background-color: rgb(109, 48, 48);
+  background-color: #02b802;
   border: 0;
-  display: none; 
 }
 
 .playertiles{
   font-family: 'Source Code Pro', monospace;
-  font-size: 25px;
+  font-size: large;
   /* padding: 4px; */
   margin: 1px;
   width: 4.5vh;
@@ -540,4 +483,28 @@ div.playing-window-left{
   border: 2px solid black;
   position: relative;
   float: left;
+}
+
+
+/******************* BOX FOR WORDS FROM SAOL *********************/
+
+.boxForWord {
+  background-color: #fdfdfd;
+  float: left;
+  padding: 20px;
+  margin: 10px;
+  width: calc(25% - 62px);
+  border-radius: 5px;
+}
+
+.box:nth-child(4n){
+  clear:both;
+}
+
+.word {
+  font-family: Verdana;
+  font-size: 20px;
+  font-weight: bold;
+  letter-spacing: 3px;
+  color: blue;
 }
