@@ -21,6 +21,7 @@ export default class Game {
 
   changeTiles() {
     let that = this;
+    $('.change-tiles').prop('disabled', true);
     // When double-clicking on the tiles do this function
     $('.playertiles').not('.none').dblclick(function () {
       // If the player has played a tile then they cannot change any tiles the same round
