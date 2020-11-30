@@ -179,24 +179,40 @@ ul {
   to {color: aliceblue};
 }
 
-
 .newPlayerInput {
  background-color:black;
  position: relative;
- top:80vh;
+ top: 80vh;
  margin-right: auto;
  margin-left: auto;
  font-family: 'Source Code Pro', monospace;
  font-size: 20px;
  opacity: 0.8;
- border: 5px solid rgb(15, 59, 97);
+ border: 5px solid aliceblue;
  border-radius: 5px;
  color: white;
- }
+
+  animation-name: playerAnimation;
+  animation-iteration-count: 1;
+  animation-timing-function: ease-in;
+  animation-duration: 1s;
+
+}
  .newPlayerInput:hover {
-  background-color: rgb(153, 153, 153);
+    background-color: azure;
+    color: black;
+}
+ @keyframes playerAnimation {
+     0% {
+             opacity: 0;
+       }
+     100% {
+            opacity: 0.7;
+    }
  }
+
       
+
 .board {
   border: 10px solid #02b802;
   border-radius: 3px;
@@ -226,7 +242,8 @@ ul {
 }
 
 .playing-window{
-  margin-top: 20px;
+ /* margin-top: 170px; */
+  margin-top: 80px;
   margin-right: 220px;
   overflow: hidden;
   text-align: center;
@@ -254,18 +271,20 @@ ul {
 /* The pseudo-element after can have text */
 .board > div.special-3xWS::after {
   content: '3x \A ORD';
+  white-space: pre;
   display: block;
   text-align: center;
-  font-size: 1.2vh;
+  font-size: 1.3vh;
   margin-top: 1vh;
   color: white;
 }
 
 .board > div.special-2xWS::after {
   content: '2x \A ORD';
+  white-space: pre;
   display: block;
   text-align: center;
-  font-size: 1.2vh;
+  font-size: 1.3vh;
   margin-top: 1vh;
   color: white;
 } 
@@ -298,7 +317,12 @@ ul {
 }
 
 /*************************** PLAYER NAMES AND TILES ****************************/
-
+.playerWrapper {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  width:300px;  
+}
 
 .playername{
   font-family: 'Neucha', cursive;
@@ -306,9 +330,23 @@ ul {
   font-size: 20px;
   color: black;
   padding: 2vh;
+  text-align: left;
+  width: 100px;
+  height: 10px;
 }
 
-.not-current-player{
+.score{
+  font-family: 'Neucha', cursive;
+  font-size: large;
+  font-size: 20px;
+  color: black;
+  padding: 2vh;  
+  text-align: left;
+  width: 100px;
+  height: 10px;
+}
+
+/* .not-current-player{
   content: 'Not your turn';
   width: 300px;
   height: 70px;
@@ -317,7 +355,7 @@ ul {
   text-align: center;
   border: 1px solid black;
   z-index: 10;
-}
+} */
 
 .tiles-box{
   width: 300px;
@@ -353,7 +391,7 @@ div.points{
   font-size: 10px;
   position: absolute;
   top: 16px;
-  right: 1px;
+  right: 1.5px;
   z-index: 5;
 }
 
@@ -367,8 +405,10 @@ div.playing-window-left{
 
   position: relative;
   z-index: 1;
-  margin-top: 50px;
-  margin-left: 1px;
+ /* margin-top: 30vh;
+  margin-left: 1px; */
+  margin-top: 15vh;
+  margin-left: 10px;
   /*overflow: hidden;*/
   text-align: center;
   display: inline-block;
@@ -435,7 +475,7 @@ div.playing-window-left{
   font-family: 'Source Code Pro', monospace;
   font-size: 20px;
   /* padding: 4px; */
-  margin: 1px;
+  margin: 0.5px;
   width: 4.5vh;
   height: 4.5vh;
   background-color: white;

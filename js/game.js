@@ -13,9 +13,9 @@ export default class Game {
     this.showPlayerButtons();
     this.tilesFromBag = tilesFromBag;
     this.playerIndex = 0;
-    this.lettersFromFile();
     this.start();
   }
+
 
   /* Starting up the game with start() to set how's the first player */
 
@@ -34,7 +34,7 @@ export default class Game {
     // When click on 'Lägg brickor'-button, there will be a new player and the board will render
     // Shoul also count score on word
     $('.play-tiles').on('click', () => {
-      // console.log('im clicking the play tiles button');
+      console.log('im clicking the play tiles button');
       // get points for word
       // CountScores(); ??? 
 
@@ -232,7 +232,7 @@ export default class Game {
 
     $('.board').empty();
     // render the board RENDER THE BOARD AFTER EACH PLAYER
-    console.log(this.board.flat());
+    //console.log(this.board.flat());
     $('.board').html(
       this.board.flat().map(x => `
         <div class="${x.special ? 'special-' + x.special : ''}">
@@ -354,16 +354,12 @@ export default class Game {
     // if (wordArray.length > 0) {
     //   this.countScore(wordArray);
     // }
+    this.countScore(wordArray);
 
   }
 
-
-
   createBoard() {
-
     this.board = [...new Array(15)].map(x => [...new Array(15)].map(x => ({})));
-
-
     // Add some info about special squares
     // Triple word score (3xWs) or swedish (3xOp) Op = Ordpoäng
     [[0, 0], [0, 7], [0, 14], [7, 0], [7, 14], [14, 0], [14, 7], [14, 14]]
@@ -380,7 +376,6 @@ export default class Game {
     [12, 2], [12, 12], [13, 1], [13, 13]]
       .forEach(([y, x]) => this.board[y][x].special = '2xWS');
     this.board[7][7].special = 'middle-star';
-
   }
 
 
@@ -388,7 +383,10 @@ export default class Game {
     players.forEach(player => {
       let index = 0
       $('.playing-window-left').append(`
+        <div class="playerWrapper">
         <div class="playername">${player.name}</div>
+        <div class="score">Poäng :<div id="score${players.indexOf(player)}"></div></div>
+        </div>
         <div class="tiles-box"><div id="box${players.indexOf(player)}"></div></div>
         `);
       // console.log(player.tiles[0].length);
@@ -412,57 +410,41 @@ export default class Game {
   showPlayerButtons() {
     $('.playing-window').append(
       `<button class="play-tiles">Lägg brickor</button>
-      <button class="pass">Stå över</button>`
+      <button class="pass">Stå över</button>
+      <style>
+      .play-tiles {
+        font-family: 'Neucha', cursive;
+        font-size: 20px;
+         background-color: white;
+         border: 3px solid aliceblue; 
+         border-radius: 3px;
+      }
+      .pass {
+        font-family: 'Neucha', cursive;
+        font-size: 20px;
+         background-color: white;
+         border: 3px solid aliceblue; 
+         border-radius: 3px;
+      }
+      </style>
+      `
     );
   }
 
-  async lettersFromFile() {
-    let letters = [];
-    // Read the tile info from file
-    (await $.get('data/tiles.txt'))
-      .split('\r').join('') // Windows safe :)
-      .split('\n').forEach(x => {
-        // For each line split content by ' '
-        // x[0] = char, x[1] = points, x[2] = occurences
-        x = x.split(' ');
-        x[0] = x[0] === '_' ? ' ' : x[0];
-        // add tiles to this.tiles
-        letters.push({ char: x[0], points: +x[1] });
-      });
-    return letters;
-  }
-
   async countScore(wordsInArray) {
-    console.log('im in countScores');
-    console.log(wordsInArray);
+    console.log('------im in countScore()------');
+    console.log(wordsInArray[0])
 
-    let wordsToCheck = wordsInArray.map(x => { console.log('x in countScore: ' + x.toUpperCase()); x.toUpperCase(); });
-
-    console.log(wordsToCheck);
-
-    // let wordsToCheck = [
-    //   'silkscreen', // false (two words),
-    //   'Ecuador', // true
-    //   'Malmö', // true
-    //   'nerd',  // false (does not exist in SAOL)
-    //   'nörd',  // true
-    //   'zoo', // true,
-    //   'programmerare', // true
-    //   'utvecklaren', // false (not grundform),
-    //   'renomme', // true (ignore accents)
-    //   'bh', // true (alternate version of grundform),
-    //   'kvalite', // true (alternate version + ignore accents),
-    //   'sprang' // false (not grundform),
-    // ].map(x => x.toUpperCase());
+    let wordsToCheck = [`${wordsInArray[0]}`].map(x => x.toUpperCase());
 
     //read the file to the array
     // let letters = await this.lettersFromFile();
 
     for (let word of wordsToCheck) {
-      console.log('im in loop word for wordstoCheck');
-      console.log('word: ' + word);
-      if (await SAOLchecker.scrabbleOk(word) === false) {
+      console.log(word + "is: " + await SAOLchecker.scrabbleOk(word))
 
+      if (await SAOLchecker.scrabbleOk(word) === false) {
+        // (false === false) --> (true)
         $('body').append('<div class="boxForWord"><span class="word">' +
           word + '</span><hr>ok in Scrabble: ' +
           // check if ok scrabble words
