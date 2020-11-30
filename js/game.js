@@ -203,6 +203,8 @@ export default class Game {
       // console.log(this.board[y][x].tile);
       // When droped a tile on the board, re-render
 
+
+      console.log("-----addEvents------\n" + " y: " + y + " x: " + x)
       this.checkForNewWords(y, x);
 
 
@@ -260,8 +262,7 @@ export default class Game {
     let wordVertical = [];
     let wordArray = [];
 
-    console.log('y: ' + y);
-    console.log('x: ' + x);
+    console.log('-----checkForNewWords----\n' + ' y: ' + y + ' x: ' + x);
 
     let howManyWords = 0;
 
