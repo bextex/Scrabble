@@ -80,7 +80,8 @@ ul {
   border-radius: 10px;
   background-color: lightblue;
   width: 35%;
-  height: 50vh;
+  margin-top: 35vh;
+  height: 30vh;
   padding: 5vh;
   overflow: auto;
   display: none;
@@ -214,22 +215,31 @@ ul {
       
 
 .board {
-  border: 10px solid #02b802;
+  /*#02b802*/
+  border: 5px solid #F23847;
   border-radius: 3px;
   display: inline-block;
+  padding-top: 65px;
+  padding-bottom: 80px;
+  background-color: #F23847;
+
+  
+  
 }
 
 .board > div {
-  border: 1px solid #000000;
-  width: 5.5vh;
-  height: 5.5vh;
-  background-color: #54aa79;
+  border: 1.5px solid #000000;
+  width: 5vh;
+  height: 5vh;
+  background-color: #A5A686;
   float: left;
+  
 }
 
 .board > div:nth-child(15n+1){
   clear: both;
 }
+
 
 .board > div::after {
   display: block;
@@ -243,8 +253,8 @@ ul {
 
 .playing-window{
  /* margin-top: 170px; */
-  margin-top: 80px;
-  margin-right: 220px;
+  margin-top: 30px;
+  margin-right: 50vh;
   overflow: hidden;
   text-align: center;
   display: inline-block;
@@ -252,20 +262,25 @@ ul {
 
 /****************** My special colors ******************/
 .board > div.special-3xWS {
-  background-color: red;
+  /*red*/
+  background-color: #F23847;
 }
 .board > div.special-2xWS {
-  background-color: palevioletred;
+  /*palevioletred*/
+  background-color: #BF4136;
 }
 .board > div.special-3xLS {
-  background-color: darkblue;
+  /*darkblue*/
+  background-color: #F20505;
 }
 .board > div.special-2xLS {
-  background-color: rgb(145, 227, 255);
+  /*rgb(145, 227, 255)*/
+  background-color: #c6caa5b2;
 }
 
 .board > div.special-middle-star {
-  background-color: palevioletred;
+  /*palevioletred*/
+  background-color: #BF4136;
 }
 
 /* The pseudo-element after can have text */
@@ -357,17 +372,18 @@ ul {
   z-index: 10;
 } */
 
-.tiles-box{
+/*.tiles-box{
   width: 300px;
   height: 70px;
   background-color: #02b802;
   padding: 1vh;
   text-align: center;
   border: 1px solid black;
-}
+}*/
 
 .playertiles.none{
-  background-color: #02b802;
+  /* #02b802*/
+  background-color: #F23847;
   border: 0;
 }
 
@@ -378,9 +394,12 @@ ul {
   margin: 1px;
   width: 4.5vh;
   height: 4.5vh;
-  background-color: white;
+  /*white*/
+  background-color: #EFF2D8;
   text-align: center;
-  border: 2px solid black;
+  /*black*/
+  border: 3px solid #A5A686;
+  border-radius: 5px;
   position: relative;
   float: left;
   cursor: pointer;
@@ -402,13 +421,11 @@ div.playing-window-left{
 }
 
 .playing-window-left{
-
-  position: relative;
+  position: fixed;
   z-index: 1;
- /* margin-top: 30vh;
-  margin-left: 1px; */
-  margin-top: 15vh;
-  margin-left: 10px;
+  margin-left: 1px; 
+  margin-top: 88vh;
+  margin-left: 35vh;
   /*overflow: hidden;*/
   text-align: center;
   display: inline-block;
@@ -476,11 +493,11 @@ div.playing-window-left{
   font-size: large;
   /* padding: 4px; */
   margin: 0.5px;
-  width: 4.5vh;
-  height: 4.5vh;
-  background-color: white;
+  width: 4vh;
+  height: 4vh;
+  background-color:  #EFF2D8;
   text-align: center;
-  border: 2px solid black;
+  border: 3px solid #A5A686;
   position: relative;
   float: left;
 }
@@ -508,3 +525,5 @@ div.playing-window-left{
   letter-spacing: 3px;
   color: blue;
 }
+
+/****** SAOL *******/
