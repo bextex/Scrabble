@@ -369,6 +369,7 @@ ul {
 .playertiles.none{
   background-color: #02b802;
   border: 0;
+  cursor: default ;
 }
 
 .playertiles{
@@ -381,6 +382,21 @@ ul {
   background-color: white;
   text-align: center;
   border: 2px solid black;
+  position: relative;
+  float: left;
+  cursor: pointer;
+}
+
+.playertiles.change{
+  font-family: 'Source Code Pro', monospace;
+  font-size: 20px;
+  /* padding: 4px; */
+  margin: 1px;
+  width: 4.5vh;
+  height: 4.5vh;
+  background-color: white;
+  text-align: center;
+  border: 2px dotted rgb(126, 126, 126);
   position: relative;
   float: left;
   cursor: pointer;
