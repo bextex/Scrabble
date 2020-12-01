@@ -212,10 +212,11 @@ ul {
       
 
 .board {
+  width: calc(75vh + 50px);
   border: 3px solid black;
   border-radius: 3px;
   display: inline-block;
-  padding: 40px 20px 80px 20px;
+  padding: 50px 20px 90px 20px;
 
   /*#F23847*/
   background-color:  #F23847;
@@ -407,11 +408,11 @@ div.playing-window-left{
 
 .playing-window-left{
 
-  position: fixed;
+  position: absolute;
   z-index: 1;
  /* margin-top: 30vh;
   margin-left: 1px; */
-  margin-top: 87vh;
+  margin-top: 86.5vh;
   margin-left: 40vh;
   /*overflow: hidden;*/
   text-align: center;

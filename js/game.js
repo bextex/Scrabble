@@ -409,25 +409,32 @@ export default class Game {
 
   showPlayerButtons() {
     $('.playing-window').append(
-      /*`<button class="play-tiles">Lägg brickor</button>
-      <button class="pass">Stå över</button>
-      <style>
+      `<button class="play-tiles">Lägg brickor</button>
+       <button class="pass">Stå över</button>
+      
+       <style>
       .play-tiles {
+        position:absolute;
+        left: 50vh;
+        top:5vh;
         font-family: 'Neucha', cursive;
         font-size: 20px;
-         background-color: white;
+         background-color: #EFF2D8;
          border: 3px solid aliceblue; 
          border-radius: 3px;
       }
       .pass {
+        position:absolute;
+        right: 80vh;
+        top:5vh;
         font-family: 'Neucha', cursive;
         font-size: 20px;
-         background-color: white;
+         background-color: #EFF2D8;
          border: 3px solid aliceblue; 
          border-radius: 3px;
       }
       </style>
-      `*/
+      `
     );
   }
 
