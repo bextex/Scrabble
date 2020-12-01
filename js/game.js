@@ -331,7 +331,7 @@ export default class Game {
     }
 
     if (wordArray.length > 0) {
-      this.countScore(wordArray);
+      this.showWordFromSAOL(wordArray);
     }
 
   }
@@ -406,8 +406,8 @@ export default class Game {
     );
   }
 
-  async countScore(wordsInArray) {
-    console.log('------im in countScore()------');
+  async showWordFromSAOL(wordsInArray) {
+    console.log('------im in showWordFromSAOL()------');
     console.log("wordsInArray:  ", wordsInArray);
 
     let lastWord = wordsInArray[0].word;
