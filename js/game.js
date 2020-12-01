@@ -13,6 +13,7 @@ export default class Game {
     this.showPlayerButtons();
     this.tilesFromBag = tilesFromBag;
     this.playerIndex = 0;
+    //this.lettersFromFile();
     this.start();
     // this.changeTiles();
     // Set change button to disabled when starting the game
@@ -247,7 +248,7 @@ export default class Game {
       this.board[y][x].tile = that.tiles[0].splice(tileIndex, 1);
       // When droped a tile on the board, re-render
 
-      this.checkForNewWords(y, x);
+      this.checkNewWordsOnBorad(y, x);
 
       this.render();
     });
@@ -291,60 +292,17 @@ export default class Game {
 
   }
 
-  checkForNewWords(y, x) {
+  checkNewWordsOnBorad(y, x) {
 
-    let wordHorisontal = [];
-    let wordVertical = [];
-    let wordArray = [];
+    let wordH = [];  //to save  all the infromation on the horisontal 
+    let wordV = [];  //to save all the infromation on the vertical 
+    let wordArray = [];  //to save the final word array(word,points,extra points word times) 
+    let c = ''; //temp variable to save this.board[i][j].tile[0].char
+    let p = 0;  //temp variable to save this.board[i][j].tile[0].points;
+    let s = ''; //temp variableto save this.board[i][j].special
 
-    let howManyWords = 0;
-
-
-    /* KOLLA RAD FÖR RAD, SPARA UNDAN FÖRST VERTIKAL OCH SEN HORISONTELLA ORD,
-    LÄGG I ARRAY SOM KOLLAR AV MOT SAOL HELA TIDEN */
-
-
-    // lägg till bokstäverna på rätt plats i en array beroende på om dom kommer efter eller före, 
-    // använd sedan join() för att få ihop det till en sträng innan det läggs till i en annan array
-
-
-
-
-
-
-    // console.log(this.board[y - 1][x].tile);
-    // console.log(this.board[y + 1][x].tile);
-    // if (this.board[y - 1][x].tile || this.board[y + 1][x].tile) {
-    //   while (this.board[y - 1][x].tile) {
-    //     y = y - 1;
-    //     console.log('y: ' + y);
-    //   }
-    //   while (this.board[y + 1].tile) {
-    //     wordVertical.push(this.board[y][x].tile[0].char);
-    //     y = y + 1;
-    //   }
-    // }
-    // console.log(wordVertical);
-
-
-
-    // while (this.board[y - 1][x].tile) {
-    //   wordVertical.unshift(this.board[y][x].tile[0].char);
-    //   y = y - 1;
-    // }
-    // console.log(wordVertical);
-
-    // while (this.board[y + 1][x].tile) {
-    //   wordVertical.push(this.board[y][x].tile[0].char);
-    //   y = y + 1;
-    // }
-
-
-    // if (this.board[y - 1][x].tile) {
-    //   wordVertical.unshift(this.board[y][x].tile[0].char);
-    // } else if (this.board[y + 1][x].tile) {
-
-    // }
+    console.log('y: ' + y);
+    console.log('x: ' + x);
 
     // CHECK HORISONTAL
     for (let i = 0; i < this.board.length; i++) {
@@ -354,36 +312,104 @@ export default class Game {
         if (this.board[i][j].tile) {
           // if (i === y && j === x) {
           // First check if we have another tile above/below AND side/side
-          // Add the letter to both vertical and horisontal word
+          // Add the letter to both vertical and horisontal word  
           if ((this.board[i + 1][j].tile || this.board[i - 1][j].tile) && (this.board[i][j + 1].tile || this.board[i][j - 1].tile)) {
-            wordVertical += this.board[i][j].tile[0].char;
-            wordHorisontal += this.board[i][j].tile[0].char;
+            c = this.board[i][j].tile[0].char;
+            p = this.board[i][j].tile[0].points;
+            s = this.board[i][j].special;
+            wordV.push({ x: i, y: j, char: c, points: p, special: s });
+            wordH.push({ x: i, y: j, char: c, points: p, special: s });
             // If we only have a tile above/below, add the letter to vertical word
           } else if (this.board[i + 1][j].tile || this.board[i - 1][j].tile) {
-            wordVertical += this.board[i][j].tile[0].char;
+            c = this.board[i][j].tile[0].char;
+            p = this.board[i][j].tile[0].points;
+            s = this.board[i][j].special;
+            wordV.push({ x: i, y: j, char: c, points: p, special: s });
             // If we only have a tile side/side, add the letter to horisontal word
           } else if (this.board[i][j + 1].tile || this.board[i][j - 1].tile) {
-            wordHorisontal += this.board[i][j].tile[0].char;
+            c = this.board[i][j].tile[0].char;
+            p = this.board[i][j].tile[0].points;
+            s = this.board[i][j].special;
+            wordH.push({ x: i, y: j, char: c, points: p, special: s });
             // If we have a tile but no other tile beside us, add to both vertical and horisontal word
             // This will only be at the start of game, when the first tile is placed
           } else {
-            wordVertical += this.board[i][j].tile[0].char;
-            wordHorisontal += this.board[i][j].tile[0].char;
+            c = this.board[i][j].tile[0].char;
+            p = this.board[i][j].tile[0].points;
+            s = this.board[i][j].special;
+            wordV.push({ x: i, y: j, char: c, points: p, special: s });
+            wordH.push({ x: i, y: j, char: c, points: p, special: s });
           }
         }
       }
     }
+    wordV.sort((a, b) => a.y > b.y ? -1 : 1);
+    wordH.sort((a, b) => a.x > b.x ? -1 : 1);
+    console.log('vertical wordV: ', wordV);
+    console.log('horisontal wordH: ', wordH);
 
-    console.log("Horizontal word: " + wordHorisontal)
-    console.log("Vertical word: " + wordVertical)
+    //Collect all the letters from same column and made it up to en word. 
+    //Calulate the points of word even if it has extra points(2x letters,3x letters). 
+    //save the words multiple times  if it has extra points(2x word,3x word). 
+    if (wordV.length > 1) {
+      let word = '';
+      let points = 0;
+      let multiple = 1;
+      for (let i = 0; i < wordV.length; i++) {
+        if (((i < wordV.length - 1) && (wordV[i].y === wordV[i + 1].y)) || ((i > 0) && (wordV[i].y === wordV[i - 1].y))) {
+          word += wordV[i].char;
+          if (wordV[i].special) {
+            if ((wordV[i].special) === '2xLS') { points += 2 * wordV[i].points }
+            else if ((wordV[i].special) === '3xLS') { points += 3 * wordV[i].points }
+            else if ((wordV[i].special) === '2xLW') { multiple *= 2 }
+            else if ((wordV[i].special) === '3xLW') { multiple *= 3 }
+            else points += wordV[i].points;
+          }
+          else {
+            points += wordV[i].points;
+          }
+        }
+        //if it is another column then save the word to wordArray. Initialize variables in order to save the new words.
+        if ((i === wordV.length - 1) || (wordV[i].y !== wordV[i + 1].y)) {
+          wordArray.push({ word: word, points: points, multiple: multiple })
+          word = '';
+          points = 0;
+          multiple = 1;
+        }
 
-    // if the horisontal word is longer than one character, add it to the array
-    if (wordHorisontal.length > 1) {
-      wordArray.push(wordHorisontal);
+      }
+      console.log('the words currently on board:', wordArray);
     }
-    // Same for the vertical word
-    if (wordVertical.length > 1) {
-      wordArray.push(wordVertical);
+    //Collect all the letters from same row and made it up to en word. 
+    //Calulate the points of word even if it has extra points(2x letters,3x letters). 
+    //save the words multiple times  if it has extra points(2x word,3x word). 
+    if (wordH.length > 1) {
+      let word = '';
+      let points = 0;
+      let multiple = 1;
+      for (let i = 0; i < wordH.length; i++) {
+        if (((i < wordH.length - 1) && (wordH[i].x === wordH[i + 1].x)) || ((i > 0) && (wordH[i].x === wordH[i - 1].x))) {
+          word += wordH[i].char
+          if (wordH[i].special) {
+            if ((wordH[i].special) === '2xLS') { points += 2 * wordH[i].points }
+            else if ((wordH[i].special) === '3xLS') { points += 3 * wordH[i].points }
+            else if ((wordH[i].special) === '2xLW') { multiple *= 2 }
+            else if ((wordH[i].special) === '3xLW') { multiple *= 3 }
+            else points += wordH[i].points;
+          }
+          else {
+            points += wordH[i].points;
+          }
+        }
+        //if it is another row then save the word to wordArray. Initialize variables in order to save the new words.
+        if ((i === wordH.length - 1) || (wordH[i].x !== wordH[i + 1].x)) {
+          wordArray.push({ word: word, points: points, multiple: multiple })
+          word = '';
+          points = 0;
+          multiple = 1;
+        }
+      }
+      console.log('the words currently on board:', wordArray);
     }
 
     if (wordArray.length > 0) {
@@ -391,6 +417,7 @@ export default class Game {
     }
 
   }
+
 
   createBoard() {
     this.board = [...new Array(15)].map(x => [...new Array(15)].map(x => ({})));
