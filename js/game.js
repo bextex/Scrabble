@@ -408,10 +408,10 @@ export default class Game {
 
   async countScore(wordsInArray) {
     console.log('------im in countScore()------');
-    console.log("wordsInArray:  " + wordsInArray);
+    console.log("wordsInArray:  ", wordsInArray);
 
-    let lastWord = wordsInArray[wordsInArray.length - 1];
-    console.log("last word: ----> " + lastWord)
+    let lastWord = wordsInArray[0].word;
+    console.log("last word: ----> ", lastWord)
 
     console.log(lastWord + "is: " + await SAOLchecker.scrabbleOk(lastWord))
 
