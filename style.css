@@ -212,11 +212,12 @@ ul {
       
 
 .board {
+  position: relative;
   width: calc(75vh + 50px);
   border: 3px solid black;
   border-radius: 3px;
   display: inline-block;
-  padding: 50px 450px 90px 20px;
+  padding: 50px 320px 90px 20px;
 
   /*#F23847*/
   background-color:  #F23847;
@@ -248,7 +249,7 @@ ul {
 .playing-window{
  /* margin-top: 170px; */
   margin-top: 30px;
-  margin-right: 270px;
+  margin-right: 400px;
   overflow: hidden;
   text-align: center;
   display: inline-block;
@@ -516,13 +517,17 @@ div.playing-window-left{
   background-color:#EFF2D8;
   position: absolute;
   top: 30vh;
-  right: 40vh;
+  top: 20px;
+  width: 200px;
+  right: 20px;
   border: 3px solid #A5A686;
-  float: left;
+  overflow: scroll;
+  height: 50vh;
   padding: 20px;
   margin: 10px;
-  width: calc(25% - 62px);
+  /*width: calc(15% - 40px);*/
   border-radius: 5px;
+  
 }
 
 .box:nth-child(4n){

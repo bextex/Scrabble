@@ -528,7 +528,7 @@ export default class Game {
 
     if (await SAOLchecker.scrabbleOk(lastWord) === false) {
       // (false === false) --> (true)
-      $('body').append('<div class="boxForWord"><span class="word">' +
+      $('.board').append('<section class="boxForWord"><span class="word">' +
         lastWord + '</span><hr>ok in Scrabble: ' +
         // check if ok scrabble words
         // by calling await SAOLchecker.scrabbleOk(word)
@@ -536,7 +536,7 @@ export default class Game {
         // add explanations/entries from SAOL in body
         // by using await SAOLchecker.lookupWord(word)
         // (maybe fun to show in scrabble at some point?)
-        await SAOLchecker.lookupWord(lastWord) + '</div');
+        await SAOLchecker.lookupWord(lastWord) + '</section>');
 
     }
     if (await SAOLchecker.scrabbleOk(lastWord)) {
