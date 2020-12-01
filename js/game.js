@@ -3,10 +3,10 @@ import SAOLchecker from './SAOLchecker.js';
 import Board from './board.js';
 import Score from './score.js';
 
+
 export default class Game {
 
   constructor(tilesFromBag) {
-
 
     this.createBoard();
     this.render();

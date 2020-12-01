@@ -1,6 +1,7 @@
 // This is our main-file called game
 import Game from './js/game.js';
 import Board from './js/board.js';
+import Network from './js/network.js';
 
 //
 //!!!! Kalla new Board().start(); där ni vill ha brädet! 
@@ -17,9 +18,11 @@ export default class Start {
   constructor() {
     $('.start-screen').fadeOut(1700);
     $('.game-screen').fadeIn(1350);
+    // new Network();
     let player = new Player();
     // start choosePlayer method from the Player class
     player.choosePlayers();
+    // new Network();
     this.clickFunction();
   }
 
@@ -28,7 +31,38 @@ export default class Start {
     // create all tiles in bag.js and returns and stores them in this.tiles,
     // and therefore stored in global variable "that".
     this.tiles = await bag.tilesFromFile();
+
+    let length = $('.newPlayerInput').length;
+
     that = this;
+
+    $('.game-menu').append(
+      `<input type="names" id="player1Name" class="newPlayerInput" placeholder="Namn" />`
+    );
+
+    $('.start-new-game').on('click', async function () {
+      if (length < 1) {
+        console.log('Type in a name first');
+        return;
+      }
+      let network = new Network();
+      let networkKey = await network.getLocalKey();
+      $('.playersName').append(`
+      <div type="key-input" class="key-input"><span class="key">${networkKey}</span></div>`);
+    })
+
+    $('.connect-to-game').on('click', function () {
+      let network = new Network();
+      // let networkKey = await network.getLocalKey();
+      $('.playersName').append(`
+      <input type="key-input" class="key-input"><span class="key" placeholder="Skriv nyckel här"></span></input>`);
+
+    });
+
+
+
+
+
     // console.log("this.tiles:  " + this.tiles);
   }
 }

@@ -182,7 +182,7 @@ ul {
 .newPlayerInput {
  background-color:black;
  position: relative;
- top: 80vh;
+ top: 10vh;
  margin-right: auto;
  margin-left: auto;
  font-family: 'Source Code Pro', monospace;
@@ -202,6 +202,7 @@ ul {
     background-color: azure;
     color: black;
 }
+
  @keyframes playerAnimation {
      0% {
              opacity: 0;
@@ -210,8 +211,6 @@ ul {
             opacity: 0.7;
     }
  }
-
-      
 
 .board {
   border: 10px solid #02b802;
@@ -524,3 +523,85 @@ div.playing-window-left{
   letter-spacing: 3px;
   color: blue;
 }
+
+/************************** NETWORK CHAT ************************/
+
+
+header, footer {
+  background-color: rgb(84, 119, 196);
+  border-bottom: 1px solid #000;
+  position: fixed;
+  width: calc(100% - 20px);
+  padding: 10px;
+  color: white;
+  left: 0;
+}
+
+header {
+  top: 0;
+}
+
+footer {
+  bottom: 0;
+}
+
+.key {
+  float: right;
+  display: block;
+  padding-right: 10px;
+  font-weight: bold;
+}
+
+/* .key::before {
+  content: 'Chat-kod: ';
+  font-weight: normal;
+} */
+
+footer input {
+  width: 80%;
+}
+
+.message {
+  padding: 6px 0;
+}
+
+.sender {
+  font-weight: bold;
+}
+
+.fields {
+  width: auto;
+  height: 300px;
+} 
+
+.key-input{
+ background-color:black;
+ position: relative;
+ top: 80vh;
+ margin-right: auto;
+ margin-left: auto;
+
+ opacity: 0.8;
+ border: 5px solid aliceblue;
+ border-radius: 5px;
+  color: white;
+
+  animation-name: playerAnimation;
+  animation-iteration-count: 1;
+  animation-timing-function: ease-in;
+  animation-duration: 1s;
+
+
+  
+  font-family: 'Neucha', cursive;
+  font-size: large;
+  font-size: 20px;
+
+  padding: 2vh;
+  text-align: right;
+  width: 100px;
+  height: 10px;
+
+
+}
+
