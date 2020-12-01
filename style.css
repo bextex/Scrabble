@@ -94,7 +94,7 @@ ul {
 }
 
 .close .hover-text {
-    visibility: hidden;
+  visibility: hidden;
   width: 120px;
   background-color: #555;
   color: #fff;
@@ -127,7 +127,7 @@ ul {
 }
 
 .game-menu button {
-  font-family: 'Neucha', cursive;
+  font-family: 'Source Code Pro', monospace;
   font-size: 20px;
   background-color: black; /* black background */
   opacity: 0.7;
@@ -146,7 +146,7 @@ ul {
 }
 
 .game-menu button:hover {
-    background-color: azure;
+    background-color: rgb(153, 153, 153);
   color: black;
 }
 
@@ -185,8 +185,8 @@ ul {
  top: 80vh;
  margin-right: auto;
  margin-left: auto;
- font-family: 'Neucha', cursive;
- font-size: 25px;
+ font-family: 'Source Code Pro', monospace;
+ font-size: 20px;
  opacity: 0.8;
  border: 5px solid aliceblue;
  border-radius: 5px;
@@ -359,7 +359,7 @@ ul {
 
 .tiles-box{
   width: 300px;
-  height: 70px;
+  height: 35px;
   background-color: #02b802;
   padding: 1vh;
   text-align: center;
@@ -369,11 +369,12 @@ ul {
 .playertiles.none{
   background-color: #02b802;
   border: 0;
+  cursor: default ;
 }
 
 .playertiles{
   font-family: 'Source Code Pro', monospace;
-  font-size: large;
+  font-size: 20px;
   /* padding: 4px; */
   margin: 1px;
   width: 4.5vh;
@@ -381,6 +382,21 @@ ul {
   background-color: white;
   text-align: center;
   border: 2px solid black;
+  position: relative;
+  float: left;
+  cursor: pointer;
+}
+
+.playertiles.change{
+  font-family: 'Source Code Pro', monospace;
+  font-size: 20px;
+  /* padding: 4px; */
+  margin: 1px;
+  width: 4.5vh;
+  height: 4.5vh;
+  background-color: white;
+  text-align: center;
+  border: 2px dotted rgb(126, 126, 126);
   position: relative;
   float: left;
   cursor: pointer;
@@ -473,7 +489,7 @@ div.playing-window-left{
 
 .tile {
   font-family: 'Source Code Pro', monospace;
-  font-size: large;
+  font-size: 20px;
   /* padding: 4px; */
   margin: 0.5px;
   width: 4.5vh;
