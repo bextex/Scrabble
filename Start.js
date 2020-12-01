@@ -50,8 +50,11 @@ $('.start-game').on('click', function () {
     newPlayer.setPlayerNames(playerName, tilesFromBag);
   }
 
-  $('.game-screen').fadeOut(1000);
-  $('.game-menu').fadeOut(1000);
+
+  $('.game-screen').fadeOut(1700);
+  $('.game-menu').fadeOut(1700);
+  $('.scrabble').fadeOut(1700);
+
   setTimeout(() => {
     new Board().start(that.tiles);
   }, 1700);
