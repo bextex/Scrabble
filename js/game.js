@@ -465,25 +465,16 @@ export default class Game {
   }
 
   showPlayerButtons() {
-    $('.playing-window').append(
+    $('.board').append(
       `<button class="play-tiles">Lägg brickor</button>
        <button class="pass">Stå över</button>
       
        <style>
-      .play-tiles {
-        position:absolute;
-        left: 50vh;
-        top:5vh;
-        font-family: 'Neucha', cursive;
-        font-size: 20px;
-         background-color: #EFF2D8;
-         border: 3px solid aliceblue; 
-         border-radius: 3px;
-      }
+      
       .pass {
         position:absolute;
-        right: 80vh;
-        top:5vh;
+        left:15vh;
+        top:1vh;
         font-family: 'Neucha', cursive;
         font-size: 20px;
          background-color: #EFF2D8;
@@ -528,7 +519,7 @@ export default class Game {
 
     if (await SAOLchecker.scrabbleOk(lastWord) === false) {
       // (false === false) --> (true)
-      $('.board').append('<section class="boxForWord"><span class="word">' +
+      $('body').append('<section class="boxForWord"><span class="word">' +
         lastWord + '</span><hr>ok in Scrabble: ' +
         // check if ok scrabble words
         // by calling await SAOLchecker.scrabbleOk(word)
@@ -540,7 +531,7 @@ export default class Game {
 
     }
     if (await SAOLchecker.scrabbleOk(lastWord)) {
-      $('body').append(`<div class="boxForWord" id="${lastWord}-box"><span class="word">` +
+      $('.body').append(`<div class="boxForWord" id="${lastWord}-box"><span class="word">` +
         lastWord + `</span><hr>ok in Scrabble: ` +
         // check if ok scrabble words
         // by calling await SAOLchecker.scrabbleOk(word)
