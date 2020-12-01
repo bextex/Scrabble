@@ -516,6 +516,8 @@ export default class Game {
         // (maybe fun to show in scrabble at some point?)
         await SAOLchecker.lookupWord(lastWord) + '</div');
 
+      //Disable "Lägg brickor" - button when word is false in SAOL
+      $('.play-tiles').prop('disabled', true);
     }
     if (await SAOLchecker.scrabbleOk(lastWord)) {
       $('body').append(`<div class="boxForWord" id="${lastWord}-box"><span class="word">` +
@@ -540,6 +542,9 @@ export default class Game {
         // by using await SAOLchecker.lookupWord(word)
         // (maybe fun to show in scrabble at some point?)
         await SAOLchecker.lookupWord(lastWord) + '</div');
+
+      //Activate "Lägg brickor" - button when word is true in SAOL
+      $('.play-tiles').prop('disabled', false);
     }
   }
 }
