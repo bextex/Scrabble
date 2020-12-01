@@ -490,8 +490,8 @@ export default class Game {
     //   </style>
   }
 
-  async countScore(wordsInArray) {
-    console.log('------im in countScore()------');
+  async showWordFromSAOL(wordsInArray) {
+    console.log('------im in showWordFromSAOL()------');
     console.log("wordsInArray:  ", wordsInArray);
 
     let lastWord = wordsInArray[0].word;
