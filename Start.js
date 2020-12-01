@@ -18,12 +18,15 @@ export default class Start {
     $('.start-screen').fadeOut(1700);
     $('.game-screen').fadeIn(1350);
     let player = new Player();
+    // start choosePlayer method from the Player class
     player.choosePlayers();
     this.clickFunction();
   }
 
   async clickFunction() {
     let bag = new Bag();
+    // create all tiles in bag.js and returns and stores them in this.tiles,
+    // and therefore stored in global variable "that".
     this.tiles = await bag.tilesFromFile();
     that = this;
     // console.log("this.tiles:  " + this.tiles);
@@ -42,6 +45,7 @@ $('.start-game').on('click', function () {
     }
     // console.log(`${playerName}`);
     let newPlayer = new Player();
+    //that is all the tiles from the bag. Which has been created in clickFunctions
     let tilesFromBag = that.tiles.splice(0, 7);
     newPlayer.setPlayerNames(playerName, tilesFromBag);
   }
@@ -51,16 +55,10 @@ $('.start-game').on('click', function () {
   setTimeout(() => {
     new Board().start(that.tiles);
   }, 1700);
-  // $('.scrabble').animate({ top: '12px' }, 'slow');
-  // $('.scrabble').animate({ fontSize: '40px' }, 'slow');
-  $('.scrabble').fadeOut(1);
-  //$('.scrabble').fadeIn(2000);
-  $('.scrabble').css({
-    'text-orientation': 'upright',
-    'writing-mode': 'vertical-rl'
-  }).animate({ fontSize: '60px', top: '100px' });
-  $('.scrabble').fadeIn(2000);
 
+  $('.scrabble').fadeOut(2000);
+  // $('.scrabble').animate({ top: '12px' }, 'slow');
+  //$('.scrabble').animate({ fontSize: '40px' }, 'slow');
   // console.log("new Game().playerTurn - called")
   //new Game(that.tiles);
   // new Game().countScore();
