@@ -15,6 +15,34 @@ export default class Game {
     this.playerIndex = 0;
     //this.lettersFromFile();
     this.start();
+    // this.changeTiles();
+    // Set change button to disabled when starting the game
+    $('.change-tiles').prop('disabled', true);
+  }
+
+  changeTiles() {
+    let that = this;
+    $('.change-tiles').prop('disabled', true);
+    // When double-clicking on the tiles do this function
+    $('.playertiles').not('.none').dblclick(function () {
+      // If the player has played a tile then they cannot change any tiles the same round
+      if (that.tiles[0].length < 7) {
+        alert('You have already placed a tile on the board');
+        // Put a div with a message here
+        return;
+      }
+      // If this ( = the current tile) doesn't have class change, add or else remove.
+      // So it works to double click to get the marked border and double-click to remove the marked border
+      $(this).toggleClass('change');
+      // First time someone mark the tile, the button gets enabled
+      $('.change-tiles').prop('disabled', false);
+      // If no tile has the class 'change', meaning no tile is marked atm
+      // Change the buttons value to opposite of what it is now. 
+      // If true, set to false. If false, set to true
+      if ($('.change').length === 0) {
+        $('.change-tiles').prop('disabled', (_, val) => !val);
+      }
+    });
   }
 
 
@@ -27,6 +55,7 @@ export default class Game {
     $('.pass').on('click', () => {
       this.playerTurn();
       this.render();
+      // this.changeTiles();
     });
 
     // When click on 'Lägg brickor'-button, there will be a new player and the board will render
@@ -34,10 +63,60 @@ export default class Game {
     $('.play-tiles').on('click', () => {
       // get points for word
       // CountScores(); ??? 
-
       this.playerTurn();
       this.render();
+      // this.changeTiles();
+    });
 
+    // To change tiles, locate what tile wants to be changed and change them to new tiles from bag. 
+    // Put back the tiles that wants to be changed and scramble the bag
+    let that = this;
+    $('.change-tiles').on('click', () => {
+      if (that.tilesFromBag.length < 7) {
+        console.log('there are 7 or less tiles in bag');
+        alert('there are 7 or less tiles in bag');
+        // Put a div and message here instead
+      }
+      // How many tiles the player wants to remove
+      let numberOfTiles = 0;
+      // Loop through the current players player tiles div
+      $(`#box${players.indexOf(players[this.playerIndex - 1])} > div`).each(function () {
+        // If the current div have the class 'change'
+        if ($(this).hasClass('change')) {
+          // What index does the div with the 'change' class have
+          let indexOfTile = $('.change').index();
+          // What text value does the current div have (we need to know the letter)
+          let letterWithPoint = $(this).text()
+          // Remove the point that follows when asking for text()
+          let letterWithoutPoint = letterWithPoint[0];
+          // Increase numberOfTiles so we now how many new tiles we need at the end
+          numberOfTiles++;
+
+          // Loop through the players tiles
+          that.tiles[0].forEach(tile => {
+            // When we come across the players tiles that match the marked tile
+            if (tile.char === letterWithoutPoint) {
+              // Remove that tile using the indexOfTile
+              that.tiles[0].splice(indexOfTile, 1);
+              // Push the players removed(changed) tiles back to tilesFromBag
+              that.tilesFromBag.push(tile);
+            }
+          });
+        }
+      });
+      // This is the same as for player when they need new tiles
+      // Remove the number of tiles from tilesFromBag 
+      let newTiles = [...that.tilesFromBag.splice(0, numberOfTiles)];
+      // push the new tiles to the players current tiles
+      for (let i = 0; i < numberOfTiles; i++) {
+        that.tiles[0].push(newTiles[i]);
+      }
+      // 'Shake the bag'
+      that.tilesFromBag.sort(() => Math.random() - 0.5);
+      // Change player (since changing tiles is a move) and re-render
+      this.playerTurn();
+      this.render();
+      // this.changeTiles();
     });
 
   }
@@ -208,6 +287,9 @@ export default class Game {
     this.showAndHidePlayers();
     // We want the addEvents to be last so the player can make their move
     this.addEvents();
+
+    this.changeTiles();
+
   }
 
   checkNewWordsOnBorad(y, x) {
@@ -386,24 +468,26 @@ export default class Game {
     $('.playing-window').append(
       `<button class="play-tiles">Lägg brickor</button>
       <button class="pass">Stå över</button>
-      <style>
-      .play-tiles {
-        font-family: 'Neucha', cursive;
-        font-size: 20px;
-         background-color: white;
-         border: 3px solid aliceblue; 
-         border-radius: 3px;
-      }
-      .pass {
-        font-family: 'Neucha', cursive;
-        font-size: 20px;
-         background-color: white;
-         border: 3px solid aliceblue; 
-         border-radius: 3px;
-      }
-      </style>
+      <button class="change-tiles">Byt brickor</button>
       `
     );
+
+    // <style>
+    //   .play-tiles {
+    //     font - family: 'Neucha', cursive;
+    //     font-size: 20px;
+    //      background-color: white;
+    //      border: 3px solid aliceblue;
+    //      border-radius: 3px;
+    //   }
+    //   .pass {
+    //     font - family: 'Neucha', cursive;
+    //     font-size: 20px;
+    //      background-color: white;
+    //      border: 3px solid aliceblue;
+    //      border-radius: 3px;
+    //   }
+    //   </style>
   }
 
   async showWordFromSAOL(wordsInArray) {
@@ -432,6 +516,8 @@ export default class Game {
         // (maybe fun to show in scrabble at some point?)
         await SAOLchecker.lookupWord(lastWord) + '</div');
 
+      //Disable "Lägg brickor" - button when word is false in SAOL
+      $('.play-tiles').prop('disabled', true);
     }
     if (await SAOLchecker.scrabbleOk(lastWord)) {
       $('body').append(`<div class="boxForWord" id="${lastWord}-box"><span class="word">` +
@@ -456,6 +542,9 @@ export default class Game {
         // by using await SAOLchecker.lookupWord(word)
         // (maybe fun to show in scrabble at some point?)
         await SAOLchecker.lookupWord(lastWord) + '</div');
+
+      //Activate "Lägg brickor" - button when word is true in SAOL
+      $('.play-tiles').prop('disabled', false);
     }
   }
 }
