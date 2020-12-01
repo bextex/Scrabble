@@ -413,7 +413,7 @@ export default class Game {
     }
 
     if (wordArray.length > 0) {
-      this.countScore(wordArray);
+      this.showWordFromSAOL(wordArray);
     }
 
   }
