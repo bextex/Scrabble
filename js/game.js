@@ -409,7 +409,7 @@ export default class Game {
 
   showPlayerButtons() {
     $('.playing-window').append(
-      `<button class="play-tiles">Lägg brickor</button>
+      /*`<button class="play-tiles">Lägg brickor</button>
       <button class="pass">Stå över</button>
       <style>
       .play-tiles {
@@ -427,7 +427,7 @@ export default class Game {
          border-radius: 3px;
       }
       </style>
-      `
+      `*/
     );
   }
 
