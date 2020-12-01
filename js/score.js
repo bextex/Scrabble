@@ -58,8 +58,10 @@ export default class Score {
         continue;
       }
       if (await SAOLchecker.scrabbleOk(word)) {
-        $('body').append(`<div class="boxForWord" id="${word}-box"><span class="word">` +
-          word + `</span><hr>ok in Scrabble: ` +
+        $('body').append(`
+        <div class="boxForWord" id="${word}-box"><span class="word">` +
+          word + `</span><hr>ok in Scrabble: 
+          ` +
           // check if ok scrabble words
           // by calling await SAOLchecker.scrabbleOk(word)
           await SAOLchecker.scrabbleOk(word) + '<hr>');
