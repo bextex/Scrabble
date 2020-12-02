@@ -173,6 +173,7 @@ export default class Network {
 
 
 
+
     // We want to listen for which player is the one currently playing
     // s.currentPlayer = s.currentPlayer || game.playerIndex;
     console.log('playerindex in game is ' + game.playerIndex);
@@ -192,10 +193,12 @@ export default class Network {
     console.log('my name is ' + playerName);
     console.log(s.players);
 
+    s.currentPlayerName = s.players[s.currentPlayer];
+
     // For all players except the one starting the game will need a render of the board
 
     // game.start();
-    console.log('the current player is ' + s.currentPlayer);
+    console.log('the current player is ' + s.currentPlayerName);
 
     // This should only be at the beginning when joining a game
     // if (s.players.length > 1) {
@@ -204,8 +207,13 @@ export default class Network {
     // }
 
 
+
+
+
+
     if (s.players.length > 1) {
       game.start();
+      $('.playing-window').append(`<div class="not-your-turn">${s.currentPlayerName}s tur</div>`);
     }
 
     // The player that gets a game-key is the only player that can start the game,
@@ -225,11 +233,35 @@ export default class Network {
       game.start();
     });
 
+    $('.pass').on('click', () => {
+      game.render();
+    });
+
+    $('.play-tiles').on('click', () => {
+      game.render();
+    });
+
+    $('.change-tiles').on('click', () => {
+      game.render();
+    });
+
+
+
   }
 
   listenForNetworkChanges(game) {
     let s = this.networkStore;
+
     console.log('this count as a network change');
+    s.currentPlayer = this.playerIndexInNetwork;
+    console.log('its ' + s.currentPlayerName + ' turn');
+
+
+
+
+
+
+
     this.playersJoinedTheGame++;
     let that = this;
 

@@ -195,8 +195,7 @@ export default class Game {
 
     // Inrease player index so when new round, the next player will this.player
     this.playerIndex++;
-    console.log(players);
-    console.log('current player turn: ' + this.player);
+    store.currentPlayerName = this.player;
 
   }
 
