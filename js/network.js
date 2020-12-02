@@ -1,12 +1,15 @@
 import Store from 'https://network-lite.nodehill.com/store';
 import Start from '../Start.js';
 import Game from './game.js';
-import Player, { players } from './player.js';
+import Player from './player.js';
+
+export let store;
 
 export default class Network {
 
   constructor() {
 
+    localStorage.clear();
     this.localStore = Store.getLocalStore();
     let playersJoinedTheGame = 0;
 
@@ -138,7 +141,10 @@ export default class Network {
   //   return this.connectToChat();
   // }
 
-  async connectToStore(networkKey, playerName, tiles, game) {
+  async connectToStore(networkKey, playerName, game) {
+
+    this.localStore.name = playerName;
+
     // this.networkKey is either a created key or a inserted key
     this.networkKey = networkKey;
     this.networkStore = await Store.getNetworkStore(this.networkKey,
@@ -150,6 +156,8 @@ export default class Network {
 
     // Shorten the variable name to a shorter one for shorter code
     let s = this.networkStore;
+    store = s;
+
     // // Create an instance of game so methods can be reached
     // let game = new Game(tilesFromBag);
 
@@ -157,18 +165,22 @@ export default class Network {
     // We want the network to listen for which players connecting to the same game (same game key)
     s.players = s.players || [];
 
+    s.currentPlayer = 0;
+
+
+
     // We want to listen for which player is the one currently playing
-    s.currentPlayer = s.currentPlayer || game.playerIndex;
+    // s.currentPlayer = s.currentPlayer || game.playerIndex;
     console.log('playerindex in game is ' + game.playerIndex);
 
     // We want to if we're not in the same game anymore
-    s.game = s.game || game;
-    console.log(s.game);
+    // s.game = s.game || game;
+    // console.log(s.game);
+
 
     // Which player index am I? (0, 1, 2 or 3?)
     this.playerIndexInNetwork = s.players.length;
-    console.log('im index ' + this.playerIndexInNetwork);
-    players[this.playerIndexInNetwork] = new Player(playerName, tiles, game);
+    console.log('my index is ' + this.playerIndexInNetwork);
 
 
     // Add my name 
@@ -222,11 +234,11 @@ export default class Network {
     } else {
       console.log('it seems that the div doesnt exist');
       game.render();
-      if (s.currentPlayer !== this.playerIndexInNetwork) {
-        $('.playing-window-left').append(`<div class="not-your-turn">Vänta på att spelet ska starta</div>`);
-      } else {
-        $('.not-your-turn').remove();
-      }
+      // if (s.currentPlayer !== this.playerIndexInNetwork) {
+      //   $('.playing-window-left').append(`<div class="not-your-turn">Vänta på att spelet ska starta</div>`);
+      // } else {
+      //   $('.not-your-turn').remove();
+      // }
     }
   }
 
@@ -236,14 +248,9 @@ export default class Network {
   // this.render();
 
 
-  render(currentPlayer) {
-    if (this.playerIndexInNetwork !== currentPlayer) {
-      $('body').append(`
-      <div class="not-your-turn">Vänta på din tur</div>`);
-    } else {
-      $('.not-your-turn').hide();
-    }
-
+  render(game) {
+    console.log('im tryina render');
+    return game.render();
   }
 
 

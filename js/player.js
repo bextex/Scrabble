@@ -2,18 +2,19 @@
 import Bag from './bag.js';
 //import { tiles } from '../Start.js';
 
-export const players = []; // Array of players and their tiles
+// export const players = []; // Array of players and their tiles
 
 export default class Player {
 
-  constructor(name, tiles, game) {
+  constructor(name, tiles) {
     this.name = name;
     this.tiles = [tiles, ' '];
-    this.game = game;
+    // this.game = game;
     console.log(this.name + ' is added as a player');
   }
 
 
+  // THIS METHOD CAN BE REMOVED
   choosePlayers() {
     let countClicks = 2;
     $('.players').on('click', function () {
@@ -29,6 +30,7 @@ export default class Player {
   }
 
 
+  // THIS METHOD CAN BE REMOVED
   setPlayerNames(inputName, tiles, game) {
     // if (countClicks == 1) {
     //   console.log(document.getElementById(`player1Name`).value);
