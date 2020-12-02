@@ -28,6 +28,7 @@ export default class Start {
     // create all tiles in bag.js and returns and stores them in this.tiles,
     // and therefore stored in global variable "that".
     this.tiles = await bag.tilesFromFile();
+    this.score = 0;
     that = this;
     // console.log("this.tiles:  " + this.tiles);
   }
@@ -47,7 +48,8 @@ $('.start-game').on('click', function () {
     let newPlayer = new Player();
     //that is all the tiles from the bag. Which has been created in clickFunctions
     let tilesFromBag = that.tiles.splice(0, 7);
-    newPlayer.setPlayerNames(playerName, tilesFromBag);
+    let playerScore = 0;
+    newPlayer.setPlayerNames(playerName, tilesFromBag, playerScore);
   }
 
   $('.game-screen').fadeOut(1700);

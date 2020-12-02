@@ -134,6 +134,7 @@ export default class Game {
     // so this.player will be the new player each round
     this.player = players[this.playerIndex].name;
 
+
     // Set this.tiles to empty so the current players tiles can be this.tiles
     this.tiles = [];
 
@@ -162,6 +163,8 @@ export default class Game {
     /* Disable all other players tile fields */
 
     this.showAndHidePlayers();
+
+    console.log("current player: ", players[this.playerIndex])
 
     // Inrease player index so when new round, the next player will this.player
     this.playerIndex++;
