@@ -286,9 +286,11 @@ export default class Game {
     // showAndHide cannot be done unless we have read the showPlayers method
     this.showAndHidePlayers();
     // We want the addEvents to be last so the player can make their move
+
     this.addEvents();
 
     this.changeTiles();
+    this.showPlayerButtons();
 
   }
 
@@ -449,62 +451,6 @@ export default class Game {
         <div class="score">Poäng :<div id="score${players.indexOf(player)}"></div></div>
         </div>
         <div class="tiles-box"><div id="box${players.indexOf(player)}"></div></div>
-
-         <button class="replace"><span>BYT UT</span></button>
-         <button class="play-tiles"><span>Lägg brickor</span></button>
-         <button class="pass"><span>Stå över</span></button>
-         <style>
-         .replace {
-           position:fixed;
-           bottom:3vh;
-           left: 45vh;
-           font-family: 'Neucha', cursive;
-           font-size: 20px;
-           background-color: black;
-           opacity: 0.7;
-           border: 5px solid #EFF2D8;
-           border-radius: 5px;
-           color: white;
-           padding: 10px;
-           cursor: pointer;
-            width: 8%;
-         }
-
-         .play-tiles {
-           position: fixed;
-           top: 5vh;
-           left: 50vh;
-
-            font-family: 'Neucha', cursive;
-           font-size: 20px;
-           background-color: black;
-           opacity: 0.7;
-           border: 5px solid #EFF2D8;
-           border-radius: 5px;
-           color: white;
-           padding: 5px;
-           cursor: pointer;
-            width: 8%;
-         }
-
-         .pass {
-           position: fixed;
-           top: 5vh;
-           left: 90vh;
-
-           font-family: 'Neucha', cursive;
-           font-size: 20px;
-           background-color: black;
-           opacity: 0.7;
-           border: 5px solid #EFF2D8;
-           border-radius: 5px;
-           color: white;
-           padding: 5px;
-           cursor: pointer;
-            width: 8%;
-           
-         }
-         <style>
         `);
       while (index < player.tiles[0].length) {
         $(`#box${players.indexOf(player)}`).append(`
@@ -527,6 +473,23 @@ export default class Game {
        <button class="pass">Stå över</button>
       
        <style>
+
+       play-tiles {
+           position: fixed;
+           top: 5vh;
+           left: 50vh;
+
+            font-family: 'Neucha', cursive;
+           font-size: 20px;
+           background-color: #EFF2D8;
+           opacity: 0.7;
+           border: 5px solid #EFF2D8;
+           border-radius: 5px;
+           
+           padding: 5px;
+           cursor: pointer;
+            width: 8%;
+         }
       
       .pass {
         position:absolute;
@@ -576,7 +539,7 @@ export default class Game {
 
     if (await SAOLchecker.scrabbleOk(lastWord) === false) {
       // (false === false) --> (true)
-      $('body').append('<section class="boxForWord"><span class="word">' +
+      $('.board').append('<section class="boxForWord"><span class="word">' +
         lastWord + '</span><hr>ok in Scrabble: ' +
         // check if ok scrabble words
         // by calling await SAOLchecker.scrabbleOk(word)
