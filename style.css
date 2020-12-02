@@ -619,8 +619,7 @@ footer input {
   bottom: 0;
   left: 0;
   right: 0;
-  background-color: black;
-  opacity: 80;
+  background-color: rgba(161, 161, 161, 0.431);
   color: white;
   z-index: 1000;
 }

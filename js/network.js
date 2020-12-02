@@ -142,7 +142,7 @@ export default class Network {
     // this.networkKey is either a created key or a inserted key
     this.networkKey = networkKey;
     this.networkStore = await Store.getNetworkStore(this.networkKey,
-      () => this.listenForNetworkChanges());
+      () => this.listenForNetworkChanges(game));
     console.log(this.networkStore);
 
     // Debug
@@ -181,25 +181,27 @@ export default class Network {
     // game.start();
     console.log('the current player is ' + s.currentPlayer);
 
+    // This should only be at the beginning when joining a game
     if (s.players.length > 1) {
       game.start();
       $('.playing-window-left').append(`<div class="not-your-turn">Vänta på att spelet ska starta</div>`);
     }
 
+    // The player that gets a game-key is the only player that can start the game,
+    // because they are the only one with the start-button
+    $('.start-new-game').on('click', function () {
+      console.log('im clicking the start button');
 
+      // remove the waiting box so it doesn't append in listen for network changes
+      $('.waiting-for-players').remove();
 
-    // if (s.players.length > 1) {
-    //   this.render(s.currentPlayer);
-    // }
+      $('.playersName').fadeOut(200);
+      $('.game-screen').fadeOut(200);
+      $('.game-menu').fadeOut(200);
+      $('.scrabble').fadeOut(200);
 
-
-    // console.log('player index: ' + playerIndex);
-    // console.log(players);
-    // let currentPlayer = players[playerIndex].name;
-    // if (currentPlayer !== playerName) {
-    //   game.render();
-    // }
-    // console.log(s.players);
+      game.start();
+    });
 
   }
 
@@ -207,7 +209,8 @@ export default class Network {
     let s = this.networkStore;
     console.log('this count as a network change');
     this.playersJoinedTheGame++;
-    if (s.players.length > 1) {
+
+    if ($('.waiting-for-players').length) {
       $('.waiting-box').empty();
       for (let i = 1; i < s.players.length; i++) {
         console.log('there are currently ' + s.players.length + ' players in player array');
@@ -216,11 +219,22 @@ export default class Network {
           ${s.players[i]} har joinat spelet</br>
           `);
       }
+    } else {
+      console.log('it seems that the div doesnt exist');
+      game.render();
+      if (s.currentPlayer !== this.playerIndexInNetwork) {
+        $('.playing-window-left').append(`<div class="not-your-turn">Vänta på att spelet ska starta</div>`);
+      } else {
+        $('.not-your-turn').remove();
+      }
     }
-
-    // game.render();
-    // this.render();
   }
+
+
+
+  // game.render();
+  // this.render();
+
 
   render(currentPlayer) {
     if (this.playerIndexInNetwork !== currentPlayer) {

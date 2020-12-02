@@ -53,7 +53,7 @@ export default class Start {
 
       let network = new Network();
       let networkKey = await network.getLocalKey();
-      $('.playersName').append(`<div><div class="waiting-box">Väntar på spelare...</div>
+      $('.playersName').append(`<div class="waiting-for-players"><div class="waiting-box">Väntar på spelare...</div>
       <button class="start-new-game">Starta</button>
       <div type="key-input" class="key-input"><span class="key">${networkKey}</span></div>
       </div>`);
@@ -66,26 +66,27 @@ export default class Start {
       network.connectToStore(networkKey, name, tilesFromBag, game);
 
 
-      // The player that gets a game-key is the only player that can start the game
-      $('.start-new-game').on('click', function () {
-        console.log('im clicking the start button');
-
-
-        $('.playersName').fadeOut(200);
-        $('.game-screen').fadeOut(200);
-        $('.game-menu').fadeOut(200);
-        $('.scrabble').fadeOut(200);
+      // // The player that gets a game-key is the only player that can start the game
+      // $('.start-new-game').on('click', function () {
+      //   console.log('im clicking the start button');
 
 
 
-        //that is all the tiles from the bag. Which has been created in clickFunctions
-        // let tilesFromBag = that.tiles.splice(0, 7);
-        // console.log(name);
-        // console.log(tilesFromBag);
-        // // newPlayer.setPlayerNames(name, tilesFromBag, game);
-        // network.connectToStore(networkKey, name, tilesFromBag, game);
+      //   $('.playersName').fadeOut(200);
+      //   $('.game-screen').fadeOut(200);
+      //   $('.game-menu').fadeOut(200);
+      //   $('.scrabble').fadeOut(200);
 
-      });
+
+
+      //   //that is all the tiles from the bag. Which has been created in clickFunctions
+      //   // let tilesFromBag = that.tiles.splice(0, 7);
+      //   // console.log(name);
+      //   // console.log(tilesFromBag);
+      //   // // newPlayer.setPlayerNames(name, tilesFromBag, game);
+      //   // network.connectToStore(networkKey, name, tilesFromBag, game);
+
+      // });
 
 
 
