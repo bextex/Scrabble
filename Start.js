@@ -35,6 +35,7 @@ export default class Start {
     this.tiles = await bag.tilesFromFile();
 
     let game = new Game(this.tiles);
+
     let network = new Network();
 
     that = this;
@@ -70,6 +71,8 @@ export default class Start {
       players.push(new Player(name, tilesFromBag));
       console.log(players);
       network.connectToStore(networkKey, name, game);
+
+
     })
 
 

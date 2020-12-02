@@ -113,7 +113,7 @@ export default class Game {
             // When we come across the players tiles that match the marked tile
             if (tile.char === letterWithoutPoint) {
               // Remove that tile using the indexOfTile
-              that.tiles[0].splice(indexOfTile, 1);
+              that.tiles.splice(indexOfTile, 1);
               // Push the players removed(changed) tiles back to tilesFromBag
               that.tilesFromBag.push(tile);
             }

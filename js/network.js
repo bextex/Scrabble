@@ -145,6 +145,10 @@ export default class Network {
 
     this.localStore.name = playerName;
 
+
+
+
+
     // this.networkKey is either a created key or a inserted key
     this.networkKey = networkKey;
     this.networkStore = await Store.getNetworkStore(this.networkKey,
@@ -194,13 +198,19 @@ export default class Network {
     console.log('the current player is ' + s.currentPlayer);
 
     // This should only be at the beginning when joining a game
+    // if (s.players.length > 1) {
+    //   this.game.start();
+    //   $('.playing-window-left').append(`<div class="not-your-turn">Vänta på att spelet ska starta</div>`);
+    // }
+
+
     if (s.players.length > 1) {
       game.start();
-      $('.playing-window-left').append(`<div class="not-your-turn">Vänta på att spelet ska starta</div>`);
     }
 
     // The player that gets a game-key is the only player that can start the game,
     // because they are the only one with the start-button
+
     $('.start-new-game').on('click', function () {
       console.log('im clicking the start button');
 
@@ -221,6 +231,7 @@ export default class Network {
     let s = this.networkStore;
     console.log('this count as a network change');
     this.playersJoinedTheGame++;
+    let that = this;
 
     if ($('.waiting-for-players').length) {
       $('.waiting-box').empty();
@@ -232,14 +243,20 @@ export default class Network {
           `);
       }
     } else {
-      console.log('it seems that the div doesnt exist');
+      if (that.playerIndexInNetwork !== s.currentPlayer) {
+        $('.playing-window').append(`<div class="not-your-turn">${s.playerName}'s tur</div>`)
+      } else {
+        $('.not-your-turn').remove();
+      }
       game.render();
-      // if (s.currentPlayer !== this.playerIndexInNetwork) {
-      //   $('.playing-window-left').append(`<div class="not-your-turn">Vänta på att spelet ska starta</div>`);
-      // } else {
-      //   $('.not-your-turn').remove();
-      // }
     }
+
+    // if (s.currentPlayer !== this.playerIndexInNetwork) {
+    //   $('.playing-window-left').append(`<div class="not-your-turn">Vänta på att spelet ska starta</div>`);
+    // } else {
+    //   $('.not-your-turn').remove();
+    // }
+
   }
 
 
