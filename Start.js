@@ -28,7 +28,7 @@ export default class Start {
     // create all tiles in bag.js and returns and stores them in this.tiles,
     // and therefore stored in global variable "that".
     this.tiles = await bag.tilesFromFile();
-    this.score = 0;
+    //this.score = 0;
     that = this;
     // console.log("this.tiles:  " + this.tiles);
   }

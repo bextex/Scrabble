@@ -6,10 +6,10 @@ export const players = []; // Array of players and their tiles
 
 export default class Player {
 
-  constructor(name, tiles, score) {
+  constructor(name, tiles) {
     this.name = name;
     this.tiles = [tiles, ' '];
-    this.score = score;
+    //this.score = score;
   }
 
 
@@ -28,13 +28,13 @@ export default class Player {
   }
 
 
-  setPlayerNames(inputName, tiles, score) {
+  setPlayerNames(inputName, tiles) {
     // if (countClicks == 1) {
     //   console.log(document.getElementById(`player1Name`).value);
     //   if (document.getElementById(`player1Name`).value === null) {
     //   }
     // }
-    players.push(new Player(inputName, tiles, score));
+    players.push(new Player(inputName, tiles));
 
 
     // let index = 1;

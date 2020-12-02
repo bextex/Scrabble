@@ -66,18 +66,9 @@ export default class Game {
     // When click on 'Lägg brickor'-button, there will be a new player and the board will render
     // Shoul also count score on word
     $('.play-tiles').on('click', () => {
-      // get points for word
-      // CountScores(); ??? 
-      console.log('play tile on click  of this ', this);
-      console.log('play tile on click  of that ', that);
-      if (that.wordArray.length > 0) {
-        this.countPlayerScore(players[that.playerIndex], that.wordArray);
-      }
-      else {
-        alert('Du har ingen godkänd ord');
-        return;
-      }
+      this.countPlayerScore(that.playerIndex, that.wordArray);
 
+      // empty stored words in array when its the next player
       this.playerTurn();
       this.render();
       // this.changeTiles();
@@ -521,20 +512,19 @@ export default class Game {
     //   </style>
   }
   // This function to count the player's score
-  async countPlayerScore(player, wordArray) {
+  async countPlayerScore(playerIndex, wordArray) {
     let currentWordPoints = 0;
-    console.log('I am in countPlayerScore wordArray', wordArray);
-    console.log('I am in countPlayerScore player', player);
+    console.log('I am in countPlayerScore, wordArray: ', wordArray);
+    console.log('I am in countPlayerScore, player: ', playerIndex);
     for (let i = 0; i < wordArray.length; i++) {
-      if (await SAOLchecker.scrabbleOk(wordArray[i].word)) {
-        currentWordPoints = wordArray[i].points * wordArray[i].multiple;
-      }
-      else currentWordPoints = 0;
-      console.log('currentWordPoints', currentWordPoints);
-      player.score += currentPoints;
+      currentWordPoints = wordArray[i].points * wordArray[i].multiple;
+
     }
-    console.log('I am in countPlayerScore wordArray currentPoints');
-    console.log('play.score', player.score);
+    console.log('currentWordPoints: ', currentWordPoints);
+    players[playerIndex - 1].score += currentWordPoints;
+    console.log('play.score: ', players[0].score);
+    // trying to empty array for next player.
+    this.wordArray = [];
   }
 
 
