@@ -5,11 +5,10 @@
 body{
   margin: 0;
   /* overflow: hidden; */
-  background-color: rgb(207, 248, 237);
-  animation-name: colorchange;
-  animation-duration: 10s;
-  animation-iteration-count: infinite;
+  /*rgb(207, 248, 237)*/
+  background-color: #EFF2D8;
   text-align: center;
+ 
 }
 
 ul {
@@ -31,7 +30,7 @@ ul {
  position: absolute;
  font-size: 10vh;
  text-align: center;
- color: rgba(135, 147, 214, 0.431);
+ color: #F23847;
  text-shadow: 3px 3px rgb(42, 30, 24);
  animation-name: move;
  animation-duration: 2s; 
@@ -95,7 +94,7 @@ ul {
 }
 
 .close .hover-text {
-    visibility: hidden;
+  visibility: hidden;
   width: 120px;
   background-color: #555;
   color: #fff;
@@ -128,7 +127,7 @@ ul {
 }
 
 .game-menu button {
-  font-family: 'Neucha', cursive;
+  font-family: 'Source Code Pro', monospace;
   font-size: 20px;
   background-color: black; /* black background */
   opacity: 0.7;
@@ -147,7 +146,7 @@ ul {
 }
 
 .game-menu button:hover {
-    background-color: azure;
+    background-color: rgb(153, 153, 153);
   color: black;
 }
 
@@ -186,8 +185,8 @@ ul {
  top: 80vh;
  margin-right: auto;
  margin-left: auto;
- font-family: 'Neucha', cursive;
- font-size: 25px;
+ font-family: 'Source Code Pro', monospace;
+ font-size: 20px;
  opacity: 0.8;
  border: 5px solid aliceblue;
  border-radius: 5px;
@@ -215,20 +214,20 @@ ul {
       
 
 .board {
-  /*#02b802*/
-  border: 5px solid #F23847;
+  position: relative;
+  width: calc(75vh + 50px);
+  border: 3px solid black;
   border-radius: 3px;
   display: inline-block;
-  padding-top: 65px;
-  padding-bottom: 80px;
-  background-color: #F23847;
+  padding: 50px 20px 90px 20px;
 
-  
-  
+  /*#F23847*/
+  background-color:  #F23847;
+
 }
 
 .board > div {
-  border: 1.5px solid #000000;
+  border: 1px solid #000000;
   width: 5vh;
   height: 5vh;
   background-color: #A5A686;
@@ -253,8 +252,9 @@ ul {
 
 .playing-window{
  /* margin-top: 170px; */
-  margin-top: 30px;
-  margin-right: 50vh;
+
+  margin-top: 20px;
+  margin-right: 600px;
   overflow: hidden;
   text-align: center;
   display: inline-block;
@@ -262,24 +262,21 @@ ul {
 
 /****************** My special colors ******************/
 .board > div.special-3xWS {
-  /*red*/
+
   background-color: #F23847;
 }
 .board > div.special-2xWS {
-  /*palevioletred*/
   background-color: #BF4136;
 }
 .board > div.special-3xLS {
-  /*darkblue*/
   background-color: #F20505;
 }
 .board > div.special-2xLS {
-  /*rgb(145, 227, 255)*/
-  background-color: #c6caa5b2;
+  background-color: #e159599e;
 }
 
 .board > div.special-middle-star {
-  /*palevioletred*/
+
   background-color: #BF4136;
 }
 
@@ -374,22 +371,41 @@ ul {
 
 /*.tiles-box{
   width: 300px;
+
   height: 70px;
-  background-color: #02b802;
+  background-color: #F23847;
+
   padding: 1vh;
   text-align: center;
   border: 1px solid black;
 }*/
 
 .playertiles.none{
-  /* #02b802*/
+
   background-color: #F23847;
   border: 0;
+  cursor: default ;
 }
 
 .playertiles{
   font-family: 'Source Code Pro', monospace;
-  font-size: large;
+  font-size: 20px;
+  /* padding: 4px; */
+  margin: 1px;
+  width: 4vh;
+  height: 4vh;
+  background-color: #EFF2D8;
+  text-align: center;
+  border: 5px solid #A5A686;
+  border-radius: 5px;
+  position: relative;
+  float: left;
+  cursor: pointer;
+}
+
+.playertiles.change{
+  font-family: 'Source Code Pro', monospace;
+  font-size: 20px;
   /* padding: 4px; */
   margin: 1px;
   width: 4.5vh;
@@ -398,8 +414,8 @@ ul {
   background-color: #EFF2D8;
   text-align: center;
   /*black*/
-  border: 3px solid #A5A686;
-  border-radius: 5px;
+  border: 2px dotted rgb(126, 126, 126);
+
   position: relative;
   float: left;
   cursor: pointer;
@@ -421,11 +437,12 @@ div.playing-window-left{
 }
 
 .playing-window-left{
-  position: fixed;
+  position: absolute;
   z-index: 1;
-  margin-left: 1px; 
-  margin-top: 88vh;
-  margin-left: 35vh;
+ /* margin-top: 30vh;
+  margin-left: 1px; */
+  margin-top: 86.5vh;
+  margin-left: 40vh;
   /*overflow: hidden;*/
   text-align: center;
   display: inline-block;
@@ -436,33 +453,39 @@ div.playing-window-left{
 /****************** PASS AND PLAY TILES BUTTONS ******************/
 
 .play-tiles{
-  font-family: 'Source Code Pro', monospace;
-  font-size: large;
-  background-color: white;
-  color: black;
+  
   cursor: pointer;
+
+        position:absolute;
+        left: 60vh;
+        top:1vh;
+        font-family: 'Neucha', cursive;
+        font-size: 20px;
+         background-color: #EFF2D8;
+         border: 3px solid aliceblue; 
+         border-radius: 3px;
 }
 .play-tiles:hover{
   font-family: 'Source Code Pro', monospace;
   font-size: large;
-  background-color: rgb(190, 190, 190);
-  color: black;
+  background-color: #EFF2D8;
+  color: #A5A686;
   cursor: pointer;
 }
 
 .pass{
   font-family: 'Source Code Pro', monospace;
   font-size: large;
-  background-color: white;
-  color: black;
+  background-color: #EFF2D8;
+  color: #A5A686;
   cursor: pointer;
 }
 
 .pass:hover{
   font-family: 'Source Code Pro', monospace;
   font-size: large;
-  background-color: rgb(190, 190, 190);
-  color: black;
+  background-color: #EFF2D8;
+  color: #A5A686;
   cursor: pointer;
 }
 
@@ -490,14 +513,15 @@ div.playing-window-left{
 
 .tile {
   font-family: 'Source Code Pro', monospace;
-  font-size: large;
+  font-size: 20px;
   /* padding: 4px; */
   margin: 0.5px;
   width: 4vh;
   height: 4vh;
-  background-color:  #EFF2D8;
+  background-color: #EFF2D8;
   text-align: center;
   border: 3px solid #A5A686;
+  border-radius: 5px;
   position: relative;
   float: left;
 }
@@ -506,12 +530,19 @@ div.playing-window-left{
 /******************* BOX FOR WORDS FROM SAOL *********************/
 
 .boxForWord {
-  background-color: #fdfdfd;
-  float: left;
+  background-color:#EFF2D8;
+  position: fixed;
+  top: 200px;
+  width: 200px;
+  right: 50vh;
+  border: 3px solid #A5A686;
+  overflow: scroll;
+  height: 40vh;
   padding: 20px;
   margin: 10px;
-  width: calc(25% - 62px);
+  /*width: calc(15% - 40px);*/
   border-radius: 5px;
+  
 }
 
 .box:nth-child(4n){
