@@ -70,7 +70,18 @@ $('.start-game').on('click', function () {
 
 
 // rules open-close 
+
 $(document).ready(function () {
+
+  // Play animations in that order: 
+
+  // 1 - Candy: -> play it first
+  // Then show:
+  // 2 - game-menu and players 
+
+  $('.game-menu').hide();
+  $('.gamecontainer').hide();
+
 
   $('.rules').click(function () {
     $('.game-menu').hide();
