@@ -145,33 +145,40 @@ export default class Game {
       $('.not-your-turn').remove();
     }
 
-    store.currentPlayer = this.playerIndex;
+    // store.currentPlayer = this.playerIndex;
+
     /* Alternative to switch between players turns */
     // If player index is more och equal to player array length then go back to index 0.
     // Because the current player is the last player, and the next player will be the first.
     // It all starts over.
-    if (this.playerIndex >= store.players.length) {
-      this.playerIndex = 0;
-    }
-    // if (this.playerIndex >= players.length) {
+    // if (this.playerIndex >= store.players.length) {
     //   this.playerIndex = 0;
     // }
+    if (this.playerIndex >= players.length) {
+      this.playerIndex = 0;
+    }
+
+    console.log('playerindex in playerturn ' + this.playerIndex);
 
     // Set this.player to the player with playerindex in players array
     // so this.player will be the new player each round
-    this.player = store.players[this.playerIndex];
+    // this.player = store.players[this.playerIndex];
     // this.player = players[store.index].name;
+    this.player = players[this.playerIndex].name;
+
+    console.log('players name in playerturn ' + this.player);
 
     // Set this.tiles to empty so the current players tiles can be this.tiles
     this.tiles = [];
 
     // set this.tiles to the current players tiles
     this.tiles = players[0].tiles[0];
+    console.log('this tiles in playerturn');
     console.log(this.tiles);
     // this.tiles.push(players[this.playerIndex].tiles[0]);
 
     // If the players has played tiles and they have less than 7, push new tiles to their playing board
-    if (this.tiles.length < 7) {
+    if (this.tiles[0].length < 7) {
       // numberOfTiles will be how many new tiles the player will need
       let numberOfTiles = 0;
       for (let i = 0; i < 7; i++) {
@@ -185,7 +192,7 @@ export default class Game {
       let newTiles = [...this.tilesFromBag.splice(0, numberOfTiles)];
       // push the new tiles to the players current tiles
       for (let i = 0; i < numberOfTiles; i++) {
-        this.tiles.push(newTiles[i]);
+        this.tiles[0].push(newTiles[i]);
       }
     }
 
@@ -195,7 +202,8 @@ export default class Game {
 
     // Inrease player index so when new round, the next player will this.player
     this.playerIndex++;
-    store.currentPlayerName = this.player;
+    // store.currentPlayerName = this.player;
+
 
   }
 
@@ -281,10 +289,13 @@ export default class Game {
         this.render();
         return;
       }
+      console.log(that.tiles);
 
       // Add the moved tile from players tile array to the boards tiles
       this.board[y][x].tile = that.tiles.splice(tileIndex, 1);
       // When droped a tile on the board, re-render
+
+      store.board = this.board;
 
       this.checkNewWordsOnBorad(y, x);
 
@@ -314,6 +325,7 @@ export default class Game {
         </div>
       `).join('')
     );
+
 
     // this.checkForNewWords(y, x);
 

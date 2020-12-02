@@ -11,7 +11,7 @@ export default class Network {
 
     localStorage.clear();
     this.localStore = Store.getLocalStore();
-    let playersJoinedTheGame = 0;
+
 
 
     // this.start();
@@ -145,10 +145,6 @@ export default class Network {
 
     this.localStore.name = playerName;
 
-
-
-
-
     // this.networkKey is either a created key or a inserted key
     this.networkKey = networkKey;
     this.networkStore = await Store.getNetworkStore(this.networkKey,
@@ -170,6 +166,8 @@ export default class Network {
     s.players = s.players || [];
 
     s.currentPlayer = 0;
+
+    s.board = s.board || game.createBoard();
 
 
 
@@ -193,12 +191,12 @@ export default class Network {
     console.log('my name is ' + playerName);
     console.log(s.players);
 
-    s.currentPlayerName = s.players[s.currentPlayer];
+    let currentPlayerName = s.players[s.currentPlayer];
 
     // For all players except the one starting the game will need a render of the board
 
     // game.start();
-    console.log('the current player is ' + s.currentPlayerName);
+    console.log('the current player is ' + currentPlayerName);
 
     // This should only be at the beginning when joining a game
     // if (s.players.length > 1) {
@@ -213,7 +211,7 @@ export default class Network {
 
     if (s.players.length > 1) {
       game.start();
-      $('.playing-window').append(`<div class="not-your-turn">${s.currentPlayerName}s tur</div>`);
+      // $('.playing-window').append(`<div class="not-your-turn">${s.currentPlayerName}s tur</div>`);
     }
 
     // The player that gets a game-key is the only player that can start the game,
@@ -233,17 +231,6 @@ export default class Network {
       game.start();
     });
 
-    $('.pass').on('click', () => {
-      game.render();
-    });
-
-    $('.play-tiles').on('click', () => {
-      game.render();
-    });
-
-    $('.change-tiles').on('click', () => {
-      game.render();
-    });
 
 
 
@@ -251,19 +238,12 @@ export default class Network {
 
   listenForNetworkChanges(game) {
     let s = this.networkStore;
+    let name = this.localStore.name;
 
     console.log('this count as a network change');
-    s.currentPlayer = this.playerIndexInNetwork;
-    console.log('its ' + s.currentPlayerName + ' turn');
-
-
-
-
-
-
-
-    this.playersJoinedTheGame++;
-    let that = this;
+    // s.currentPlayer = this.playerIndexInNetwork;
+    let currentPlayerName = s.players[s.currentPlayer];
+    console.log('its ' + currentPlayerName + ' turn');
 
     if ($('.waiting-for-players').length) {
       $('.waiting-box').empty();
@@ -274,20 +254,35 @@ export default class Network {
           ${s.players[i]} har joinat spelet</br>
           `);
       }
+      return;
+    }
+
+
+    if (s.currentPlayerName !== name) {
+      $('.playing-window').append(`<div class="not-your-turn">${s.playerName}'s tur</div>`)
     } else {
-      if (that.playerIndexInNetwork !== s.currentPlayer) {
-        $('.playing-window').append(`<div class="not-your-turn">${s.playerName}'s tur</div>`)
-      } else {
-        $('.not-your-turn').remove();
-      }
+      $('.not-your-turn').remove();
       game.render();
     }
+
+
+
+
+    // } else {
+    //   if (that.playerIndexInNetwork !== s.currentPlayer) {
+    //     $('.playing-window').append(`<div class="not-your-turn">${s.playerName}'s tur</div>`)
+    //   } else {
+    //     $('.not-your-turn').remove();
+    //   }
+    //   game.render();
+    // }
 
     // if (s.currentPlayer !== this.playerIndexInNetwork) {
     //   $('.playing-window-left').append(`<div class="not-your-turn">Vänta på att spelet ska starta</div>`);
     // } else {
     //   $('.not-your-turn').remove();
     // }
+
 
   }
 
