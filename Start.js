@@ -6,7 +6,7 @@ import Network from './js/network.js';
 //
 //!!!! Kalla new Board().start(); där ni vill ha brädet! 
 //
-import Player from "./js/player.js";
+import Player, { players } from "./js/player.js";
 import Bag from './js/bag.js';
 
 let that;
@@ -32,7 +32,7 @@ export default class Start {
     // and therefore stored in global variable "that".
     this.tiles = await bag.tilesFromFile();
 
-    let length = $('.newPlayerInput').length;
+    let game = new Game(this.tiles);
 
     that = this;
 
@@ -40,24 +40,99 @@ export default class Start {
       `<input type="names" id="player1Name" class="newPlayerInput" placeholder="Namn" />`
     );
 
-    $('.start-new-game').on('click', async function () {
-      if (length < 1) {
-        console.log('Type in a name first');
+    $('.get-key').on('click', async function () {
+      // If there isn't a name, ask the player to first type in a name
+      let name = $('.newPlayerInput').val();
+      if (!name) {
+        // Should be a warning label from div instead
+        alert('Type in a name first');
         return;
       }
+      // Fade out the 'start-side' and replace it with waiting for other players
+      $('.game-menu').fadeOut(1700);
+
       let network = new Network();
       let networkKey = await network.getLocalKey();
-      $('.playersName').append(`
-      <div type="key-input" class="key-input"><span class="key">${networkKey}</span></div>`);
+      $('.playersName').append(`<div><div class="waiting-box">Väntar på spelare...</div>
+      <button class="start-new-game">Starta</button>
+      <div type="key-input" class="key-input"><span class="key">${networkKey}</span></div>
+      </div>`);
+
+      //that is all the tiles from the bag. Which has been created in clickFunctions
+      let tilesFromBag = that.tiles.splice(0, 7);
+      console.log(name);
+      console.log(tilesFromBag);
+      // newPlayer.setPlayerNames(name, tilesFromBag, game);
+      network.connectToStore(networkKey, name, tilesFromBag, game);
+
+
+      // The player that gets a game-key is the only player that can start the game
+      $('.start-new-game').on('click', function () {
+        console.log('im clicking the start button');
+
+
+        $('.playersName').fadeOut(200);
+        $('.game-screen').fadeOut(200);
+        $('.game-menu').fadeOut(200);
+        $('.scrabble').fadeOut(200);
+
+
+
+        //that is all the tiles from the bag. Which has been created in clickFunctions
+        // let tilesFromBag = that.tiles.splice(0, 7);
+        // console.log(name);
+        // console.log(tilesFromBag);
+        // // newPlayer.setPlayerNames(name, tilesFromBag, game);
+        // network.connectToStore(networkKey, name, tilesFromBag, game);
+
+      });
+
+
+
     })
 
-    $('.connect-to-game').on('click', function () {
+    $('.set-key').on('click', function () {
+      // If there isn't a name, ask the player to first type in a name
+      let name = $('.newPlayerInput').val();
+      console.log('my name is' + name);
+      if (!name) {
+        // Should be a warning label from div instead
+        alert('Type in a name first');
+        return;
+      }
+
+      // Fade out the 'start-side' and replace it with waiting for other players
+      $('.game-menu').fadeOut(1700);
+
       let network = new Network();
       // let networkKey = await network.getLocalKey();
-      $('.playersName').append(`
-      <input type="key-input" class="key-input"><span class="key" placeholder="Skriv nyckel här"></span></input>`);
+      $('.playersName').append(`<div>
+      <button class="join">Gå med</button>
+      <input type="key-input" class="key-input"><span class="key" placeholder="Skriv nyckel här"></span></input>
+      </div>`);
 
+      $('.join').on('click', function () {
+        console.log('im clicking the join button');
+        //that is all the tiles from the bag. Which has been created in clickFunctions
+        let tilesFromBag = that.tiles.splice(0, 7);
+        console.log(name);
+        console.log(tilesFromBag);
+        // newPlayer.setPlayerNames(name, tilesFromBag, game);
+        let insertedNetworkKey = $('.key-input').val();
+        if (!insertedNetworkKey) {
+          alert('type in a insert key');
+        } else {
+          console.log(insertedNetworkKey);
+          network.connectToStore(insertedNetworkKey, name, tilesFromBag, game);
+        }
+        $('.playersName').fadeOut(200);
+        $('.game-screen').fadeOut(200);
+        $('.game-menu').fadeOut(200);
+        $('.scrabble').fadeOut(200);
+      });
     });
+
+
 
 
 
@@ -67,7 +142,7 @@ export default class Start {
   }
 }
 
-$('.start-game').on('click', function () {
+$('.start-gameXXX').on('click', function () {
   // console.log('clicking the button');
   // console.log($('.playersName > input').length);
   let length = $('.playersName > input').length
@@ -115,6 +190,8 @@ $(document).ready(function () {
   });
 
 });
+
+
 
 
 

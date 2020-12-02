@@ -577,7 +577,7 @@ footer input {
 .key-input{
  background-color:black;
  position: relative;
- top: 80vh;
+ /* top: 80vh; */
  margin-right: auto;
  margin-left: auto;
 
@@ -598,10 +598,29 @@ footer input {
   font-size: 20px;
 
   padding: 2vh;
-  text-align: right;
+  text-align: left;
   width: 100px;
   height: 10px;
-
-
 }
 
+.waiting-box{
+  width: 300px;
+  height: 150px;
+  background-color: black;
+  border: 2px solid white;
+  /* position: absolute; */
+  margin: 200px auto 10px auto;
+  color: white;
+}
+
+.not-your-turn{
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: black;
+  opacity: 80;
+  color: white;
+  z-index: 1000;
+}

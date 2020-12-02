@@ -8,16 +8,16 @@ export default class Game {
 
   constructor(tilesFromBag) {
 
-    this.createBoard();
-    this.render();
-    this.showPlayerButtons();
+    // this.createBoard();
+    // this.render();
+    // this.showPlayerButtons();
     this.tilesFromBag = tilesFromBag;
     this.playerIndex = 0;
-    //this.lettersFromFile();
-    this.start();
-    // this.changeTiles();
-    // Set change button to disabled when starting the game
-    $('.change-tiles').prop('disabled', true);
+    // //this.lettersFromFile();
+    // this.start();
+    // // this.changeTiles();
+    // // Set change button to disabled when starting the game
+    // $('.change-tiles').prop('disabled', true);
   }
 
   changeTiles() {
@@ -49,6 +49,16 @@ export default class Game {
   /* Starting up the game with start() to set how's the first player */
 
   start() {
+
+    /* If nothing can be in constructor */
+
+    this.createBoard();
+    this.render();
+    this.showPlayerButtons();
+    // Set change button to disabled when starting the game
+    $('.change-tiles').prop('disabled', true);
+
+
     this.playerTurn();
 
     // When click on 'Stå över'-button, there will be a new player and the board will render
@@ -161,13 +171,20 @@ export default class Game {
 
     /* Disable all other players tile fields */
 
-    this.showAndHidePlayers();
+    // this.showAndHidePlayers();
 
     // Inrease player index so when new round, the next player will this.player
     this.playerIndex++;
+    console.log(players);
+    console.log('current player turn: ' + this.player);
   }
 
   showAndHidePlayers() {
+
+    $('.tiles-box')
+
+
+
     // Hide all other players tileboards except for the current player
     for (let i = 0; i < players.length; i++) {
       // If this.player ( a name ) is the same as any player in the array
@@ -284,7 +301,7 @@ export default class Game {
     // showPlayers needs to be first
     this.showPlayers();
     // showAndHide cannot be done unless we have read the showPlayers method
-    this.showAndHidePlayers();
+    // this.showAndHidePlayers();
     // We want the addEvents to be last so the player can make their move
     this.addEvents();
 

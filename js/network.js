@@ -1,12 +1,15 @@
 import Store from 'https://network-lite.nodehill.com/store';
 import Start from '../Start.js';
-
+import Game from './game.js';
+import Player, { players } from './player.js';
 
 export default class Network {
 
   constructor() {
 
     this.localStore = Store.getLocalStore();
+    let playersJoinedTheGame = 0;
+
 
     // this.start();
   }
@@ -131,9 +134,104 @@ export default class Network {
     return this.localStore.networkKey;
   }
 
-  setLocalKey() {
-    return this.connectToChat();
+  // setLocalKey() {
+  //   return this.connectToChat();
+  // }
+
+  async connectToStore(networkKey, playerName, tiles, game) {
+    // this.networkKey is either a created key or a inserted key
+    this.networkKey = networkKey;
+    this.networkStore = await Store.getNetworkStore(this.networkKey,
+      () => this.listenForNetworkChanges());
+    console.log(this.networkStore);
+
+    // Debug
+    window.store = this.networkStore;
+
+    // Shorten the variable name to a shorter one for shorter code
+    let s = this.networkStore;
+    // // Create an instance of game so methods can be reached
+    // let game = new Game(tilesFromBag);
+
+    // ListenForNetworkChanges() will listen after changes in store (s in our case)
+    // We want the network to listen for which players connecting to the same game (same game key)
+    s.players = s.players || [];
+
+    // We want to listen for which player is the one currently playing
+    s.currentPlayer = s.currentPlayer || game.playerIndex;
+    console.log('playerindex in game is ' + game.playerIndex);
+
+    // We want to if we're not in the same game anymore
+    s.game = s.game || game;
+    console.log(s.game);
+
+    // Which player index am I? (0, 1, 2 or 3?)
+    this.playerIndexInNetwork = s.players.length;
+    console.log('im index ' + this.playerIndexInNetwork);
+    players[this.playerIndexInNetwork] = new Player(playerName, tiles, game);
+
+
+    // Add my name 
+    s.players.push(playerName);
+    console.log('my name is ' + playerName);
+    console.log(s.players);
+
+    // For all players except the one starting the game will need a render of the board
+
+    // game.start();
+    console.log('the current player is ' + s.currentPlayer);
+
+    if (s.players.length > 1) {
+      game.start();
+      $('.playing-window-left').append(`<div class="not-your-turn">Vänta på att spelet ska starta</div>`);
+    }
+
+
+
+    // if (s.players.length > 1) {
+    //   this.render(s.currentPlayer);
+    // }
+
+
+    // console.log('player index: ' + playerIndex);
+    // console.log(players);
+    // let currentPlayer = players[playerIndex].name;
+    // if (currentPlayer !== playerName) {
+    //   game.render();
+    // }
+    // console.log(s.players);
+
   }
+
+  listenForNetworkChanges(game) {
+    let s = this.networkStore;
+    console.log('this count as a network change');
+    this.playersJoinedTheGame++;
+    if (s.players.length > 1) {
+      $('.waiting-box').empty();
+      for (let i = 1; i < s.players.length; i++) {
+        console.log('there are currently ' + s.players.length + ' players in player array');
+        $('.waiting-box').append(`
+        <br>
+          ${s.players[i]} har joinat spelet</br>
+          `);
+      }
+    }
+
+    // game.render();
+    // this.render();
+  }
+
+  render(currentPlayer) {
+    if (this.playerIndexInNetwork !== currentPlayer) {
+      $('body').append(`
+      <div class="not-your-turn">Vänta på din tur</div>`);
+    } else {
+      $('.not-your-turn').hide();
+    }
+
+  }
+
 
 }
 
