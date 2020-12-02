@@ -15,6 +15,7 @@ export default class Game {
     this.playerIndex = 0;
     //this.lettersFromFile();
     this.start();
+    this.wordArray = [];
     // this.changeTiles();
     // Set change button to disabled when starting the game
     $('.change-tiles').prop('disabled', true);
@@ -49,7 +50,11 @@ export default class Game {
   /* Starting up the game with start() to set how's the first player */
 
   start() {
+    //Initialize player score
+    this.initPlayerScore();
     this.playerTurn();
+    let that = this;
+
 
     // When click on 'Stå över'-button, there will be a new player and the board will render
     $('.pass').on('click', () => {
@@ -63,6 +68,16 @@ export default class Game {
     $('.play-tiles').on('click', () => {
       // get points for word
       // CountScores(); ??? 
+      console.log('play tile on click  of this ', this);
+      console.log('play tile on click  of that ', that);
+      if (that.wordArray.length > 0) {
+        this.countPlayerScore(players[that.playerIndex], that.wordArray);
+      }
+      else {
+        alert('Du har ingen godkänd ord');
+        return;
+      }
+
       this.playerTurn();
       this.render();
       // this.changeTiles();
@@ -70,7 +85,7 @@ export default class Game {
 
     // To change tiles, locate what tile wants to be changed and change them to new tiles from bag. 
     // Put back the tiles that wants to be changed and scramble the bag
-    let that = this;
+
     $('.change-tiles').on('click', () => {
       if (that.tilesFromBag.length < 7) {
         console.log('there are 7 or less tiles in bag');
@@ -119,6 +134,13 @@ export default class Game {
       // this.changeTiles();
     });
 
+  }
+  //function for initialize player score
+  initPlayerScore() {
+    for (let i = 0; i < players.length; i++) {
+      players[i].score = 0;
+    }
+    console.log('i am in init PlayerScore', players);
   }
 
   async playerTurn() {
@@ -346,8 +368,8 @@ export default class Game {
         }
       }
     }
-    wordV.sort((a, b) => a.y > b.y ? -1 : 1);
-    wordH.sort((a, b) => a.x > b.x ? -1 : 1);
+    wordV.sort((a, b) => a.y > b.y ? -1 : 1);//sort by value of y from small to big
+    wordH.sort((a, b) => a.x > b.x ? -1 : 1);//sort by value of x from small to big
     console.log('vertical wordV: ', wordV);
     console.log('horisontal wordH: ', wordH);
 
@@ -358,9 +380,11 @@ export default class Game {
       let word = '';
       let points = 0;
       let multiple = 1;
+      let position = [];
       for (let i = 0; i < wordV.length; i++) {
         if (((i < wordV.length - 1) && (wordV[i].y === wordV[i + 1].y)) || ((i > 0) && (wordV[i].y === wordV[i - 1].y))) {
           word += wordV[i].char;
+          position.push({ x: wordV[i].x, y: wordV[i].y });
           if (wordV[i].special) {
             if ((wordV[i].special) === '2xLS') { points += 2 * wordV[i].points }
             else if ((wordV[i].special) === '3xLS') { points += 3 * wordV[i].points }
@@ -374,10 +398,11 @@ export default class Game {
         }
         //if it is another column then save the word to wordArray. Initialize variables in order to save the new words.
         if ((i === wordV.length - 1) || (wordV[i].y !== wordV[i + 1].y)) {
-          wordArray.push({ word: word, points: points, multiple: multiple })
+          wordArray.push({ word: word, points: points, multiple: multiple, position: position })
           word = '';
           points = 0;
           multiple = 1;
+          position = [];
         }
 
       }
@@ -390,9 +415,11 @@ export default class Game {
       let word = '';
       let points = 0;
       let multiple = 1;
+      let position = [];
       for (let i = 0; i < wordH.length; i++) {
         if (((i < wordH.length - 1) && (wordH[i].x === wordH[i + 1].x)) || ((i > 0) && (wordH[i].x === wordH[i - 1].x))) {
-          word += wordH[i].char
+          word += wordH[i].char;
+          position.push({ x: wordH[i].x, y: wordH[i].y });
           if (wordH[i].special) {
             if ((wordH[i].special) === '2xLS') { points += 2 * wordH[i].points }
             else if ((wordH[i].special) === '3xLS') { points += 3 * wordH[i].points }
@@ -406,15 +433,16 @@ export default class Game {
         }
         //if it is another row then save the word to wordArray. Initialize variables in order to save the new words.
         if ((i === wordH.length - 1) || (wordH[i].x !== wordH[i + 1].x)) {
-          wordArray.push({ word: word, points: points, multiple: multiple })
+          wordArray.push({ word: word, points: points, multiple: multiple, position: position })
           word = '';
           points = 0;
           multiple = 1;
+          position = [];
         }
       }
       console.log('the words currently on board:', wordArray);
     }
-
+    this.wordArray = wordArray;
     if (wordArray.length > 0) {
       this.showWordFromSAOL(wordArray);
     }
@@ -492,6 +520,23 @@ export default class Game {
     //   }
     //   </style>
   }
+  // This function to count the player's score
+  async countPlayerScore(player, wordArray) {
+    let currentWordPoints = 0;
+    console.log('I am in countPlayerScore wordArray', wordArray);
+    console.log('I am in countPlayerScore player', player);
+    for (let i = 0; i < wordArray.length; i++) {
+      if (await SAOLchecker.scrabbleOk(wordArray[i].word)) {
+        currentWordPoints = wordArray[i].points * wordArray[i].multiple;
+      }
+      else currentWordPoints = 0;
+      console.log('currentWordPoints', currentWordPoints);
+      player.score += currentPoints;
+    }
+    console.log('I am in countPlayerScore wordArray currentPoints');
+    console.log('play.score', player.score);
+  }
+
 
   async showWordFromSAOL(wordsInArray) {
     console.log('------im in showWordFromSAOL()------');
