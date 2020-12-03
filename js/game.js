@@ -16,6 +16,7 @@ export default class Game {
     //this.lettersFromFile();
     this.start();
     this.wordArray = [];
+    this.wordPLayedLengthOfArray;
     // this.changeTiles();
     // Set change button to disabled when starting the game
     $('.change-tiles').prop('disabled', true);
@@ -66,6 +67,7 @@ export default class Game {
     // When click on 'Lägg brickor'-button, there will be a new player and the board will render
     // Shoul also count score on word
     $('.play-tiles').on('click', () => {
+      $('body .board div.tile').attr('id', 'playedTile')
       this.countPlayerScore(that.playerIndex, that.wordArray);
       this.wordArray = [];
       // empty stored words in array when its the next player
@@ -314,6 +316,8 @@ export default class Game {
 
   checkNewWordsOnBorad(y, x) {
 
+    console.log('--- checkNewWordsOnBoard ---')
+
     let wordH = [];  //to save  all the infromation on the horisontal 
     let wordV = [];  //to save all the infromation on the vertical 
     let wordArray = [];  //to save the final word array(word,points,extra points word times) 
@@ -321,8 +325,8 @@ export default class Game {
     let p = 0;  //temp variable to save this.board[i][j].tile[0].points;
     let s = ''; //temp variableto save this.board[i][j].special
 
-    console.log('y: ' + y);
-    console.log('x: ' + x);
+    // console.log('y: ' + y);
+    // console.log('x: ' + x);
 
     // CHECK HORISONTAL
     for (let i = 0; i < this.board.length; i++) {
@@ -365,8 +369,8 @@ export default class Game {
     }
     wordV.sort((a, b) => a.y > b.y ? -1 : 1);//sort by value of y from small to big
     wordH.sort((a, b) => a.x > b.x ? -1 : 1);//sort by value of x from small to big
-    console.log('vertical wordV: ', wordV);
-    console.log('horisontal wordH: ', wordH);
+    // console.log('vertical wordV: ', wordV);
+    // console.log('horisontal wordH: ', wordH);
 
     //Collect all the letters from same column and made it up to en word. 
     //Calulate the points of word even if it has extra points(2x letters,3x letters). 
@@ -401,7 +405,6 @@ export default class Game {
         }
 
       }
-      console.log('the words currently on board:', wordArray);
     }
     //Collect all the letters from same row and made it up to en word. 
     //Calulate the points of word even if it has extra points(2x letters,3x letters). 
@@ -435,6 +438,10 @@ export default class Game {
           position = [];
         }
       }
+
+      console.log('vertical wordV: ', wordV);
+      console.log('horisontal wordH: ', wordH);
+
       console.log('the words currently on board:', wordArray);
     }
     this.wordArray = wordArray;
@@ -521,6 +528,8 @@ export default class Game {
   }
   // This function to count the player's score
   async countPlayerScore(playerIndex, wordArray) {
+    this.wordPLayedLengthOfArray = wordArray.length;
+    console.log("length of wordArray --countPLayerScore()--- : " + this.wordPLayedLengthOfArray)
     let currentWordPoints = 0;
     console.log('I am in countPlayerScore, wordArray: ', wordArray);
     console.log('I am in countPlayerScore, player: ', playerIndex);
