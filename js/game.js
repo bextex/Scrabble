@@ -5,7 +5,7 @@ import Score from './score.js';
 import { players } from '../Start.js';
 import { store } from './network.js';
 
-
+console.log("store från början", store)
 
 export default class Game {
 
@@ -14,8 +14,12 @@ export default class Game {
     // this.createBoard();
     // this.render();
     // this.showPlayerButtons();
+
+
+
+    // this.playerIndex = 0;
+
     this.tilesFromBag = tilesFromBag;
-    this.playerIndex = 0;
 
     // //this.lettersFromFile();
     // this.start();
@@ -23,6 +27,11 @@ export default class Game {
     // // Set change button to disabled when starting the game
     // $('.change-tiles').prop('disabled', true);
   }
+
+  get playerIndex() { return store.currentPlayer; }
+
+  set playerIndex(x) { store.currentPlayer = x; }
+
 
   changeTiles() {
     let that = this;
@@ -53,6 +62,8 @@ export default class Game {
   /* Starting up the game with start() to set how's the first player */
 
   start() {
+
+    store.tilesFromBag = this.tilesFromBag;
 
     /* If nothing can be in constructor */
 
@@ -96,7 +107,8 @@ export default class Game {
       // How many tiles the player wants to remove
       let numberOfTiles = 0;
       // Loop through the current players player tiles div
-      $(`#box${players.indexOf(players[this.playerIndex - 1])} > div`).each(function () {
+      // $(`#box${players.indexOf(players[this.playerIndex - 1])} > div`).each(function () {
+      $(`#box${this.playerIndex} > div`).each(function () {
         // If the current div have the class 'change'
         if ($(this).hasClass('change')) {
           // What index does the div with the 'change' class have
@@ -139,11 +151,12 @@ export default class Game {
 
   async playerTurn() {
     console.log(players);
-    if (store.currentPlayer !== this.playerIndex) {
-      $('.playing-window-left').append(`<div class="not-your-turn">Vänta på att spelet ska starta</div>`);
-    } else {
-      $('.not-your-turn').remove();
-    }
+    console.log(store.players);
+    // if (store.currentPlayer !== this.playerIndex) {
+    //   $('.playing-window-left').append(`<div class="not-your-turn">Vänta på att spelet ska starta</div>`);
+    // } else {
+    //   $('.not-your-turn').remove();
+    // }
 
     // store.currentPlayer = this.playerIndex;
 
@@ -154,9 +167,28 @@ export default class Game {
     // if (this.playerIndex >= store.players.length) {
     //   this.playerIndex = 0;
     // }
-    if (this.playerIndex >= players.length) {
+    // if (this.playerIndex >= players.length) {
+    //   this.playerIndex = 0;
+    // }
+
+    if (this.playerIndex >= store.players.length) {
       this.playerIndex = 0;
+      console.log('trying to set playerindex to 0');
     }
+
+    console.log('this index is currently this.playerindex ' + this.playerIndex);
+
+    // store.currentPlayer = this.playerIndex;
+    store.board = this.board;
+
+    console.log('store players length', store.players.length);
+
+
+    // if (store.currentplayer !== this.playerIndex) {
+    //   store.players[this.playerIndex];
+    //   store.currentplayer = this.playerIndex;
+    // }
+
 
     console.log('playerindex in playerturn ' + this.playerIndex);
 
@@ -164,7 +196,10 @@ export default class Game {
     // so this.player will be the new player each round
     // this.player = store.players[this.playerIndex];
     // this.player = players[store.index].name;
-    this.player = players[this.playerIndex].name;
+    // this.player = players[this.playerIndex].name;
+
+    // This players turn
+    this.player = store.players[this.playerIndex];
 
     console.log('players name in playerturn ' + this.player);
 
@@ -178,8 +213,9 @@ export default class Game {
     // this.tiles.push(players[this.playerIndex].tiles[0]);
 
     // If the players has played tiles and they have less than 7, push new tiles to their playing board
-    if (this.tiles[0].length < 7) {
+    if (this.tiles.length < 7) {
       // numberOfTiles will be how many new tiles the player will need
+      console.log('i have less than 7 tiles in my stand');
       let numberOfTiles = 0;
       for (let i = 0; i < 7; i++) {
         if (!this.tiles[i]) {
@@ -192,22 +228,28 @@ export default class Game {
       let newTiles = [...this.tilesFromBag.splice(0, numberOfTiles)];
       // push the new tiles to the players current tiles
       for (let i = 0; i < numberOfTiles; i++) {
-        this.tiles[0].push(newTiles[i]);
+        this.tiles.push(newTiles[i]);
       }
     }
 
+
+    store.tiles = this.tiles;
+
+    console.log('this many tiles are left in the bag: ' + this.tilesFromBag.length);
     /* Disable all other players tile fields */
 
     // this.showAndHidePlayers();
 
     // Inrease player index so when new round, the next player will this.player
     this.playerIndex++;
+    console.log('changing player index', this.playerIndex);
     // store.currentPlayerName = this.player;
 
 
   }
 
 
+  // DONT THINK WE NEED THIS ANYMORE
   showAndHidePlayers() {
 
     $('.tiles-box')
@@ -293,9 +335,10 @@ export default class Game {
 
       // Add the moved tile from players tile array to the boards tiles
       this.board[y][x].tile = that.tiles.splice(tileIndex, 1);
+
       // When droped a tile on the board, re-render
 
-      store.board = this.board;
+      // store.board = this.board;
 
       this.checkNewWordsOnBorad(y, x);
 
@@ -305,6 +348,8 @@ export default class Game {
 
 
   render() {
+
+
     // $('.board').remove();
     // let $board = $('<div class="board"/>').appendTo('.playing-window');
     // this.board.flat().forEach(x => $board.append('<div/>'));
@@ -326,6 +371,9 @@ export default class Game {
       `).join('')
     );
 
+
+    // store.board = this.board;
+    console.log(this.board);
 
     // this.checkForNewWords(y, x);
 
@@ -491,28 +539,55 @@ export default class Game {
 
 
   showPlayers() {
+
+
+    //   store.players.forEach(player => {
+    //     let index = 0
+    //     $('.playing-window-left').append(`
+    //       <div class="playerWrapper">
+    //       <div class="playername">${player}</div>
+    //       <div class="score">Poäng :<div id="score${players.indexOf(player)}"></div></div>
+    //       </div>
+    //       <div class="tiles-box"><div id="box${players.indexOf(player)}"></div></div>
+    //       `);
+    //     while (index < players.indexOf(player).tiles[0].length) {
+    //       $(`#box${players.indexOf(player)}`).append(`
+    //       <div class="playertiles">${player.tiles[0][index].char}<div class="points">${player.tiles[0][index].points}</div>
+    //     `);
+
+    //       index++;
+    //     }
+    //     $(`#box${players.indexOf(player)}`).append(`
+    //       <div class="playertiles ${player.tiles[1][0].char === ' ' ? '' : 'none'}"></div>
+    //     `);
+
+    //   });
+    // }
+
+
     players.forEach(player => {
       let index = 0
       $('.playing-window-left').append(`
-        <div class="playerWrapper">
-        <div class="playername">${player.name}</div>
-        <div class="score">Poäng :<div id="score${players.indexOf(player)}"></div></div>
-        </div>
-        <div class="tiles-box"><div id="box${players.indexOf(player)}"></div></div>
-        `);
+      <div class="playerWrapper">
+      <div class="playername">${player.name}</div>
+      <div class="score">Poäng :<div id="score${players.indexOf(player)}"></div></div>
+      </div>
+      <div class="tiles-box"><div id="box${players.indexOf(player)}"></div></div>
+      `);
       while (index < player.tiles[0].length) {
         $(`#box${players.indexOf(player)}`).append(`
-        <div class="playertiles">${player.tiles[0][index].char}<div class="points">${player.tiles[0][index].points}</div>
-      `);
+      <div class="playertiles">${player.tiles[0][index].char}<div class="points">${player.tiles[0][index].points}</div>
+    `);
 
         index++;
       }
       $(`#box${players.indexOf(player)}`).append(`
-        <div class="playertiles ${player.tiles[1][0].char === ' ' ? '' : 'none'}"></div>
-      `);
+      <div class="playertiles ${player.tiles[1][0].char === ' ' ? '' : 'none'}"></div>
+    `);
 
     });
   }
+
 
   showPlayerButtons() {
     $('.playing-window').append(

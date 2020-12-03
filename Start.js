@@ -25,18 +25,28 @@ export default class Start {
     // start choosePlayer method from the Player class
     player.choosePlayers();
     // new Network();
-    this.clickFunction();
+    this.clickFunction(player);
   }
 
-  async clickFunction() {
+  async clickFunction(player) {
+
+
+
     let bag = new Bag();
     // create all tiles in bag.js and returns and stores them in this.tiles,
     // and therefore stored in global variable "that".
     this.tiles = await bag.tilesFromFile();
 
+    let network = await new Network(this.tiles);
+
+
+
+
     let game = new Game(this.tiles);
 
-    let network = new Network();
+
+
+
 
     that = this;
 
@@ -66,15 +76,16 @@ export default class Start {
       // that is all the tiles from the bag. Which has been created in clickFunctions
       let tilesFromBag = that.tiles.splice(0, 7);
       console.log(name);
-      console.log(tilesFromBag);
+      // console.log(tilesFromBag);
       console.log(game);
       // newPlayer.setPlayerNames(name, tilesFromBag, game);
       players.push(new Player(name, tilesFromBag));
       console.log(players);
-      network.connectToStore(networkKey, name, game);
+      console.log(that);
+      network.connectToStore(networkKey, name, game, player);
 
 
-    })
+    });
 
 
     $('.set-key').on('click', function () {
@@ -110,7 +121,7 @@ export default class Start {
           console.log(insertedNetworkKey);
           players.push(new Player(name, tilesFromBag));
           console.log(players);
-          network.connectToStore(insertedNetworkKey, name, game);
+          network.connectToStore(insertedNetworkKey, name, game, player);
         }
         $('.playersName').fadeOut(200);
         $('.game-screen').fadeOut(200);
