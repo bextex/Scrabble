@@ -248,6 +248,35 @@ export default class Game {
       this.board[y][x].tile = that.tiles[0].splice(tileIndex, 1);
       // When droped a tile on the board, re-render
 
+      //Here we create a reference to the tile and the input.
+      let tileChar = this.board[y][x].tile[0].char;
+      let charInput = "";
+
+      //We need to check if the tile is empty and if thats true we enter the statement.
+      if (tileChar == ' ') {
+        let alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖ';
+        let pass = false
+        //We use a do while loop to check the input of the player
+        //We set it to capitalized letters and check through the string in our forloop.
+        //If the input matches a character in the alphabet, the loop is true and it ends.
+        do {
+          let rawInput = prompt("Please enter a letter");
+          charInput = rawInput.toUpperCase();
+          for (let i = 0; i < alphabet.length; i++) {
+
+            console.log(charInput)
+            console.log(alphabet.charAt(i))
+
+            if (alphabet.charAt(i) == charInput) {
+              console.log(alphabet.charAt(i) + ' is equals to' + charInput)
+              pass = true;
+            }
+          }
+        }
+        while (!pass);
+        //Now we set the tiles character to our verified and safe input.
+        this.board[y][x].tile[0].char = charInput;
+      }
       this.checkNewWordsOnBorad(y, x);
 
       this.render();
