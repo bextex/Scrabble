@@ -16,6 +16,7 @@ export default class Game {
     //this.lettersFromFile();
     this.start();
     this.wordArray = [];
+    this.wordArrayCommitted = [];
     // this.changeTiles();
     // Set change button to disabled when starting the game
     $('.change-tiles').prop('disabled', true);
@@ -70,6 +71,7 @@ export default class Game {
       // CountScores(); ??? 
       console.log('play tile on click  of this ', this);
       console.log('play tile on click  of that ', that);
+      console.log('play tile on click  wordArray ', that.wordArray);
       if (that.wordArray.length > 0) {
         this.countPlayerScore(players[that.playerIndex], that.wordArray);
       }
@@ -439,6 +441,24 @@ export default class Game {
       }
       console.log('the words currently on board:', wordArray);
     }
+
+    console.log('print this.wordArrayCommitted', this.wordArrayCommitted);
+
+    if (this.wordArrayCommitted.length > 0) {
+      for (let oldItem of this.wordArrayCommitted) {
+        let lastIndexForPosition = oldItem.position.length - 1;
+        console.log('lastIndexForPosition', lastIndexForPosition);
+        wordArray.splice(wordArray.findIndex
+          (newItem => ((newItem.position[0].x === oldItem.position[0].x) && (newItem.position[0].y === oldItem.position[0].y))
+            && ((newItem.position[newItem.position.length - 1].x === oldItem.position[lastIndexForPosition].x)
+              && (newItem.position[newItem.position.length - 1].y === oldItem.position[lastIndexForPosition].y))
+          ), 1);
+      }
+      console.log('wordArray after delete old item:', wordArray);
+      console.log('this.wordArrayCommitted:', this.wordArrayCommitted);
+    }
+
+
     this.wordArray = wordArray;
     if (wordArray.length > 0) {
       this.showWordFromSAOL(wordArray);
@@ -525,13 +545,19 @@ export default class Game {
     for (let i = 0; i < wordArray.length; i++) {
       if (await SAOLchecker.scrabbleOk(wordArray[i].word)) {
         currentWordPoints = wordArray[i].points * wordArray[i].multiple;
+        wordArray[i].scrabbleOk = true;
       }
-      else currentWordPoints = 0;
+      else {
+        currentWordPoints = 0;
+        wordArray[i].scrabbleOk = false;
+      }
       console.log('currentWordPoints', currentWordPoints);
       player.score += currentPoints;
+      // player.score += currentWordPoints;
     }
-    console.log('I am in countPlayerScore wordArray currentPoints');
-    console.log('play.score', player.score);
+    //console.log('play.score', player.score);
+    this.wordArrayCommitted = wordArray.filter(x => x.scrabbleOk === true);
+    console.log('I am in countPlayerScore wordArray committed', this.wordArrayCommitted);
   }
 
 
