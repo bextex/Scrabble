@@ -67,7 +67,7 @@ export default class Network {
 
     s.tilesFromFile = s.tilesFromFile || this.tilesFromFile;
 
-    s.board = s.board || [];
+    s.board = s.board || game.createBoard();
     console.log(s.board);
 
 
@@ -180,7 +180,9 @@ export default class Network {
     console.log('Should I render?', (s.currentPlayer === this.playerIndexInNetwork))
     if (!$('.waiting-box').length && s.currentPlayer === this.playerIndexInNetwork) {
       // game.playerTurn();
-      game.playerTurn();
+      game.board = s.board;
+      game.tilesFromBag = s.tilesFromFile;
+      game.render();
     }
 
     // game.board = s.board;

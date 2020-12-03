@@ -77,9 +77,7 @@ export default class Game {
 
     this.getTiles();
 
-    if (store.board.length === 0) {
-      store.board = this.createBoard();
-    }
+    this.board = store.board;
 
 
     console.log(this.players);
@@ -97,7 +95,7 @@ export default class Game {
     /* If nothing can be in constructor */
 
 
-    store.board = this.createBoard();
+    // store.board = this.createBoard();
     this.playerTurn();
 
 
@@ -115,8 +113,8 @@ export default class Game {
 
       store.currentPlayer++;
       console.log('Changing player index', store.currentPlayer);
-      this.board = store.board;
-      this.tilesFromBag = store.tilesFromFile;
+      // this.board = store.board;
+      // this.tilesFromBag = store.tilesFromFile;
 
       this.playerTurn();
       this.render();
@@ -132,8 +130,8 @@ export default class Game {
 
       store.currentPlayer++;
       console.log('Changing player index', store.currentPlayer);
-      this.board = store.board;
-      this.tilesFromBag = store.tilesFromFile;
+      // this.board = store.board;
+      // this.tilesFromBag = store.tilesFromFile;
 
       this.playerTurn();
       this.render();
@@ -190,8 +188,8 @@ export default class Game {
 
       store.currentPlayer++;
       console.log('Changing player index', store.currentPlayer);
-      this.board = store.board;
-      this.tilesFromBag = store.tilesFromFile;
+      // this.board = store.board;
+      // this.tilesFromBag = store.tilesFromFile;
 
       this.playerTurn();
       this.render();
