@@ -1,7 +1,10 @@
-import Player, { players } from './player.js';
+import Player from './player.js';
 import SAOLchecker from './SAOLchecker.js';
 import Board from './board.js';
 import Score from './score.js';
+import { players } from '../Start.js';
+import { store } from './network.js';
+
 
 
 export default class Game {
@@ -13,6 +16,7 @@ export default class Game {
     // this.showPlayerButtons();
     this.tilesFromBag = tilesFromBag;
     this.playerIndex = 0;
+
     // //this.lettersFromFile();
     // this.start();
     // // this.changeTiles();
@@ -26,7 +30,7 @@ export default class Game {
     // When double-clicking on the tiles do this function
     $('.playertiles').not('.none').dblclick(function () {
       // If the player has played a tile then they cannot change any tiles the same round
-      if (that.tiles[0].length < 7) {
+      if (that.tiles.length < 7) {
         alert('You have already placed a tile on the board');
         // Put a div with a message here
         return;
@@ -63,6 +67,7 @@ export default class Game {
 
     // When click on 'Stå över'-button, there will be a new player and the board will render
     $('.pass').on('click', () => {
+      console.log('i have clicked on pass button');
       this.playerTurn();
       this.render();
       // this.changeTiles();
@@ -71,6 +76,7 @@ export default class Game {
     // When click on 'Lägg brickor'-button, there will be a new player and the board will render
     // Shoul also count score on word
     $('.play-tiles').on('click', () => {
+      console.log('i have clicked on lägg brickor');
       // get points for word
       // CountScores(); ??? 
       this.playerTurn();
@@ -103,11 +109,11 @@ export default class Game {
           numberOfTiles++;
 
           // Loop through the players tiles
-          that.tiles[0].forEach(tile => {
+          that.tiles.forEach(tile => {
             // When we come across the players tiles that match the marked tile
             if (tile.char === letterWithoutPoint) {
               // Remove that tile using the indexOfTile
-              that.tiles[0].splice(indexOfTile, 1);
+              that.tiles.splice(indexOfTile, 1);
               // Push the players removed(changed) tiles back to tilesFromBag
               that.tilesFromBag.push(tile);
             }
@@ -119,7 +125,7 @@ export default class Game {
       let newTiles = [...that.tilesFromBag.splice(0, numberOfTiles)];
       // push the new tiles to the players current tiles
       for (let i = 0; i < numberOfTiles; i++) {
-        that.tiles[0].push(newTiles[i]);
+        that.tiles.push(newTiles[i]);
       }
       // 'Shake the bag'
       that.tilesFromBag.sort(() => Math.random() - 0.5);
@@ -132,30 +138,51 @@ export default class Game {
   }
 
   async playerTurn() {
+    console.log(players);
+    if (store.currentPlayer !== this.playerIndex) {
+      $('.playing-window-left').append(`<div class="not-your-turn">Vänta på att spelet ska starta</div>`);
+    } else {
+      $('.not-your-turn').remove();
+    }
+
+    // store.currentPlayer = this.playerIndex;
+
     /* Alternative to switch between players turns */
     // If player index is more och equal to player array length then go back to index 0.
     // Because the current player is the last player, and the next player will be the first.
     // It all starts over.
+    // if (this.playerIndex >= store.players.length) {
+    //   this.playerIndex = 0;
+    // }
     if (this.playerIndex >= players.length) {
       this.playerIndex = 0;
     }
 
+    console.log('playerindex in playerturn ' + this.playerIndex);
+
     // Set this.player to the player with playerindex in players array
     // so this.player will be the new player each round
+    // this.player = store.players[this.playerIndex];
+    // this.player = players[store.index].name;
     this.player = players[this.playerIndex].name;
+
+    console.log('players name in playerturn ' + this.player);
 
     // Set this.tiles to empty so the current players tiles can be this.tiles
     this.tiles = [];
 
     // set this.tiles to the current players tiles
-    this.tiles.push(players[this.playerIndex].tiles[0]);
+    this.tiles = players[0].tiles[0];
+    console.log('this tiles in playerturn');
+    console.log(this.tiles);
+    // this.tiles.push(players[this.playerIndex].tiles[0]);
 
     // If the players has played tiles and they have less than 7, push new tiles to their playing board
     if (this.tiles[0].length < 7) {
       // numberOfTiles will be how many new tiles the player will need
       let numberOfTiles = 0;
       for (let i = 0; i < 7; i++) {
-        if (!this.tiles[0][i]) {
+        if (!this.tiles[i]) {
           numberOfTiles++;
           // console.log(numberOfTiles);
         }
@@ -175,9 +202,11 @@ export default class Game {
 
     // Inrease player index so when new round, the next player will this.player
     this.playerIndex++;
-    console.log(players);
-    console.log('current player turn: ' + this.player);
+    // store.currentPlayerName = this.player;
+
+
   }
+
 
   showAndHidePlayers() {
 
@@ -260,10 +289,13 @@ export default class Game {
         this.render();
         return;
       }
+      console.log(that.tiles);
 
       // Add the moved tile from players tile array to the boards tiles
-      this.board[y][x].tile = that.tiles[0].splice(tileIndex, 1);
+      this.board[y][x].tile = that.tiles.splice(tileIndex, 1);
       // When droped a tile on the board, re-render
+
+      store.board = this.board;
 
       this.checkNewWordsOnBorad(y, x);
 
@@ -293,6 +325,7 @@ export default class Game {
         </div>
       `).join('')
     );
+
 
     // this.checkForNewWords(y, x);
 
