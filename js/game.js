@@ -83,6 +83,7 @@ export default class Game {
     console.log(this.players);
     console.log(store.players);
     console.log(playerName);
+    this.name = playerName;
     for (let i = 0; i < store.players.length; i++) {
       if (playerName === store.players[i]) {
         this.players.push(new Player(store.players[i], ([...this.tilesFromBag.splice(0, 7)])));
@@ -113,6 +114,7 @@ export default class Game {
 
       store.currentPlayer++;
       console.log('Changing player index', store.currentPlayer);
+
       // this.board = store.board;
       // this.tilesFromBag = store.tilesFromFile;
 
@@ -130,6 +132,7 @@ export default class Game {
 
       store.currentPlayer++;
       console.log('Changing player index', store.currentPlayer);
+
       // this.board = store.board;
       // this.tilesFromBag = store.tilesFromFile;
 
@@ -188,6 +191,7 @@ export default class Game {
 
       store.currentPlayer++;
       console.log('Changing player index', store.currentPlayer);
+
       // this.board = store.board;
       // this.tilesFromBag = store.tilesFromFile;
 
@@ -448,6 +452,15 @@ export default class Game {
 
 
     // this.checkForNewWords(y, x);
+
+    console.log('Index of this player in store.players:', store.players.indexOf(this.name));
+    console.log('Current player in store:', store.currentPlayer);
+    if (store.players.indexOf(this.name) === store.currentPlayer) {
+      $('.not-your-turn').remove();
+    } else {
+      $('body').append(`<div class="not-your-turn">Vänta på din tur</div>`);
+
+    }
 
     // Empty the player tileboards window before rendering, otherwise there will be double each time it renders
     $('.playing-window-left').empty();

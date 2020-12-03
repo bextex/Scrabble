@@ -621,5 +621,7 @@ footer input {
   right: 0;
   background-color: rgba(161, 161, 161, 0.431);
   color: white;
+  font-size: 100px;
+  text-align: center;
   z-index: 1000;
 }
