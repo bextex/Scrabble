@@ -80,8 +80,8 @@ $(document).ready(function () {
   // Then show:
   // 2 - game-menu and players 
 
-  $('.game-menu').hide(0).delay(6300).show(0);
-  $('.newPlayerInput').hide(0).delay(6300).show(0);
+  $('.game-menu').hide(0).delay(6000).show(0);
+  $('.newPlayerInput').hide(0).delay(6000).show(0);
   //$('#candy-loader').hide();
 
 
