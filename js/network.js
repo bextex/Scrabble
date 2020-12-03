@@ -2,17 +2,19 @@ import Store from 'https://network-lite.nodehill.com/store';
 import Start from '../Start.js';
 import Game from './game.js';
 import Player from './player.js';
+import Bag from './bag.js';
+
 
 export let store;
-export let playerIndex_new;
+// export let playerIndex_new;
 
 export default class Network {
 
-  constructor(tilesFromBag) {
+  constructor() {
 
     localStorage.clear();
     this.localStore = Store.getLocalStore();
-    this.tilesFromBag = tilesFromBag;
+    // this.tilesFromBag = tilesFromBag;
 
 
 
@@ -29,9 +31,17 @@ export default class Network {
   //   return this.connectToChat();
   // }
 
-  async connectToStore(networkKey, playerName, game, player) {
+  async connectToStore(networkKey, playerName) {
 
+    // Put name in this localStore.name and then make it more accessable with local name
     this.localStore.name = playerName;
+    let name = this.localStore.name;
+
+    let bag = new Bag();
+    this.tilesFromFile = await bag.tilesFromFile();
+
+
+    let game = new Game();
 
     // this.networkKey is either a created key or a inserted key
     this.networkKey = networkKey;
@@ -55,26 +65,35 @@ export default class Network {
 
     s.currentPlayer = 0;
 
-    s.board = s.board || game.createBoard;
+    s.tilesFromFile = s.tilesFromFile || this.tilesFromFile;
 
-    s.tilesFromBag = s.tilesFromBag || this.tilesFromBag;
+    s.board = s.board || [];
+    console.log(s.board);
+
+
+
+    // s.name = s.name || name;
+
+    // s.board = s.board || game.createBoard;
+
+    // s.tilesFromBag = s.tilesFromBag || this.tilesFromBag;
     // s.tilesFromBag.push(start.tiles);
     // s.tilesFromBag = start.tiles;
-    console.log('this is tiles from bag from NETWORK');
-    console.log(s.tilesFromBag);
+    // console.log('this is tiles from bag from NETWORK');
+    // console.log(s.tilesFromBag);
 
-    s.tiles = s.tiles || player.tiles;
+    // s.tiles = s.tiles || player.tiles;
     // s.tiles.push(player.tiles);
     // s.tiles = player.tiles;
-    console.log('this is your tiles from NETWORK');
-    console.log(s.tiles);
+    // console.log('this is your tiles from NETWORK');
+    // console.log(s.tiles);
 
 
 
 
     // We want to listen for which player is the one currently playing
     // s.currentPlayer = s.currentPlayer || game.playerIndex;
-    console.log('playerindex in game is ' + game.playerIndex);
+    console.log('Current player has index:', s.currentPlayer);
 
     // We want to if we're not in the same game anymore
     // s.game = s.game || game;
@@ -83,21 +102,19 @@ export default class Network {
 
     // Which player index am I? (0, 1, 2 or 3?)
     this.playerIndexInNetwork = s.players.length;
-    console.log('my index is ' + this.playerIndexInNetwork);
-    playerIndex_new = this.playerIndexInNetwork;
+    console.log('My index is ' + this.playerIndexInNetwork);
 
 
-    // Add my name 
-    s.players.push(playerName);
-    console.log('my name is ' + playerName);
+
+    // Add my name to s.players array
+    s.players.push(name);
+    console.log('my name is ' + name);
     console.log(s.players);
-
-    let currentPlayerName = s.players[s.currentPlayer];
 
     // For all players except the one starting the game will need a render of the board
 
     // game.start();
-    console.log('the current player is ' + currentPlayerName);
+    console.log('The current player is ' + s.players[s.currentPlayer]);
 
     // This should only be at the beginning when joining a game
     // if (s.players.length > 1) {
@@ -106,17 +123,17 @@ export default class Network {
     // }
 
 
-
-
+    // s.game = s.game || game;
 
 
     if (s.players.length > 1) {
-      game.start();
-      // $('.playing-window').append(`<div class="not-your-turn">${s.currentPlayerName}s tur</div>`);
+      game.start(name);
     }
 
     // The player that gets a game-key is the only player that can start the game,
     // because they are the only one with the start-button
+
+
 
     $('.start-new-game').on('click', function () {
       console.log('im clicking the start button');
@@ -129,19 +146,20 @@ export default class Network {
       $('.game-menu').fadeOut(200);
       $('.scrabble').fadeOut(200);
 
-      game.start();
+      // game.start();
+      game.start(name);
     });
   }
 
 
   listenForNetworkChanges(game) {
     let s = this.networkStore;
-    let name = this.localStore.name;
+    // let name = this.localStore.name;
 
-    console.log('this count as a network change');
+    console.log('This count as a network change');
     // s.currentPlayer = this.playerIndexInNetwork;
-    let currentPlayerName = s.players[s.currentPlayer];
-    console.log('its ' + currentPlayerName + ' turn');
+    // let currentPlayerName = s.players[s.currentPlayer];
+
 
     if ($('.waiting-for-players').length) {
       $('.waiting-box').empty();
@@ -154,13 +172,26 @@ export default class Network {
       }
     }
 
-    game.board = s.board;
-    game.tilesFromBag = s.tilesFromBag;
-    game.tiles = s.tiles;
-    game.tilesFromBag = s.tilesFromBag;
-    if (!$('.waiting-box').length) {
-      game.render();
+    // let game = s.game;
+
+    console.log('Current players index:', s.currentPlayer);
+    console.log('Its ' + s.players[s.currentPlayer] + 's turn');
+    console.log('My playerindex in store:', this.playerIndexInNetwork);
+    console.log('Should I render?', (s.currentPlayer === this.playerIndexInNetwork))
+    if (!$('.waiting-box').length && s.currentPlayer === this.playerIndexInNetwork) {
+      // game.playerTurn();
+      game.playerTurn();
     }
+
+    // game.board = s.board;
+    // game.tilesFromBag = s.tilesFromBag;
+    // game.tiles = s.tiles;
+    // game.tilesFromBag = s.tilesFromBag;
+    // if (!$('.waiting-box').length) {
+    //   s.game.render();
+    // }
+
+
 
 
 
