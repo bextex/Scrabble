@@ -258,12 +258,12 @@ export default class Network {
     }
 
 
-    if (s.currentPlayerName !== name) {
-      $('.playing-window').append(`<div class="not-your-turn">${s.playerName}'s tur</div>`)
-    } else {
-      $('.not-your-turn').remove();
-      game.render();
-    }
+    // if (s.currentPlayerName !== name) {
+    //   $('.playing-window').append(`<div class="not-your-turn">${s.playerName}'s tur</div>`)
+    // } else {
+    //   $('.not-your-turn').remove();
+    game.render();
+    // }
 
 
 
