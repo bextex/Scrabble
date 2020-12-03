@@ -151,7 +151,7 @@ export default class Game {
       let numberOfTiles = 0;
       // Loop through the current players player tiles div
       // $(`#box${players.indexOf(players[this.playerIndex - 1])} > div`).each(function () {
-      $(`#box${store.currentPlayer} > div`).each(function () {
+      $(`#box0 > div`).each(function () {
         // If the current div have the class 'change'
         if ($(this).hasClass('change')) {
           // What index does the div with the 'change' class have
@@ -320,25 +320,25 @@ export default class Game {
   }
 
 
-  // DONT THINK WE NEED THIS ANYMORE
-  showAndHidePlayers() {
+  // // DONT THINK WE NEED THIS ANYMORE
+  // showAndHidePlayers() {
 
-    $('.tiles-box')
+  //   $('.tiles-box')
 
 
 
-    // Hide all other players tileboards except for the current player
-    for (let i = 0; i < players.length; i++) {
-      // If this.player ( a name ) is the same as any player in the array
-      // Than show the players tileboard
-      if (this.player === players[i].name) {
-        $(`#box${players.indexOf(players[i])}`).show();
-      } else {
-        // Else hide the players tileboards
-        $(`#box${players.indexOf(players[i])}`).hide();
-      }
-    }
-  }
+  //   // Hide all other players tileboards except for the current player
+  //   for (let i = 0; i < players.length; i++) {
+  //     // If this.player ( a name ) is the same as any player in the array
+  //     // Than show the players tileboard
+  //     if (this.player === players[i].name) {
+  //       $(`#box${players.indexOf(players[i])}`).show();
+  //     } else {
+  //       // Else hide the players tileboards
+  //       $(`#box${players.indexOf(players[i])}`).hide();
+  //     }
+  //   }
+  // }
 
   addEvents() {
     $('.board > div').mouseenter(e => {
@@ -376,7 +376,7 @@ export default class Game {
 
       let $tile = $(e.currentTarget);
       // Check what index the tile have that lays in a div under each players individual id="box"
-      let tileIndex = $(`#box${store.currentPlayer} > div`).index($tile);
+      let tileIndex = $(`#box0 > div`).index($tile);
       console.log('tile index is ' + tileIndex);
 
       // If board doesn't have any div with class '.tile' then there isn't any tiles on board
@@ -649,7 +649,7 @@ export default class Game {
       <div class="tiles-box"><div id="box${this.players.indexOf(player)}"></div></div>
       `);
       while (index < player.tiles[0].length) {
-        $(`#box${this.players.indexOf(player)}`).append(`
+        $(`#box0`).append(`
       <div class="playertiles">${player.tiles[0][index].char}<div class="points">${player.tiles[0][index].points}</div>
     `);
 
