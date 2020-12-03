@@ -472,17 +472,22 @@ export default class Game {
       console.log('the words currently on board:', wordArray);
     }
 
-    console.log('print this.wordArrayCommitted', this.wordArrayCommitted);
-
+    //console.log('print this.wordArrayCommitted', this.wordArrayCommitted);
+    //let wordArrayCopy = wordArray.slice();
+    //console.log('print wordArrayCopy', wordArrayCopy);
     if (this.wordArrayCommitted.length > 0) {
       for (let oldItem of this.wordArrayCommitted) {
-        let lastIndexForPosition = oldItem.position.length - 1;
-        console.log('lastIndexForPosition', lastIndexForPosition);
-        wordArray.splice(wordArray.findIndex
+        let lastIndexOfPosition = oldItem.position.length - 1;
+        let newItemIndex = wordArray.findIndex
           (newItem => ((newItem.position[0].x === oldItem.position[0].x) && (newItem.position[0].y === oldItem.position[0].y))
-            && ((newItem.position[newItem.position.length - 1].x === oldItem.position[lastIndexForPosition].x)
-              && (newItem.position[newItem.position.length - 1].y === oldItem.position[lastIndexForPosition].y))
-          ), 1);
+            && ((newItem.position[newItem.position.length - 1].x === oldItem.position[lastIndexOfPosition].x)
+              && (newItem.position[newItem.position.length - 1].y === oldItem.position[lastIndexOfPosition].y))
+          )
+        //if newItemIndex is -1 that mean there is no match data. 
+        //If we don't have code "if (newItemIndex !== -1)" then it will delete the last element of wordArray.
+        if (newItemIndex !== -1) {
+          wordArray.splice(newItemIndex, 1)
+        }
       }
       console.log('wordArray after delete old item:', wordArray);
       console.log('this.wordArrayCommitted:', this.wordArrayCommitted);
