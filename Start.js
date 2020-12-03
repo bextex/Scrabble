@@ -54,6 +54,7 @@ $('.start-game').on('click', function () {
   $('.game-screen').fadeOut(1700);
   $('.game-menu').fadeOut(1700);
   $('.scrabble').fadeOut(1700);
+  $('#candy').hide();
 
   setTimeout(() => {
     new Board().start(that.tiles);
@@ -79,8 +80,10 @@ $(document).ready(function () {
   // Then show:
   // 2 - game-menu and players 
 
-  $('.game-menu').hide();
-  $('.gamecontainer').hide();
+  $('.game-menu').hide(0).delay(6300).show(0);
+  $('.newPlayerInput').hide(0).delay(6300).show(0);
+  //$('#candy-loader').hide();
+
 
 
   $('.rules').click(function () {

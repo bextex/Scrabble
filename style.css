@@ -8,8 +8,6 @@ body{
   /*rgb(207, 248, 237)*/
   background-color: #fafafa;
   text-align: center;
-
-
    animation: color 6s linear ;
 
  
@@ -31,6 +29,8 @@ body{
 	 transform: rotate(90deg);
 	 animation: PARTY 6s cubic-bezier(0.87, -0.41, 0.19, 1.44);
 }
+
+
  #candy-loader {
 	 height: 100%;
 	 width: 100%;
@@ -41,7 +41,7 @@ body{
 	 box-shadow: 0px 0px 10px rgba(255, 50, 0, 0.8) inset;
 	 background: #d33144;
 	 background: repeating-linear-gradient(45deg, #ffe, #ffe 15px, #d33144 15px, #d33144 30px);
-	 animation: load 6s ease-in;
+   animation: load 6s ease-in;
 }
  #candy-loader::after {
 	 content: "";
@@ -53,7 +53,7 @@ body{
 	 border-bottom-right-radius: 0px;
 	 display: flex;
 	 align-self: flex-end;
-	 animation: color 6s linear;
+   animation: color 6s linear;
 }
  #candy-loader::before {
 	 content: "";
@@ -62,7 +62,7 @@ body{
 	 height: 210px;
 	 display: flex;
 	 align-self: flex-end;
-	 animation: color 6s linear ;
+   animation: color 6s linear ;
 }
  @keyframes load {
 	 0% {
@@ -108,7 +108,6 @@ body{
 		 background-color: #31d354;
 	}
 }
- 
 
 
 
@@ -172,17 +171,19 @@ ul {
 
 .rules-window .add-rules {
   font-family: 'Neucha', cursive;
-  position: relative;
+  position: absolute;
   /*removed top. Doesn't work when position is relative*/
   /*doen't work with percentage '%'*/
   left: 30%;
+  top:30vh;
   color: rgb(40, 20, 20);
   font-size: 18px;
   border: 3px solid aliceblue;
   border-radius: 10px;
   background-color: lightblue;
-  width: 35%;
-  margin-top: 35vh;
+  width: 30%;
+ 
+  
   height: 30vh;
   padding: 5vh;
   overflow: auto;
@@ -229,6 +230,10 @@ ul {
   opacity: 1;
 }
 
+.game-menu {
+  display: none;
+}
+
 .game-menu button {
   font-family: 'Source Code Pro', monospace;
   font-size: 20px;
@@ -245,7 +250,7 @@ ul {
   left: 40%;
   top: 40vh;
   animation-name: move, changeColorText;
-  animation-duration: 6s; 
+  animation-duration: 2s; 
   /*display: none;*/
 
 
@@ -360,7 +365,7 @@ ul {
 .playing-window{
  /* margin-top: 170px; */
 
-  margin-top: 20px;
+  margin-top: 30px;
   margin-right: 600px;
   overflow: hidden;
   text-align: center;
@@ -548,7 +553,7 @@ div.playing-window-left{
   z-index: 1;
  /* margin-top: 30vh;
   margin-left: 1px; */
-  margin-top: 86vh;
+  margin-top: 85.5vh;
   margin-left: 40vh;
   /*overflow: hidden;*/
   text-align: center;
