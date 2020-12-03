@@ -537,7 +537,7 @@ export default class Game {
 
     }
     if (await SAOLchecker.scrabbleOk(lastWord)) {
-      $('body').append(`<div class="boxForWord" id="${lastWord}-box"><span class="word">
+      $('.board').append(`<section class="boxForWord" id="${lastWord}-box"><span class="word">
       ` +
         lastWord + `</span><hr>ok in Scrabble: ` +
         // check if ok scrabble words
