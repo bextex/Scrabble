@@ -235,10 +235,10 @@ ul {
   text-align: center;
 }
 
-.board .tile {
+/* .board .tile {
   position: absolute;
   margin: 1px;
-}
+} */
 
 .playing-window{
  /* margin-top: 170px; */
@@ -486,10 +486,10 @@ div.playing-window-left{
   text-align: center;
 }
 
-.tile {
+/* .tile {
   font-family: 'Source Code Pro', monospace;
   font-size: 20px;
-  /* padding: 4px; */
+  /* padding: 4px; 
   margin: 0.5px;
   width: 4.5vh;
   height: 4.5vh;
@@ -498,7 +498,7 @@ div.playing-window-left{
   border: 2px solid black;
   position: relative;
   float: left;
-}
+} */
 
 
 /******************* BOX FOR WORDS FROM SAOL *********************/

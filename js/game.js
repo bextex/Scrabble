@@ -77,6 +77,8 @@ export default class Game {
 
     this.getTiles();
 
+    this.xAndYPlaceholders = [];
+
     this.board = store.board;
 
 
@@ -115,8 +117,11 @@ export default class Game {
       store.currentPlayer++;
       console.log('Changing player index', store.currentPlayer);
 
+      this.board = this.theOldBoard;
+
       // this.board = store.board;
       // this.tilesFromBag = store.tilesFromFile;
+      this.xAndYPlaceholders = [];
 
       this.playerTurn();
       this.render();
@@ -133,8 +138,10 @@ export default class Game {
       store.currentPlayer++;
       console.log('Changing player index', store.currentPlayer);
 
+
       // this.board = store.board;
       // this.tilesFromBag = store.tilesFromFile;
+      this.xAndYPlaceholders = [];
 
       this.playerTurn();
       this.render();
@@ -192,8 +199,11 @@ export default class Game {
       store.currentPlayer++;
       console.log('Changing player index', store.currentPlayer);
 
+      this.board = this.theOldBoard;
+
       // this.board = store.board;
       // this.tilesFromBag = store.tilesFromFile;
+      this.xAndYPlaceholders = [];
 
       this.playerTurn();
       this.render();
@@ -345,18 +355,22 @@ export default class Game {
   // }
 
   addEvents() {
-    $('.board > div').mouseenter(e => {
+
+    let lastTarget;
+    $('.board > div, .tiles-box').mouseenter(e => {
       let me = $(e.currentTarget);
-      if ($('.is-dragging').length && !me.find('.tiles').length) {
-        // If the current square on the board has a class '.tile', don't add hover,
-        // because then there already is a tile in that square
+      if ($('.is-dragging').length && !me.find('.tile').length) {
+        console.log('Im the current target', me);
         if (me.find('.tile').length === 0) {
           me.addClass('hover');
         }
+        lastTarget = me;
       }
     });
-    $('.board > div').mouseleave(e =>
-      $(e.currentTarget).removeClass('hover')
+    $('.board > div, .tiles-box').mouseleave(e => {
+      $(e.currentTarget).removeClass('hover');
+    }
+
     );
 
     let that = this;
@@ -366,22 +380,127 @@ export default class Game {
     $('.playertiles').not('.none').draggabilly({ containment: 'body' }).on('dragEnd', e => {
       // get the dropZone square - if none render and return
 
+      // I am a tile
+      let $tile = $(e.currentTarget);
+
+
+
       let $dropZone = $('.hover');
+      console.log($('.tiles-box'));
+      // console.log('Is me this box?', ($('.tiles-box') === lastTarget));
+
+
+
+      // if(lastTarget ===)
+
+
+      console.log('Who am I?', e.currentTarget);
+
+
+      console.log('last targets classlist', lastTarget[0].classList[0]);
+
+      if (lastTarget[0].classList[0] === 'tiles-box') {
+        console.log('The tile list length', that.tiles[0].length);
+        if ($tile.hasClass('tile')) {
+          console.log('Jag finns redan på brädet', $tile.hasClass('tile'));
+          if (that.tiles[0].length < 7) {
+            let text = $tile.text();
+            console.log('Text from tile', text);
+            let char = text[0];
+            console.log('Char from text', char);
+            let points = text[1];
+            console.log('Points from text', points);
+            that.tiles[0].push({ char: char, points: +points });
+            console.log('the players tiles array', that.tiles);
+            for (let i = 0; i < this.xAndYPlaceholders.length; i++) {
+              console.log('This board with the saved x and y', this.board[this.xAndYPlaceholders[i].y][this.xAndYPlaceholders[i].x].tile[0])
+              if (this.board[this.xAndYPlaceholders[i].y][this.xAndYPlaceholders[i].x].tile[0].char === char &&
+                this.board[this.xAndYPlaceholders[i].y][this.xAndYPlaceholders[i].x].tile[0].points === +points) {
+                console.log(this.board[this.xAndYPlaceholders[i].y][this.xAndYPlaceholders[i].x]);
+                this.board[this.xAndYPlaceholders[i].y][this.xAndYPlaceholders[i].x].remove(tile);
+              }
+            }
+          }
+        }
+        this.render();
+        return;
+      }
+
+      // if ($('.tiles-box').hasClass('hover')) {
+      //   if (that.tiles.length < 7) {
+      //     let text = $tile.text();
+      //     let char = text[0];
+      //     let point = text[1];
+      //     that.tiles[0].push([char, point]);
+      //   }
+      //   this.render();
+      //   return;
+      // }
+
+
+
+      // let currentTile = document.getElementsByClassName('is-dragging');
+      // let positionOfTile = currentTile.getBoundingClientRect();
+      // let xTile = positionOfTile.left;
+      // let yTile = positionOfTile.top;
+
+      // console.log('Tile index is:', yTile, xTile);
+
+
       if (!$dropZone.length) { this.render(); return; }
+      // if (!$boxZone.length) { this.render(); return; }
 
       // the index of the square we are hovering over
       let squareIndex = $('.board > div').index($dropZone);
+
+      // let element = document.getElementsByClassName('tiles-box');
+      // let position = element.getBoundingClientRect();
+      // let xBox = position.left;
+      // let yBox = position.top;
+
+      // console.log('Box index is:', yBox, xBox);
 
       // convert to y and x coords in this.board
       let y = Math.floor(squareIndex / 15);
       let x = squareIndex % 15;
 
+      // let yBox = Math.floor(boxIndex);
+      // let xBox = boxIndex;
+
       // the index of the chosen tile
 
-      let $tile = $(e.currentTarget);
+      // console.log('the tiles is', $tile);
+
+
+      // console.log('Is this tile the one Im dragging?', $tile.hasClass('is-dragging'));
+
+
+      // let draggie = $('.is-dragging').data('draggabilly')
+      // // access Draggabilly properties
+      // console.log('draggie at ' + draggie.position.x + ', ' + draggie.position.y)
+
+
+
+
+
+      // console.log('Is Tile inside Box?', (yTile < yBox && xTile < xBox));
+
+
       // Check what index the tile have that lays in a div under each players individual id="box"
       let tileIndex = $(`#box0 > div`).index($tile);
-      console.log('tile index is ' + tileIndex);
+      console.log('Tile index is ' + tileIndex);
+      console.log('Im placing it on [y][x]', y, x);
+      console.log('Do I have the class playertiles?', ($tile).hasClass('playertiles'));
+      console.log('Do I have the class back-to-box?', ($tile).hasClass('back-to-box'));
+
+      // if (tileIndex === boxIndex) {
+      //   this.render();
+      //   return;
+      // }
+      // if ($tile.hasClass('back-to-box')) {
+      //   this.render();
+      //   return;
+      // }
 
       // If board doesn't have any div with class '.tile' then there isn't any tiles on board
       if (!$('.board > div > .tile').length) {
@@ -410,7 +529,15 @@ export default class Game {
       console.log(that.tiles);
 
       // Add the moved tile from players tile array to the boards tiles
+
+
       this.board[y][x].tile = that.tiles[0].splice(tileIndex, 1);
+      this.board[y][x].playertiles = this.board[y][x].tile;
+      this.xAndYPlaceholders.push({ y: y, x: x });
+
+      console.log(this.board);
+
+
 
       // When droped a tile on the board, re-render
 
@@ -437,12 +564,24 @@ export default class Game {
       `);
     }
 
+
+
+    // $('.board').empty();
+    // // render the board RENDER THE BOARD AFTER EACH PLAYER
+    // $('.board').html(
+    //   this.board.flat().map(x => `
+    //   <div class="${x.special ? 'special-' + x.special : ''}">
+    //   ${x.tile ? `<div class="tiles">${x.tile[0].char}<div class="points">${x.tile[0].points}</div></div>` : ''}
+    //   </div>
+    // `).join('')
+    // );
+
     $('.board').empty();
     // render the board RENDER THE BOARD AFTER EACH PLAYER
     $('.board').html(
       this.board.flat().map(x => `
         <div class="${x.special ? 'special-' + x.special : ''}">
-        ${x.tile ? `<div class="tile">${x.tile[0].char}<div class="points">${x.tile[0].points}</div></div>` : ''}
+        ${x.tile ? `<div class="tile playertiles">${x.tile[0].char}<div class="points">${x.tile[0].points}</div></div>` : ''}
         </div>
       `).join('')
     );

@@ -62,13 +62,14 @@ export default class Network {
     // ListenForNetworkChanges() will listen after changes in store (s in our case)
     // We want the network to listen for which players connecting to the same game (same game key)
     s.players = s.players || [];
+    console.log(s.players);
 
     s.currentPlayer = 0;
 
     s.tilesFromFile = s.tilesFromFile || this.tilesFromFile;
 
     s.board = s.board || game.createBoard();
-    console.log(s.board);
+    // console.log(s.board);
 
 
 
@@ -175,12 +176,13 @@ export default class Network {
     // let game = s.game;
 
     console.log('Current players index:', s.currentPlayer);
-    console.log('Its ' + s.players[s.currentPlayer] + 's turn');
     console.log('My playerindex in store:', this.playerIndexInNetwork);
+    console.log('Its ' + s.players[s.currentPlayer] + 's turn');
     console.log('Should I render?', (s.currentPlayer === this.playerIndexInNetwork))
     if (!$('.waiting-box').length && s.currentPlayer === this.playerIndexInNetwork) {
       // game.playerTurn();
       game.board = s.board;
+      game.copyOfBoard = s.board;
       game.tilesFromBag = s.tilesFromFile;
       game.render();
     }
