@@ -131,12 +131,12 @@ setTimeout(() => {
 }, 1700);
 
 $('.scrabble').fadeOut(2000);
-  // $('.scrabble').animate({ top: '12px' }, 'slow');
-  //$('.scrabble').animate({ fontSize: '40px' }, 'slow');
-  // console.log("new Game().playerTurn - called")
-  //new Game(that.tiles);
-  // new Game().countScore();
-  // new Game().playerTurn();
+// $('.scrabble').animate({ top: '12px' }, 'slow');
+//$('.scrabble').animate({ fontSize: '40px' }, 'slow');
+// console.log("new Game().playerTurn - called")
+//new Game(that.tiles);
+// new Game().countScore();
+// new Game().playerTurn();
 });
 
 
