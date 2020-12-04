@@ -51,30 +51,6 @@ export default class Game {
   // set playerIndex(x) { store.currentPlayer = x; }
 
 
-  changeTiles() {
-    let that = this;
-    $('.change-tiles').prop('disabled', true);
-    // When double-clicking on the tiles do this function
-    $('.playertiles').not('.none').dblclick(function () {
-      // If the player has played a tile then they cannot change any tiles the same round
-      if (that.tiles.length < 7) {
-        alert('You have already placed a tile on the board');
-        // Put a div with a message here
-        return;
-      }
-      // If this ( = the current tile) doesn't have class change, add or else remove.
-      // So it works to double click to get the marked border and double-click to remove the marked border
-      $(this).toggleClass('change');
-      // First time someone mark the tile, the button gets enabled
-      $('.change-tiles').prop('disabled', false);
-      // If no tile has the class 'change', meaning no tile is marked atm
-      // Change the buttons value to opposite of what it is now. 
-      // If true, set to false. If false, set to true
-      if ($('.change').length === 0) {
-        $('.change-tiles').prop('disabled', (_, val) => !val);
-      }
-    });
-  }
 
 
   /* Starting up the game with start() to set how's the first player */
@@ -175,15 +151,23 @@ export default class Game {
       // $(`#box${players.indexOf(players[this.playerIndex - 1])} > div`).each(function () {
       $(`#box0 > div`).each(function () {
         // If the current div have the class 'change'
+        console.log('Does this div have change class?', $(this).hasClass('change'));
         if ($(this).hasClass('change')) {
           // What index does the div with the 'change' class have
+
           let indexOfTile = $('.change').index();
+          console.log('Index of the tile that wants to change', indexOfTile);
           // What text value does the current div have (we need to know the letter)
-          let letterWithPoint = $(this).text()
+          let letterWithPoint = $(this).text();
+          console.log('The whole text from div that wants to change', letterWithPoint);
           // Remove the point that follows when asking for text()
           let letterWithoutPoint = letterWithPoint[0];
+          console.log('The letter', letterWithoutPoint);
           // Increase numberOfTiles so we now how many new tiles we need at the end
           numberOfTiles++;
+          console.log('How many tiles do you wanna change?', numberOfTiles);
+
+          // ---------------- CHECK THIS METHOD!!! NOT WORKING
 
           // Loop through the players tiles
           that.tiles.forEach(tile => {
@@ -440,8 +424,8 @@ export default class Game {
       let swh = { w: $square.width(), h: $square.height() };
       let twh = { w: $tile.width(), h: $tile.height() };
       let pos = {
-        left: so.left - to.left + (swh.w - twh.w) / 2,
-        top: so.top - to.top + (swh.h - twh.h) / 2
+        left: so.left - to.left + (swh.w - twh.w) / 2.8,
+        top: so.top - to.top + (swh.h - twh.h) / 2.8
       };
       $tile.css(pos);
     });
@@ -524,6 +508,40 @@ export default class Game {
 
     this.changeTiles();
 
+  }
+
+  changeTiles() {
+    $('.change-tiles').prop('disabled', true);
+    // When double-clicking on the tiles do this function
+    $('.playertiles').not('.none').dblclick(function () {
+      // If the player has played a tile then they cannot change any tiles the same round
+      console.log('Is there tiles on board');
+
+      let stop = false;
+
+      $('.playertiles').each((i, el) => {
+        let $tile = $(el);
+        let p = $tile.data().prelBoardPos;
+        if (p) {
+          stop = true;
+          return;
+        }
+      });
+
+      if (stop) {
+        return;
+      } else {
+        $(this).toggleClass('change');
+        // First time someone mark the tile, the button gets enabled
+        $('.change-tiles').prop('disabled', false);
+        // If no tile has the class 'change', meaning no tile is marked atm
+        // Change the buttons value to opposite of what it is now. 
+        // If true, set to false. If false, set to true
+        if ($('.change').length === 0) {
+          $('.change-tiles').prop('disabled', (_, val) => !val);
+        }
+      }
+    });
   }
 
   checkNewWordsOnBoard(y, x) {
