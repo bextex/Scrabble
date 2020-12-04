@@ -15,10 +15,16 @@ export default class Game {
     // this.createBoard();
     // this.render();
     // this.showPlayerButtons();
-
-
-
     // this.playerIndex = 0;
+
+    // When resizing the window realign tiles with squares
+    // (some extra code here to make sure we do not connect resize several times)
+    window.currentGame = this;
+    if (!window.resizeAdded) {
+      window.resizeAdded = true;
+      $(window).resize(() => currentGame.alignPrelTilesWithSquares());
+    }
+
 
     console.log('game starting');
 
@@ -126,6 +132,19 @@ export default class Game {
     // When click on 'Lägg brickor'-button, there will be a new player and the board will render
     // Shoul also count score on word
     $('.play-tiles').on('click', () => {
+
+      // TF comments:
+
+      // only a valid move if not first move or center is taken
+      if (!this.notFirstMoveOrCenterIsTaken()) {
+        this.render();
+        return;
+
+      }
+
+      this.placePrelTilesOnBoard();
+      this.render();
+
       console.log('i have clicked on lägg brickor');
       // get points for word
       // CountScores(); ??? 
@@ -359,69 +378,101 @@ export default class Game {
       $(e.currentTarget).removeClass('hover')
     );
 
-    let that = this;
-
     // Drag-events: We only check if a tile is in place on dragEnd
     // $('.stand .tile').not('.none').draggabilly({ containment: 'body' })
-    $('.playertiles').not('.none').draggabilly({ containment: 'body' }).on('dragEnd', e => {
-      // get the dropZone square - if none render and return
+    $('.playertiles').not('.none').draggabilly({ containment: 'body' })
+      // Edited by TF
+      .on('dragStart', e => delete $(e.currentTarget).data().prelBoardPos)
+      .on('dragMove', e => this.alignPrelTilesWithSquares())
+      .on('dragEnd', e => {
 
-      let $dropZone = $('.hover');
-      if (!$dropZone.length) { this.render(); return; }
+        // get the tile and the dropZone square
+        let $tile = $(e.currentTarget);
+        let $dropZone = $('.hover');
 
-      // the index of the square we are hovering over
-      let squareIndex = $('.board > div').index($dropZone);
+        // the index of the square we are hovering over
+        let squareIndex = $('.board > div').index($dropZone);
+        // convert to y and x coords in this.board
+        let y = Math.floor(squareIndex / 15);
+        let x = squareIndex % 15;
 
-      // convert to y and x coords in this.board
-      let y = Math.floor(squareIndex / 15);
-      let x = squareIndex % 15;
+        // move the tile back to the rack
+        $tile.css({ top: '', left: '' });
 
-      // the index of the chosen tile
+        // if no drop zone or the square is taken then do nothing
+        if (!$dropZone.length || store.board[y][x].tile) { return; }
 
-      let $tile = $(e.currentTarget);
-      // Check what index the tile have that lays in a div under each players individual id="box"
-      let tileIndex = $(`#box0 > div`).index($tile);
-      console.log('tile index is ' + tileIndex);
+        // store the preliminary board position with the tile div
+        // (jQuery can add data to any element)
+        $tile.data().prelBoardPos = { y, x };
+        this.alignPrelTilesWithSquares();
 
-      // If board doesn't have any div with class '.tile' then there isn't any tiles on board
-      if (!$('.board > div > .tile').length) {
-        // If there isn't any tiles on board, and the squareIndex is not in the middle
-        // Re-render and return
-        if (squareIndex !== 112) {
-          this.render();
-          return;
-        }
-        // If there is at least one tile on board then check if the new tile the player is trying to drop
-        // has another tile around, if not - re-render and return. Or else place the tile and render the new board (As before)
-        // It most be specific conditions for the board squares on the outer rim otherwise it will return error 
-        // when we try to check if a square on the board has a tile and that square doesn't exist.
-      } else if ((y === 0 && x === 0 && !this.board[y + 1][x].tile && !this.board[y][x + 1].tile)
-        || (x === 0 && y > 0 && y < 14 && !this.board[y - 1][x].tile && !this.board[y + 1][x].tile && !this.board[y][x + 1].tile)
-        || (x === 14 && y === 0 && !this.board[y][x - 1].tile && !this.board[y + 1][x].tile)
-        || (x === 14 && y > 0 && y < 14 && !this.board[y - 1][x].tile && !this.board[y - 1][x].tile && !this.board[y][x - 1].tile)
-        || (x === 14 && y === 14 && !this.board[y - 1][x].tile && !this.board[y][x - 1].tile)
-        || (y === 14 && x > 0 && x < 14 && !this.board[y][x + 1].tile && !this.board[y][x - 1].tile && !this.board[y - 1][x].tile)
-        || (y === 14 && x === 0 && !this.board[y - 1][x].tile && !this.board[y][x + 1].tile)
-        || (y === 0 && x > 0 && x < 14 && !this.board[y][x - 1].tile && !this.board[y][x + 1].tile && !this.board[y + 1][x].tile)
-        || (x > 0 && x < 14 && y > 0 && y < 14 && !this.board[y - 1][x].tile && !this.board[y + 1][x].tile && !this.board[y][x + 1].tile && !this.board[y][x - 1].tile)) {
-        this.render();
-        return;
-      }
-      console.log(that.tiles);
+        // Check what index the tile have that lays in a div under each players individual id="box"
+        //let tileIndex = $(`#box0 > div`).index($tile);
+        //console.log('tile index is ' + tileIndex);
 
-      // Add the moved tile from players tile array to the boards tiles
-      this.board[y][x].tile = that.tiles[0].splice(tileIndex, 1);
+        //console.log("YEAH", y, x);
 
-      // When droped a tile on the board, re-render
 
-      // store.board = this.board;
+        // Add the moved tile from players tile array to the boards tiles
+        //this.board[y][x].prelTile = that.tiles[0].splice(tileIndex, 1);
 
-      this.checkNewWordsOnBorad(y, x);
+        // When droped a tile on the board, re-render
 
-      this.render();
+        // store.board = this.board;
+
+        //this.checkNewWordsOnBorad(y, x);
+
+        //this.render();
+      });
+  }
+
+  // added by TF
+  alignPrelTilesWithSquares() {
+    // align tiles that have a prelBoardPos with correct squares
+    $('.playertiles').each((i, el) => {
+      let $tile = $(el);
+      let p = $tile.data().prelBoardPos;
+      if (!p) { return; }
+      let $square = $('.board > div').eq(p.y * 15 + p.x);
+      $tile.css({ top: '', left: '' });
+      let so = $square.offset(), to = $tile.offset();
+      let swh = { w: $square.width(), h: $square.height() };
+      let twh = { w: $tile.width(), h: $tile.height() };
+      let pos = {
+        left: so.left - to.left + (swh.w - twh.w) / 2,
+        top: so.top - to.top + (swh.h - twh.h) / 2
+      };
+      $tile.css(pos);
     });
   }
 
+  // added by TF
+  placePrelTilesOnBoard() {
+    $('.playertiles').each((i, el) => {
+      let $tile = $(el);
+      let p = $tile.data().prelBoardPos;
+      if (!p) { return; }
+      let tileIndex = $(`#box0 > div`).index($tile);
+      let tile = this.tiles[0][tileIndex];
+      tile.onBoard = true;
+      this.board[p.y][p.x].tile = [tile];
+      this.checkNewWordsOnBoard(p.y, p.x);
+    });
+    this.tiles[0] = this.tiles[0].filter(x => !x.onBoard);
+  }
+
+  // added by TF
+  notFirstMoveOrCenterIsTaken() {
+    let isFirstMove = this.board.flat().every(square => !square.tile);
+    console.log('isFirstMove', isFirstMove);
+    let centerIsTaken = !!([...$('.playertiles')].find(x => {
+      let p = $(x).data().prelBoardPos;
+      return p && p.x === 7 && p.y === 7;
+    }));
+    console.log('centerIsTaken', centerIsTaken);
+    return !isFirstMove || centerIsTaken;
+  }
 
   render() {
 
@@ -475,7 +526,7 @@ export default class Game {
 
   }
 
-  checkNewWordsOnBorad(y, x) {
+  checkNewWordsOnBoard(y, x) {
 
     let wordH = [];  //to save  all the infromation on the horisontal 
     let wordV = [];  //to save all the infromation on the vertical 
