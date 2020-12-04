@@ -615,7 +615,7 @@ export default class Game {
     );
   }
 
-  async countScore(wordsInArray) {
+  async showWordFromSAOL(wordsInArray) {
     console.log('------im in countScore()------');
 
     // console.log("wordsInArray:  ", wordsInArray);
