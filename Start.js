@@ -11,7 +11,7 @@ import Bag from './js/bag.js';
 
 // export const players = [];
 
-// let that;
+let that;
 
 
 export default class Start {
@@ -29,16 +29,16 @@ export default class Start {
 
 
 
-    // let bag = new Bag();
+    let bag = new Bag();
     // create all tiles in bag.js and returns and stores them in this.tiles,
     // and therefore stored in global variable "that".
-    // this.tiles = await bag.tilesFromFile();
+    this.tiles = await bag.tilesFromFile();
 
     let network = new Network();
 
     // let game = new Game(this.tiles);
 
-    // let that = this;
+    let that = this;
 
     $('.game-menu').append(
       `<input type="text" id="playerName" class="newPlayerInput" placeholder="Namn" />`
@@ -53,11 +53,18 @@ export default class Start {
         return;
       }
       // Fade out the 'start-side' and replace it with waiting for other players
+      //$('.game-menu').fadeOut(1700);
+
+      $('#candy').hide();
+      $('.scrabble').fadeOut();
+      $('.game-screen').fadeOut(1700);
       $('.game-menu').fadeOut(1700);
+
+
 
       let networkKey = await network.getLocalKey();
       console.log('network key is ' + networkKey);
-      $('.playersName').append(`<div class="waiting-for-players"><div class="waiting-box">Väntar på spelare...</div>
+      $('body').append(`<div class="waiting-for-players"><div class="waiting-box">Väntar på spelare...</div>
       <button class="start-new-game">Starta</button>
       <div type="key-input" class="key-input"><span class="key">${networkKey}</span></div>
       </div>`);
@@ -89,6 +96,7 @@ export default class Start {
       // Fade out the 'start-side' and replace it with waiting for other players
       $('.game-menu').fadeOut(1700);
 
+
       // let networkKey = await network.getLocalKey();
       $('.playersName').append(`<div>
       <button class="join">Gå med</button>
@@ -98,16 +106,16 @@ export default class Start {
       $('.join').on('click', function () {
         console.log('im clicking the join button');
         //that is all the tiles from the bag. Which has been created in clickFunctions
-        // let tilesFromBag = that.tiles.splice(0, 7);
+        let tilesFromBag = that.tiles.splice(0, 7);
         // console.log(name);
         // console.log(tilesFromBag);
-        // newPlayer.setPlayerNames(name, tilesFromBag, game);
+        newPlayer.setPlayerNames(name, tilesFromBag, game);
         let insertedNetworkKey = $('.key-input').val();
         if (!insertedNetworkKey) {
           alert('type in a insert key');
         } else {
           console.log(insertedNetworkKey);
-          // players.push(new Player(name, tilesFromBag));
+          players.push(new Player(name, tilesFromBag));
           // console.log(players);
           network.connectToStore(insertedNetworkKey, name);
         }
@@ -121,23 +129,23 @@ export default class Start {
 }
 
 
-$('.game-screen').fadeOut(1700);
+/*$('.game-screen').fadeOut(1700);
 $('.game-menu').fadeOut(1700);
 $('.scrabble').fadeOut(1700);
-$('#candy').hide();
+$('#candy').hide();*/
 
 setTimeout(() => {
   new Board().start(that.tiles);
 }, 1700);
 
-$('.scrabble').fadeOut(2000);
+
 // $('.scrabble').animate({ top: '12px' }, 'slow');
 //$('.scrabble').animate({ fontSize: '40px' }, 'slow');
 // console.log("new Game().playerTurn - called")
 //new Game(that.tiles);
 // new Game().countScore();
 // new Game().playerTurn();
-});
+
 
 
 // rules open-close 

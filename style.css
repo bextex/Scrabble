@@ -364,7 +364,7 @@ ul {
 .playing-window{
  /* margin-top: 170px; */
 
-  margin-top: 30px;
+  margin-top: 20px;
   margin-right: 600px;
   overflow: hidden;
   text-align: center;
@@ -725,23 +725,23 @@ footer input {
 
 .key-input{
  background-color:black;
- position: relative;
+ position: absolute;
  /* top: 80vh; */
- margin-right: auto;
- margin-left: auto;
 
  opacity: 0.8;
  border: 5px solid aliceblue;
  border-radius: 5px;
   color: white;
 
-  animation-name: playerAnimation;
+  
+  top: 20vh;
+  right: 10vh;
+
+  /*animation-name: playerAnimation;
   animation-iteration-count: 1;
   animation-timing-function: ease-in;
-  animation-duration: 1s;
+  animation-duration: 1s;*/
 
-
-  
   font-family: 'Neucha', cursive;
   font-size: large;
   font-size: 20px;
@@ -753,12 +753,14 @@ footer input {
 }
 
 .waiting-box{
+  position: absolute;
+  top: 70vh;
+  right: 30px;
   width: 300px;
   height: 150px;
   background-color: black;
   border: 2px solid white;
   /* position: absolute; */
-  margin: 200px auto 10px auto;
   color: white;
 }
 
@@ -791,9 +793,10 @@ footer input {
    padding-bottom: 55vh;
    margin-bottom: 20px;
    
-   
-   
+}
 
-   
-  
+.start-new-game {
+  position: absolute;
+  top: 30vh;
+  right: 15vh;
 }
