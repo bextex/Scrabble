@@ -790,13 +790,13 @@ export default class Game {
     console.log(lastWord + "is: " + await SAOLchecker.scrabbleOk(lastWord))
 
     // only shows the last word (ok in scrabble - box)
-    if ($('.board .boxForWord').length > 0) {
-      $('.board .boxForWord').remove();
+    if ($('body .boxForWord').length > 0) {
+      $('body .boxForWord').remove();
     }
 
     if (await SAOLchecker.scrabbleOk(lastWord) === false) {
       // (false === false) --> (true)
-      $('.board').append('<div class="boxForWord"><span class="word">' +
+      $('body').append('<div class="boxForWord"><span class="word">' +
         lastWord + '</span><hr>ok in Scrabble: ' +
         // check if ok scrabble words
         // by calling await SAOLchecker.scrabbleOk(word)
