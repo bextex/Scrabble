@@ -789,8 +789,8 @@ export default class Game {
     console.log(lastWord + "is: " + await SAOLchecker.scrabbleOk(lastWord))
 
     // only shows the last word (ok in scrabble - box)
-    if ($('body .boxForWord').length > 0) {
-      $('body .boxForWord').remove();
+    if ($('.board .boxForWord').length > 0) {
+      $('.board .boxForWord').remove();
     }
 
     if (await SAOLchecker.scrabbleOk(lastWord) === false) {
