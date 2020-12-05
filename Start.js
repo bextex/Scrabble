@@ -40,9 +40,14 @@ export default class Start {
 
     // let that = this;
 
-    $('.game-menu').append(
+    $('.game-menu').hide(0).delay(6000).show(0).append(
       `<input type="text" id="playerName" class="newPlayerInput" placeholder="Namn" />`
     );
+
+
+    /*append(
+      `<input type="text" id="playerName" class="newPlayerInput" placeholder="Namn" />`
+    );*/
 
 
     $('.get-key').on('click', async function () {
