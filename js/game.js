@@ -747,11 +747,6 @@ export default class Game {
     });
   }
 
-  showSaolText() {
-    $('.board').append(
-      `<p class="saol">🎄SAOL🎄</p>`
-    );
-  }
 
   showPlayerButtons() {
     $('.playing-window').append(
@@ -777,6 +772,12 @@ export default class Game {
     //      border-radius: 3px;
     //   }
     //   </style>
+  }
+
+  showSaolText() {
+    $('.board').append(
+      `<p class="saol">🎄SAOL🎄</p>`
+    );
   }
 
   async countScore(wordsInArray) {
