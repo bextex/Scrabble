@@ -59,6 +59,7 @@ export default class Start {
         return;
       }
       // Fade out the 'start-side' and replace it with waiting for other players
+      $('#candy').hide();
       $('.game-menu').fadeOut(1700);
 
       let networkKey = await network.getLocalKey();

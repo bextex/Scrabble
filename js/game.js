@@ -500,7 +500,9 @@ export default class Game {
     // Empty the player tileboards window before rendering, otherwise there will be double each time it renders
     $('.playing-window-left').empty();
     // showPlayers needs to be first
+
     this.showPlayers();
+    //this.showPlayerButtons();
     // showAndHide cannot be done unless we have read the showPlayers method
     // this.showAndHidePlayers();
     // We want the addEvents to be last so the player can make their move
@@ -787,7 +789,7 @@ export default class Game {
 
     if (await SAOLchecker.scrabbleOk(lastWord) === false) {
       // (false === false) --> (true)
-      $('body').append('<div class="boxForWord"><span class="word">' +
+      $('.board').append('<div class="boxForWord"><span class="word">' +
         lastWord + '</span><hr>ok in Scrabble: ' +
         // check if ok scrabble words
         // by calling await SAOLchecker.scrabbleOk(word)
@@ -799,7 +801,7 @@ export default class Game {
 
     }
     if (await SAOLchecker.scrabbleOk(lastWord)) {
-      $('body').append(`<div class="boxForWord" id="${lastWord}-box"><span class="word">` +
+      $('.board').append(`<div class="boxForWord" id="${lastWord}-box"><span class="word">` +
         lastWord + `</span><hr>ok in Scrabble: ` +
         // check if ok scrabble words
         // by calling await SAOLchecker.scrabbleOk(word)
