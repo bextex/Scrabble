@@ -502,6 +502,7 @@ export default class Game {
     // showPlayers needs to be first
 
     this.showPlayers();
+    this.showSaolText();
     //this.showPlayerButtons();
     // showAndHide cannot be done unless we have read the showPlayers method
     // this.showAndHidePlayers();
@@ -746,6 +747,11 @@ export default class Game {
     });
   }
 
+  showSaolText() {
+    $('.board').append(
+      `<p class="saol">🎄SAOL🎄</p>`
+    );
+  }
 
   showPlayerButtons() {
     $('.playing-window').append(
