@@ -67,9 +67,16 @@ export default class Game {
     // When click on 'Lägg brickor'-button, there will be a new player and the board will render
     // Shoul also count score on word
     $('.play-tiles').on('click', () => {
-      $('body .board div.tile').attr('id', 'playedTile')
-      this.countPlayerScore(that.playerIndex, that.wordArray);
-      this.wordArray = [];
+      // get points for word
+      console.log('play tile on click  wordArray ', that.wordArray);
+      if (that.wordArray.length > 0) {
+        this.countPlayerScore(that.playerIndex, that.wordArray);
+      }
+      else {
+        alert('Du har ingen godkänd ord');
+        return;
+      }
+
       // empty stored words in array when its the next player
       this.playerTurn();
       this.render();
@@ -478,6 +485,24 @@ export default class Game {
 
       console.log('the words currently on board:', wordArray);
     }
+
+    console.log('print this.wordArrayCommitted', this.wordArrayCommitted);
+
+    if (this.wordArrayCommitted.length > 0) {
+      for (let oldItem of this.wordArrayCommitted) {
+        let lastIndexForPosition = oldItem.position.length - 1;
+        console.log('lastIndexForPosition', lastIndexForPosition);
+        wordArray.splice(wordArray.findIndex
+          (newItem => ((newItem.position[0].x === oldItem.position[0].x) && (newItem.position[0].y === oldItem.position[0].y))
+            && ((newItem.position[newItem.position.length - 1].x === oldItem.position[lastIndexForPosition].x)
+              && (newItem.position[newItem.position.length - 1].y === oldItem.position[lastIndexForPosition].y))
+          ), 1);
+      }
+      console.log('wordArray after delete old item:', wordArray);
+      console.log('this.wordArrayCommitted:', this.wordArrayCommitted);
+    }
+
+
     this.wordArray = wordArray;
     if (wordArray.length > 0) {
       this.showWordFromSAOL(wordArray);
@@ -573,14 +598,21 @@ export default class Game {
     console.log('I am in countPlayerScore, wordArray: ', wordArray);
     console.log('I am in countPlayerScore, player: ', playerIndex);
     for (let i = 0; i < wordArray.length; i++) {
-      currentWordPoints = wordArray[i].points * wordArray[i].multiple;
-
+      if (await SAOLchecker.scrabbleOk(wordArray[i].word)) {
+        currentWordPoints = wordArray[i].points * wordArray[i].multiple;
+        wordArray[i].scrabbleOk = true;
+      }
+      else {
+        currentWordPoints = 0;
+        wordArray[i].scrabbleOk = false;
+      }
+      console.log('currentWordPoints', currentWordPoints);
+      players[playerIndex - 1].score += currentWordPoints;
+      console.log('play.score: ', players[0].score);
     }
-    console.log('currentWordPoints: ', currentWordPoints);
-    players[playerIndex - 1].score += currentWordPoints;
-    console.log('play.score: ', players[0].score);
-    // trying to empty array for next player.
-    //this.wordArray = [];
+    //console.log('play.score', player.score);
+    this.wordArrayCommitted = wordArray.filter(x => x.scrabbleOk === true);
+    console.log('I am in countPlayerScore wordArray committed', this.wordArrayCommitted);
   }
 
 
