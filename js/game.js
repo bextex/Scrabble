@@ -70,15 +70,7 @@ export default class Game {
     // Shoul also count score on word
     $('.play-tiles').on('click', () => {
       // get points for word
-      console.log('play tile on click  wordArray ', that.wordArray);
-      if (that.wordArray.length > 0) {
-        this.countPlayerScore(that.playerIndex, that.wordArray);
-      }
-      else {
-        alert('Du har ingen godkänd ord');
-        return;
-      }
-
+      this.countPlayerScore(that.playerIndex, that.wordArray);
       // empty stored words in array when its the next player
       this.playerTurn();
       this.render();
@@ -147,7 +139,8 @@ export default class Game {
   }
 
   async playerTurn() {
-    $('body').remove('.boxForWordContainer')
+    console.log("\n.".repeat(5))
+    $('body').remove('.boxForWord')
     /* Alternative to switch between players turns */
     // If player index is more och equal to player array length then go back to index 0.
     // Because the current player is the last player, and the next player will be the first.
@@ -190,7 +183,7 @@ export default class Game {
 
     this.showAndHidePlayers();
 
-    console.log("current player: ", players[this.playerIndex])
+    console.log("playerTurn() -- players array[]:  ", players)
 
     // Inrease player index so when new round, the next player will this.player
     this.playerIndex++;
@@ -533,8 +526,8 @@ export default class Game {
     this.board[7][7].special = 'middle-star';
 
 
-    $('body').append('<div class= "boxForWordContainer"></div>')
-    $('.boxForWordContainer').css({ 'border': '1px solid black', 'height': 'auto' })
+    //$('.saol').append('<div class= "boxForWordContainer"></div>')
+    //$('.boxForWordContainer').css({ 'border': '1px solid black', 'height': 'auto' })
   }
 
 
@@ -594,8 +587,7 @@ export default class Game {
   }
   // This function to count the player's score
   async countPlayerScore(playerIndex, wordArray) {
-    this.wordPLayedLengthOfArray = wordArray.length;
-    console.log("length of wordArray --countPLayerScore()--- : " + this.wordPLayedLengthOfArray)
+
     let currentWordPoints = 0;
     console.log('I am in countPlayerScore, wordArray: ', wordArray);
     console.log('I am in countPlayerScore, player: ', playerIndex);
@@ -614,22 +606,22 @@ export default class Game {
     }
     //console.log('play.score', player.score);
     this.wordArrayCommitted = wordArray.filter(x => x.scrabbleOk === true);
-    console.log('I am in countPlayerScore wordArray committed', this.wordArrayCommitted);
+    console.log('I am in countPlayerScore wordArrayCommitted', this.wordArrayCommitted);
   }
 
 
   showSaolText() {
     $('.board').append(
-      `<p class="saol">🎄SAOL🎄</p>`
+      `<section class="saol">🎄SAOL🎄</section>`
     );
   }
 
-  async showWordFromSAOL(wordsInArray) {
+  async showWordFromSAOL(wordArray) {
     console.log('------im in showWordFromSAOL()------');
 
-    // console.log("wordsInArray:  ", wordsInArray);
+    console.log("wordArray:  ", wordArray);
 
-    let lastWord = wordsInArray[0].word;
+    let lastWord = wordArray[0].word;
     console.log("last word: ----> ", lastWord)
 
     // loop wordsInArray and show a list of true/false
@@ -638,52 +630,20 @@ export default class Game {
     // only shows the last word (ok in scrabble - box)
 
     if (await SAOLchecker.scrabbleOk(lastWord) === false) {
-      // (false === false) --> (true)
-      $('.boxForWordContainer').append('<div class="boxForWord"><span class="word">' +
-        // ---------- $('.board').append('<section class="boxForWord"><span class="word">' +
-        lastWord + '</span><hr>ok in Scrabble: ' +
-        // check if ok scrabble words
-        // by calling await SAOLchecker.scrabbleOk(word)
-        await SAOLchecker.scrabbleOk(lastWord)
-        // add explanations/entries from SAOL in body
-        // by using await SAOLchecker.lookupWord(word)
-        // (maybe fun to show in scrabble at some point?)
-        //await SAOLchecker.lookupWord(lastWord)
-        + '</div');
-      //-------- await SAOLchecker.lookupWord(lastWord) + '</section>');
+      $('.saol').append('<div class="boxForWord"><span class="word">' +
+        lastWord + '</span>')
 
       //Disable "Lägg brickor" - button when word is false in SAOL
       $('.play-tiles').prop('disabled', true);
     }
     if (await SAOLchecker.scrabbleOk(lastWord)) {
-      $('.boxForWordContainer').append(`<div class="boxForWord" id="${lastWord}-box"><span class="word">` +
-        //$('.board').append(`<section class="boxForWord" id="${lastWord}-box"><span class="word">
-
-        lastWord + `</span><hr>ok in Scrabble: ` +
-        // check if ok scrabble words
-        // by calling await SAOLchecker.scrabbleOk(word)
-        await SAOLchecker.scrabbleOk(lastWord) + '</div>');
-      // let wordPoints = 0;
-      // for (let i = 0; i < word.length; i++) {
-      //   let letterInWord = word.charAt(i);
-      //   //find the letters points          
-      //   let letterPoints = letters
-      //     // get char
-      //     .filter(letter => letter.char === letterInWord)
-      //     // get their points
-      //     .map(letter => letter.points);
-      //   let points = letterPoints[0];
-      //   wordPoints += points;
-      // }
-      // $(`#${lastWord}-box`).append(`<div><span class="points"></span><hr> points: ${lastWord}<hr>` +
-      //   // add explanations/entries from SAOL in body
-      //   // by using await SAOLchecker.lookupWord(word)
-      //   // (maybe fun to show in scrabble at some point?)
-      //   await SAOLchecker.lookupWord(lastWord) +
-      //   '</div');
+      console.log("showInSaol true word")
+      $('.saol').append('<div class="boxForWord"><span class="word validWord">' +
+        lastWord + '</span>')
 
       //Activate "Lägg brickor" - button when word is true in SAOL
       $('.play-tiles').prop('disabled', false);
     }
+    console.log("\n.")
   }
 }
