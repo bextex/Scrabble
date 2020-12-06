@@ -796,7 +796,7 @@ export default class Game {
 
     if (await SAOLchecker.scrabbleOk(lastWord) === false) {
       // (false === false) --> (true)
-      $('body').append('<div class="boxForWord"><span class="word">' +
+      $('.board').append('<div class="boxForWord"><span class="word">' +
         lastWord + '</span><hr>ok in Scrabble: ' +
         // check if ok scrabble words
         // by calling await SAOLchecker.scrabbleOk(word)
