@@ -70,6 +70,7 @@ export default class Game {
     // Shoul also count score on word
     $('.play-tiles').on('click', () => {
       // get points for word
+      this.checkNewWordsOnBorad();
       this.countPlayerScore(that.playerIndex, that.wordArray);
       // empty stored words in array when its the next player
       this.playerTurn();
@@ -300,7 +301,7 @@ export default class Game {
         //Now we set the tiles character to our verified and safe input.
         this.board[y][x].tile[0].char = charInput;
       }
-      this.checkNewWordsOnBorad(y, x);
+      //this.checkNewWordsOnBorad();
       console.log("addEvents() wordArray: " + this.wordArray)
 
       this.render();
@@ -350,7 +351,7 @@ export default class Game {
 
   }
 
-  checkNewWordsOnBorad(y, x) {
+  checkNewWordsOnBorad() {
 
     console.log('--- checkNewWordsOnBoard ---')
 
@@ -602,7 +603,6 @@ export default class Game {
       }
       console.log('currentWordPoints', currentWordPoints);
       players[playerIndex - 1].score += currentWordPoints;
-      console.log('play.score: ', players[0].score);
     }
     //console.log('play.score', player.score);
     this.wordArrayCommitted = wordArray.filter(x => x.scrabbleOk === true);
@@ -646,4 +646,5 @@ export default class Game {
     }
     console.log("\n.")
   }
+
 }
