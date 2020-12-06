@@ -5,12 +5,113 @@
 body{
   margin: 0;
   /* overflow: hidden; */
-  background-color: rgb(207, 248, 237);
-  animation-name: colorchange;
-  animation-duration: 10s;
-  animation-iteration-count: infinite;
+  /*rgb(207, 248, 237)*/
+  background-color: #fafafa;
   text-align: center;
+   animation: color 6s linear ;
+
+ 
 }
+
+
+ #candy {
+	 overflow: hidden;
+	 display: flex;
+	 opacity: 0;
+	 margin: calc(50vh - 150px) auto 0 auto;
+	 width: 100px;
+	 height: 300px;
+	 border-radius: 100px;
+	 border-bottom-left-radius: 0px;
+	 border-bottom-right-radius: 0px;
+	 background-color: #fafafa;
+	 box-shadow: 40px 20px 15px -30px rgba(255, 0, 0, 0.1);
+	 transform: rotate(90deg);
+	 animation: PARTY 6s cubic-bezier(0.87, -0.41, 0.19, 1.44);
+}
+
+
+ #candy-loader {
+	 height: 100%;
+	 width: 100%;
+	 z-index: 1;
+	 display: flex;
+	 align-items: center;
+	 align-self: flex-end;
+	 box-shadow: 0px 0px 10px rgba(255, 50, 0, 0.8) inset;
+	 background: #d33144;
+	 background: repeating-linear-gradient(45deg, #ffe, #ffe 15px, #d33144 15px, #d33144 30px);
+   animation: load 6s ease-in;
+}
+ #candy-loader::after {
+	 content: "";
+	 background-color: #fafafa;
+	 width: 50px;
+	 height: 270px;
+	 border-radius: 50px;
+	 border-bottom-left-radius: 0px;
+	 border-bottom-right-radius: 0px;
+	 display: flex;
+	 align-self: flex-end;
+   animation: color 6s linear;
+}
+ #candy-loader::before {
+	 content: "";
+	 background-color: #fafafa;
+	 width: 25px;
+	 height: 210px;
+	 display: flex;
+	 align-self: flex-end;
+   animation: color 6s linear ;
+}
+ @keyframes load {
+	 0% {
+		 height: 0%;
+	}
+	 50% {
+		 height: 100%;
+	}
+}
+ @keyframes PARTY {
+	 5% {
+		 opacity: 1;
+	}
+	 50% {
+		 transform: rotate(90deg) scale(1);
+	}
+	 60% {
+		 transform: rotate(-10deg) scale(1);
+	}
+	 70% {
+		 transform: rotate(20deg) scale(1);
+	}
+	 80% {
+		 transform: rotate(-10deg) scale(1);
+	}
+	 90% {
+		 transform: rotate(30deg) scale(1);
+		 opacity: 1;
+	}
+	 100% {
+		 transform: rotate(-180deg) scale(0);
+		 opacity: 0;
+	}
+}
+ @keyframes color {
+	 55% {
+		 background-color: #fafafa;
+	}
+	 57% {
+		 background-color: #31d354;
+	}
+	 95% {
+		 background-color: #31d354;
+	}
+}
+
+
+
+
 
 ul {
   width: auto;
@@ -31,10 +132,10 @@ ul {
  position: absolute;
  font-size: 10vh;
  text-align: center;
- color: rgba(135, 147, 214, 0.431);
+ color: #F23847;
  text-shadow: 3px 3px rgb(42, 30, 24);
  animation-name: move;
- animation-duration: 2s; 
+ animation-duration: 6s; 
  cursor: default;
  margin-left: auto;
  margin-top: auto;
@@ -70,17 +171,20 @@ ul {
 
 .rules-window .add-rules {
   font-family: 'Neucha', cursive;
-  position: relative;
+  position: absolute;
   /*removed top. Doesn't work when position is relative*/
   /*doen't work with percentage '%'*/
   left: 30%;
+  top:30vh;
   color: rgb(40, 20, 20);
   font-size: 18px;
   border: 3px solid aliceblue;
   border-radius: 10px;
   background-color: lightblue;
-  width: 35%;
-  height: 50vh;
+  width: 30%;
+ 
+  
+  height: 30vh;
   padding: 5vh;
   overflow: auto;
   display: none;
@@ -126,6 +230,10 @@ ul {
   opacity: 1;
 }
 
+.game-menu {
+  display: none;
+}
+
 .game-menu button {
   font-family: 'Source Code Pro', monospace;
   font-size: 20px;
@@ -142,7 +250,10 @@ ul {
   left: 40%;
   top: 40vh;
   animation-name: move, changeColorText;
-  animation-duration: 2s; 
+  animation-duration: 1.5s; 
+  /*display: none;*/
+
+
 }
 
 .game-menu button:hover {
@@ -179,6 +290,7 @@ ul {
   to {color: aliceblue};
 }
 
+
 .newPlayerInput {
  background-color:black;
  position: relative;
@@ -214,22 +326,31 @@ ul {
       
 
 .board {
-  border: 10px solid #02b802;
+  position: relative;
+  width: calc(75vh + 50px);
+  border: 3px solid black;
   border-radius: 3px;
   display: inline-block;
+  padding: 50px 400px 90px 20px;
+
+  /*#F23847*/
+  background-color:  #F23847;
+
 }
 
 .board > div {
   border: 1px solid #000000;
-  width: 5.5vh;
-  height: 5.5vh;
-  background-color: #54aa79;
+  width: 5vh;
+  height: 5vh;
+  background-color: #A5A686;
   float: left;
+  
 }
 
 .board > div:nth-child(15n+1){
   clear: both;
 }
+
 
 .board > div::after {
   display: block;
@@ -243,8 +364,9 @@ ul {
 
 .playing-window{
  /* margin-top: 170px; */
-  margin-top: 80px;
-  margin-right: 220px;
+
+  margin-top: 30px;
+  margin-right: 600px;
   overflow: hidden;
   text-align: center;
   display: inline-block;
@@ -252,20 +374,22 @@ ul {
 
 /****************** My special colors ******************/
 .board > div.special-3xWS {
-  background-color: red;
+
+  background-color: #F23847;
 }
 .board > div.special-2xWS {
-  background-color: palevioletred;
+  background-color: #BF4136;
 }
 .board > div.special-3xLS {
-  background-color: darkblue;
+  background-color: #F20505;
 }
 .board > div.special-2xLS {
-  background-color: rgb(145, 227, 255);
+  background-color: #e159599e;
 }
 
 .board > div.special-middle-star {
-  background-color: palevioletred;
+
+  background-color: #BF4136;
 }
 
 /* The pseudo-element after can have text */
@@ -357,17 +481,20 @@ ul {
   z-index: 10;
 } */
 
-.tiles-box{
+/*.tiles-box{
   width: 300px;
-  height: 35px;
-  background-color: #02b802;
+
+  height: 70px;
+  background-color: #F23847;
+
   padding: 1vh;
   text-align: center;
   border: 1px solid black;
-}
+}*/
 
 .playertiles.none{
-  background-color: #02b802;
+
+  background-color: #F23847;
   border: 0;
   cursor: default ;
 }
@@ -377,11 +504,12 @@ ul {
   font-size: 20px;
   /* padding: 4px; */
   margin: 1px;
-  width: 4.5vh;
-  height: 4.5vh;
-  background-color: white;
+  width: 4vh;
+  height: 4vh;
+  background-color: #EFF2D8;
   text-align: center;
-  border: 2px solid black;
+  border: 5px solid #A5A686;
+  border-radius: 5px;
   position: relative;
   float: left;
   cursor: pointer;
@@ -394,9 +522,12 @@ ul {
   margin: 1px;
   width: 4.5vh;
   height: 4.5vh;
-  background-color: white;
+  /*white*/
+  background-color: #EFF2D8;
   text-align: center;
+  /*black*/
   border: 2px dotted rgb(126, 126, 126);
+
   position: relative;
   float: left;
   cursor: pointer;
@@ -418,13 +549,12 @@ div.playing-window-left{
 }
 
 .playing-window-left{
-
-  position: relative;
+  position: absolute;
   z-index: 1;
  /* margin-top: 30vh;
   margin-left: 1px; */
-  margin-top: 15vh;
-  margin-left: 10px;
+  margin-top: 85.5vh;
+  margin-left: 40vh;
   /*overflow: hidden;*/
   text-align: center;
   display: inline-block;
@@ -435,33 +565,44 @@ div.playing-window-left{
 /****************** PASS AND PLAY TILES BUTTONS ******************/
 
 .play-tiles{
-  font-family: 'Source Code Pro', monospace;
-  font-size: large;
-  background-color: white;
-  color: black;
+  
   cursor: pointer;
+
+        position:absolute;
+        left: 60vh;
+        top:1vh;
+        font-family: 'Neucha', cursive;
+        font-size: 20px;
+         background-color: #EFF2D8;
+         border: 3px solid #A5A686; 
+         border-radius: 3px;
 }
 .play-tiles:hover{
   font-family: 'Source Code Pro', monospace;
   font-size: large;
-  background-color: rgb(190, 190, 190);
-  color: black;
+  background-color: #EFF2D8;
+  color: #A5A686;
   cursor: pointer;
 }
 
 .pass{
-  font-family: 'Source Code Pro', monospace;
-  font-size: large;
-  background-color: white;
-  color: black;
+  position: absolute;
+ font-family: 'Neucha', cursive;
+        font-size: 20px;
+         background-color: #EFF2D8;
+         border: 3px solid #A5A686; 
+         border-radius: 3px;
+
   cursor: pointer;
+  left: 15vh;
+        top:1vh;
 }
 
 .pass:hover{
   font-family: 'Source Code Pro', monospace;
   font-size: large;
-  background-color: rgb(190, 190, 190);
-  color: black;
+  background-color: #EFF2D8;
+  color: #A5A686;
   cursor: pointer;
 }
 
@@ -492,11 +633,12 @@ div.playing-window-left{
   font-size: 20px;
   /* padding: 4px; */
   margin: 0.5px;
-  width: 4.5vh;
-  height: 4.5vh;
-  background-color: white;
+  width: 4vh;
+  height: 4vh;
+  background-color: #EFF2D8;
   text-align: center;
-  border: 2px solid black;
+  border: 3px solid #A5A686;
+  border-radius: 5px;
   position: relative;
   float: left;
 }
@@ -505,11 +647,19 @@ div.playing-window-left{
 /******************* BOX FOR WORDS FROM SAOL *********************/
 
 .boxForWord {
-  background-color: #fdfdfd;
+  background-color:#EFF2D8;
+  position: absolute;
+  top: 200px;
+  width: 200px;
+  right: 5vh;
+  border: 4px solid #A5A686;
+  overflow: scroll;
+  height: 40vh;
   padding: 20px;
   margin: 10px;
-  width: calc(25% - 62px);
+  /*width: calc(15% - 40px);*/
   border-radius: 5px;
+  
 }
 
 .box:nth-child(4n){
@@ -522,4 +672,28 @@ div.playing-window-left{
   font-weight: bold;
   letter-spacing: 3px;
   color: blue;
+}
+
+/****** SAOL *******/
+.saol {
+  position: absolute;
+  font-family: 'Stalinist One', cursive;
+  color: #EFF2D8;
+  text-shadow: 3px 3px #A5A686;
+  cursor: default;
+  font-size: 35px;
+  top: 10vh;
+  right: 3vh;
+  padding-bottom: 55vh;
+   width: 35vh;
+   border: 3px solid #A5A686;
+   border-radius: 3px;
+   padding-bottom: 55vh;
+   margin-bottom: 20px;
+   
+   
+   
+
+   
+  
 }

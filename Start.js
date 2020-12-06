@@ -52,12 +52,16 @@ $('.start-game').on('click', function () {
     newPlayer.setPlayerNames(playerName, tilesFromBag, playerScore);
   }
 
+
   $('.game-screen').fadeOut(1700);
   $('.game-menu').fadeOut(1700);
   $('.scrabble').fadeOut(1700);
+  $('#candy').hide();
+
   setTimeout(() => {
     new Board().start(that.tiles);
   }, 1700);
+
   $('.scrabble').fadeOut(2000);
   // $('.scrabble').animate({ top: '12px' }, 'slow');
   //$('.scrabble').animate({ fontSize: '40px' }, 'slow');
@@ -69,9 +73,23 @@ $('.start-game').on('click', function () {
 
 
 // rules open-close 
+
 $(document).ready(function () {
 
+  // Play animations in that order: 
+
+  // 1 - Candy: -> play it first
+  // Then show:
+  // 2 - game-menu and players 
+
+  $('.game-menu').hide(0).delay(6000).show(0);
+  $('.newPlayerInput').hide(0).delay(6000).show(0);
+  //$('#candy-loader').hide();
+
+
+
   $('.rules').click(function () {
+    $('.game-menu').hide();
     $('.game-screen').hide();
     $('.add-rules').animate({
       height: 'toggle'
@@ -79,6 +97,7 @@ $(document).ready(function () {
   });
   $('.close').click(function () {
     $('.add-rules').hide();
+    $('.game-menu').fadeIn(850);
     $('.game-screen').fadeIn(850);
   });
 

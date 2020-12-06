@@ -9,14 +9,14 @@ export default class Game {
 
 
     this.createBoard();
+
     this.render();
     this.showPlayerButtons();
+
     this.tilesFromBag = tilesFromBag;
     this.playerIndex = 0;
     //this.lettersFromFile();
     this.start();
-    this.wordArray = [];
-    this.wordPLayedLengthOfArray;
     // this.changeTiles();
     // Set change button to disabled when starting the game
     $('.change-tiles').prop('disabled', true);
@@ -269,6 +269,35 @@ export default class Game {
       this.board[y][x].tile = that.tiles[0].splice(tileIndex, 1);
       // When droped a tile on the board, re-render
 
+      //Here we create a reference to the tile and the input.
+      let tileChar = this.board[y][x].tile[0].char;
+      let charInput = "";
+
+      //We need to check if the tile is empty and if thats true we enter the statement.
+      if (tileChar == ' ') {
+        let alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖ';
+        let pass = false
+        //We use a do while loop to check the input of the player
+        //We set it to capitalized letters and check through the string in our forloop.
+        //If the input matches a character in the alphabet, the loop is true and it ends.
+        do {
+          let rawInput = prompt("Please enter a letter");
+          charInput = rawInput.toUpperCase();
+          for (let i = 0; i < alphabet.length; i++) {
+
+            console.log(charInput)
+            console.log(alphabet.charAt(i))
+
+            if (alphabet.charAt(i) == charInput) {
+              console.log(alphabet.charAt(i) + ' is equals to' + charInput)
+              pass = true;
+            }
+          }
+        }
+        while (!pass);
+        //Now we set the tiles character to our verified and safe input.
+        this.board[y][x].tile[0].char = charInput;
+      }
       this.checkNewWordsOnBorad(y, x);
       console.log("addEvents() wordArray: " + this.wordArray)
 
@@ -287,6 +316,7 @@ export default class Game {
         <div class="board"></div>
         <div class="tiles"></div>
       `);
+
     }
 
     $('.board').empty();
@@ -304,10 +334,14 @@ export default class Game {
     // Empty the player tileboards window before rendering, otherwise there will be double each time it renders
     $('.playing-window-left').empty();
     // showPlayers needs to be first
+
     this.showPlayers();
+    this.showSaolText();
+    //this.showPlayerButtons();
     // showAndHide cannot be done unless we have read the showPlayers method
     this.showAndHidePlayers();
     // We want the addEvents to be last so the player can make their move
+
     this.addEvents();
 
     this.changeTiles();
@@ -499,14 +533,19 @@ export default class Game {
       `);
 
     });
+
+
   }
 
   showPlayerButtons() {
-    $('.playing-window').append(
-      `<button class="play-tiles">Lägg brickor</button>
-      <button class="pass">Stå över</button>
-      <button class="change-tiles">Byt brickor</button>
+
+    $('.board').append(
       `
+      <button class="play-tiles">Lägg brickor</button>
+       <button class="pass">Stå över</button>
+    
+      `
+
     );
 
     // <style>
@@ -545,9 +584,16 @@ export default class Game {
   }
 
 
-  async showWordFromSAOL(wordsInArray) {
-    console.log('------im in showWordFromSAOL()------');
-    console.log("wordsInArray:  ", wordsInArray);
+  showSaolText() {
+    $('.board').append(
+      `<p class="saol">🎄SAOL🎄</p>`
+    );
+  }
+
+  async countScore(wordsInArray) {
+    console.log('------im in countScore()------');
+
+    // console.log("wordsInArray:  ", wordsInArray);
 
     let lastWord = wordsInArray[0].word;
     console.log("last word: ----> ", lastWord)
@@ -559,6 +605,7 @@ export default class Game {
     if (await SAOLchecker.scrabbleOk(lastWord) === false) {
       // (false === false) --> (true)
       $('.boxForWordContainer').append('<div class="boxForWord"><span class="word">' +
+        // ---------- $('.board').append('<section class="boxForWord"><span class="word">' +
         lastWord + '</span><hr>ok in Scrabble: ' +
         // check if ok scrabble words
         // by calling await SAOLchecker.scrabbleOk(word)
@@ -568,12 +615,15 @@ export default class Game {
         // (maybe fun to show in scrabble at some point?)
         //await SAOLchecker.lookupWord(lastWord)
         + '</div');
+      //-------- await SAOLchecker.lookupWord(lastWord) + '</section>');
 
       //Disable "Lägg brickor" - button when word is false in SAOL
       $('.play-tiles').prop('disabled', true);
     }
     if (await SAOLchecker.scrabbleOk(lastWord)) {
       $('.boxForWordContainer').append(`<div class="boxForWord" id="${lastWord}-box"><span class="word">` +
+        //$('.board').append(`<section class="boxForWord" id="${lastWord}-box"><span class="word">
+
         lastWord + `</span><hr>ok in Scrabble: ` +
         // check if ok scrabble words
         // by calling await SAOLchecker.scrabbleOk(word)
