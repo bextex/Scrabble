@@ -17,6 +17,8 @@ export default class Game {
     this.playerIndex = 0;
     //this.lettersFromFile();
     this.start();
+    this.wordArray = [];
+    this.wordArrayCommitted = [];
     // this.changeTiles();
     // Set change button to disabled when starting the game
     $('.change-tiles').prop('disabled', true);
