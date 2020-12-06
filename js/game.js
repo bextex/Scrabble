@@ -538,8 +538,8 @@ export default class Game {
   }
 
   showPlayerButtons() {
-
-    $('.board').append(
+    //append to body instead of .board because its not working
+    $('body').append(
       `
       <button class="play-tiles">Lägg brickor</button>
        <button class="pass">Stå över</button>
@@ -590,14 +590,15 @@ export default class Game {
     );
   }
 
-  async countScore(wordsInArray) {
-    console.log('------im in countScore()------');
+  async showWordFromSAOL(wordsInArray) {
+    console.log('------im in showWordFromSAOL()------');
 
     // console.log("wordsInArray:  ", wordsInArray);
 
     let lastWord = wordsInArray[0].word;
     console.log("last word: ----> ", lastWord)
 
+    // loop wordsInArray and show a list of true/false
     console.log(lastWord + "is: " + await SAOLchecker.scrabbleOk(lastWord))
 
     // only shows the last word (ok in scrabble - box)
