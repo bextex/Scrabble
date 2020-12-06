@@ -37,7 +37,7 @@ export default class Start {
 $('.start-game').on('click', function () {
   // console.log('clicking the button');
   // console.log($('.playersName > input').length);
-  let length = $('.playersName > input').length
+  let length = $('.newPlayerInput').length
   for (let i = 1; i <= length; i++) {
     // console.log('im in the loop');
     let playerName = document.getElementById(`player${i}Name`).value;
