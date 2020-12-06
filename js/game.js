@@ -9,14 +9,14 @@ export default class Game {
 
 
     this.createBoard();
+
     this.render();
     this.showPlayerButtons();
+
     this.tilesFromBag = tilesFromBag;
     this.playerIndex = 0;
     //this.lettersFromFile();
     this.start();
-    this.wordArray = [];
-    this.wordArrayCommitted = [];
     // this.changeTiles();
     // Set change button to disabled when starting the game
     $('.change-tiles').prop('disabled', true);
@@ -81,6 +81,7 @@ export default class Game {
       this.playerTurn();
       this.render();
       // this.changeTiles();
+
     });
 
     // To change tiles, locate what tile wants to be changed and change them to new tiles from bag. 
@@ -144,6 +145,7 @@ export default class Game {
   }
 
   async playerTurn() {
+    $('body').remove('.boxForWordContainer')
     /* Alternative to switch between players turns */
     // If player index is more och equal to player array length then go back to index 0.
     // Because the current player is the last player, and the next player will be the first.
@@ -207,6 +209,7 @@ export default class Game {
   }
 
   addEvents() {
+    console.log("addEvents() called > checkNewWordsOnBoard() > which means pushing to this.wordArray")
     $('.board > div').mouseenter(e => {
       let me = $(e.currentTarget);
       if ($('.is-dragging').length && !me.find('.tiles').length) {
@@ -303,6 +306,7 @@ export default class Game {
         this.board[y][x].tile[0].char = charInput;
       }
       this.checkNewWordsOnBorad(y, x);
+      console.log("addEvents() wordArray: " + this.wordArray)
 
       this.render();
     });
@@ -319,6 +323,7 @@ export default class Game {
         <div class="board"></div>
         <div class="tiles"></div>
       `);
+
     }
 
     $('.board').empty();
@@ -336,10 +341,14 @@ export default class Game {
     // Empty the player tileboards window before rendering, otherwise there will be double each time it renders
     $('.playing-window-left').empty();
     // showPlayers needs to be first
+
     this.showPlayers();
+    this.showSaolText();
+    //this.showPlayerButtons();
     // showAndHide cannot be done unless we have read the showPlayers method
     this.showAndHidePlayers();
     // We want the addEvents to be last so the player can make their move
+
     this.addEvents();
 
     this.changeTiles();
@@ -348,6 +357,8 @@ export default class Game {
 
   checkNewWordsOnBorad(y, x) {
 
+    console.log('--- checkNewWordsOnBoard ---')
+
     let wordH = [];  //to save  all the infromation on the horisontal 
     let wordV = [];  //to save all the infromation on the vertical 
     let wordArray = [];  //to save the final word array(word,points,extra points word times) 
@@ -355,8 +366,8 @@ export default class Game {
     let p = 0;  //temp variable to save this.board[i][j].tile[0].points;
     let s = ''; //temp variableto save this.board[i][j].special
 
-    console.log('y: ' + y);
-    console.log('x: ' + x);
+    // console.log('y: ' + y);
+    // console.log('x: ' + x);
 
     // CHECK HORISONTAL
     for (let i = 0; i < this.board.length; i++) {
@@ -399,8 +410,8 @@ export default class Game {
     }
     wordV.sort((a, b) => a.y > b.y ? -1 : 1);//sort by value of y from small to big
     wordH.sort((a, b) => a.x > b.x ? -1 : 1);//sort by value of x from small to big
-    console.log('vertical wordV: ', wordV);
-    console.log('horisontal wordH: ', wordH);
+    // console.log('vertical wordV: ', wordV);
+    // console.log('horisontal wordH: ', wordH);
 
     //Collect all the letters from same column and made it up to en word. 
     //Calulate the points of word even if it has extra points(2x letters,3x letters). 
@@ -435,7 +446,6 @@ export default class Game {
         }
 
       }
-      console.log('the words currently on board:', wordArray);
     }
     //Collect all the letters from same row and made it up to en word. 
     //Calulate the points of word even if it has extra points(2x letters,3x letters). 
@@ -469,6 +479,10 @@ export default class Game {
           position = [];
         }
       }
+
+      console.log('vertical wordV: ', wordV);
+      console.log('horisontal wordH: ', wordH);
+
       console.log('the words currently on board:', wordArray);
     }
 
@@ -515,6 +529,10 @@ export default class Game {
     [12, 2], [12, 12], [13, 1], [13, 13]]
       .forEach(([y, x]) => this.board[y][x].special = '2xWS');
     this.board[7][7].special = 'middle-star';
+
+
+    $('body').append('<div class= "boxForWordContainer"></div>')
+    $('.boxForWordContainer').css({ 'border': '1px solid black', 'height': 'auto' })
   }
 
 
@@ -540,14 +558,19 @@ export default class Game {
       `);
 
     });
+
+
   }
 
   showPlayerButtons() {
-    $('.playing-window').append(
-      `<button class="play-tiles">Lägg brickor</button>
-      <button class="pass">Stå över</button>
-      <button class="change-tiles">Byt brickor</button>
+    //append to body instead of .board because its not working
+    $('body').append(
       `
+      <button class="play-tiles">Lägg brickor</button>
+       <button class="pass">Stå över</button>
+    
+      `
+
     );
 
     // <style>
@@ -569,6 +592,8 @@ export default class Game {
   }
   // This function to count the player's score
   async countPlayerScore(playerIndex, wordArray) {
+    this.wordPLayedLengthOfArray = wordArray.length;
+    console.log("length of wordArray --countPLayerScore()--- : " + this.wordPLayedLengthOfArray)
     let currentWordPoints = 0;
     console.log('I am in countPlayerScore, wordArray: ', wordArray);
     console.log('I am in countPlayerScore, player: ', playerIndex);
@@ -591,41 +616,51 @@ export default class Game {
   }
 
 
+  showSaolText() {
+    $('.board').append(
+      `<p class="saol">🎄SAOL🎄</p>`
+    );
+  }
+
   async showWordFromSAOL(wordsInArray) {
     console.log('------im in showWordFromSAOL()------');
-    console.log("wordsInArray:  ", wordsInArray);
+
+    // console.log("wordsInArray:  ", wordsInArray);
 
     let lastWord = wordsInArray[0].word;
     console.log("last word: ----> ", lastWord)
 
+    // loop wordsInArray and show a list of true/false
     console.log(lastWord + "is: " + await SAOLchecker.scrabbleOk(lastWord))
 
     // only shows the last word (ok in scrabble - box)
-    if ($('body .boxForWord').length > 0) {
-      $('body .boxForWord').remove();
-    }
 
     if (await SAOLchecker.scrabbleOk(lastWord) === false) {
       // (false === false) --> (true)
-      $('body').append('<div class="boxForWord"><span class="word">' +
+      $('.boxForWordContainer').append('<div class="boxForWord"><span class="word">' +
+        // ---------- $('.board').append('<section class="boxForWord"><span class="word">' +
         lastWord + '</span><hr>ok in Scrabble: ' +
         // check if ok scrabble words
         // by calling await SAOLchecker.scrabbleOk(word)
-        await SAOLchecker.scrabbleOk(lastWord) + '<hr>' +
+        await SAOLchecker.scrabbleOk(lastWord)
         // add explanations/entries from SAOL in body
         // by using await SAOLchecker.lookupWord(word)
         // (maybe fun to show in scrabble at some point?)
-        await SAOLchecker.lookupWord(lastWord) + '</div');
+        //await SAOLchecker.lookupWord(lastWord)
+        + '</div');
+      //-------- await SAOLchecker.lookupWord(lastWord) + '</section>');
 
       //Disable "Lägg brickor" - button when word is false in SAOL
       $('.play-tiles').prop('disabled', true);
     }
     if (await SAOLchecker.scrabbleOk(lastWord)) {
-      $('body').append(`<div class="boxForWord" id="${lastWord}-box"><span class="word">` +
+      $('.boxForWordContainer').append(`<div class="boxForWord" id="${lastWord}-box"><span class="word">` +
+        //$('.board').append(`<section class="boxForWord" id="${lastWord}-box"><span class="word">
+
         lastWord + `</span><hr>ok in Scrabble: ` +
         // check if ok scrabble words
         // by calling await SAOLchecker.scrabbleOk(word)
-        await SAOLchecker.scrabbleOk(lastWord) + '<hr>');
+        await SAOLchecker.scrabbleOk(lastWord) + '</div>');
       // let wordPoints = 0;
       // for (let i = 0; i < word.length; i++) {
       //   let letterInWord = word.charAt(i);
@@ -638,11 +673,12 @@ export default class Game {
       //   let points = letterPoints[0];
       //   wordPoints += points;
       // }
-      $(`#${lastWord}-box`).append(`<div><span class="points"></span><hr> points: ${lastWord}<hr>` +
-        // add explanations/entries from SAOL in body
-        // by using await SAOLchecker.lookupWord(word)
-        // (maybe fun to show in scrabble at some point?)
-        await SAOLchecker.lookupWord(lastWord) + '</div');
+      // $(`#${lastWord}-box`).append(`<div><span class="points"></span><hr> points: ${lastWord}<hr>` +
+      //   // add explanations/entries from SAOL in body
+      //   // by using await SAOLchecker.lookupWord(word)
+      //   // (maybe fun to show in scrabble at some point?)
+      //   await SAOLchecker.lookupWord(lastWord) +
+      //   '</div');
 
       //Activate "Lägg brickor" - button when word is true in SAOL
       $('.play-tiles').prop('disabled', false);
