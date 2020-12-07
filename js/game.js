@@ -781,6 +781,7 @@ export default class Game {
       $('body .boxForWord').remove();
     }
 
+    /*Remove?*/
     if (await SAOLchecker.scrabbleOk(lastWord) === false) {
       // (false === false) --> (true)
       $('.placeForBox').append('<div class="boxForWord"><span class="word">' +
