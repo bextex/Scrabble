@@ -154,9 +154,23 @@ export default class Start {
 
 
 // rules open-close 
+
 $(document).ready(function () {
 
+  // Play animations in that order: 
+
+  // 1 - Candy: -> play it first
+  // Then show:
+  // 2 - game-menu and players 
+
+  $('.game-menu').hide(0).delay(6000).show(0);
+  $('.newPlayerInput').hide(0).delay(6000).show(0);
+  //$('#candy-loader').hide();
+
+
+
   $('.rules').click(function () {
+    $('.game-menu').hide();
     $('.game-screen').hide();
     $('.add-rules').animate({
       height: 'toggle'
@@ -164,6 +178,7 @@ $(document).ready(function () {
   });
   $('.close').click(function () {
     $('.add-rules').hide();
+    $('.game-menu').fadeIn(850);
     $('.game-screen').fadeIn(850);
   });
 
