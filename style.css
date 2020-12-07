@@ -767,6 +767,7 @@ footer input {
   /* position: absolute; */
   color: #BF4136;
   display: block;
+  overflow: scroll;
 }
 
 .not-your-turn{
