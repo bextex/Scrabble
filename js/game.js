@@ -41,8 +41,8 @@ export default class Game {
       if (playerName === store.players[i]) {
         this.players.push(new Player(store.players[i], ([...this.tilesFromBag.splice(0, 7)])));
         ///Initialize player score
-        store.players[i].score = 0;
-        console.log('init PlayerScore', store.players[i], store.players[i].score);
+        this.players[i].score = 0;
+        console.log('init PlayerScore', this.players[i], this.players[i].score);
       }
     }
 
@@ -153,37 +153,38 @@ export default class Game {
         // (jQuery can add data to any element)
         $tile.data().prelBoardPos = { y, x };
         this.alignPrelTilesWithSquares();
-
-        //Here we create a reference to the tile and the input.
-        console.log('tiles from board', this.board[y][x].tile);
-        let tileChar = this.board[y][x].tile[0].char;
-        let charInput = "";
-
-        //We need to check if the tile is empty and if thats true we enter the statement.
-        if (tileChar == ' ') {
-          let alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖ';
-          let pass = false
-          //We use a do while loop to check the input of the player
-          //We set it to capitalized letters and check through the string in our forloop.
-          //If the input matches a character in the alphabet, the loop is true and it ends.
-          do {
-            let rawInput = prompt("Please enter a letter");
-            charInput = rawInput.toUpperCase();
-            for (let i = 0; i < alphabet.length; i++) {
-
-              console.log(charInput)
-              console.log(alphabet.charAt(i))
-
-              if (alphabet.charAt(i) == charInput) {
-                console.log(alphabet.charAt(i) + ' is equals to' + charInput)
-                pass = true;
-              }
-            }
-          }
-          while (!pass);
-          //Now we set the tiles character to our verified and safe input.
-          this.board[y][x].tile[0].char = charInput;
-        }
+        /*
+         //Here we create a reference to the tile and the input.
+         console.log('tiles from board', this.board[y][x].tile);
+         let tileChar = this.board[y][x].tile[0].char;
+         let charInput = "";
+ 
+         //We need to check if the tile is empty and if thats true we enter the statement.
+         if (tileChar == ' ') {
+           let alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖ';
+           let pass = false
+           //We use a do while loop to check the input of the player
+           //We set it to capitalized letters and check through the string in our forloop.
+           //If the input matches a character in the alphabet, the loop is true and it ends.
+           do {
+             let rawInput = prompt("Please enter a letter");
+             charInput = rawInput.toUpperCase();
+             for (let i = 0; i < alphabet.length; i++) {
+ 
+               console.log(charInput)
+               console.log(alphabet.charAt(i))
+ 
+               if (alphabet.charAt(i) == charInput) {
+                 console.log(alphabet.charAt(i) + ' is equals to' + charInput)
+                 pass = true;
+               }
+             }
+           }
+           while (!pass);
+           //Now we set the tiles character to our verified and safe input.
+           this.board[y][x].tile[0].char = charInput;
+         }
+         */
         this.checkNewWordsOnBoard(y, x);
 
         // Add the moved tile from players tile array to the boards tiles
