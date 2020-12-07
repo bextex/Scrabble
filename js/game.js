@@ -73,6 +73,10 @@ export default class Game {
       // get points for word
       console.log('play tile on click  wordArray ', that.wordArray);
       if (that.wordArray.length > 0) {
+        this.showWordWithList(that.wordArray)
+      }
+
+      if (that.wordArray.length > 0) {
         this.countPlayerScore(that.playerIndex, that.wordArray);
       }
       else {
@@ -418,6 +422,7 @@ export default class Game {
       let points = 0;
       let multiple = 1;
       let position = [];
+      let totalPoints = 0;
       for (let i = 0; i < wordV.length; i++) {
         if (((i < wordV.length - 1) && (wordV[i].y === wordV[i + 1].y)) || ((i > 0) && (wordV[i].y === wordV[i - 1].y))) {
           word += wordV[i].char;
@@ -435,11 +440,13 @@ export default class Game {
         }
         //if it is another column then save the word to wordArray. Initialize variables in order to save the new words.
         if ((i === wordV.length - 1) || (wordV[i].y !== wordV[i + 1].y)) {
-          wordArray.push({ word: word, points: points, multiple: multiple, position: position })
+          totalPoints = multiple * points;
+          wordArray.push({ word: word, points: points, multiple: multiple, position: position, totalPoints: totalPoints })
           word = '';
           points = 0;
           multiple = 1;
           position = [];
+          totalPoints = 0;
         }
 
       }
@@ -453,6 +460,7 @@ export default class Game {
       let points = 0;
       let multiple = 1;
       let position = [];
+      let totalPoints = 0;
       for (let i = 0; i < wordH.length; i++) {
         if (((i < wordH.length - 1) && (wordH[i].x === wordH[i + 1].x)) || ((i > 0) && (wordH[i].x === wordH[i - 1].x))) {
           word += wordH[i].char;
@@ -470,11 +478,13 @@ export default class Game {
         }
         //if it is another row then save the word to wordArray. Initialize variables in order to save the new words.
         if ((i === wordH.length - 1) || (wordH[i].x !== wordH[i + 1].x)) {
-          wordArray.push({ word: word, points: points, multiple: multiple, position: position })
+          totalPoints = multiple * points;
+          wordArray.push({ word: word, points: points, multiple: multiple, position: position, totalPoints: totalPoints })
           word = '';
           points = 0;
           multiple = 1;
           position = [];
+          totalPoints = 0;
         }
       }
       console.log('the words currently on board:', wordArray);
@@ -483,6 +493,9 @@ export default class Game {
     //console.log('print this.wordArrayCommitted', this.wordArrayCommitted);
     //let wordArrayCopy = wordArray.slice();
     //console.log('print wordArrayCopy', wordArrayCopy);
+
+    //Compare the new words of this time and the wors that have committed before
+    //If there are som same position's words then remove from the wordArray.
     if (this.wordArrayCommitted.length > 0) {
       for (let oldItem of this.wordArrayCommitted) {
         let lastIndexOfPosition = oldItem.position.length - 1;
@@ -673,5 +686,25 @@ export default class Game {
       //Activate "Lägg brickor" - button when word is true in SAOL
       $('.play-tiles').prop('disabled', false);
     }
+  }
+  async showWordWithList(wordsInArray) {
+    console.log('------I am in showWordWithList()-----');
+    $('.playing-window').append(`<section class="wordList"><h3>Ord Listor</h3>
+     <table><tr><th>Ord</th><th>ok in Scrabble</th><th>poäng</th></tr>
+     `)
+    for (let item of wordsInArray) {
+      if (await SAOLchecker.scrabbleOk(item.word)) {
+        item.scrabbleOk = true;
+      }
+      else {
+        item.scrabbleOk = false;
+        item.totalPoints = 0;
+      }
+      $(`.wordList`).append(`<span class="word">
+      <tr><td>${item.word}</td></tr><tr><td>${item.scrabbleOk}</td></tr><tr><td>${item.totalPoints}</td></tr>
+      `)
+    }
+
+
   }
 }
