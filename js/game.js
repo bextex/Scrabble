@@ -398,7 +398,7 @@ export default class Game {
         //console.log("YEAH", y, x);
 
         //Here we create a reference to the tile and the input.
-        console.log('tiles from board', this.board[y][x].tile);
+        console.log('tiles from board', this.board[y][x]);
         let tileChar = this.board[y][x].tile[0].char;
         let charInput = "";
 
@@ -515,6 +515,7 @@ export default class Game {
     );
 
 
+
     // store.board = this.board;
 
 
@@ -535,7 +536,7 @@ export default class Game {
 
     this.showPlayers();
     this.showSaolText();
-    //this.showPlayerButtons();
+    this.showPlayerButtons();
     // showAndHide cannot be done unless we have read the showPlayers method
     // this.showAndHidePlayers();
     // We want the addEvents to be last so the player can make their move
@@ -787,12 +788,13 @@ export default class Game {
 
     $('.board').append(
       `
+      <p class= "tiles-from-bag">🎁 ${this.tilesFromBag.length}</p>
       <button class="play-tiles">Lägg brickor</button>
-       <button class="pass">Stå över</button>
-    
-      `
+      <button class="pass">Stå över</button>  
+    `);
 
-    );
+
+
 
     // <style>
     //   .play-tiles {

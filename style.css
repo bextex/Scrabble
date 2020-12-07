@@ -439,6 +439,20 @@ ul {
   color: white;
 }
 
+.tiles-from-bag{
+  width: 50px;
+  height: 25px;
+  text-align: center;
+  right: 5vh;
+  top:0.5vh;
+  position: absolute;
+  font-family: 'Neucha', cursive;
+  font-size: 20px;
+  background-color: #EFF2D8;
+  border: 3px solid #A5A686; 
+  border-radius: 3px;
+}
+
 /*************************** PLAYER NAMES AND TILES ****************************/
 .playerWrapper {
   display: flex;
@@ -552,7 +566,7 @@ div.playing-window-left{
   z-index: 1;
  /* margin-top: 30vh;
   margin-left: 1px; */
-  margin-top: 85.5vh;
+  margin-top: 92vh;
   margin-left: 40vh;
   /*overflow: hidden;*/
   text-align: center;
