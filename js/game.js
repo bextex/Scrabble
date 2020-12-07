@@ -11,56 +11,24 @@ console.log("Store från början", store)
 export default class Game {
 
   constructor() {
-
-    // this.createBoard();
-    // this.render();
-    // this.showPlayerButtons();
-    // this.playerIndex = 0;
-
-    // When resizing the window realign tiles with squares
-    // (some extra code here to make sure we do not connect resize several times)
     window.currentGame = this;
     if (!window.resizeAdded) {
       window.resizeAdded = true;
       $(window).resize(() => currentGame.alignPrelTilesWithSquares());
     }
 
-
     console.log('game starting');
-
     this.players = [];
-
-
-
-    // this.start();
-
-    // //this.lettersFromFile();
-    // this.start();
-    // // this.changeTiles();
-    // // Set change button to disabled when starting the game
-    // $('.change-tiles').prop('disabled', true);
   }
 
   async getTiles() {
     this.tilesFromBag = store.tilesFromFile;
-    // this.start();
   }
 
-  // get playerIndex() { return store.currentPlayer; }
-
-  // set playerIndex(x) { store.currentPlayer = x; }
-
-
-
-
-  /* Starting up the game with start() to set how's the first player */
-
   start(playerName) {
-
     this.getTiles();
 
     this.board = store.board;
-
 
     console.log(this.players);
     console.log(store.players);
@@ -72,226 +40,27 @@ export default class Game {
       }
     }
 
-
-    // store.tilesFromBag = this.tilesFromBag;
-
-    /* If nothing can be in constructor */
-
-
     // store.board = this.createBoard();
     this.playerTurn();
-
 
     // this.render();
     this.showPlayerButtons();
     // Set change button to disabled when starting the game
     $('.change-tiles').prop('disabled', true);
 
-
-
-
-    // When click on 'Stå över'-button, there will be a new player and the board will render
-    $('.pass').on('click', () => {
-      console.log('i have clicked on pass button');
-
-      store.currentPlayer++;
-      console.log('Changing player index', store.currentPlayer);
-
-      // this.board = store.board;
-      // this.tilesFromBag = store.tilesFromFile;
-
-      this.playerTurn();
-      this.render();
-      this.changeTiles();
-    });
-
-    // When click on 'Lägg brickor'-button, there will be a new player and the board will render
-    // Shoul also count score on word
-    $('.play-tiles').on('click', () => {
-
-      // TF comments:
-
-      // only a valid move if not first move or center is taken
-      if (!this.notFirstMoveOrCenterIsTaken()) {
-        this.render();
-        return;
-
-      }
-
-      this.placePrelTilesOnBoard();
-      this.render();
-
-      console.log('i have clicked on lägg brickor');
-      // get points for word
-      // CountScores(); ??? 
-
-      store.currentPlayer++;
-      console.log('Changing player index', store.currentPlayer);
-
-      // this.board = store.board;
-      // this.tilesFromBag = store.tilesFromFile;
-
-      this.playerTurn();
-      this.render();
-      this.changeTiles();
-    });
-
-    // To change tiles, locate what tile wants to be changed and change them to new tiles from bag. 
-    // Put back the tiles that wants to be changed and scramble the bag
-    let that = this;
-    $('.change-tiles').on('click', () => {
-      console.log('this from inside change tiles button', this);
-      if (this.tilesFromBag.length < 7) {
-        console.log('there are 7 or less tiles in bag');
-        alert('there are 7 or less tiles in bag');
-        // Put a div and message here instead
-      }
-      // How many tiles the player wants to remove
-      let numberOfTiles = 0;
-      let that = this;
-      // Loop through the current players player tiles div
-      // $(`#box${players.indexOf(players[this.playerIndex - 1])} > div`).each(function () {
-      $(`#box0 > div`).each(function () {
-        // If the current div have the class 'change'
-        console.log('Does this div have change class?', $(this).hasClass('change'));
-        if ($(this).hasClass('change')) {
-          // What index does the div with the 'change' class have
-
-          let indexOfTile = $('.change').index();
-          console.log('Index of the tile that wants to change', indexOfTile);
-          // What text value does the current div have (we need to know the letter)
-          let letterWithPoint = $(this).text();
-          console.log('The whole text from div that wants to change', letterWithPoint);
-          // Remove the point that follows when asking for text()
-          let letterWithoutPoint = letterWithPoint[0];
-          console.log('The letter', letterWithoutPoint);
-          // Increase numberOfTiles so we now how many new tiles we need at the end
-          numberOfTiles++;
-          console.log('How many tiles do you wanna change?', numberOfTiles);
-
-          // ---------------- CHECK THIS METHOD!!! NOT WORKING
-
-          // Loop through the players tiles
-
-          for (let i = 0; i < that.tiles[0].length; i++) {
-            console.log('Each tiles looping through', that.tiles[0]);
-            if (that.tiles[0][i].char === letterWithoutPoint) {
-              console.log('Have a found the tile?', that.tiles[0][i].char === letterWithoutPoint);
-              // Remove that tile using the indexOfTile
-              that.tiles[0].splice(indexOfTile, 1);
-              // Push the players removed(changed) tiles back to tilesFromBag
-              that.tilesFromBag.push(that.tiles[0][i]);
-              console.log('The length of the bag array after tiles put back', that.tilesFromBag.length);
-              return;
-            }
-          }
-
-          // that.tiles.forEach(tile => {
-          //   console.log('The tile in the players tile array', tile.char);
-          //   // When we come across the players tiles that match the marked tile
-          //   if (tile[0].char === letterWithoutPoint) {
-          //     // Remove that tile using the indexOfTile
-          //     that.tiles[0].splice(indexOfTile, 1);
-          //     // Push the players removed(changed) tiles back to tilesFromBag
-          //     that.tilesFromBag.push(tile);
-          //   }
-          // });
-        }
-      });
-      // This is the same as for player when they need new tiles
-      // Remove the number of tiles from tilesFromBag 
-      let newTiles = [...this.tilesFromBag.splice(0, numberOfTiles)];
-      // push the new tiles to the players current tiles
-      for (let i = 0; i < numberOfTiles; i++) {
-        this.tiles[0].push(newTiles[i]);
-      }
-
-      // 'Shake the bag'
-      this.tilesFromBag.sort(() => Math.random() - 0.5);
-      // Change player (since changing tiles is a move) and re-render
-
-      store.tilesFromFile = this.tilesFromBag;
-
-
-      store.currentPlayer++;
-      console.log('Changing player index', store.currentPlayer);
-
-      // this.board = store.board;
-      // this.tilesFromBag = store.tilesFromFile;
-
-      this.playerTurn();
-      this.render();
-      this.changeTiles();
-    });
+    this.buttonEvents();
 
   }
 
-  // methodsToRunAfterNetworkChange() {
-  //   this.playerTurn();
-  //   this.render();
-  //   // this.changeTiles();
-  // }
-
   playerTurn() {
-    // console.log(players);
-    // console.log(store.players);
-    // if (store.currentPlayer !== this.playerIndex) {
-    //   $('.playing-window-left').append(`<div class="not-your-turn">Vänta på att spelet ska starta</div>`);
-    // } else {
-    //   $('.not-your-turn').remove();
-    // }
-
-    // store.currentPlayer = this.playerIndex;
-
-    /* Alternative to switch between players turns */
-    // If player index is more och equal to player array length then go back to index 0.
-    // Because the current player is the last player, and the next player will be the first.
-    // It all starts over.
-    // if (this.playerIndex >= store.players.length) {
-    //   this.playerIndex = 0;
-    // }
-    // if (this.playerIndex >= players.length) {
-    //   this.playerIndex = 0;
-    // }
-
     if (store.currentPlayer >= store.players.length) {
       store.currentPlayer = 0;
       console.log('Trying to set playerindex to 0');
     }
 
-    // console.log(this.board);
-    // store.board = this.board;
-
-    // console.log('Im currently playing ' + this + ' game');
-    // store.game = this;
-
-    // if (this.players.length === 0) {
-
-    //   console.log('Längden på spelar arrayn skapad i PlayersTurn ' + this.players.length);
-    //   console.log(this.players);
-    // }
-
     console.log('This index is currently this.playerindex ' + store.currentPlayer);
 
-    // store.currentPlayer = this.playerIndex;
-    // store.board = this.board;
-
     console.log('store players length', store.players.length);
-
-
-    // if (store.currentplayer !== this.playerIndex) {
-    //   store.players[this.playerIndex];
-    //   store.currentplayer = this.playerIndex;
-    // }
-
-
-    // console.log('playerindex in playerturn ' + this.playerIndex);
-
-    // Set this.player to the player with playerindex in players array
-    // so this.player will be the new player each round
-    // this.player = store.players[this.playerIndex];
-    // this.player = players[store.index].name;
-    // this.player = players[this.playerIndex].name;
 
     // This players turn
     this.player = store.players[store.currentPlayer];
@@ -328,47 +97,14 @@ export default class Game {
       }
     }
 
-
-    // store.tiles = this.tiles;
-
     console.log('this many tiles are left in the bag: ' + this.tilesFromBag.length);
-    /* Disable all other players tile fields */
-
-    // this.showAndHidePlayers();
-
-    // Inrease player index so when new round, the next player will this.player
-
-    // // this.playerIndex++;
-
-    // store.currentPlayerName = this.player;
 
     this.render();
-
-
   }
 
-
-  // // DONT THINK WE NEED THIS ANYMORE
-  // showAndHidePlayers() {
-
-  //   $('.tiles-box')
-
-
-
-  //   // Hide all other players tileboards except for the current player
-  //   for (let i = 0; i < players.length; i++) {
-  //     // If this.player ( a name ) is the same as any player in the array
-  //     // Than show the players tileboard
-  //     if (this.player === players[i].name) {
-  //       $(`#box${players.indexOf(players[i])}`).show();
-  //     } else {
-  //       // Else hide the players tileboards
-  //       $(`#box${players.indexOf(players[i])}`).hide();
-  //     }
-  //   }
-  // }
-
   addEvents() {
+    console.log('Im in addEvents');
+
     $('.board > div').mouseenter(e => {
       let me = $(e.currentTarget);
       if ($('.is-dragging').length && !me.find('.tiles').length) {
@@ -411,12 +147,6 @@ export default class Game {
         // (jQuery can add data to any element)
         $tile.data().prelBoardPos = { y, x };
         this.alignPrelTilesWithSquares();
-
-        // Check what index the tile have that lays in a div under each players individual id="box"
-        //let tileIndex = $(`#box0 > div`).index($tile);
-        //console.log('tile index is ' + tileIndex);
-
-        //console.log("YEAH", y, x);
 
         //Here we create a reference to the tile and the input.
         console.log('tiles from board', this.board[y][x]);
@@ -511,18 +241,11 @@ export default class Game {
   }
 
   render() {
-
-
-    // $('.board').remove();
-    // let $board = $('<div class="board"/>').appendTo('.playing-window');
-    // this.board.flat().forEach(x => $board.append('<div/>'));
-    //********************************************* */
     if (!$('.board').length) {
       $('.playing-window').append(`
         <div class="board"></div>
         <div class="tiles"></div>
       `);
-
     }
 
     $('.board').empty();
@@ -534,13 +257,6 @@ export default class Game {
         </div>
       `).join('')
     );
-
-
-
-    // store.board = this.board;
-
-
-    // this.checkForNewWords(y, x);
 
     console.log('Index of this player in store.players:', store.players.indexOf(this.name));
     console.log('Current player in store:', store.currentPlayer);
@@ -557,18 +273,20 @@ export default class Game {
 
     this.showPlayers();
     this.showSaolText();
-    this.showPlayerButtons();
+
     // showAndHide cannot be done unless we have read the showPlayers method
     // this.showAndHidePlayers();
     // We want the addEvents to be last so the player can make their move
 
+    this.buttonEvents();
     this.addEvents();
-
     this.changeTiles();
-
+    // this.showPlayerButtons();
   }
 
   changeTiles() {
+    console.log('Im in changeTiles()');
+
     $('.change-tiles').prop('disabled', true);
     // When double-clicking on the tiles do this function
     $('.playertiles').not('.none').dblclick(function () {
@@ -601,8 +319,121 @@ export default class Game {
     });
   }
 
-  checkNewWordsOnBoard(y, x) {
+  buttonEvents() {
+    this.showPlayerButtons();
 
+    console.log('Im in button events');
+
+    // When click on 'Stå över'-button, there will be a new player and the board will render
+    $('.pass').on('click', () => {
+      console.log('i have clicked on pass button');
+
+      store.currentPlayer++;
+      console.log('Changing player index', store.currentPlayer);
+
+      // this.board = store.board;
+      // this.tilesFromBag = store.tilesFromFile;
+
+      this.playerTurn();
+      this.render();
+      // this.changeTiles();
+    });
+
+    // When click on 'Lägg brickor'-button, there will be a new player and the board will render
+    // Shoul also count score on word
+    $('.play-tiles').on('click', () => {
+      console.log('im pushing play-tiles');
+
+      // TF comments:
+
+      // only a valid move if not first move or center is taken
+      if (!this.notFirstMoveOrCenterIsTaken()) {
+        this.render();
+        return;
+      }
+
+      this.placePrelTilesOnBoard();
+      this.render();
+
+      console.log('i have clicked on lägg brickor');
+      // get points for word
+      // CountScores(); ??? 
+
+      store.currentPlayer++;
+      console.log('Changing player index', store.currentPlayer);
+
+      // this.board = store.board;
+      // this.tilesFromBag = store.tilesFromFile;
+
+      this.playerTurn();
+      this.render();
+      // this.changeTiles();
+    });
+
+    // To change tiles, locate what tile wants to be changed and change them to new tiles from bag. 
+    // Put back the tiles that wants to be changed and scramble the bag
+
+    $('.change-tiles').on('click', () => {
+      console.log('im pushing play-tiles');
+      if (this.tilesFromBag.length < 7) {
+        console.log('there are 7 or less tiles in bag');
+        alert('there are 7 or less tiles in bag');
+        // Put a div and message here instead
+      }
+      // How many tiles the player wants to remove
+      let numberOfTiles = 0;
+      let that = this;
+      // Loop through the current players player tiles div
+      // $(`#box${players.indexOf(players[this.playerIndex - 1])} > div`).each(function () {
+      $(`#box0 > div`).each(function () {
+        // If the current div have the class 'change'
+        if ($(this).hasClass('change')) {
+          // What index does the div with the 'change' class have
+
+          let indexOfTile = $('.change').index();
+          // What text value does the current div have (we need to know the letter)
+          let letterWithPoint = $(this).text();
+          // Remove the point that follows when asking for text()
+          let letterWithoutPoint = letterWithPoint[0];
+          // Increase numberOfTiles so we now how many new tiles we need at the end
+          numberOfTiles++;
+
+          // Loop through the players tiles
+          for (let i = 0; i < that.tiles[0].length; i++) {
+            if (that.tiles[0][i].char === letterWithoutPoint) {
+              // Remove that tile using the indexOfTile
+              that.tiles[0].splice(indexOfTile, 1);
+              // Push the players removed(changed) tiles back to tilesFromBag
+              that.tilesFromBag.push(that.tiles[0][i]);
+              return;
+            }
+          }
+        }
+      });
+      // This is the same as for player when they need new tiles
+      // Remove the number of tiles from tilesFromBag 
+      let newTiles = [...this.tilesFromBag.splice(0, numberOfTiles)];
+      // push the new tiles to the players current tiles
+      for (let i = 0; i < numberOfTiles; i++) {
+        this.tiles[0].push(newTiles[i]);
+      }
+
+      // 'Shake the bag'
+      this.tilesFromBag.sort(() => Math.random() - 0.5);
+      // Change player (since changing tiles is a move) and re-render
+      store.tilesFromFile = this.tilesFromBag;
+
+      store.currentPlayer++;
+      console.log('Changing player index', store.currentPlayer);
+
+      this.playerTurn();
+      this.render();
+      // this.changeTiles();
+    });
+
+  }
+
+  checkNewWordsOnBoard(y, x) {
     let wordH = [];  //to save  all the infromation on the horisontal 
     let wordV = [];  //to save all the infromation on the vertical 
     let wordArray = [];  //to save the final word array(word,points,extra points word times) 
@@ -724,9 +555,7 @@ export default class Game {
     if (wordArray.length > 0) {
       this.showWordFromSAOL(wordArray);
     }
-
   }
-
 
   createBoard() {
     this.board = [...new Array(15)].map(x => [...new Array(15)].map(x => ({})));
@@ -752,32 +581,6 @@ export default class Game {
 
 
   showPlayers() {
-
-
-    //   store.players.forEach(player => {
-    //     let index = 0
-    //     $('.playing-window-left').append(`
-    //       <div class="playerWrapper">
-    //       <div class="playername">${player}</div>
-    //       <div class="score">Poäng :<div id="score${players.indexOf(player)}"></div></div>
-    //       </div>
-    //       <div class="tiles-box"><div id="box${players.indexOf(player)}"></div></div>
-    //       `);
-    //     while (index < players.indexOf(player).tiles[0].length) {
-    //       $(`#box${players.indexOf(player)}`).append(`
-    //       <div class="playertiles">${player.tiles[0][index].char}<div class="points">${player.tiles[0][index].points}</div>
-    //     `);
-
-    //       index++;
-    //     }
-    //     $(`#box${players.indexOf(player)}`).append(`
-    //       <div class="playertiles ${player.tiles[1][0].char === ' ' ? '' : 'none'}"></div>
-    //     `);
-
-    //   });
-    // }
-
-
     this.players.forEach(player => {
       let index = 0
       $('.playing-window-left').append(`
@@ -791,20 +594,14 @@ export default class Game {
         $(`#box0`).append(`
       <div class="playertiles">${player.tiles[0][index].char}<div class="points">${player.tiles[0][index].points}</div>
     `);
-
         index++;
       }
-      //   $(`#box${this.players.indexOf(player)}`).append(`
-      //   <div class="playertiles ${player.tiles[1][0].char === ' ' ? '' : 'none'}"></div>
-      // `);
-
     });
-
-
   }
 
 
   showPlayerButtons() {
+    console.log('Im in showPlayerButtons');
 
     $('.tiles-from-bag').remove();
     $('.play-tiles').remove();
@@ -820,26 +617,6 @@ export default class Game {
       <button class="pass">Stå över</button>
       <button class="change-tiles">Byt brickor</button>
     `);
-
-
-
-
-    // <style>
-    //   .play-tiles {
-    //     font - family: 'Neucha', cursive;
-    //     font-size: 20px;
-    //      background-color: white;
-    //      border: 3px solid aliceblue;
-    //      border-radius: 3px;
-    //   }
-    //   .pass {
-    //     font - family: 'Neucha', cursive;
-    //     font-size: 20px;
-    //      background-color: white;
-    //      border: 3px solid aliceblue;
-    //      border-radius: 3px;
-    //   }
-    //   </style>
   }
 
   showSaolText() {
