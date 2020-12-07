@@ -365,6 +365,19 @@ export default class Game {
       console.log('i have clicked on lägg brickor');
       // get points for word
       // CountScores(); ??? 
+      if (this.wordArray.length > 0) {
+        this.showWordWithList(this.wordArray)
+      }
+
+      if (this.wordArray.length > 0) {
+        this.countPlayerScore(store.players.indexOf(this.name), this.wordArray);
+        // this.countPlayerScore(this.playerIndex, this.wordArray);
+      }
+      else {
+        alert('Du har ingen godkänd ord');
+        return;
+      }
+      /*
       if (that.wordArray.length > 0) {
         this.showWordWithList(that.wordArray)
       }
@@ -376,6 +389,7 @@ export default class Game {
         alert('Du har ingen godkänd ord');
         return;
       }
+      */
 
       store.currentPlayer++;
       console.log('Changing player index', store.currentPlayer);
@@ -689,8 +703,9 @@ export default class Game {
         wordArray[i].scrabbleOk = false;
       }
       console.log('currentWordPoints', currentWordPoints);
-      players[playerIndex - 1].score += currentWordPoints;
-      console.log('play.score: ', players[0].score);
+      // players[playerIndex - 1].score += currentWordPoints;
+      this.players[playerIndex].score += currentWordPoints;
+      console.log('play.score: ', this.players[playerIndex].score);
     }
     //console.log('play.score', player.score);
     this.wordArrayCommitted = wordArray.filter(x => x.scrabbleOk === true);
