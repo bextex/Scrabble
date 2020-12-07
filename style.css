@@ -646,11 +646,13 @@ div.playing-window-left{
 /******************* BOX FOR WORDS FROM SAOL *********************/
 
 .boxForWord {
+  font-family: 'Neucha', cursive;
   background-color:#f2e2d8;
   position: absolute;
+  font-size: 15px;
   top: 200px;
   width: 200px;
-  right: 5vh;
+  right: 6vh;
   border: 4px solid #A5A686;
   overflow: scroll;
   height: 40vh;

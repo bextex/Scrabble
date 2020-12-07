@@ -776,7 +776,8 @@ export default class Game {
 
   showSaolText() {
     $('.board').append(
-      `<p class="saol">🎄SAOL🎄</p>`
+      `<p class="saol">🎄SAOL🎄</p>
+      <section class="placeForBox"><section>`
     );
   }
 
@@ -796,7 +797,7 @@ export default class Game {
 
     if (await SAOLchecker.scrabbleOk(lastWord) === false) {
       // (false === false) --> (true)
-      $('.board').append('<div class="boxForWord"><span class="word">' +
+      $('.placeForBox').append('<div class="boxForWord"><span class="word">' +
         lastWord + '</span><hr>ok in Scrabble: ' +
         // check if ok scrabble words
         // by calling await SAOLchecker.scrabbleOk(word)
@@ -808,7 +809,8 @@ export default class Game {
 
     }
     if (await SAOLchecker.scrabbleOk(lastWord)) {
-      $('.board').append(`<div class="boxForWord" id="${lastWord}-box"><span class="word">` +
+      $('.placeForBox').append(`<div class="boxForWord" id="${lastWord}-box"><span class="word">` +
+
         lastWord + `</span><hr>ok in Scrabble: ` +
         // check if ok scrabble words
         // by calling await SAOLchecker.scrabbleOk(word)
