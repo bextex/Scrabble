@@ -398,6 +398,7 @@ export default class Game {
         //console.log("YEAH", y, x);
 
         //Here we create a reference to the tile and the input.
+        console.log('tiles from board', this.board[y][x].tile);
         let tileChar = this.board[y][x].tile[0].char;
         let charInput = "";
 
