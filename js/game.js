@@ -695,7 +695,8 @@ export default class Game {
     console.log('I am in countPlayerScore, player: ', playerIndex);
     for (let i = 0; i < wordArray.length; i++) {
       if (await SAOLchecker.scrabbleOk(wordArray[i].word)) {
-        currentWordPoints = wordArray[i].points * wordArray[i].multiple;
+        // currentWordPoints = wordArray[i].points * wordArray[i].multiple;
+        currentWordPoints = wordArray[i].totalPoints;
         wordArray[i].scrabbleOk = true;
       }
       else {
