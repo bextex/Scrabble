@@ -140,13 +140,15 @@ export default class Game {
     // Put back the tiles that wants to be changed and scramble the bag
     let that = this;
     $('.change-tiles').on('click', () => {
-      if (that.tilesFromBag.length < 7) {
+      console.log('this from inside change tiles button', this);
+      if (this.tilesFromBag.length < 7) {
         console.log('there are 7 or less tiles in bag');
         alert('there are 7 or less tiles in bag');
         // Put a div and message here instead
       }
       // How many tiles the player wants to remove
       let numberOfTiles = 0;
+      let that = this;
       // Loop through the current players player tiles div
       // $(`#box${players.indexOf(players[this.playerIndex - 1])} > div`).each(function () {
       $(`#box0 > div`).each(function () {
@@ -170,27 +172,46 @@ export default class Game {
           // ---------------- CHECK THIS METHOD!!! NOT WORKING
 
           // Loop through the players tiles
-          that.tiles.forEach(tile => {
-            // When we come across the players tiles that match the marked tile
-            if (tile.char === letterWithoutPoint) {
+
+          for (let i = 0; i < that.tiles[0].length; i++) {
+            console.log('Each tiles looping through', that.tiles[0]);
+            if (that.tiles[0][i].char === letterWithoutPoint) {
+              console.log('Have a found the tile?', that.tiles[0][i].char === letterWithoutPoint);
               // Remove that tile using the indexOfTile
-              that.tiles.splice(indexOfTile, 1);
+              that.tiles[0].splice(indexOfTile, 1);
               // Push the players removed(changed) tiles back to tilesFromBag
-              that.tilesFromBag.push(tile);
+              that.tilesFromBag.push(that.tiles[0][i]);
+              console.log('The length of the bag array after tiles put back', that.tilesFromBag.length);
+              return;
             }
-          });
+          }
+
+          // that.tiles.forEach(tile => {
+          //   console.log('The tile in the players tile array', tile.char);
+          //   // When we come across the players tiles that match the marked tile
+          //   if (tile[0].char === letterWithoutPoint) {
+          //     // Remove that tile using the indexOfTile
+          //     that.tiles[0].splice(indexOfTile, 1);
+          //     // Push the players removed(changed) tiles back to tilesFromBag
+          //     that.tilesFromBag.push(tile);
+          //   }
+          // });
         }
       });
       // This is the same as for player when they need new tiles
       // Remove the number of tiles from tilesFromBag 
-      let newTiles = [...that.tilesFromBag.splice(0, numberOfTiles)];
+      let newTiles = [...this.tilesFromBag.splice(0, numberOfTiles)];
       // push the new tiles to the players current tiles
       for (let i = 0; i < numberOfTiles; i++) {
-        that.tiles.push(newTiles[i]);
+        this.tiles[0].push(newTiles[i]);
       }
+
       // 'Shake the bag'
-      that.tilesFromBag.sort(() => Math.random() - 0.5);
+      this.tilesFromBag.sort(() => Math.random() - 0.5);
       // Change player (since changing tiles is a move) and re-render
+
+      store.tilesFromFile = this.tilesFromBag;
+
 
       store.currentPlayer++;
       console.log('Changing player index', store.currentPlayer);
@@ -552,7 +573,6 @@ export default class Game {
     // When double-clicking on the tiles do this function
     $('.playertiles').not('.none').dblclick(function () {
       // If the player has played a tile then they cannot change any tiles the same round
-      console.log('Is there tiles on board');
 
       let stop = false;
 
@@ -790,6 +810,8 @@ export default class Game {
     $('.play-tiles').remove();
     $('.pass').remove();
     $('.change-tiles').remove();
+
+    console.log('The length of the tile bag array from show player buttons', store.tilesFromFile.length);
 
     $('.board').append(
       `
