@@ -786,11 +786,17 @@ export default class Game {
 
   showPlayerButtons() {
 
+    $('.tiles-from-bag').remove();
+    $('.play-tiles').remove();
+    $('.pass').remove();
+    $('.change-tiles').remove();
+
     $('.board').append(
       `
       <p class= "tiles-from-bag">🎁 ${this.tilesFromBag.length}</p>
       <button class="play-tiles">Lägg brickor</button>
-      <button class="pass">Stå över</button>  
+      <button class="pass">Stå över</button>
+      <button class="change-tiles">Byt brickor</button>
     `);
 
 

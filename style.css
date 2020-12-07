@@ -619,6 +619,19 @@ div.playing-window-left{
   cursor: pointer;
 }
 
+.change-tiles{ 
+  cursor: pointer;
+  position:absolute;
+  left: 3vh;
+  bottom:2vh;
+  font-family: 'Neucha', cursive;
+  font-size: 20px;
+  background-color: #EFF2D8;
+  border: 3px solid #A5A686; 
+  border-radius: 3px;
+}
+
+
 
 /*********************** NEW STUFF ***********************/
 
