@@ -569,8 +569,8 @@ div.playing-window-left{
   z-index: 1;
  /* margin-top: 30vh;
   margin-left: 1px; */
-  /*84*/
-  margin-top: 84vh;
+  /*92 - win, 87 - mac*/
+  margin-top: 87vh;
   margin-left: 40vh;
   /*overflow: hidden;*/
   text-align: center;
@@ -683,7 +683,7 @@ div.playing-window-left{
   font-size: 15px;
   top: 200px;
   width: 200px;
-  right: 6vh;
+  right: 4.5vh;  /*6 - win, 4.5 - mac*/
   border: 4px solid #A5A686;
   overflow: scroll;
   height: 40vh;
