@@ -75,6 +75,9 @@ export default class Game {
     for (let i = 0; i < store.players.length; i++) {
       if (playerName === store.players[i]) {
         this.players.push(new Player(store.players[i], ([...this.tilesFromBag.splice(0, 7)])));
+        ///Initialize player score
+        store.players[i].score = 0;
+        console.log('init PlayerScore', store.players[i], store.players[i].score);
       }
     }
 
@@ -226,13 +229,7 @@ export default class Game {
     });
 
   }
-  //function for initialize player score
-  initPlayerScore() {
-    for (let i = 0; i < players.length; i++) {
-      players[i].score = 0;
-    }
-    console.log('i am in init PlayerScore', players);
-  }
+
 
   // methodsToRunAfterNetworkChange() {
   //   this.playerTurn();
