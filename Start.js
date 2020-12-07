@@ -98,12 +98,14 @@ export default class Start {
       }
 
       // Fade out the 'start-side' and replace it with waiting for other players
-      $('.game-menu').fadeOut(1700);
+      $('#candy').hide();
+      $('.game-menu').fadeOut(250);
 
       // let networkKey = await network.getLocalKey();
       $('.playersName').append(`<div>
-      <button class="join">Gå med</button>
+      <button class="join"><span>Gå med</span></button>
       <input type="key-input" class="key-input"><span class="key" placeholder="Skriv nyckel här"></span></input>
+      <p class=write-key>Skriv nyckel här</p>
       </div>`);
 
       $('.join').on('click', function () {
