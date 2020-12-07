@@ -41,7 +41,11 @@ export default class Start {
     // let that = this;
 
     $('.game-menu').hide(0).delay(6000).show(0).append(
-      `<input type="text" id="playerName" class="newPlayerInput" placeholder="Namn" />`
+      `<input type="text" 
+        id="playerName" 
+        class="newPlayerInput" 
+        placeholder="Namn" />
+        `
     );
 
 
@@ -164,14 +168,16 @@ export default class Start {
 $(document).ready(function () {
 
   $('.rules').click(function () {
-    $('.game-screen').hide();
+    $('.newPlayerInput').hide();
+    $('.game-menu').hide();
     $('.add-rules').animate({
       height: 'toggle'
     });
   });
   $('.close').click(function () {
-    $('.add-rules').hide();
-    $('.game-screen').fadeIn(850);
+    $('.add-rules').hide(150);
+    $('.newPlayerInput').fadeIn(850);
+    $('.game-menu').fadeIn(850);
   });
 
 });

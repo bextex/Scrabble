@@ -174,13 +174,13 @@ ul {
   position: absolute;
   /*removed top. Doesn't work when position is relative*/
   /*doen't work with percentage '%'*/
-  left: 30%;
+  left: 33%;
   top:30vh;
   color: rgb(40, 20, 20);
   font-size: 18px;
-  border: 3px solid aliceblue;
+  border: 3px solid #A5A686;
   border-radius: 10px;
-  background-color: lightblue;
+  background-color: #EFF2D8;
   width: 30%;
  
   
@@ -239,7 +239,7 @@ ul {
   font-size: 20px;
   background-color: black; /* black background */
   opacity: 0.7;
-  border: 5px solid aliceblue; /* Aliceblue border */
+  border: 5px solid #EFF2D8; /* Aliceblue border */
   border-radius: 5px;
   color: white; /* White text */
   padding: 20px; /* Some padding */
@@ -248,7 +248,7 @@ ul {
   display: block; /* Make the buttons appear below each other */
   position: relative;
   left: 40%;
-  top: 40vh;
+  top: 50vh;
   animation-name: move, changeColorText;
   animation-duration: 1.5s; 
   /*display: none;*/
@@ -290,6 +290,9 @@ ul {
   to {color: aliceblue};
 }
 
+input {
+text-align: center;
+}
 
 .newPlayerInput {
  background-color:black;
@@ -300,7 +303,7 @@ ul {
  font-family: 'Source Code Pro', monospace;
  font-size: 20px;
  opacity: 0.8;
- border: 5px solid aliceblue;
+ border: 5px solid #EFF2D8;
  border-radius: 5px;
  color: white;
 
@@ -311,7 +314,7 @@ ul {
 
 }
  .newPlayerInput:hover {
-    background-color: azure;
+    background-color:  rgb(153, 153, 153);
     color: black;
 }
 
