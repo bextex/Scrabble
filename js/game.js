@@ -36,10 +36,6 @@ export default class Game {
     console.log(this.players);
     console.log(store.players);
     console.log(playerName);
-
-    //Initialize player score
-    this.initPlayerScore();
-
     this.name = playerName;
     for (let i = 0; i < store.players.length; i++) {
       if (playerName === store.players[i]) {
@@ -52,8 +48,6 @@ export default class Game {
 
     // store.board = this.createBoard();
     this.playerTurn();
-    let that = this;
-
 
     // this.render();
     this.showPlayerButtons();
