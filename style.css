@@ -294,7 +294,7 @@ ul {
 .newPlayerInput {
  background-color:black;
  position: relative;
- top: 80vh;
+ top: 10vh;
  margin-right: auto;
  margin-left: auto;
  font-family: 'Source Code Pro', monospace;
@@ -314,6 +314,7 @@ ul {
     background-color: azure;
     color: black;
 }
+
  @keyframes playerAnimation {
      0% {
              opacity: 0;
@@ -322,8 +323,6 @@ ul {
             opacity: 0.7;
     }
  }
-
-      
 
 .board {
   position: relative;
@@ -440,6 +439,20 @@ ul {
   color: white;
 }
 
+.tiles-from-bag{
+  width: 50px;
+  height: 25px;
+  text-align: center;
+  right: 5vh;
+  top:0.5vh;
+  position: absolute;
+  font-family: 'Neucha', cursive;
+  font-size: 20px;
+  background-color: #EFF2D8;
+  border: 3px solid #A5A686; 
+  border-radius: 3px;
+}
+
 /*************************** PLAYER NAMES AND TILES ****************************/
 .playerWrapper {
   display: flex;
@@ -553,7 +566,7 @@ div.playing-window-left{
   z-index: 1;
  /* margin-top: 30vh;
   margin-left: 1px; */
-  margin-top: 85.5vh;
+  margin-top: 92vh;
   margin-left: 40vh;
   /*overflow: hidden;*/
   text-align: center;
@@ -605,6 +618,19 @@ div.playing-window-left{
   color: #A5A686;
   cursor: pointer;
 }
+
+.change-tiles{ 
+  cursor: pointer;
+  position:absolute;
+  left: 3vh;
+  bottom:2vh;
+  font-family: 'Neucha', cursive;
+  font-size: 20px;
+  background-color: #EFF2D8;
+  border: 3px solid #A5A686; 
+  border-radius: 3px;
+}
+
 
 
 /*********************** NEW STUFF ***********************/
@@ -674,6 +700,107 @@ div.playing-window-left{
   color: blue;
 }
 
+/************************** NETWORK CHAT ************************/
+
+
+header, footer {
+  background-color: rgb(84, 119, 196);
+  border-bottom: 1px solid #000;
+  position: fixed;
+  width: calc(100% - 20px);
+  padding: 10px;
+  color: white;
+  left: 0;
+}
+
+header {
+  top: 0;
+}
+
+footer {
+  bottom: 0;
+}
+
+.key {
+  float: right;
+  display: block;
+  padding-right: 10px;
+  font-weight: bold;
+}
+
+/* .key::before {
+  content: 'Chat-kod: ';
+  font-weight: normal;
+} */
+
+footer input {
+  width: 80%;
+}
+
+.message {
+  padding: 6px 0;
+}
+
+.sender {
+  font-weight: bold;
+}
+
+.fields {
+  width: auto;
+  height: 300px;
+} 
+
+.key-input{
+ background-color:black;
+ position: relative;
+ /* top: 80vh; */
+ margin-right: auto;
+ margin-left: auto;
+
+ opacity: 0.8;
+ border: 5px solid aliceblue;
+ border-radius: 5px;
+  color: white;
+
+  animation-name: playerAnimation;
+  animation-iteration-count: 1;
+  animation-timing-function: ease-in;
+  animation-duration: 1s;
+
+
+  
+  font-family: 'Neucha', cursive;
+  font-size: large;
+  font-size: 20px;
+
+  padding: 2vh;
+  text-align: left;
+  width: 100px;
+  height: 10px;
+}
+
+.waiting-box{
+  width: 300px;
+  height: 150px;
+  background-color: black;
+  border: 2px solid white;
+  /* position: absolute; */
+  margin: 200px auto 10px auto;
+  color: white;
+}
+
+.not-your-turn{
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: rgba(161, 161, 161, 0.431);
+  color: white;
+  font-size: 100px;
+  text-align: center;
+  z-index: 1000;
+}
 /****** SAOL *******/
 .saol {
   position: absolute;

@@ -1,75 +1,135 @@
-import Player, { players } from './player.js';
+import Player from './player.js';
 import SAOLchecker from './SAOLchecker.js';
 import Board from './board.js';
 import Score from './score.js';
+// import { players } from './player.js';
+import { store } from './network.js';
+import Bag from './bag.js';
+
+console.log("Store från början", store)
 
 export default class Game {
 
-  constructor(tilesFromBag) {
+  constructor() {
+
+    // this.createBoard();
+    // this.render();
+    // this.showPlayerButtons();
+    // this.playerIndex = 0;
+
+    // When resizing the window realign tiles with squares
+    // (some extra code here to make sure we do not connect resize several times)
+    window.currentGame = this;
+    if (!window.resizeAdded) {
+      window.resizeAdded = true;
+      $(window).resize(() => currentGame.alignPrelTilesWithSquares());
+    }
 
 
-    this.createBoard();
-
-    this.render();
-    this.showPlayerButtons();
-
-    this.tilesFromBag = tilesFromBag;
-    this.playerIndex = 0;
-    //this.lettersFromFile();
-    this.start();
+    console.log('game starting');
     this.wordArray = [];
     this.wordArrayCommitted = [];
 
-    // this.changeTiles();
-    // Set change button to disabled when starting the game
-    $('.change-tiles').prop('disabled', true);
+    this.players = [];
+
+
+
+    // this.start();
+
+    // //this.lettersFromFile();
+    // this.start();
+    // // this.changeTiles();
+    // // Set change button to disabled when starting the game
+    // $('.change-tiles').prop('disabled', true);
   }
 
-  changeTiles() {
-    let that = this;
-    $('.change-tiles').prop('disabled', true);
-    // When double-clicking on the tiles do this function
-    $('.playertiles').not('.none').dblclick(function () {
-      // If the player has played a tile then they cannot change any tiles the same round
-      if (that.tiles[0].length < 7) {
-        alert('You have already placed a tile on the board');
-        // Put a div with a message here
-        return;
-      }
-      // If this ( = the current tile) doesn't have class change, add or else remove.
-      // So it works to double click to get the marked border and double-click to remove the marked border
-      $(this).toggleClass('change');
-      // First time someone mark the tile, the button gets enabled
-      $('.change-tiles').prop('disabled', false);
-      // If no tile has the class 'change', meaning no tile is marked atm
-      // Change the buttons value to opposite of what it is now. 
-      // If true, set to false. If false, set to true
-      if ($('.change').length === 0) {
-        $('.change-tiles').prop('disabled', (_, val) => !val);
-      }
-    });
+  async getTiles() {
+    this.tilesFromBag = store.tilesFromFile;
+    // this.start();
   }
+
+  // get playerIndex() { return store.currentPlayer; }
+
+  // set playerIndex(x) { store.currentPlayer = x; }
+
+
 
 
   /* Starting up the game with start() to set how's the first player */
 
-  start() {
+  start(playerName) {
+
+    this.getTiles();
+
+    this.board = store.board;
+
+
+    console.log(this.players);
+    console.log(store.players);
+    console.log(playerName);
+
     //Initialize player score
     this.initPlayerScore();
+
+    this.name = playerName;
+    for (let i = 0; i < store.players.length; i++) {
+      if (playerName === store.players[i]) {
+        this.players.push(new Player(store.players[i], ([...this.tilesFromBag.splice(0, 7)])));
+      }
+    }
+
+
+    // store.tilesFromBag = this.tilesFromBag;
+
+    /* If nothing can be in constructor */
+
+
+    // store.board = this.createBoard();
     this.playerTurn();
     let that = this;
 
 
+
+    // this.render();
+    this.showPlayerButtons();
+    // Set change button to disabled when starting the game
+    $('.change-tiles').prop('disabled', true);
+
+
+
+
     // When click on 'Stå över'-button, there will be a new player and the board will render
     $('.pass').on('click', () => {
+      console.log('i have clicked on pass button');
+
+      store.currentPlayer++;
+      console.log('Changing player index', store.currentPlayer);
+
+      // this.board = store.board;
+      // this.tilesFromBag = store.tilesFromFile;
+
       this.playerTurn();
       this.render();
-      // this.changeTiles();
+      this.changeTiles();
     });
 
     // When click on 'Lägg brickor'-button, there will be a new player and the board will render
     // Shoul also count score on word
     $('.play-tiles').on('click', () => {
+
+      // TF comments:
+
+      // only a valid move if not first move or center is taken
+      if (!this.notFirstMoveOrCenterIsTaken()) {
+        this.render();
+        return;
+
+      }
+
+      this.placePrelTilesOnBoard();
+      this.render();
+
+      console.log('i have clicked on lägg brickor');
       // get points for word
       console.log('play tile on click  wordArray ', that.wordArray);
       if (that.wordArray.length > 0) {
@@ -85,9 +145,17 @@ export default class Game {
       }
 
       // empty stored words in array when its the next player
+      // CountScores(); ???
+
+      store.currentPlayer++;
+      console.log('Changing player index', store.currentPlayer);
+
+      // this.board = store.board;
+      // this.tilesFromBag = store.tilesFromFile;
+
       this.playerTurn();
       this.render();
-      // this.changeTiles();
+      this.changeTiles();
     });
 
     // To change tiles, locate what tile wants to be changed and change them to new tiles from bag. 
@@ -102,24 +170,33 @@ export default class Game {
       // How many tiles the player wants to remove
       let numberOfTiles = 0;
       // Loop through the current players player tiles div
-      $(`#box${players.indexOf(players[this.playerIndex - 1])} > div`).each(function () {
+      // $(`#box${players.indexOf(players[this.playerIndex - 1])} > div`).each(function () {
+      $(`#box0 > div`).each(function () {
         // If the current div have the class 'change'
+        console.log('Does this div have change class?', $(this).hasClass('change'));
         if ($(this).hasClass('change')) {
           // What index does the div with the 'change' class have
+
           let indexOfTile = $('.change').index();
+          console.log('Index of the tile that wants to change', indexOfTile);
           // What text value does the current div have (we need to know the letter)
-          let letterWithPoint = $(this).text()
+          let letterWithPoint = $(this).text();
+          console.log('The whole text from div that wants to change', letterWithPoint);
           // Remove the point that follows when asking for text()
           let letterWithoutPoint = letterWithPoint[0];
+          console.log('The letter', letterWithoutPoint);
           // Increase numberOfTiles so we now how many new tiles we need at the end
           numberOfTiles++;
+          console.log('How many tiles do you wanna change?', numberOfTiles);
+
+          // ---------------- CHECK THIS METHOD!!! NOT WORKING
 
           // Loop through the players tiles
-          that.tiles[0].forEach(tile => {
+          that.tiles.forEach(tile => {
             // When we come across the players tiles that match the marked tile
             if (tile.char === letterWithoutPoint) {
               // Remove that tile using the indexOfTile
-              that.tiles[0].splice(indexOfTile, 1);
+              that.tiles.splice(indexOfTile, 1);
               // Push the players removed(changed) tiles back to tilesFromBag
               that.tilesFromBag.push(tile);
             }
@@ -131,14 +208,21 @@ export default class Game {
       let newTiles = [...that.tilesFromBag.splice(0, numberOfTiles)];
       // push the new tiles to the players current tiles
       for (let i = 0; i < numberOfTiles; i++) {
-        that.tiles[0].push(newTiles[i]);
+        that.tiles.push(newTiles[i]);
       }
       // 'Shake the bag'
       that.tilesFromBag.sort(() => Math.random() - 0.5);
       // Change player (since changing tiles is a move) and re-render
+
+      store.currentPlayer++;
+      console.log('Changing player index', store.currentPlayer);
+
+      // this.board = store.board;
+      // this.tilesFromBag = store.tilesFromFile;
+
       this.playerTurn();
       this.render();
-      // this.changeTiles();
+      this.changeTiles();
     });
 
   }
@@ -150,29 +234,92 @@ export default class Game {
     console.log('i am in init PlayerScore', players);
   }
 
-  async playerTurn() {
+  // methodsToRunAfterNetworkChange() {
+  //   this.playerTurn();
+  //   this.render();
+  //   // this.changeTiles();
+  // }
+
+  playerTurn() {
+    // console.log(players);
+    // console.log(store.players);
+    // if (store.currentPlayer !== this.playerIndex) {
+    //   $('.playing-window-left').append(`<div class="not-your-turn">Vänta på att spelet ska starta</div>`);
+    // } else {
+    //   $('.not-your-turn').remove();
+    // }
+
+    // store.currentPlayer = this.playerIndex;
+
     /* Alternative to switch between players turns */
     // If player index is more och equal to player array length then go back to index 0.
     // Because the current player is the last player, and the next player will be the first.
     // It all starts over.
-    if (this.playerIndex >= players.length) {
-      this.playerIndex = 0;
+    // if (this.playerIndex >= store.players.length) {
+    //   this.playerIndex = 0;
+    // }
+    // if (this.playerIndex >= players.length) {
+    //   this.playerIndex = 0;
+    // }
+
+    if (store.currentPlayer >= store.players.length) {
+      store.currentPlayer = 0;
+      console.log('Trying to set playerindex to 0');
     }
+
+    // console.log(this.board);
+    // store.board = this.board;
+
+    // console.log('Im currently playing ' + this + ' game');
+    // store.game = this;
+
+    // if (this.players.length === 0) {
+
+    //   console.log('Längden på spelar arrayn skapad i PlayersTurn ' + this.players.length);
+    //   console.log(this.players);
+    // }
+
+    console.log('This index is currently this.playerindex ' + store.currentPlayer);
+
+    // store.currentPlayer = this.playerIndex;
+    // store.board = this.board;
+
+    console.log('store players length', store.players.length);
+
+
+    // if (store.currentplayer !== this.playerIndex) {
+    //   store.players[this.playerIndex];
+    //   store.currentplayer = this.playerIndex;
+    // }
+
+
+    // console.log('playerindex in playerturn ' + this.playerIndex);
 
     // Set this.player to the player with playerindex in players array
     // so this.player will be the new player each round
-    this.player = players[this.playerIndex].name;
+    // this.player = store.players[this.playerIndex];
+    // this.player = players[store.index].name;
+    // this.player = players[this.playerIndex].name;
+
+    // This players turn
+    this.player = store.players[store.currentPlayer];
+
+    console.log('players name in playerturn ' + this.player);
 
 
     // Set this.tiles to empty so the current players tiles can be this.tiles
     this.tiles = [];
 
     // set this.tiles to the current players tiles
-    this.tiles.push(players[this.playerIndex].tiles[0]);
+    this.tiles = this.players[0].tiles;
+    console.log('this tiles in playerturn');
+    console.log(this.tiles);
+    // this.tiles.push(players[this.playerIndex].tiles[0]);
 
     // If the players has played tiles and they have less than 7, push new tiles to their playing board
     if (this.tiles[0].length < 7) {
       // numberOfTiles will be how many new tiles the player will need
+      console.log('i have less than 7 tiles in my stand');
       let numberOfTiles = 0;
       for (let i = 0; i < 7; i++) {
         if (!this.tiles[0][i]) {
@@ -180,6 +327,7 @@ export default class Game {
           // console.log(numberOfTiles);
         }
       }
+      console.log('number of new tiles', numberOfTiles);
 
       // newTiles will get x number of new tiles from tilesFromBag
       let newTiles = [...this.tilesFromBag.splice(0, numberOfTiles)];
@@ -189,29 +337,47 @@ export default class Game {
       }
     }
 
+
+    // store.tiles = this.tiles;
+
+    console.log('this many tiles are left in the bag: ' + this.tilesFromBag.length);
     /* Disable all other players tile fields */
 
-    this.showAndHidePlayers();
+    // this.showAndHidePlayers();
 
     console.log("current player: ", players[this.playerIndex])
 
     // Inrease player index so when new round, the next player will this.player
-    this.playerIndex++;
+
+    // // this.playerIndex++;
+
+    // store.currentPlayerName = this.player;
+
+    this.render();
+
+
   }
 
-  showAndHidePlayers() {
-    // Hide all other players tileboards except for the current player
-    for (let i = 0; i < players.length; i++) {
-      // If this.player ( a name ) is the same as any player in the array
-      // Than show the players tileboard
-      if (this.player === players[i].name) {
-        $(`#box${players.indexOf(players[i])}`).show();
-      } else {
-        // Else hide the players tileboards
-        $(`#box${players.indexOf(players[i])}`).hide();
-      }
-    }
-  }
+
+  // // DONT THINK WE NEED THIS ANYMORE
+  // showAndHidePlayers() {
+
+  //   $('.tiles-box')
+
+
+
+  //   // Hide all other players tileboards except for the current player
+  //   for (let i = 0; i < players.length; i++) {
+  //     // If this.player ( a name ) is the same as any player in the array
+  //     // Than show the players tileboard
+  //     if (this.player === players[i].name) {
+  //       $(`#box${players.indexOf(players[i])}`).show();
+  //     } else {
+  //       // Else hide the players tileboards
+  //       $(`#box${players.indexOf(players[i])}`).hide();
+  //     }
+  //   }
+  // }
 
   addEvents() {
     $('.board > div').mouseenter(e => {
@@ -228,95 +394,136 @@ export default class Game {
       $(e.currentTarget).removeClass('hover')
     );
 
-    let that = this;
-
     // Drag-events: We only check if a tile is in place on dragEnd
     // $('.stand .tile').not('.none').draggabilly({ containment: 'body' })
-    $('.playertiles').not('.none').draggabilly({ containment: 'body' }).on('dragEnd', e => {
-      // get the dropZone square - if none render and return
+    $('.playertiles').not('.none').draggabilly({ containment: 'body' })
+      // Edited by TF
+      .on('dragStart', e => delete $(e.currentTarget).data().prelBoardPos)
+      .on('dragMove', e => this.alignPrelTilesWithSquares())
+      .on('dragEnd', e => {
 
-      let $dropZone = $('.hover');
-      if (!$dropZone.length) { this.render(); return; }
+        // get the tile and the dropZone square
+        let $tile = $(e.currentTarget);
+        let $dropZone = $('.hover');
 
-      // the index of the square we are hovering over
-      let squareIndex = $('.board > div').index($dropZone);
+        // the index of the square we are hovering over
+        let squareIndex = $('.board > div').index($dropZone);
+        // convert to y and x coords in this.board
+        let y = Math.floor(squareIndex / 15);
+        let x = squareIndex % 15;
 
-      // convert to y and x coords in this.board
-      let y = Math.floor(squareIndex / 15);
-      let x = squareIndex % 15;
+        // move the tile back to the rack
+        $tile.css({ top: '', left: '' });
 
-      // the index of the chosen tile
+        // if no drop zone or the square is taken then do nothing
+        if (!$dropZone.length || store.board[y][x].tile) { return; }
 
-      let $tile = $(e.currentTarget);
-      // Check what index the tile have that lays in a div under each players individual id="box"
-      let tileIndex = $(`#box${(this.playerIndex - 1)} > div`).index($tile);
+        // store the preliminary board position with the tile div
+        // (jQuery can add data to any element)
+        $tile.data().prelBoardPos = { y, x };
+        this.alignPrelTilesWithSquares();
 
-      // If board doesn't have any div with class '.tile' then there isn't any tiles on board
-      if (!$('.board > div > .tile').length) {
-        // If there isn't any tiles on board, and the squareIndex is not in the middle
-        // Re-render and return
-        if (squareIndex !== 112) {
-          this.render();
-          return;
-        }
-        // If there is at least one tile on board then check if the new tile the player is trying to drop
-        // has another tile around, if not - re-render and return. Or else place the tile and render the new board (As before)
-        // It most be specific conditions for the board squares on the outer rim otherwise it will return error 
-        // when we try to check if a square on the board has a tile and that square doesn't exist.
-      } else if ((y === 0 && x === 0 && !this.board[y + 1][x].tile && !this.board[y][x + 1].tile)
-        || (x === 0 && y > 0 && y < 14 && !this.board[y - 1][x].tile && !this.board[y + 1][x].tile && !this.board[y][x + 1].tile)
-        || (x === 14 && y === 0 && !this.board[y][x - 1].tile && !this.board[y + 1][x].tile)
-        || (x === 14 && y > 0 && y < 14 && !this.board[y - 1][x].tile && !this.board[y - 1][x].tile && !this.board[y][x - 1].tile)
-        || (x === 14 && y === 14 && !this.board[y - 1][x].tile && !this.board[y][x - 1].tile)
-        || (y === 14 && x > 0 && x < 14 && !this.board[y][x + 1].tile && !this.board[y][x - 1].tile && !this.board[y - 1][x].tile)
-        || (y === 14 && x === 0 && !this.board[y - 1][x].tile && !this.board[y][x + 1].tile)
-        || (y === 0 && x > 0 && x < 14 && !this.board[y][x - 1].tile && !this.board[y][x + 1].tile && !this.board[y + 1][x].tile)
-        || (x > 0 && x < 14 && y > 0 && y < 14 && !this.board[y - 1][x].tile && !this.board[y + 1][x].tile && !this.board[y][x + 1].tile && !this.board[y][x - 1].tile)) {
-        this.render();
-        return;
-      }
+        // Check what index the tile have that lays in a div under each players individual id="box"
+        //let tileIndex = $(`#box0 > div`).index($tile);
+        //console.log('tile index is ' + tileIndex);
 
-      // Add the moved tile from players tile array to the boards tiles
-      this.board[y][x].tile = that.tiles[0].splice(tileIndex, 1);
-      // When droped a tile on the board, re-render
+        //console.log("YEAH", y, x);
 
-      //Here we create a reference to the tile and the input.
-      let tileChar = this.board[y][x].tile[0].char;
-      let charInput = "";
+        //Here we create a reference to the tile and the input.
+        console.log('tiles from board', this.board[y][x].tile);
+        let tileChar = this.board[y][x].tile[0].char;
+        let charInput = "";
 
-      //We need to check if the tile is empty and if thats true we enter the statement.
-      if (tileChar == ' ') {
-        let alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖ';
-        let pass = false
-        //We use a do while loop to check the input of the player
-        //We set it to capitalized letters and check through the string in our forloop.
-        //If the input matches a character in the alphabet, the loop is true and it ends.
-        do {
-          let rawInput = prompt("Please enter a letter");
-          charInput = rawInput.toUpperCase();
-          for (let i = 0; i < alphabet.length; i++) {
+        //We need to check if the tile is empty and if thats true we enter the statement.
+        if (tileChar == ' ') {
+          let alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖ';
+          let pass = false
+          //We use a do while loop to check the input of the player
+          //We set it to capitalized letters and check through the string in our forloop.
+          //If the input matches a character in the alphabet, the loop is true and it ends.
+          do {
+            let rawInput = prompt("Please enter a letter");
+            charInput = rawInput.toUpperCase();
+            for (let i = 0; i < alphabet.length; i++) {
 
-            console.log(charInput)
-            console.log(alphabet.charAt(i))
+              console.log(charInput)
+              console.log(alphabet.charAt(i))
 
-            if (alphabet.charAt(i) == charInput) {
-              console.log(alphabet.charAt(i) + ' is equals to' + charInput)
-              pass = true;
+              if (alphabet.charAt(i) == charInput) {
+                console.log(alphabet.charAt(i) + ' is equals to' + charInput)
+                pass = true;
+              }
             }
           }
+          while (!pass);
+          //Now we set the tiles character to our verified and safe input.
+          this.board[y][x].tile[0].char = charInput;
         }
-        while (!pass);
-        //Now we set the tiles character to our verified and safe input.
-        this.board[y][x].tile[0].char = charInput;
-      }
-      this.checkNewWordsOnBorad(y, x);
+        this.checkNewWordsOnBoard(y, x);
 
-      this.render();
+        // Add the moved tile from players tile array to the boards tiles
+        //this.board[y][x].prelTile = that.tiles[0].splice(tileIndex, 1);
+
+        // When droped a tile on the board, re-render
+
+        // store.board = this.board;
+
+        //this.checkNewWordsOnBorad(y, x);
+
+        //this.render();
+      });
+  }
+
+  // added by TF
+  alignPrelTilesWithSquares() {
+    // align tiles that have a prelBoardPos with correct squares
+    $('.playertiles').each((i, el) => {
+      let $tile = $(el);
+      let p = $tile.data().prelBoardPos;
+      if (!p) { return; }
+      let $square = $('.board > div').eq(p.y * 15 + p.x);
+      $tile.css({ top: '', left: '' });
+      let so = $square.offset(), to = $tile.offset();
+      let swh = { w: $square.width(), h: $square.height() };
+      let twh = { w: $tile.width(), h: $tile.height() };
+      let pos = {
+        left: so.left - to.left + (swh.w - twh.w) / 2.8,
+        top: so.top - to.top + (swh.h - twh.h) / 2.8
+      };
+      $tile.css(pos);
     });
   }
 
+  // added by TF
+  placePrelTilesOnBoard() {
+    $('.playertiles').each((i, el) => {
+      let $tile = $(el);
+      let p = $tile.data().prelBoardPos;
+      if (!p) { return; }
+      let tileIndex = $(`#box0 > div`).index($tile);
+      let tile = this.tiles[0][tileIndex];
+      tile.onBoard = true;
+      this.board[p.y][p.x].tile = [tile];
+      this.checkNewWordsOnBoard(p.y, p.x);
+    });
+    this.tiles[0] = this.tiles[0].filter(x => !x.onBoard);
+  }
+
+  // added by TF
+  notFirstMoveOrCenterIsTaken() {
+    let isFirstMove = this.board.flat().every(square => !square.tile);
+    console.log('isFirstMove', isFirstMove);
+    let centerIsTaken = !!([...$('.playertiles')].find(x => {
+      let p = $(x).data().prelBoardPos;
+      return p && p.x === 7 && p.y === 7;
+    }));
+    console.log('centerIsTaken', centerIsTaken);
+    return !isFirstMove || centerIsTaken;
+  }
 
   render() {
+
+
     // $('.board').remove();
     // let $board = $('<div class="board"/>').appendTo('.playing-window');
     // this.board.flat().forEach(x => $board.append('<div/>'));
@@ -339,7 +546,21 @@ export default class Game {
       `).join('')
     );
 
+
+
+    // store.board = this.board;
+
+
     // this.checkForNewWords(y, x);
+
+    console.log('Index of this player in store.players:', store.players.indexOf(this.name));
+    console.log('Current player in store:', store.currentPlayer);
+    if (store.players.indexOf(this.name) === store.currentPlayer) {
+      $('.not-your-turn').remove();
+    } else {
+      $('body').append(`<div class="not-your-turn">Vänta på din tur</div>`);
+
+    }
 
     // Empty the player tileboards window before rendering, otherwise there will be double each time it renders
     $('.playing-window-left').empty();
@@ -347,9 +568,9 @@ export default class Game {
 
     this.showPlayers();
     this.showSaolText();
-    //this.showPlayerButtons();
+    this.showPlayerButtons();
     // showAndHide cannot be done unless we have read the showPlayers method
-    this.showAndHidePlayers();
+    // this.showAndHidePlayers();
     // We want the addEvents to be last so the player can make their move
 
     this.addEvents();
@@ -358,7 +579,41 @@ export default class Game {
 
   }
 
-  checkNewWordsOnBorad(y, x) {
+  changeTiles() {
+    $('.change-tiles').prop('disabled', true);
+    // When double-clicking on the tiles do this function
+    $('.playertiles').not('.none').dblclick(function () {
+      // If the player has played a tile then they cannot change any tiles the same round
+      console.log('Is there tiles on board');
+
+      let stop = false;
+
+      $('.playertiles').each((i, el) => {
+        let $tile = $(el);
+        let p = $tile.data().prelBoardPos;
+        if (p) {
+          stop = true;
+          return;
+        }
+      });
+
+      if (stop) {
+        return;
+      } else {
+        $(this).toggleClass('change');
+        // First time someone mark the tile, the button gets enabled
+        $('.change-tiles').prop('disabled', false);
+        // If no tile has the class 'change', meaning no tile is marked atm
+        // Change the buttons value to opposite of what it is now. 
+        // If true, set to false. If false, set to true
+        if ($('.change').length === 0) {
+          $('.change-tiles').prop('disabled', (_, val) => !val);
+        }
+      }
+    });
+  }
+
+  checkNewWordsOnBoard(y, x) {
 
     let wordH = [];  //to save  all the infromation on the horisontal 
     let wordV = [];  //to save all the infromation on the vertical 
@@ -541,45 +796,81 @@ export default class Game {
     [12, 2], [12, 12], [13, 1], [13, 13]]
       .forEach(([y, x]) => this.board[y][x].special = '2xWS');
     this.board[7][7].special = 'middle-star';
+
+    return this.board;
   }
 
 
   showPlayers() {
-    players.forEach(player => {
+
+
+    //   store.players.forEach(player => {
+    //     let index = 0
+    //     $('.playing-window-left').append(`
+    //       <div class="playerWrapper">
+    //       <div class="playername">${player}</div>
+    //       <div class="score">Poäng :<div id="score${players.indexOf(player)}"></div></div>
+    //       </div>
+    //       <div class="tiles-box"><div id="box${players.indexOf(player)}"></div></div>
+    //       `);
+    //     while (index < players.indexOf(player).tiles[0].length) {
+    //       $(`#box${players.indexOf(player)}`).append(`
+    //       <div class="playertiles">${player.tiles[0][index].char}<div class="points">${player.tiles[0][index].points}</div>
+    //     `);
+
+    //       index++;
+    //     }
+    //     $(`#box${players.indexOf(player)}`).append(`
+    //       <div class="playertiles ${player.tiles[1][0].char === ' ' ? '' : 'none'}"></div>
+    //     `);
+
+    //   });
+    // }
+
+
+    this.players.forEach(player => {
       let index = 0
       $('.playing-window-left').append(`
-        <div class="playerWrapper">
-        <div class="playername">${player.name}</div>
-        <div class="score">Poäng :<div id="score${players.indexOf(player)}"></div></div>
-        </div>
-        <div class="tiles-box"><div id="box${players.indexOf(player)}"></div></div>
-        `);
-      while (index < player.tiles[0].length) {
-        $(`#box${players.indexOf(player)}`).append(`
-        <div class="playertiles">${player.tiles[0][index].char}<div class="points">${player.tiles[0][index].points}</div>
+      <div class="playerWrapper">
+      <div class="playername">${player.name}</div>
+      <div class="score">Poäng :<div id="score${this.players.indexOf(player)}"></div></div>
+      </div>
+      <div class="tiles-box"><div id="box${this.players.indexOf(player)}"></div></div>
       `);
+      while (index < player.tiles[0].length) {
+        $(`#box0`).append(`
+      <div class="playertiles">${player.tiles[0][index].char}<div class="points">${player.tiles[0][index].points}</div>
+    `);
 
         index++;
       }
-      $(`#box${players.indexOf(player)}`).append(`
-        <div class="playertiles ${player.tiles[1][0].char === ' ' ? '' : 'none'}"></div>
-      `);
+      //   $(`#box${this.players.indexOf(player)}`).append(`
+      //   <div class="playertiles ${player.tiles[1][0].char === ' ' ? '' : 'none'}"></div>
+      // `);
 
     });
 
 
   }
 
+
   showPlayerButtons() {
+
+    $('.tiles-from-bag').remove();
+    $('.play-tiles').remove();
+    $('.pass').remove();
+    $('.change-tiles').remove();
 
     $('.board').append(
       `
+      <p class= "tiles-from-bag">🎁 ${this.tilesFromBag.length}</p>
       <button class="play-tiles">Lägg brickor</button>
-       <button class="pass">Stå över</button>
-    
-      `
+      <button class="pass">Stå över</button>
+      <button class="change-tiles">Byt brickor</button>
+    `);
 
-    );
+
+
 
     // <style>
     //   .play-tiles {
