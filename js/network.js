@@ -165,6 +165,7 @@ export default class Network {
       $('.waiting-box').empty();
       for (let i = 1; i < s.players.length; i++) {
         console.log('there are currently ' + s.players.length + ' players in player array');
+
         $('.waiting-box').append(`
         <br>
           ${s.players[i]} har joinat spelet</br>
