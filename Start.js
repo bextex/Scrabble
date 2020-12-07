@@ -64,13 +64,13 @@ export default class Start {
       }
       // Fade out the 'start-side' and replace it with waiting for other players
       $('#candy').hide();
-      $('.game-menu').fadeOut(1700);
+      $('.game-menu').fadeOut(250);
 
       let networkKey = await network.getLocalKey();
       console.log('network key is ' + networkKey);
       $('.playersName').append(`<div class="waiting-for-players"><div class="waiting-box">Väntar på spelare...</div>
-      <button class="start-new-game">Starta</button>
-      <div type="key-input" class="key-input"><span class="key">${networkKey}</span></div>
+      <button class="start-new-game"><span>Starta</span></button>
+      <div type="key-input" class="key-input"><span class="key">NYCKEL : ${networkKey}</span></div>
       </div>`);
 
       // that is all the tiles from the bag. Which has been created in clickFunctions
