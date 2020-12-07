@@ -149,8 +149,8 @@ export default class Game {
         this.alignPrelTilesWithSquares();
 
         //Here we create a reference to the tile and the input.
-        console.log('tiles from board', this.board[y][x].tile);
-        let tileChar = this.board[y][x].tile[0].char;
+        //console.log('tiles from board', this.board[y][x].tile);
+        /*let tileChar = this.board[y][x].tile[0].char;
         let charInput = "";
 
         //We need to check if the tile is empty and if thats true we enter the statement.
@@ -177,7 +177,7 @@ export default class Game {
           while (!pass);
           //Now we set the tiles character to our verified and safe input.
           this.board[y][x].tile[0].char = charInput;
-        }
+        }*/
         this.checkNewWordsOnBoard(y, x);
 
         // Add the moved tile from players tile array to the boards tiles
