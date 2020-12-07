@@ -59,7 +59,7 @@ export default class Start {
       console.log('network key is ' + networkKey);
       $('.playersName').append(`<div class="waiting-for-players"><div class="waiting-box">Väntar på spelare...</div>
       <button class="start-new-game">Starta</button>
-      <div type="key-input" class="key-input"><span class="key">${networkKey}</span></div>
+      <div type="key-input" class="key-input"><span class="key">${networkKey}</span><span class="oi" data-glyph="file"></span></div>
       </div>`);
 
       // that is all the tiles from the bag. Which has been created in clickFunctions

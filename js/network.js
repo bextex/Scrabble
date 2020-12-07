@@ -40,7 +40,6 @@ export default class Network {
     let bag = new Bag();
     this.tilesFromFile = await bag.tilesFromFile();
 
-
     let game = new Game();
 
     // this.networkKey is either a created key or a inserted key
@@ -49,17 +48,15 @@ export default class Network {
       () => this.listenForNetworkChanges(game));
     console.log(this.networkStore);
 
-    // Debug
-    //window.store = this.networkStore;
-
     // Shorten the variable name to a shorter one for shorter code
     let s = this.networkStore;
     store = s;
 
-    // // Create an instance of game so methods can be reached
-    // let game = new Game(tilesFromBag);
+    if (s.players.length >= 4) {
+      alert('There can only be 4 players');
+      return;
+    }
 
-    // ListenForNetworkChanges() will listen after changes in store (s in our case)
     // We want the network to listen for which players connecting to the same game (same game key)
     s.players = s.players || [];
 
@@ -69,27 +66,6 @@ export default class Network {
 
     s.board = s.board || game.createBoard();
     console.log(s.board);
-
-
-
-    // s.name = s.name || name;
-
-    // s.board = s.board || game.createBoard;
-
-    // s.tilesFromBag = s.tilesFromBag || this.tilesFromBag;
-    // s.tilesFromBag.push(start.tiles);
-    // s.tilesFromBag = start.tiles;
-    // console.log('this is tiles from bag from NETWORK');
-    // console.log(s.tilesFromBag);
-
-    // s.tiles = s.tiles || player.tiles;
-    // s.tiles.push(player.tiles);
-    // s.tiles = player.tiles;
-    // console.log('this is your tiles from NETWORK');
-    // console.log(s.tiles);
-
-
-
 
     // We want to listen for which player is the one currently playing
     // s.currentPlayer = s.currentPlayer || game.playerIndex;
