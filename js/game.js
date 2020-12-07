@@ -29,6 +29,7 @@ export default class Game {
   }
 
   start(playerName) {
+    console.log("start called")
     this.getTiles();
 
     this.board = store.board;
@@ -37,11 +38,13 @@ export default class Game {
     console.log(store.players);
     console.log(playerName);
     this.name = playerName;
+    console.log("this name :" + this.name)
     for (let i = 0; i < store.players.length; i++) {
       if (playerName === store.players[i]) {
-        this.players.push(new Player(store.players[i], ([...this.tilesFromBag.splice(0, 7)])));
+        //this.players[i].score = 0;
+        this.players.push(new Player(store.players[i], ([...this.tilesFromBag.splice(0, 7)]), '0'));
         ///Initialize player score
-        this.players[i].score = 0;
+        //this.players[i].score = 0;
         console.log('init PlayerScore', this.players[i], this.players[i].score);
       }
     }
@@ -61,12 +64,12 @@ export default class Game {
   playerTurn() {
     if (store.currentPlayer >= store.players.length) {
       store.currentPlayer = 0;
-      console.log('Trying to set playerindex to 0');
+      //Trying to set playerindex to 0
     }
 
-    console.log('This index is currently this.playerindex ' + store.currentPlayer);
+    console.log('store.currentPLayer: ' + store.currentPlayer);
 
-    console.log('store players length', store.players.length);
+    console.log('store.players.length: ', store.players.length);
 
     // This players turn
     this.player = store.players[store.currentPlayer];
@@ -225,11 +228,13 @@ export default class Game {
     $('.playertiles').each((i, el) => {
       let $tile = $(el);
       let p = $tile.data().prelBoardPos;
+      console.log("-----------placePrelTilesOnBoard p ==" + p)
       if (!p) { return; }
       let tileIndex = $(`#box0 > div`).index($tile);
       let tile = this.tiles[0][tileIndex];
       tile.onBoard = true;
       this.board[p.y][p.x].tile = [tile];
+      console.log("-----------placePrelTilesOnBoard tile ==" + tile)
       this.checkNewWordsOnBoard(p.y, p.x);
     });
     this.tiles[0] = this.tiles[0].filter(x => !x.onBoard);
@@ -362,15 +367,16 @@ export default class Game {
       this.placePrelTilesOnBoard();
       this.render();
 
+      let that = this;
+
       console.log('i have clicked on lägg brickor');
-      // get points for word
-      // CountScores(); ??? 
+
       if (that.wordArray.length > 0) {
         this.showWordWithList(that.wordArray)
       }
 
       if (that.wordArray.length > 0) {
-        this.countPlayerScore(that.playerIndex, that.wordArray);
+        this.countPlayerScore(store.currentPlayer, that.wordArray);
       }
       else {
         alert('Du har ingen godkänd ord');
@@ -664,7 +670,7 @@ export default class Game {
     $('.pass').remove();
     $('.change-tiles').remove();
 
-    console.log('The length of the tile bag array from show player buttons', store.tilesFromFile.length);
+    // console.log('The length of the tile bag array from show player buttons', store.tilesFromFile.length);
 
     $('.board').append(
       `
@@ -689,8 +695,7 @@ export default class Game {
         wordArray[i].scrabbleOk = false;
       }
       console.log('currentWordPoints', currentWordPoints);
-      players[playerIndex - 1].score += currentWordPoints;
-      console.log('play.score: ', players[0].score);
+      this.players[playerIndex].score += currentWordPoints;
     }
     //console.log('play.score', player.score);
     this.wordArrayCommitted = wordArray.filter(x => x.scrabbleOk === true);
@@ -707,7 +712,7 @@ export default class Game {
   async showWordFromSAOL(wordsInArray) {
     console.log('------im in countScore()------');
 
-    // console.log("wordsInArray:  ", wordsInArray);
+    console.log("wordsInArray:  ", wordsInArray);
 
     let lastWord = wordsInArray[0].word;
     console.log("last word: ----> ", lastWord)
