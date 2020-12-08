@@ -283,6 +283,8 @@ export default class Game {
 
         // KOLLA OM BRICKA SLÄPPT PÅ RACKET/STÄLLET SKA VI ÄNDRA ORDNING
 
+
+
         // if no drop zone or the square is taken then do nothing
         if (!$dropZone.length || store.board[y][x].tile) { return; }
 
