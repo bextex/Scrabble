@@ -31,15 +31,6 @@ export default class Game {
 
     this.players = [];
 
-
-
-    // this.start();
-
-    // //this.lettersFromFile();
-    // this.start();
-    // // this.changeTiles();
-    // // Set change button to disabled when starting the game
-    // $('.change-tiles').prop('disabled', true);
   }
 
   async getTiles() {
