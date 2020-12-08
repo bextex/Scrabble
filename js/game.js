@@ -305,8 +305,9 @@ export default class Game {
     $('.playing-window-left').empty();
     // showPlayers needs to be first
 
-    this.showPlayers();
+
     this.showSaolText();
+    this.showPlayers();
 
     // showAndHide cannot be done unless we have read the showPlayers method
     // this.showAndHidePlayers();
@@ -691,8 +692,8 @@ export default class Game {
       `);
       while (index < player.tiles[0].length) {
         $(`#box0`).append(`
-      <div data-index="${index}" class="playertiles ${player.tiles[0][index].char === ' ' ? 'blankTile' : ''}">${player.tiles[0][index].char}<div class="points">${player.tiles[0][index].points || ''}</div>
-    `);
+       <div data-index="${index}" class="playertiles ${player.tiles[0][index].char === ' ' ? 'blankTile' : ''}">${player.tiles[0][index].char}<div class="points">${player.tiles[0][index].points || ''}</div>
+     `);
         index++;
       }
       $('.blankTile').on('staticClick', e => {
