@@ -327,7 +327,7 @@ text-align: center;
   border: 3px solid black;
   border-radius: 3px;
   display: inline-block;
-  padding: 50px 250px 70px 20px;
+  padding: 50px 350px 100px 20px;
 
   /*#F23847*/
   background-color:  #F23847;
@@ -441,7 +441,7 @@ text-align: center;
   height: 25px;
   text-align: center;
   right: 5vh;
-  top: -1.5vh;
+  top: 0.5vh;
   position: absolute;
   font-family: 'Source Code Pro', monospace;
   font-size: 15px;
@@ -514,8 +514,8 @@ text-align: center;
   font-size: 17px;
   /* padding: 4px; */
   margin: 1px;
-  width: 4.5vh;
-  height: 4.5vh;
+  width: 4vh;
+  height: 4vh;
   padding: 0.3vh;
   background-color: #EFF2D8;
   text-align: center;
@@ -564,7 +564,7 @@ div.playing-window-left{
  /* margin-top: 30vh;
   margin-left: 1px; */
   /*84*/
-  margin-top: 95.5vh;
+  margin-top: 84vh;
   margin-left: 40vh;
   /*overflow: hidden;*/
   text-align: center;
@@ -827,7 +827,7 @@ footer input {
   top: 10vh;
   right: 3vh;
   padding-bottom: 55vh;
-   width: 40vh;
+   width: 35vh;
    border: 3px solid #A5A686;
    border-radius: 3px;
    padding-bottom: 55vh;
@@ -963,7 +963,7 @@ footer input {
   }
 
   .playing-window-left{
-    margin-top: 95vh;
+    margin-top: 84vh;
     margin-left: 40vh;
   }
 
@@ -989,7 +989,12 @@ footer input {
   }
 
    .saol{
-    font-size: 25px;
+    font-size: 20px;
+  }
+
+  .board{
+    padding-right: 350px;
+    padding-bottom: 100px;
   }
 
 }
@@ -998,11 +1003,11 @@ footer input {
 @media (min-width: 768px) and (max-width: 991.98px) { 
   /* your rules here */
     .scrabble {
-  font-size: 12vh;
+  font-size: 10vh;
   }
 
   .newPlayerInput {
-  top: -12vh;
+  margin-top: 30vh;
   font-size: 20px;
   width: 220px;
   height: 17px;
@@ -1010,7 +1015,6 @@ footer input {
 
   .game-menu button{
     left: 35%;
-    top: 40vh;
     font-size: 17px;
   }
 
@@ -1036,7 +1040,7 @@ footer input {
   }
 
   .playing-window-left{
-    margin-top: 95.5vh;
+    margin-top: 85vh;
     margin-left: 40vh;
   }
 
@@ -1057,17 +1061,154 @@ footer input {
     font-size: 17px;
   }
 
+  .board{
+    padding-bottom: 100px;
+    padding-right: 350px;
+  }
+
   
 }
 
 /* Large devices (computer screens) */
 @media (min-width: 992px) and (max-width: 1199.98px) { 
   /* your rules here */
+   .scrabble {
+  font-size: 12vh;
+  }
+
+  .playing-window-left{
+    margin-top: 84vh;
+    margin-left: 40vh;
+  }
+  .saol{
+    font-size: 30px;
+  }
+  .newPlayerInput {
+  margin-top: 35vh;
+  font-size: 20px;
+  width: 200px;
+  height: 17px;
+  }
+
+  .game-menu button{
+    left: 40%;
+    width: 20%;
+    font-size: 17px;
+  }
+
+  .start-new-game{
+    padding: 10px;
+    font-size: 17px;
+  }
+  .join{
+    width: 20%;
+    padding: 10px;
+    font-size: 17px;
+  }
+
+  .write-key{
+    font-size: 20px;
+    position: absolute;
+    top: 51%;
+    left: 50%;
+  }
+  .key-input{
+    top: 64%;
+  }
+  .rules-window .add-rules{
+    left: 20%;
+    top: 30vh;
+    font-size: 18px;
+    width: 55%;
+    height: 50vh;
+    padding: 5vh;
+  }
+  .board{
+    padding-bottom: 100px;
+    padding-right: 350px;
+  }
+
 }
 
 /* Extra large devices (bigger computer screens) */
 @media (min-width: 1200px) { 
   /* your rules here */
+   .scrabble {
+  font-size: 10vh;
+  }
+
+  .playing-window-left{
+    margin-top: 84vh;
+    margin-left: 40vh;
+  }
+  .newPlayerInput{
+    font-size: 35px;
+  }
+    .saol{
+    font-size: 30px;
+  }
+  .newPlayerInput {
+  margin-top: 35vh;
+  margin-right: 11vh;
+  font-size: 20px;
+  width: 200px;
+  height: 17px;
+  }
+
+  .game-menu button{
+    left: 40%;
+    width: 15%;
+    font-size: 17px;
+  }
+
+  .start-new-game{
+    padding: 10px;
+    font-size: 17px;
+    width: 15%;
+  }
+  .join{
+    width: 15%;
+    padding: 10px;
+    font-size: 17px;
+  }
+
+  .write-key{
+    font-size: 20px;
+    position: absolute;
+    top: 51%;
+    left: 50%;
+  }
+  .key-input{
+    top: 64%;
+  }
+  .rules-window .add-rules{
+    left: 28%;
+    top: 30vh;
+    font-size: 18px;
+    width: 40%;
+    height: 50vh;
+    padding: 5vh;
+  }
+
+  .playertiles{
+    font-size: 21px;
+  }
+  div.points{
+  font-size: 12px;
+  top: 17px;
+  right: 1.5px;
+  }
+  .playersName{
+    font-size: 17px;
+  }
+  .score{
+    font-size: 17px;
+  }
+
+  .board{
+    padding-bottom: 100px;
+  }
+
 }
 
 
