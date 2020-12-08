@@ -932,3 +932,14 @@ footer input {
    opacity: 1;
    right: 0;
 }
+
+/*Clearfix*/
+#box0:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+#box0 {
+  background-color:#aaa;
+}
