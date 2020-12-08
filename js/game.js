@@ -145,13 +145,14 @@ export default class Game {
       $(e.currentTarget).removeClass('hover')
     );
 
+    let that = this;
     // Drag-events: We only check if a tile is in place on dragEnd
     // $('.stand .tile').not('.none').draggabilly({ containment: 'body' })
     $('.playertiles').not('.none').draggabilly({ containment: 'body' })
       // Edited by TF
       .on('dragStart', e => delete $(e.currentTarget).data().prelBoardPos)
       .on('dragMove', e => this.alignPrelTilesWithSquares())
-      .on('dragEnd', e => {
+      .on('dragEnd', function (e, pointer) {
 
         // get the tile and the dropZone square
         let $tile = $(e.currentTarget);
@@ -167,60 +168,93 @@ export default class Game {
         $tile.css({ top: '', left: '' });
 
         // if no drop zone or the square is taken then do nothing
-        if (!$dropZone.length || store.board[y][x].tile) { return; }
+        if (!$dropZone.length || store.board[y][x].tile) {
+
+          // if no drop zone or the square is taken then don't try
+          // to "preplace" the tile on the board
+
+
+          // Check if the tile is inside the "rack" of tiles
+          // if so calculate if their order should be changed
+
+          /********************** NEW CODE *******************/
+
+          let { pageX, pageY } = pointer;
+          let tileIndex = +$tile.attr('data-index');
+          let tile = that.tiles[0][tileIndex];
+
+
+          let $stand = $tile.parent('#box0');
+          console.log('i am stand', $stand);
+          let { top, left } = $stand.offset();
+          let bottom = top + $stand.height();
+          console.log('my bottom is', bottom);
+          let right = left + $stand.width();
+          console.log('my right is', right);
+          // if dragged within the limit of the stand
+          console.log('i am pageX', pageX);
+          console.log('i am pageY', pageY);
+          console.log('The tile index is', tileIndex);
+          console.log('is page X bigger than left?', pageX > left);
+          console.log('is page X smaller than right?', pageX < right);
+          console.log('is page y bigger than top?', pageY > top);
+          console.log('is page y smaller than bottom?', pageY > bottom);
+          let newIndex;
+          let playerMovedAroundTiles = false;
+          if (pageX > left && pageX < right
+            && pageY > top && pageY > bottom) {
+
+            newIndex = Math.floor(8 * (pageX - left) / $stand.width());
+            console.log('My new index is', newIndex);
+            let pt = that.tiles[0];
+            let replacedTile = pt[newIndex];
+            console.log('iam player tiles', pt);
+            // move around
+            pt[newIndex] = tile;
+            pt[tileIndex] = ' ';
+
+            if (tileIndex === newIndex) {
+              $tile.css({ top: '', left: '' });
+            } else if (tileIndex > newIndex) {
+              pt.splice(newIndex + 1, 0, replacedTile);
+              playerMovedAroundTiles = true;
+            } else if (tileIndex < newIndex) {
+              pt.splice(newIndex, 0, replacedTile);
+              playerMovedAroundTiles = true;
+            }
+            pt.splice(pt.indexOf(' '), 1);
+
+            console.log(pt);
+
+            //preserve the space where the tile used to be
+            // while (pt.length > 8) { pt.splice(pt[tileIndex > newIndex ? 'indexOf' : 'lastIndexOf'](' '), 1); }
+            // that.tiles[0] = pt;
+          }
+
+          console.log('that tiles array', that.tiles[0]);
+
+          if (playerMovedAroundTiles) {
+            $('.playing-window-left').empty();
+            that.render();
+            // $tile.css({ top: '' });
+          }
+          else {
+            // move the tile back to its original position
+            $tile.css({ top: '', left: '' });
+          }
+
+          // $tile.data().prelBoardPos = { y, x };
+          // this.alignPrelTilesWithSquares();
+
+          return;
+        }
+
+        /**************** NEW CODE *******************/
 
         // store the preliminary board position with the tile div
         // (jQuery can add data to any element)
         $tile.data().prelBoardPos = { y, x };
         this.alignPrelTilesWithSquares();
-
-        //Here we create a reference to the tile and the input.
-        //console.log('tiles from board', this.board[y][x].tile);
-        /*
-        let tileChar = this.board[y][x].tile[0].char;
-        let charInput = "";
-
-        //We need to check if the tile is empty and if thats true we enter the statement.
-        if (tileChar == ' ') {
-          let alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖ';
-          let pass = false
-          //We use a do while loop to check the input of the player
-          //We set it to capitalized letters and check through the string in our forloop.
-          //If the input matches a character in the alphabet, the loop is true and it ends.
-          do {
-            let rawInput = prompt("Please enter a letter");
-            charInput = rawInput.toUpperCase();
-            for (let i = 0; i < alphabet.length; i++) {
-
-              console.log(charInput)
-              console.log(alphabet.charAt(i))
-
-              if (alphabet.charAt(i) == charInput) {
-                console.log(alphabet.charAt(i) + ' is equals to' + charInput)
-                pass = true;
-              }
-            }
-            while (!pass);
-            //Now we set the tiles character to our verified and safe input.
-            this.board[y][x].tile[0].char = charInput;
-          }
-          while (!pass);
-          //Now we set the tiles character to our verified and safe input.
-          this.board[y][x].tile[0].char = charInput;
-        }
-        */
-        //this.checkNewWordsOnBoard(y, x);
-
-        // Add the moved tile from players tile array to the boards tiles
-        //this.board[y][x].prelTile = that.tiles[0].splice(tileIndex, 1);
-
-        // When droped a tile on the board, re-render
-
-        // store.board = this.board;
-
-        //this.checkNewWordsOnBorad(y, x);
-
-        //this.render();
       });
   }
 
