@@ -585,18 +585,17 @@ div.playing-window-left{
 /****************** PASS AND PLAY TILES BUTTONS ******************/
 
 .play-tiles{
-  
   cursor: pointer;
-
-        position:absolute;
-        left: 60vh;
-        top:1vh;
-        font-family: 'Neucha', cursive;
-        font-size: 20px;
-         background-color: #EFF2D8;
-         border: 3px solid #A5A686; 
-         border-radius: 3px;
+  position: absolute;
+  left: 60vh;
+  top:1vh;
+  font-family: 'Neucha', cursive;
+  font-size: 20px;
+  background-color: #EFF2D8;
+  border: 3px solid #A5A686; 
+  border-radius: 3px;
 }
+
 .play-tiles:hover{
   font-family: 'Source Code Pro', monospace;
   font-size: large;
@@ -643,7 +642,7 @@ div.playing-window-left{
 /*********************** NEW STUFF ***********************/
 
 .is-dragging {
-  z-index: 1;
+  z-index: 100;
   margin-left: -4vh;
   margin-top: -4vh;
 }

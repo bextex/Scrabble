@@ -264,7 +264,9 @@ export default class Game {
 
     // Drag-events: We only check if a tile is in place on dragEnd
     // $('.stand .tile').not('.none').draggabilly({ containment: 'body' })
-    $('.playertiles').not('.none').draggabilly({ containment: 'body' })
+    $('.playertiles').not('.none').draggabilly({
+      containment: 'body'
+    })
       // Edited by TF
       .on('dragStart', e => delete $(e.currentTarget).data().prelBoardPos)
       .on('dragMove', e => this.alignPrelTilesWithSquares($(e.currentTarget)))
@@ -279,33 +281,6 @@ export default class Game {
         // convert to y and x coords in this.board
         let y = Math.floor(squareIndex / 15);
         let x = squareIndex % 15;
-
-        // move the tile back to the rack
-        $tile.css({ top: '', left: '' });
-
-
-        // KOLLA OM BRICKA SLÄPPT PÅ RACKET/STÄLLET SKA VI ÄNDRA ORDNING
-
-        /* let squareIndex2 = $('.playing-window-left').index($dropZone);
-         let a = Math.floor(squareIndex2 / 8);
-         let b = squareIndex2 % 8;*/
-
-
-        /* let $playingWindow = me.parent('.playing-window-left');
-         let { top, left } = $playingWindow.offset();
-         let bottom = top + $playingWindow.height();
-         let right = left + $playingWindow.width();
- 
-         if (x > left && x < right
-           && y > top && y < bottom) {
- 
-           let newIndex = Math.floor(8 * (x - left) / $playingWindow.width());
-           let pt = player.tiles;
- 
- 
-         }*/
-
-
 
         // if no drop zone or the square is taken then don't try
         // to "preplace" the tile on the board
@@ -333,24 +308,20 @@ export default class Game {
             tileCoords.right > rackCoords.left &&
             tileCoords.left < rackCoords.right
           ) {
-
-            // Now change order in rack somehow....
-            console.log("MOVED IN RACK")
-            console.log('theRack', rackCoords);
-            console.log('the dragged tile', tileCoords);
-
-            // Here is an example that always moves the tile last
-            // but we should really want to move it depending on where it is dropped
-            $('#box0').append($tile);
+            $tile.css({ top: '' }); // original y-position
+            // now how to move the tiels so that they can't overlap???
           }
-
+          else {
+            // move the tile back to its original position
+            $tile.css({ top: '', left: '' });
+          }
 
 
           this.alignPrelTilesWithSquares();
 
           return;
         }
-
+        console.log("HEJEHE")
         // store the preliminary board position with the tile div
         // (jQuery can add data to any element)
         $tile.data().prelBoardPos = { y, x };
@@ -404,11 +375,10 @@ export default class Game {
   }
 
   // added by TF
-  alignPrelTilesWithSquares(notThisTile) {
+  alignPrelTilesWithSquares() {
     // align tiles that have a prelBoardPos with correct squares
     $('.playertiles').each((i, el) => {
       let $tile = $(el);
-      if ($tile.eq(notThisTile)) { return; }
       let p = $tile.data().prelBoardPos;
       if (!p) { return; }
       let $square = $('.board > div').eq(p.y * 15 + p.x);
