@@ -419,7 +419,7 @@ export default class Game {
     if (store.players.indexOf(this.name) === store.currentPlayer) {
       $('.not-your-turn').remove();
     } else {
-      $('body').append(`<div class="not-your-turn">Vänta på din tur</div>`);
+      $('.playing-window').append(`<div class="not-your-turn"><p>${this.player} spelar just nu...</p></div>`);
 
     }
 
@@ -492,7 +492,6 @@ export default class Game {
           p = '';
         }
       });
-
 
       store.currentPlayer++;
       console.log('Changing player index', store.currentPlayer);

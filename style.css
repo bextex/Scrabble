@@ -810,10 +810,19 @@ footer input {
   left: 0;
   right: 0;
   background-color: rgba(161, 161, 161, 0.431);
-  color: white;
-  font-size: 100px;
-  text-align: center;
+  text-align: left;
   z-index: 1000;
+}
+
+.not-your-turn > p{
+  font-family: 'Source Code Pro', monospace;
+  font-size: 50px;
+  color: white;
+  background-color: #EFF2D8;
+  border: 2px solid #A5A686; 
+  border-radius: 3px;
+  padding: 15px;
+  padding-left: 20px;
 }
 
 /****** SAOL *******/

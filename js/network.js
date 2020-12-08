@@ -159,59 +159,10 @@ export default class Network {
       game.render();
     }
 
-    // game.board = s.board;
-    // game.tilesFromBag = s.tilesFromBag;
-    // game.tiles = s.tiles;
-    // game.tilesFromBag = s.tilesFromBag;
-    // if (!$('.waiting-box').length) {
-    //   s.game.render();
-    // }
-
-
-
-
-
-
-
-    // if (s.currentPlayerName !== name) {
-    //   $('.playing-window').append(`<div class="not-your-turn">${s.playerName}'s tur</div>`)
-    // } else {
-    //   $('.not-your-turn').remove();
-
-
-    // }
-
-
-
-
-    // } else {
-    //   if (that.playerIndexInNetwork !== s.currentPlayer) {
-    //     $('.playing-window').append(`<div class="not-your-turn">${s.playerName}'s tur</div>`)
-    //   } else {
-    //     $('.not-your-turn').remove();
-    //   }
-    //   game.render();
-    // }
-
-    // if (s.currentPlayer !== this.playerIndexInNetwork) {
-    //   $('.playing-window-left').append(`<div class="not-your-turn">Vänta på att spelet ska starta</div>`);
-    // } else {
-    //   $('.not-your-turn').remove();
-    // }
-
-
   }
 
 
 
-  // game.render();
-  // this.render();
-
-
-  render(game) {
-    console.log('im tryina render');
-    return game.render();
-  }
 
   // async start() {
   //   // Get the localStore (the object that survives between page loads)
