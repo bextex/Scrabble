@@ -68,8 +68,8 @@ export default class Game {
       if (playerName === store.players[i]) {
         this.players.push(new Player(store.players[i], ([...this.tilesFromBag.splice(0, 7)])));
         ///Initialize player score
-        this.players[i].score = 0;
-        console.log('init PlayerScore', this.players[i], this.players[i].score);
+        this.players[0].score = 0;
+        console.log('init PlayerScore', this.players[0], this.players[0].score);
       }
     }
 
@@ -80,6 +80,8 @@ export default class Game {
     this.showPlayerButtons();
     // Set change button to disabled when starting the game
     $('.change-tiles').prop('disabled', true);
+
+    this.buttonEvents();
 
 
 
@@ -481,6 +483,16 @@ export default class Game {
     // When click on 'Stå över'-button, there will be a new player and the board will render
     $('.pass').on('click', () => {
       console.log('i have clicked on pass button');
+
+      $('.playertiles').each((i, el) => {
+        let $tile = $(el);
+        let p = $tile.data().prelBoardPos;
+        if (p) {
+          console.log('There is tiles when I clicked the pass button');
+          p = '';
+        }
+      });
+
 
       store.currentPlayer++;
       console.log('Changing player index', store.currentPlayer);
