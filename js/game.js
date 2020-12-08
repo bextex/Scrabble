@@ -243,6 +243,8 @@ export default class Game {
     this.render();
   }
 
+
+
   addEvents() {
     console.log('Im in addEvents');
 
@@ -261,6 +263,8 @@ export default class Game {
     );
 
 
+    /*--------------------STARTED HERE-----------------*/
+    // Move tiles on tilesboard
 
     // Drag-events: We only check if a tile is in place on dragEnd
     // $('.stand .tile').not('.none').draggabilly({ containment: 'body' })
@@ -393,6 +397,8 @@ export default class Game {
       $tile.css(pos);
     });
   }
+  // MOVE 
+  /*--------ENDED HERE--------------*/
 
   // added by TF
   placePrelTilesOnBoard() {
