@@ -283,6 +283,10 @@ export default class Game {
 
         // KOLLA OM BRICKA SLÄPPT PÅ RACKET/STÄLLET SKA VI ÄNDRA ORDNING
 
+        let $stand = me.parent('.playing-window-left');
+        let { top, left } = $stand.offset();
+        let bottom = top + $stand.height();
+        let right = left + $stand.width();
 
 
         // if no drop zone or the square is taken then do nothing
@@ -297,7 +301,7 @@ export default class Game {
         //console.log('tiles from board', this.board[y][x].tile);
         /*let tileChar = this.board[y][x].tile[0].char;
         let charInput = "";
-
+ 
         //We need to check if the tile is empty and if thats true we enter the statement.
         if (tileChar == ' ') {
           let alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖ';
@@ -309,10 +313,10 @@ export default class Game {
             let rawInput = prompt("Please enter a letter");
             charInput = rawInput.toUpperCase();
             for (let i = 0; i < alphabet.length; i++) {
-
+ 
               console.log(charInput)
               console.log(alphabet.charAt(i))
-
+ 
               if (alphabet.charAt(i) == charInput) {
                 console.log(alphabet.charAt(i) + ' is equals to' + charInput)
                 pass = true;
