@@ -743,15 +743,35 @@ export default class Game {
       $('.blankTile').on('staticClick', e => {
         let me = $(e.currentTarget);
         let index = +me.attr('data-index');
+        let alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖ';
+        let pass = false;
         let char = '';
+        //We use a do while loop to check the input of the player
+        //We set it to capitalized letters and check through the string in our forloop.
+        //If the input matches a character in the alphabet, the loop is true and it ends.
+        do {
+          char = prompt('Skriv in en bokstav eller tryck avbryt för att byta bricka');
+          if (char === null) {
+            me.dblclick();
+            return;
+          }
 
-        char = prompt('Skriv in en bokstav eller tryck avbryt för att byta bricka');
-        if (char === null) {
-          me.dblclick();
-          return;
+          for (let i = 0; i < alphabet.length; i++) {
+
+            console.log(char)
+            console.log(alphabet.charAt(i))
+
+            if (alphabet.charAt(i) == char) {
+              console.log(alphabet.charAt(i) + ' is equals to' + char)
+              player.tiles[0][index].char = char;
+              pass = true;
+
+            }
+          }
         }
+        while (!pass);
+        //Now we set the tiles character to our verified and safe input.
 
-        player.tiles[0][index].char = char;
         console.log(player.tiles)
         me.html(char)
 
