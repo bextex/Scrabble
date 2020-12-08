@@ -215,17 +215,15 @@ export default class Game {
             // move the tile back to its original position
             $tile.css({ top: '', left: '' });
           }
-
           // $tile.data().prelBoardPos = { y, x };
           // this.alignPrelTilesWithSquares();
-
           return;
         }
 
         // store the preliminary board position with the tile div
         // (jQuery can add data to any element)
         $tile.data().prelBoardPos = { y, x };
-        this.alignPrelTilesWithSquares();
+        that.alignPrelTilesWithSquares();
       });
   }
 
