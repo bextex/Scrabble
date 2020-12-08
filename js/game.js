@@ -254,7 +254,7 @@ export default class Game {
       let tile = this.tiles[0][tileIndex];
       tile.onBoard = true;
       this.board[p.y][p.x].tile = [tile];
-      this.checkNewWordsOnBoard(p.y, p.x);
+      //  this.checkNewWordsOnBoard(p.y, p.x);
     });
     this.tiles[0] = this.tiles[0].filter(x => !x.onBoard);
   }
@@ -390,7 +390,8 @@ export default class Game {
 
       console.log('Changing player index', store.currentPlayer);
 
-      this.checkNewWordsOnBoard(y, x);
+      // this.checkNewWordsOnBoard(y, x);
+      this.checkNewWordsOnBoard();
       // get points for word
       // CountScores(); ??? 
 
@@ -481,16 +482,14 @@ export default class Game {
 
   }
 
-  checkNewWordsOnBoard(y, x) {
+  checkNewWordsOnBoard() {
     let wordH = [];  //to save  all the infromation on the horisontal 
     let wordV = [];  //to save all the infromation on the vertical 
     let wordArray = [];  //to save the final word array(word,points,extra points word times) 
     let c = ''; //temp variable to save this.board[i][j].tile[0].char
     let p = 0;  //temp variable to save this.board[i][j].tile[0].points;
     let s = ''; //temp variableto save this.board[i][j].special
-
-    console.log('y: ' + y);
-    console.log('x: ' + x);
+    console.log('I am in checkNewWordsOnBoard');
     // CHECK HORISONTAL
     for (let i = 0; i < this.board.length; i++) {
       // CHECK VERTICAL
