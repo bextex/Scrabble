@@ -46,13 +46,6 @@ export default class Game {
     this.tilesFromBag = store.tilesFromFile;
   }
 
-  // get playerIndex() { return store.currentPlayer; }
-
-  // set playerIndex(x) { store.currentPlayer = x; }
-
-
-
-
   /* Starting up the game with start() to set how's the first player */
 
   start(playerName) {
@@ -80,139 +73,7 @@ export default class Game {
     this.showPlayerButtons();
     // Set change button to disabled when starting the game
     $('.change-tiles').prop('disabled', true);
-
-
-
-
-    // When click on 'Stå över'-button, there will be a new player and the board will render
-    $('.pass').on('click', () => {
-      console.log('i have clicked on pass button');
-
-      store.currentPlayer++;
-      console.log('Changing player index', store.currentPlayer);
-
-      // this.board = store.board;
-      // this.tilesFromBag = store.tilesFromFile;
-
-      this.playerTurn();
-      this.render();
-      this.changeTiles();
-    });
-
-    // When click on 'Lägg brickor'-button, there will be a new player and the board will render
-    // Shoul also count score on word
-    $('.play-tiles').on('click', () => {
-
-      // TF comments:
-
-      // only a valid move if not first move or center is taken
-      if (!this.notFirstMoveOrCenterIsTaken()) {
-        this.render();
-        return;
-
-      }
-
-      this.placePrelTilesOnBoard();
-      this.render();
-
-      console.log('i have clicked on lägg brickor');
-      // get points for word
-      // CountScores(); ??? 
-      console.log('i have clicked on lägg brickor');
-      // get points for word
-      console.log('play tile on click  wordArray ', that.wordArray);
-      /*
-      if (that.wordArray.length > 0) {
-        this.showWordWithList(that.wordArray)
-      }
-      */
-
-      if (that.wordArray.length > 0) {
-        this.countPlayerScore(that.playerIndex, that.wordArray);
-      }
-      else {
-        alert('Du har ingen godkänd ord');
-        return;
-      }
-
-      store.currentPlayer++;
-      console.log('Changing player index', store.currentPlayer);
-
-      // this.board = store.board;
-      // this.tilesFromBag = store.tilesFromFile;
-
-      this.playerTurn();
-      this.render();
-      this.changeTiles();
-    });
-
-    // To change tiles, locate what tile wants to be changed and change them to new tiles from bag. 
-    // Put back the tiles that wants to be changed and scramble the bag
-    let that = this;
-    $('.change-tiles').on('click', () => {
-      if (that.tilesFromBag.length < 7) {
-        console.log('there are 7 or less tiles in bag');
-        alert('there are 7 or less tiles in bag');
-        // Put a div and message here instead
-      }
-      // How many tiles the player wants to remove
-      let numberOfTiles = 0;
-      // Loop through the current players player tiles div
-      // $(`#box${players.indexOf(players[this.playerIndex - 1])} > div`).each(function () {
-      $(`#box0 > div`).each(function () {
-        // If the current div have the class 'change'
-        console.log('Does this div have change class?', $(this).hasClass('change'));
-        if ($(this).hasClass('change')) {
-          // What index does the div with the 'change' class have
-
-          let indexOfTile = $('.change').index();
-          console.log('Index of the tile that wants to change', indexOfTile);
-          // What text value does the current div have (we need to know the letter)
-          let letterWithPoint = $(this).text();
-          console.log('The whole text from div that wants to change', letterWithPoint);
-          // Remove the point that follows when asking for text()
-          let letterWithoutPoint = letterWithPoint[0];
-          console.log('The letter', letterWithoutPoint);
-          // Increase numberOfTiles so we now how many new tiles we need at the end
-          numberOfTiles++;
-          console.log('How many tiles do you wanna change?', numberOfTiles);
-
-          // ---------------- CHECK THIS METHOD!!! NOT WORKING
-
-          // Loop through the players tiles
-          that.tiles.forEach(tile => {
-            // When we come across the players tiles that match the marked tile
-            if (tile.char === letterWithoutPoint) {
-              // Remove that tile using the indexOfTile
-              that.tiles.splice(indexOfTile, 1);
-              // Push the players removed(changed) tiles back to tilesFromBag
-              that.tilesFromBag.push(tile);
-            }
-          });
-        }
-      });
-      // This is the same as for player when they need new tiles
-      // Remove the number of tiles from tilesFromBag 
-      let newTiles = [...that.tilesFromBag.splice(0, numberOfTiles)];
-      // push the new tiles to the players current tiles
-      for (let i = 0; i < numberOfTiles; i++) {
-        that.tiles.push(newTiles[i]);
-      }
-      // 'Shake the bag'
-      that.tilesFromBag.sort(() => Math.random() - 0.5);
-      // Change player (since changing tiles is a move) and re-render
-
-      store.currentPlayer++;
-      console.log('Changing player index', store.currentPlayer);
-
-      // this.board = store.board;
-      // this.tilesFromBag = store.tilesFromFile;
-
-      this.playerTurn();
-      this.render();
-      this.changeTiles();
-    });
-
+    this.buttonEvents();
   }
 
 
@@ -348,7 +209,7 @@ export default class Game {
           this.board[y][x].tile[0].char = charInput;
         }
         */
-        this.checkNewWordsOnBoard(y, x);
+        //this.checkNewWordsOnBoard(y, x);
 
         // Add the moved tile from players tile array to the boards tiles
         //this.board[y][x].prelTile = that.tiles[0].splice(tileIndex, 1);
@@ -526,11 +387,16 @@ export default class Game {
       this.render();
 
       console.log('i have clicked on lägg brickor');
+
+      console.log('Changing player index', store.currentPlayer);
+
+      this.checkNewWordsOnBoard(y, x);
       // get points for word
       // CountScores(); ??? 
-      if (this.wordArray.length > 0) {
-        this.showWordWithList(this.wordArray)
-      }
+
+      //if (this.wordArray.length > 0) {
+      //  this.showWordWithList(this.wordArray)
+      //}
 
       if (this.wordArray.length > 0) {
         this.countPlayerScore(store.players.indexOf(this.name), this.wordArray);
@@ -540,22 +406,9 @@ export default class Game {
         alert('Du har ingen godkänd ord');
         return;
       }
-      /*
-      if (that.wordArray.length > 0) {
-        this.showWordWithList(that.wordArray)
-      }
-
-      if (that.wordArray.length > 0) {
-        this.countPlayerScore(that.playerIndex, that.wordArray);
-      }
-      else {
-        alert('Du har ingen godkänd ord');
-        return;
-      }
-      */
 
       store.currentPlayer++;
-      console.log('Changing player index', store.currentPlayer);
+
 
       // this.board = store.board;
       // this.tilesFromBag = store.tilesFromFile;
@@ -784,9 +637,11 @@ export default class Game {
 
 
     this.wordArray = wordArray;
+    /*
     if (wordArray.length > 0) {
-      this.countScore(wordArray);
+      this.countPlayerScore(wordArray);
     }
+    */
   }
 
   createBoard() {
@@ -893,6 +748,7 @@ export default class Game {
     console.log('I am in countPlayerScore, wordArray: ', wordArray);
     console.log('I am in countPlayerScore, player: ', playerIndex);
     for (let i = 0; i < wordArray.length; i++) {
+      console.log('I am in countPlayerScore, wordArray[i].word: ', wordArray[i].word);
       if (await SAOLchecker.scrabbleOk(wordArray[i].word)) {
         // currentWordPoints = wordArray[i].points * wordArray[i].multiple;
         currentWordPoints = wordArray[i].totalPoints;
