@@ -1286,3 +1286,21 @@ footer input {
   right: 0;
   font-size: 10vh;
 } */
+/****** Words List *******/
+table,th,td
+	{
+    top: 200px;
+    width: 100px;
+    right: 2vh;
+    font-family: Verdana;
+		border-collapse:collapse;
+		border:5px solid darkgrey;
+    padding:10px;
+    font-size: 20px;
+    top: 10vh;
+    right: 2vh;
+	}
+	
+th {
+	 background-color: yellow;
+   }
