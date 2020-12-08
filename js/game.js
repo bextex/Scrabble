@@ -118,6 +118,22 @@ export default class Game {
       console.log('i have clicked on lägg brickor');
       // get points for word
       // CountScores(); ??? 
+      console.log('i have clicked on lägg brickor');
+      // get points for word
+      console.log('play tile on click  wordArray ', that.wordArray);
+      /*
+      if (that.wordArray.length > 0) {
+        this.showWordWithList(that.wordArray)
+      }
+      */
+
+      if (that.wordArray.length > 0) {
+        this.countPlayerScore(that.playerIndex, that.wordArray);
+      }
+      else {
+        alert('Du har ingen godkänd ord');
+        return;
+      }
 
       store.currentPlayer++;
       console.log('Changing player index', store.currentPlayer);
@@ -299,7 +315,8 @@ export default class Game {
 
         //Here we create a reference to the tile and the input.
         //console.log('tiles from board', this.board[y][x].tile);
-        /*let tileChar = this.board[y][x].tile[0].char;
+        /*
+        let tileChar = this.board[y][x].tile[0].char;
         let charInput = "";
 
         //We need to check if the tile is empty and if thats true we enter the statement.
@@ -329,7 +346,8 @@ export default class Game {
           while (!pass);
           //Now we set the tiles character to our verified and safe input.
           this.board[y][x].tile[0].char = charInput;
-        }*/
+        }
+        */
         this.checkNewWordsOnBoard(y, x);
 
         // Add the moved tile from players tile array to the boards tiles
@@ -620,7 +638,6 @@ export default class Game {
 
     console.log('y: ' + y);
     console.log('x: ' + x);
-
     // CHECK HORISONTAL
     for (let i = 0; i < this.board.length; i++) {
       // CHECK VERTICAL
@@ -794,14 +811,13 @@ export default class Game {
     return this.board;
   }
 
-
   showPlayers() {
     this.players.forEach(player => {
       let index = 0
       $('.playing-window-left').append(`
       <div class="playerWrapper">
       <div class="playername">${player.name}</div>
-      <div class="score">Poäng :<div id="score${this.players.indexOf(player)}"></div></div>
+      <div <p class= "score">Poäng : ${player.score}</p></div>       
       </div>
       <div class="tiles-box"><div id="box${this.players.indexOf(player)}"></div></div>
       `);
