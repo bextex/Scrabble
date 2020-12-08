@@ -573,6 +573,7 @@ export default class Game {
     //YUNYAN's code:
     //Compare the new words of this time and the words that have committed before
     //If there are som same position's words then remove from the wordArray.
+    console.log("wordArray before commit method: ", wordArray)
     if (this.wordArrayCommitted.length > 0) {
       for (let oldItem of this.wordArrayCommitted) {
         let lastIndexOfPosition = oldItem.position.length - 1;
@@ -587,10 +588,11 @@ export default class Game {
           wordArray.splice(newItemIndex, 1)
         }
       }
-      this.wordArray = wordArray;
+      //this.wordArray = wordArray;
     } else {
       this.wordArray = wordArray;
     }
+    this.wordArray = wordArray;
     console.log('wordArray after delete old item:', wordArray);
     console.log('this.wordArrayCommitted:', this.wordArrayCommitted);
   }
@@ -677,17 +679,19 @@ export default class Game {
   }
   // This function to count the player's score
   async countPlayerScore(playerIndex) {
-
     console.log('4. --- countPLayerScore() ---')
-
     let currentWordPoints = 0;
     console.log('I am in countPlayerScore, wordArray: ', this.wordArray);
     for (let i = 0; i < this.wordArray.length; i++) {
       currentWordPoints = this.wordArray[i].points * this.wordArray[i].multiple;
+      //currentWordPoints = this.wordArray[i].totalPoints;
+      this.wordArray[i].scrabbleOk = true;
+      console.log('currentWordPoints', currentWordPoints);
       players[playerIndex - 1].score += currentWordPoints;
-
     }
-    console.log(players[playerIndex - 1].name + " score: " + players[playerIndex - 1].score)
+    console.log('play.score: ', players[playerIndex - 1].score);
+    this.wordArrayCommitted = this.wordArray.filter(x => x.scrabbleOk === true);
+    console.log('I am in countPlayerScore() wordArray committed', this.wordArrayCommitted);
   }
 
   showSaolText() {
