@@ -71,7 +71,7 @@ export default class Game {
       console.log(".play-tiles triggered" + "\n".repeat(5))
 
       // read words on board and push to wordArray[]
-      this.checkNewWordsOnBorad();
+      this.checkNewWordsOnBoard();
       this.checkNewWordsInSAOL();
       // this.countPlayerScore(this.playerIndex);
       // this.nextPlayer();
@@ -398,7 +398,167 @@ export default class Game {
 
   }
 
-  checkNewWordsOnBorad() {
+  //new checkNew..
+  checkNewWordsOnBoard() {
+    console.log('2. --- checkNewWordsOnBoard ---')
+    let wordH = [];  //to save  all the infromation on the horisontal 
+    let wordV = [];  //to save all the infromation on the vertical 
+    let wordArray = [];  //to save the final word array(word,points,extra points word times) 
+    let c = ''; //temp variable to save this.board[i][j].tile[0].char
+    let p = 0;  //temp variable to save this.board[i][j].tile[0].points;
+    let s = ''; //temp variableto save this.board[i][j].special
+    // CHECK HORISONTAL
+    for (let i = 0; i < this.board.length; i++) {
+      // CHECK VERTICAL
+      for (let j = 0; j < this.board[i].length; j++) {
+        // If we come across a board square that has a tile on it 
+        if (this.board[i][j].tile) {
+          // if (i === y && j === x) {
+          // First check if we have another tile above/below AND side/side
+          // Add the letter to both vertical and horisontal word  
+          if ((this.board[i + 1][j].tile || this.board[i - 1][j].tile) && (this.board[i][j + 1].tile || this.board[i][j - 1].tile)) {
+            c = this.board[i][j].tile[0].char;
+            p = this.board[i][j].tile[0].points;
+            s = this.board[i][j].special;
+            wordV.push({ x: i, y: j, char: c, points: p, special: s });
+            wordH.push({ x: i, y: j, char: c, points: p, special: s });
+            // If we only have a tile above/below, add the letter to vertical word
+          } else if (this.board[i + 1][j].tile || this.board[i - 1][j].tile) {
+            c = this.board[i][j].tile[0].char;
+            p = this.board[i][j].tile[0].points;
+            s = this.board[i][j].special;
+            wordV.push({ x: i, y: j, char: c, points: p, special: s });
+            // If we only have a tile side/side, add the letter to horisontal word
+          } else if (this.board[i][j + 1].tile || this.board[i][j - 1].tile) {
+            c = this.board[i][j].tile[0].char;
+            p = this.board[i][j].tile[0].points;
+            s = this.board[i][j].special;
+            wordH.push({ x: i, y: j, char: c, points: p, special: s });
+            // If we have a tile but no other tile beside us, add to both vertical and horisontal word
+            // This will only be at the start of game, when the first tile is placed
+          } else {
+            c = this.board[i][j].tile[0].char;
+            p = this.board[i][j].tile[0].points;
+            s = this.board[i][j].special;
+            wordV.push({ x: i, y: j, char: c, points: p, special: s });
+            wordH.push({ x: i, y: j, char: c, points: p, special: s });
+          }
+        }
+      }
+    }
+    wordV.sort((a, b) => a.y > b.y ? -1 : 1);//sort by value of y from small to big
+    wordH.sort((a, b) => a.x > b.x ? -1 : 1);//sort by value of x from small to big
+    console.log('vertical wordV: ', wordV);
+    console.log('horisontal wordH: ', wordH);
+
+    //Collect all the letters from same column and made it up to en word. 
+    //Calulate the points of word even if it has extra points(2x letters,3x letters). 
+    //save the words multiple times  if it has extra points(2x word,3x word). 
+    if (wordV.length > 1) {
+      let word = '';
+      let points = 0;
+      let multiple = 1;
+      let position = [];
+      let totalPoints = 0;
+      for (let i = 0; i < wordV.length; i++) {
+        if (((i < wordV.length - 1) && (wordV[i].y === wordV[i + 1].y)) || ((i > 0) && (wordV[i].y === wordV[i - 1].y))) {
+          word += wordV[i].char;
+          position.push({ x: wordV[i].x, y: wordV[i].y });
+          if (wordV[i].special) {
+            if ((wordV[i].special) === '2xLS') { points += 2 * wordV[i].points }
+            else if ((wordV[i].special) === '3xLS') { points += 3 * wordV[i].points }
+            else if ((wordV[i].special) === '2xLW') { multiple *= 2 }
+            else if ((wordV[i].special) === '3xLW') { multiple *= 3 }
+            else points += wordV[i].points;
+          }
+          else {
+            points += wordV[i].points;
+          }
+        }
+        //if it is another column then save the word to wordArray. Initialize variables in order to save the new words.
+        if ((i === wordV.length - 1) || (wordV[i].y !== wordV[i + 1].y)) {
+          totalPoints = multiple * points;
+          wordArray.push({ word: word, points: points, multiple: multiple, position: position, totalPoints: totalPoints })
+          word = '';
+          points = 0;
+          multiple = 1;
+          position = [];
+          totalPoints = 0;
+        }
+
+      }
+      console.log('the words currently on board:', wordArray);
+    }
+    //Collect all the letters from same row and made it up to en word. 
+    //Calulate the points of word even if it has extra points(2x letters,3x letters). 
+    //save the words multiple times  if it has extra points(2x word,3x word). 
+    if (wordH.length > 1) {
+      let word = '';
+      let points = 0;
+      let multiple = 1;
+      let position = [];
+      let totalPoints = 0;
+      for (let i = 0; i < wordH.length; i++) {
+        if (((i < wordH.length - 1) && (wordH[i].x === wordH[i + 1].x)) || ((i > 0) && (wordH[i].x === wordH[i - 1].x))) {
+          word += wordH[i].char;
+          position.push({ x: wordH[i].x, y: wordH[i].y });
+          if (wordH[i].special) {
+            if ((wordH[i].special) === '2xLS') { points += 2 * wordH[i].points }
+            else if ((wordH[i].special) === '3xLS') { points += 3 * wordH[i].points }
+            else if ((wordH[i].special) === '2xLW') { multiple *= 2 }
+            else if ((wordH[i].special) === '3xLW') { multiple *= 3 }
+            else points += wordH[i].points;
+          }
+          else {
+            points += wordH[i].points;
+          }
+        }
+        //if it is another row then save the word to wordArray. Initialize variables in order to save the new words.
+        if ((i === wordH.length - 1) || (wordH[i].x !== wordH[i + 1].x)) {
+          totalPoints = multiple * points;
+          wordArray.push({ word: word, points: points, multiple: multiple, position: position, totalPoints: totalPoints })
+          word = '';
+          points = 0;
+          multiple = 1;
+          position = [];
+          totalPoints = 0;
+        }
+      }
+    }
+
+    for (let objWord of wordArray) {
+      console.log("wordArray before commit method: ", objWord)
+    }
+
+    //console.log('print this.wordArrayCommitted', this.wordArrayCommitted);
+    //let wordArrayCopy = wordArray.slice();
+    //console.log('print wordArrayCopy', wordArrayCopy);
+
+    //Compare the new words of this time and the wors that have committed before
+    //If there are som same position's words then remove from the wordArray.
+    if (this.wordArrayCommitted.length > 0) {
+      for (let oldItem of this.wordArrayCommitted) {
+        let lastIndexOfPosition = oldItem.position.length - 1;
+        let newItemIndex = wordArray.findIndex
+          (newItem => ((newItem.position[0].x === oldItem.position[0].x) && (newItem.position[0].y === oldItem.position[0].y))
+            && ((newItem.position[newItem.position.length - 1].x === oldItem.position[lastIndexOfPosition].x)
+              && (newItem.position[newItem.position.length - 1].y === oldItem.position[lastIndexOfPosition].y))
+          )
+        //if newItemIndex is -1 that mean there is no match data. 
+        //If we don't have code "if (newItemIndex !== -1)" then it will delete the last element of wordArray.
+        if (newItemIndex !== -1) {
+          wordArray.splice(newItemIndex, 1)
+        }
+      }
+    } else {
+      this.wordArray = wordArray;
+    }
+    this.wordArray = wordArray;
+    console.log('wordArray after delete old item:', wordArray);
+    console.log('this.wordArrayCommitted:', this.wordArrayCommitted);
+  }
+
+  checkNewWordsOnBoardOLD() {
 
     console.log('2. --- checkNewWordsOnBoard ---')
 
