@@ -532,7 +532,7 @@ export default class Game {
       console.log('horisontal wordH: ', wordH);
 
       console.log('the words currently on board:', wordArray);
-      debugger;
+
     }
 
     // console.log('print this.wordArrayCommitted', this.wordArrayCommitted);
