@@ -533,6 +533,7 @@ export default class Game {
 
       console.log('the words currently on board:', wordArray);
 
+
     }
 
     // console.log('print this.wordArrayCommitted', this.wordArrayCommitted);
@@ -556,8 +557,25 @@ export default class Game {
     compare local wordArray to this.Array and only add words which 
     if(wordArray[i].played !== 'oldWord')
     */
-    this.wordArray = wordArray;
+    console.log("this.wordArray: ", this.wordArray)
+    console.log("wordArray: ", wordArray)
 
+
+
+    // Find if the array contains an object by comparing the property value
+    if (wordArray.length > 0) {
+      for (let i = 0; i < wordArray.length; i++) {
+        if (this.wordArray.some(obj => obj.word === wordArray[i].word)) {
+          alert("Object found inside the array.");
+        } else {
+          alert("Object not found.");
+        }
+      }
+    } else {
+      this.wordArray = wordArray;
+    }
+
+    debugger;
   }
 
   // commitPlayedWords() {
