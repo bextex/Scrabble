@@ -9,18 +9,16 @@ body{
   background-color: #fafafa;
   text-align: center;
    animation: color 6s linear ;
-
- 
 }
 
 
  #candy {
 	 overflow: hidden;
 	 display: flex;
-	 opacity: 0;
+   opacity: 0;
+   height: 300px;
+   width: 100px;
 	 margin: calc(50vh - 150px) auto 0 auto;
-	 width: 100px;
-	 height: 300px;
 	 border-radius: 100px;
 	 border-bottom-left-radius: 0px;
 	 border-bottom-right-radius: 0px;
@@ -30,18 +28,17 @@ body{
 	 animation: PARTY 6s cubic-bezier(0.87, -0.41, 0.19, 1.44);
 }
 
-
  #candy-loader {
-	 height: 100%;
-	 width: 100%;
-	 z-index: 1;
+	 content: "";
+	 background-color: #fafafa;
+	 width: 50px;
+	 height: 270px;
+	 border-radius: 50px;
+	 border-bottom-left-radius: 0px;
+	 border-bottom-right-radius: 0px;
 	 display: flex;
-	 align-items: center;
 	 align-self: flex-end;
-	 box-shadow: 0px 0px 10px rgba(255, 50, 0, 0.8) inset;
-	 background: #d33144;
-	 background: repeating-linear-gradient(45deg, #ffe, #ffe 15px, #d33144 15px, #d33144 30px);
-   animation: load 6s ease-in;
+   animation: color 6s linear;
 }
  #candy-loader::after {
 	 content: "";
@@ -128,20 +125,20 @@ ul {
 }
 
 .scrabble {
- font-family: 'Stalinist One', cursive;
- position: absolute;
- font-size: 10vh;
- text-align: center;
- color: #F23847;
- text-shadow: 3px 3px rgb(42, 30, 24);
- animation-name: move;
- animation-duration: 6s; 
- cursor: default;
- margin-left: auto;
- margin-top: auto;
- top:10vh;
- left: 0;
- right: 0;
+  font-family: 'Stalinist One', cursive;
+  position: absolute;
+  text-align: center;
+  color: #F23847;
+  text-shadow: 3px 3px rgb(42, 30, 24);
+  animation-name: move;
+  animation-duration: 6s; 
+  cursor: default;
+  margin-left: auto;
+  margin-top: auto; 
+  top:10vh;
+  left: 0;
+  right: 0;
+  font-size: 10vh;
 }
 
 @keyframes move {
@@ -929,3 +926,166 @@ footer input {
    opacity: 1;
    right: 0;
 }
+
+/**************************** CSS STUFF FROM ORIGIN ********************/
+
+#candy{
+  height: 300px;
+   width: 100px;
+	 margin: calc(50vh - 150px) auto 0 auto;
+}
+
+ #candy-loader {
+	 height: 100%;
+	 width: 100%;
+  }
+  #candy-loader::after {
+    width: 50px;
+	 height: 270px;
+	 border-radius: 50px;
+  }
+  #candy-loader::before {
+    width: 25px;
+    height: 210px;
+  }
+  .scrabble{
+    top:5vh;
+    left: 10vh;
+    right: 0;
+    font-size: 1px;
+    margin-left: 50px;
+    margin-top: 100px;
+  }
+  .gamecontainer{
+    width: 320px;
+    height: 400px;
+  }
+
+/* Small devices (landscape mode phones) */
+@media (min-width: 576px) and (max-width: 767.98) { 
+  /* your rules here */
+  #candy{
+    width: 50px;
+	  height: 150px;
+  }
+  #candy-loader {
+	 height: 50%;
+	 width: 50%;
+  }
+  #candy-loader::after {
+    width: 50px;
+    height: 150px;
+    border-radius: 50px;
+  }
+  #candy-loader::before {
+    width: 25px;
+    height: 210px;
+  }
+  .scrabble{
+    top:5vh;
+    left: 10vh;
+    right: 0;
+    font-size: 1vh;
+    margin-left: 50px;
+    margin-top: 100px;
+  }
+  .gamecontainer{
+    width: 500px;
+    height: 400px;
+  }
+
+
+  
+ 
+}
+
+/* Medium devices (portrait mode  tablets) */
+@media (min-width: 768px) and (max-width: 991.98) { 
+  /* your rules here */
+}
+
+/* Large devices (computer screens) */
+@media (min-width: 992px) and (max-width: 1199.98px) { 
+  /* your rules here */
+}
+
+/* Extra large devices (bigger computer screens) */
+@media (min-width: 1200px) { 
+  /* your rules here */
+}
+
+
+/* 
+#candy {
+	 overflow: hidden;
+	 display: flex;
+   opacity: 0;
+   height: 300px;
+   width: 100px;
+	 margin: calc(50vh - 150px) auto 0 auto;
+	 border-radius: 100px;
+	 border-bottom-left-radius: 0px;
+	 border-bottom-right-radius: 0px;
+	 background-color: #fafafa;
+	 box-shadow: 40px 20px 15px -30px rgba(255, 0, 0, 0.1);
+	 transform: rotate(90deg);
+	 animation: PARTY 6s cubic-bezier(0.87, -0.41, 0.19, 1.44);
+}
+
+ #candy-loader {
+	 height: 100%;
+	 width: 100%;
+	 z-index: 1;
+	 display: flex;
+	 align-items: center;
+	 align-self: flex-end;
+	 box-shadow: 0px 0px 10px rgba(255, 50, 0, 0.8) inset;
+	 background: #d33144;
+	 background: repeating-linear-gradient(45deg, #ffe, #ffe 15px, #d33144 15px, #d33144 30px);
+   animation: load 6s ease-in;
+}
+ #candy-loader::after {
+	 content: "";
+	 background-color: #fafafa;
+	 width: 50px;
+	 height: 270px;
+	 border-radius: 50px;
+	 border-bottom-left-radius: 0px;
+	 border-bottom-right-radius: 0px;
+	 display: flex;
+	 align-self: flex-end;
+   animation: color 6s linear;
+}
+ #candy-loader::before {
+	 content: "";
+	 background-color: #fafafa;
+	 width: 25px;
+	 height: 210px;
+	 display: flex;
+	 align-self: flex-end;
+   animation: color 6s linear ;
+} 
+
+.gamecontainer {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  max-width: auto;
+}
+
+.scrabble {
+  font-family: 'Stalinist One', cursive;
+  position: absolute;
+  text-align: center;
+  color: #F23847;
+  text-shadow: 3px 3px rgb(42, 30, 24);
+  animation-name: move;
+  animation-duration: 6s; 
+  cursor: default;
+  margin-left: auto;
+  margin-top: auto; 
+  top:10vh;
+  left: 0;
+  right: 0;
+  font-size: 10vh;
+} */

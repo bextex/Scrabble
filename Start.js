@@ -42,7 +42,7 @@ export default class Start {
 
     $('.game-menu').hide(0).delay(6000).show(0).append(
       `<input type="text" 
-        id="playerName" 
+        id="playersName" 
         class="newPlayerInput" 
         placeholder="Namn" />
         `
