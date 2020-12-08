@@ -570,7 +570,10 @@ div.playing-window-left{
  /* margin-top: 30vh;
   margin-left: 1px; */
   /*92 - win, 87 - mac*/
-  margin-top: 87vh;
+  /*border: 3px solid  #A5A686;*/
+  width: 50vh;
+  padding: 10px;
+  margin-top: 85vh;
   margin-left: 40vh;
   /*overflow: hidden;*/
   text-align: center;

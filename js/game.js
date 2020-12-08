@@ -260,6 +260,8 @@ export default class Game {
       $(e.currentTarget).removeClass('hover')
     );
 
+
+
     // Drag-events: We only check if a tile is in place on dragEnd
     // $('.stand .tile').not('.none').draggabilly({ containment: 'body' })
     $('.playertiles').not('.none').draggabilly({ containment: 'body' })
@@ -281,12 +283,28 @@ export default class Game {
         // move the tile back to the rack
         $tile.css({ top: '', left: '' });
 
+
         // KOLLA OM BRICKA SLÄPPT PÅ RACKET/STÄLLET SKA VI ÄNDRA ORDNING
 
-        let $stand = me.parent('.playing-window-left');
-        let { top, left } = $stand.offset();
-        let bottom = top + $stand.height();
-        let right = left + $stand.width();
+        /* let squareIndex2 = $('.playing-window-left').index($dropZone);
+         let a = Math.floor(squareIndex2 / 8);
+         let b = squareIndex2 % 8;*/
+
+
+        /* let $playingWindow = me.parent('.playing-window-left');
+         let { top, left } = $playingWindow.offset();
+         let bottom = top + $playingWindow.height();
+         let right = left + $playingWindow.width();
+ 
+         if (x > left && x < right
+           && y > top && y < bottom) {
+ 
+           let newIndex = Math.floor(8 * (x - left) / $playingWindow.width());
+           let pt = player.tiles;
+ 
+ 
+         }*/
+
 
 
         // if no drop zone or the square is taken then do nothing
@@ -374,7 +392,7 @@ export default class Game {
       this.board[p.y][p.x].tile = [tile];
       this.checkNewWordsOnBoard(p.y, p.x);
     });
-    this.tiles[0] = this.tiles[0].filter(x => !x.onBoard);
+
   }
 
   // added by TF
