@@ -169,36 +169,17 @@ export default class Game {
 
         // if no drop zone or the square is taken then do nothing
         if (!$dropZone.length || store.board[y][x].tile) {
-
-          // if no drop zone or the square is taken then don't try
-          // to "preplace" the tile on the board
-
-
-          // Check if the tile is inside the "rack" of tiles
-          // if so calculate if their order should be changed
-
           /********************** NEW CODE *******************/
 
           let { pageX, pageY } = pointer;
           let tileIndex = +$tile.attr('data-index');
           let tile = that.tiles[0][tileIndex];
 
-
           let $stand = $tile.parent('#box0');
-          console.log('i am stand', $stand);
           let { top, left } = $stand.offset();
           let bottom = top + $stand.height();
-          console.log('my bottom is', bottom);
           let right = left + $stand.width();
-          console.log('my right is', right);
-          // if dragged within the limit of the stand
-          console.log('i am pageX', pageX);
-          console.log('i am pageY', pageY);
-          console.log('The tile index is', tileIndex);
-          console.log('is page X bigger than left?', pageX > left);
-          console.log('is page X smaller than right?', pageX < right);
-          console.log('is page y bigger than top?', pageY > top);
-          console.log('is page y smaller than bottom?', pageY > bottom);
+
           let newIndex;
           let playerMovedAroundTiles = false;
           if (pageX > left && pageX < right
@@ -223,15 +204,7 @@ export default class Game {
               playerMovedAroundTiles = true;
             }
             pt.splice(pt.indexOf(' '), 1);
-
-            console.log(pt);
-
-            //preserve the space where the tile used to be
-            // while (pt.length > 8) { pt.splice(pt[tileIndex > newIndex ? 'indexOf' : 'lastIndexOf'](' '), 1); }
-            // that.tiles[0] = pt;
           }
-
-          console.log('that tiles array', that.tiles[0]);
 
           if (playerMovedAroundTiles) {
             $('.playing-window-left').empty();
@@ -248,8 +221,6 @@ export default class Game {
 
           return;
         }
-
-        /**************** NEW CODE *******************/
 
         // store the preliminary board position with the tile div
         // (jQuery can add data to any element)
