@@ -18,7 +18,8 @@ export default class Game {
     //this.lettersFromFile();
     this.start();
     this.wordArray = [];
-    this.wordArrayCommitted = [];
+    //this.wordArrayCommitted = [];
+
     // this.changeTiles();
     // Set change button to disabled when starting the game
     $('.change-tiles').prop('disabled', true);
@@ -52,7 +53,7 @@ export default class Game {
 
   /* Starting up the game with start() to set how's the first player */
 
-  start() {
+  async start() {
     //Initialize player score
     this.initPlayerScore();
     this.playerTurn();
@@ -68,35 +69,15 @@ export default class Game {
 
     // When click on 'Lägg brickor'-button, there will be a new player and the board will render
     // Shoul also count score on word
-    $('.play-tiles').on('click', () => {
+    $('.play-tiles').on('click', async () => {
+      console.log(".play-tiles triggered" + "\n".repeat(5))
 
-      // read words played and push words to wordArray;
+      // read words on board and push to wordArray[]
       this.checkNewWordsOnBorad();
-
-      // if all words are ok in scrabble:
-      console.log("this.checkWordsInSAOL: " + await this.checkWordsInSAOL(this.wordArray));
-      if (this.checkWordsInSAOL(this.wordArray)) {
-        console.log("PLAY TILES: === true")
-        this.commitPlayedWords();
-        let that = this;
-        // show words played in list
-        for (let word of that.wordArray) {
-          $('.saol').append('<div class="boxForWord"><span class="word validWord">' +
-            word + '</span>')
-        }
-
-        this.countPlayerScore(that.playerIndex, that.wordArray);
-        // empty stored words in array when its the next player
-        this.playerTurn();
-        this.render();
-        // this.changeTiles();
-      } else {
-        console.log("PLAY TILES: === false")
-        console("lägg brickor : invalid words, try again")
-        that.wordArray = [];
-      }
+      this.checkNewWordsInSAOL();
+      console.log(".play-tiles 2. ", this.wordArray)
+      this.nextPlayer();
     });
-
     // To change tiles, locate what tile wants to be changed and change them to new tiles from bag. 
     // Put back the tiles that wants to be changed and scramble the bag
 
@@ -149,6 +130,71 @@ export default class Game {
     });
 
   }
+
+  async checkNewWordsInSAOL() {
+    // check new words in SAOL
+    let all = true;
+    let none = true;
+    for (let i = 0; i < this.wordArray.length; i++) {
+
+      //only check words from array that have not been played, played = undefined
+      if (this.wordArray[i].played !== 'oldWord') {
+        console.log(this.wordArray[i].played)
+        console.log("!this.wordArray[i].played: " + this.wordArray[i].word)
+        if (await SAOLchecker.scrabbleOk(this.wordArray[i].word) === false) {
+
+          console.log("one or more words are invalid")
+          all = false;
+
+        }
+        else {
+          none = false;
+        }
+      }
+    }
+    console.log("all: " + all)
+    console.log("none: " + none)
+
+
+    if (all && !none) {
+
+      this.countPlayerScore(this.playerIndex);
+      //if all words in wordsArray are ok in Scrabble, set item/items in wordArray played; true;
+      console.log("end of round this.wordArray: ", this.wordArray)
+      //console.log("end of round this.wordArrayCommitted", this.wordArrayCommitted)
+    }
+  }
+
+  async nextPlayer() {
+    // if all words are ok in scrabble:
+    console.log("---nextPlayer---")
+    console.log("PLAY TILES: === true")
+    //this.commitPlayedWords();
+    // show words played in list
+    for (let obj of this.wordArray) {
+      console.log("appending " + obj.word + "to SAOL window")
+      $('.saol').append('<div class="boxForWord"><span class="word validWord">' +
+        obj.word + '</span>')
+    }
+    // empty stored words in array when its the next player
+
+    for (let i = 0; i < this.wordArray.length; i++) {
+      if (this.wordArray[i].played !== 'oldWord') {
+        console.log('played = oldWord')
+        this.wordArray[i].played = 'oldWord';
+        console.log(this.wordArray[i].word, "played: ", this.wordArray[i].played)
+      }
+      else {
+        alert('one or several words were not found in SAOL, try again!')
+      }
+    }
+
+    this.playerTurn();
+    this.render();
+    // this.changeTiles();
+
+  }
+
   //function for initialize player score
   initPlayerScore() {
     for (let i = 0; i < players.length; i++) {
@@ -319,8 +365,7 @@ export default class Game {
         //Now we set the tiles character to our verified and safe input.
         this.board[y][x].tile[0].char = charInput;
       }
-      //this.checkNewWordsOnBorad();
-      console.log("addEvents() wordArray: " + this.wordArray)
+
 
       this.render();
     });
@@ -371,7 +416,7 @@ export default class Game {
 
   checkNewWordsOnBorad() {
 
-    console.log('--- checkNewWordsOnBoard ---')
+    console.log('2. --- checkNewWordsOnBoard ---')
 
     let wordH = [];  //to save  all the infromation on the horisontal 
     let wordV = [];  //to save all the infromation on the vertical 
@@ -518,29 +563,24 @@ export default class Game {
 
 
     this.wordArray = wordArray;
-    // if (wordArray.length > 0) {
-    //   this.checkWordsInSAOL(wordArray);
-    // }
 
   }
 
-  commitPlayedWords() {
-    console.log('print this.wordArrayCommitted', this.wordArrayCommitted);
+  // commitPlayedWords() {
 
-    if (this.wordArrayCommitted.length > 0) {
-      for (let oldItem of this.wordArrayCommitted) {
-        let lastIndexForPosition = oldItem.position.length - 1;
+  //   if (this.wordArrayCommitted.length > 0) {
+  //     for (let oldItem of this.wordArrayCommitted) {
+  //       let lastIndexForPosition = oldItem.position.length - 1;
 
-        this.wordArray.splice(this.wordArray.findIndex
-          (newItem => ((newItem.position[0].x === oldItem.position[0].x) && (newItem.position[0].y === oldItem.position[0].y))
-            && ((newItem.position[newItem.position.length - 1].x === oldItem.position[lastIndexForPosition].x)
-              && (newItem.position[newItem.position.length - 1].y === oldItem.position[lastIndexForPosition].y))
-          ), 1);
-      }
-      console.log('wordArray after delete old item:', this.wordArray);
-      console.log('this.wordArrayCommitted:', this.wordArrayCommitted);
-    }
-  }
+  //       this.wordArray.splice(this.wordArray.findIndex
+  //         (newItem => ((newItem.position[0].x === oldItem.position[0].x) && (newItem.position[0].y === oldItem.position[0].y))
+  //           && ((newItem.position[newItem.position.length - 1].x === oldItem.position[lastIndexForPosition].x)
+  //             && (newItem.position[newItem.position.length - 1].y === oldItem.position[lastIndexForPosition].y))
+  //         ), 1);
+  //     }
+  //     console.log('wordArray after delete old item:', this.wordArray);
+  //   }
+  // }
 
 
   createBoard() {
@@ -623,65 +663,27 @@ export default class Game {
     //   </style>
   }
   // This function to count the player's score
-  async countPlayerScore(playerIndex, wordArray) {
+  async countPlayerScore(playerIndex) {
 
     let currentWordPoints = 0;
-    console.log('I am in countPlayerScore, wordArray: ', wordArray);
+    console.log('I am in countPlayerScore, wordArray: ', this.wordArray);
     console.log('I am in countPlayerScore, player: ', playerIndex);
-    for (let i = 0; i < wordArray.length; i++) {
-      if (await SAOLchecker.scrabbleOk(wordArray[i].word)) {
-        currentWordPoints = wordArray[i].points * wordArray[i].multiple;
-        wordArray[i].scrabbleOk = true;
+    for (let i = 0; i < this.wordArray.length; i++) {
+      if (this.wordArray[i].played === 'newWord') {
+        currentWordPoints = this.wordArray[i].points * this.wordArray[i].multiple;
+        //wordArray[i].scrabbleOk = true;
+        console.log("get point for: " + this.wordArray[i].word)
+        console.log('currentWordPoints', currentWordPoints);
+        players[playerIndex - 1].score += currentWordPoints;
       }
-      else {
-        currentWordPoints = 0;
-        wordArray[i].scrabbleOk = false;
-      }
-      console.log('currentWordPoints', currentWordPoints);
-      players[playerIndex - 1].score += currentWordPoints;
     }
-    //console.log('play.score', player.score);
-    this.wordArrayCommitted = wordArray.filter(x => x.scrabbleOk === true);
-    console.log('I am in countPlayerScore wordArrayCommitted', this.wordArrayCommitted);
+    //this.wordArrayCommitted = wordArray.filter(x => x.scrabbleOk === true);
+    //console.log('I am in countPlayerScore wordArrayCommitted', this.wordArrayCommitted);
   }
-
 
   showSaolText() {
     $('.board').append(
       `<section class="saol">🎄SAOL🎄</section>`
     );
   }
-
-  async checkWordsInSAOL(wordArray) {
-    console.log('------im in checkWordsInSAOL()------');
-
-    // let lastWord = wordArray[0].word;
-    // console.log("last word: ----> ", lastWord)
-
-    // // loop wordsInArray and show a list of true/false
-    // console.log(lastWord + "is: " + await SAOLchecker.scrabbleOk(lastWord))
-
-    console.log("wordArray:  ", wordArray);
-    console.log("wordArray.length:  ", wordArray.length);
-
-
-
-    for (let obj of wordArray) {
-
-      if (await SAOLchecker.scrabbleOk(obj.word) === false) {
-        console.log("one or more words are invalid")
-        okInScrabble = false;
-        continue;
-      }
-      else {
-        okInScrabble = true;
-        //Activate "Lägg brickor" - button when all words are true in SAOL
-        // $('.play-tiles').prop('disabled', false);
-      }
-    }
-
-    console.log("okInScrabble variable: " + okInScrabble === true)
-    return okInScrabble === true;
-  }
-
 }
