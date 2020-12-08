@@ -726,8 +726,8 @@ export default class Game {
       let index = 0
       $('.playing-window-left').append(`
       <div class="playerWrapper">
-      <div class="playername">${player.name}</div>
-      <div class="score">Poäng :<div id="score${this.players.indexOf(player)}"></div></div>
+      <div class="playersName">${player.name}</div>
+      <div class="score">Poäng:<div id="score${this.players.indexOf(player)}"></div></div>
       </div>
       <div class="tiles-box"><div id="box${this.players.indexOf(player)}"></div></div>
       `);

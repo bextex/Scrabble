@@ -40,13 +40,14 @@ export default class Start {
 
     // let that = this;
 
-    $('.game-menu').hide(0).delay(6000).show(0).append(
-      `<input type="text" 
-        id="playersName" 
-        class="newPlayerInput" 
-        placeholder="Namn" />
-        `
-    );
+    $('.game-menu').hide(0).delay(6000).show(0);
+
+    // $('.game-menu').hide(0).delay(6000).show(0).append(
+    //   `<input type="text" 
+    //     class="newPlayerInput" 
+    //     placeholder="Namn" />
+    //     `
+    // );
 
 
     /*append(
@@ -70,7 +71,7 @@ export default class Start {
       console.log('network key is ' + networkKey);
       $('.playersName').append(`<div class="waiting-for-players"><div class="waiting-box">Väntar på spelare...</div>
       <button class="start-new-game"><span>Starta</span></button>
-      <div type="key-input" class="key-input"><span class="key">NYCKEL : ${networkKey}</span></div>
+      <div type="key-input" class="key-input"><span class="key">NYCKEL: ${networkKey}</span></div>
       </div>`);
 
       // that is all the tiles from the bag. Which has been created in clickFunctions

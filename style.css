@@ -10,15 +10,17 @@ body{
   text-align: center;
    animation: color 6s linear ;
 }
-
-
+/* 
  #candy {
 	 overflow: hidden;
 	 display: flex;
-   opacity: 0;
-   height: 300px;
-   width: 100px;
-	 margin: calc(50vh - 150px) auto 0 auto;
+	 opacity: 0;
+   margin-top: calc(50vh - 150px);
+   margin-left: 150px; 
+   margin-bottom: 0;
+   /* margin-right: 300px; 
+	 width: 100px;
+	 height: 300px;
 	 border-radius: 100px;
 	 border-bottom-left-radius: 0px;
 	 border-bottom-right-radius: 0px;
@@ -29,16 +31,16 @@ body{
 }
 
  #candy-loader {
-	 content: "";
-	 background-color: #fafafa;
-	 width: 50px;
-	 height: 270px;
-	 border-radius: 50px;
-	 border-bottom-left-radius: 0px;
-	 border-bottom-right-radius: 0px;
+	 height: 100%;
+	 width: 100%;
+	 z-index: 1;
 	 display: flex;
+	 align-items: center;
 	 align-self: flex-end;
-   animation: color 6s linear;
+	 box-shadow: 0px 0px 10px rgba(255, 50, 0, 0.8) inset;
+	 background: #d33144;
+	 background: repeating-linear-gradient(45deg, #ffe, #ffe 15px, #d33144 15px, #d33144 30px);
+   animation: load 6s ease-in;
 }
  #candy-loader::after {
 	 content: "";
@@ -60,7 +62,7 @@ body{
 	 display: flex;
 	 align-self: flex-end;
    animation: color 6s linear ;
-}
+} */
  @keyframes load {
 	 0% {
 		 height: 0%;
@@ -106,10 +108,6 @@ body{
 	}
 }
 
-
-
-
-
 ul {
   width: auto;
   text-align: center;
@@ -125,25 +123,25 @@ ul {
 }
 
 .scrabble {
-  font-family: 'Stalinist One', cursive;
-  position: absolute;
-  text-align: center;
-  color: #F23847;
-  text-shadow: 3px 3px rgb(42, 30, 24);
-  animation-name: move;
-  animation-duration: 6s; 
-  cursor: default;
-  margin-left: auto;
-  margin-top: auto; 
-  top:10vh;
-  left: 0;
-  right: 0;
-  font-size: 10vh;
+ font-family: 'Stalinist One', cursive;
+ position: absolute;
+ font-size: 7vh;
+ text-align: center;
+ color: #F23847;
+ text-shadow: 3px 3px rgb(42, 30, 24);
+ animation-name: move;
+ animation-duration: 6s; 
+ cursor: default;
+ margin-left: auto;
+ margin-top: auto;
+ top:10vh;
+ left: 0;
+ right: 0;
 }
 
 @keyframes move {
   0% {
-    transform: translate(-20%, 0);
+    transform: translate(-3%, 0);
   }
 
   50% {
@@ -151,7 +149,7 @@ ul {
   }
 
   5% {
-    transform: translate(20%, 0);
+    transform: translate(3%, 0);
   }
 }
 
@@ -171,17 +169,15 @@ ul {
   position: absolute;
   /*removed top. Doesn't work when position is relative*/
   /*doen't work with percentage '%'*/
-  left: 33%;
+  left: 18%;
   top:30vh;
   color: rgb(40, 20, 20);
   font-size: 18px;
   border: 3px solid #A5A686;
   border-radius: 10px;
   background-color: #EFF2D8;
-  width: 30%;
- 
-  
-  height: 30vh;
+  width: 50%;
+  height: 50vh;
   padding: 5vh;
   overflow: auto;
   display: none;
@@ -231,21 +227,21 @@ ul {
   display: none;
 }
 
-.game-menu button {
+.game-menu button{
   font-family: 'Source Code Pro', monospace;
-  font-size: 20px;
+  font-size: 15px;
   background-color: black; /* black background */
   opacity: 0.7;
-  border: 5px solid #EFF2D8; /* Aliceblue border */
+  border: 2px solid #EFF2D8; /* Aliceblue border */
   border-radius: 5px;
   color: white; /* White text */
   padding: 20px; /* Some padding */
   cursor: pointer; /* Pointer/hand icon */
-  width: 20%; /* Set a width if needed */
+  width: 30%; /* Set a width if needed */
   display: block; /* Make the buttons appear below each other */
   position: relative;
-  left: 40%;
-  top: 50vh;
+  left: 35%;
+  top: 1vh;
   animation-name: move, changeColorText;
   animation-duration: 1.5s; 
   /*display: none;*/
@@ -254,7 +250,7 @@ ul {
 }
 
 .game-menu button:hover {
-    background-color: rgb(153, 153, 153);
+  background-color: rgb(153, 153, 153);
   color: black;
 }
 
@@ -292,17 +288,18 @@ text-align: center;
 }
 
 .newPlayerInput {
- background-color:black;
- position: relative;
- top: 10vh;
- margin-right: auto;
- margin-left: auto;
- font-family: 'Source Code Pro', monospace;
- font-size: 20px;
- opacity: 0.8;
- border: 5px solid #EFF2D8;
- border-radius: 5px;
- color: white;
+  background-color:black;
+  margin-top: 25vh;
+  /* position: relative; */
+  margin-right: auto;
+  margin-left: auto;
+  opacity: 0.7;
+  border: 2px solid #EFF2D8; /* Aliceblue border */
+  border-radius: 5px;
+  color: white;
+  width: 30%; /* Set a width if needed */
+  height: 20px;
+  padding: 5px; /* Some padding */
 
   animation-name: playerAnimation;
   animation-iteration-count: 1;
@@ -330,7 +327,7 @@ text-align: center;
   border: 3px solid black;
   border-radius: 3px;
   display: inline-block;
-  padding: 50px 400px 90px 20px;
+  padding: 50px 250px 70px 20px;
 
   /*#F23847*/
   background-color:  #F23847;
@@ -440,47 +437,47 @@ text-align: center;
 }
 
 .tiles-from-bag{
-  width: 50px;
+  width: 75px;
   height: 25px;
   text-align: center;
   right: 5vh;
-  top:0.5vh;
+  top: -1.5vh;
   position: absolute;
-  font-family: 'Neucha', cursive;
-  font-size: 20px;
+  font-family: 'Source Code Pro', monospace;
+  font-size: 15px;
   background-color: #EFF2D8;
-  border: 3px solid #A5A686; 
+  border: 2px solid #A5A686; 
   border-radius: 3px;
+  padding-bottom: 2px;
 }
 
 /*************************** PLAYER NAMES AND TILES ****************************/
 .playerWrapper {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-evenly;
+  /* justify-content: space-evenly; */
   width:300px;  
 }
 
-.playername{
-  font-family: 'Neucha', cursive;
-  font-size: large;
-  font-size: 20px;
+.playersName{
+  font-family: 'Source Code Pro', monospace;
+  font-size: 15px;
   color: black;
-  padding: 2vh;
+  padding-top: 2vh;
+  padding-bottom: 1vh;
+  padding-right: 12vh;
   text-align: left;
-  width: 100px;
-  height: 10px;
 }
 
 .score{
-  font-family: 'Neucha', cursive;
-  font-size: large;
-  font-size: 20px;
+  font-family: 'Source Code Pro', monospace;
+  font-size: 15px;
   color: black;
   padding: 2vh;  
   text-align: left;
   width: 100px;
   height: 10px;
+
 }
 
 /* .not-current-player{
@@ -514,15 +511,16 @@ text-align: center;
 
 .playertiles{
   font-family: 'Source Code Pro', monospace;
-  font-size: 20px;
+  font-size: 17px;
   /* padding: 4px; */
   margin: 1px;
-  width: 4vh;
-  height: 4vh;
+  width: 4.5vh;
+  height: 4.5vh;
+  padding: 0.3vh;
   background-color: #EFF2D8;
   text-align: center;
-  border: 5px solid #A5A686;
-  border-radius: 5px;
+  /* border: 3px solid #A5A686; */
+  border-radius: 3px;
   position: relative;
   float: left;
   cursor: pointer;
@@ -530,7 +528,7 @@ text-align: center;
 
 .playertiles.change{
   font-family: 'Source Code Pro', monospace;
-  font-size: 20px;
+  font-size: 17px;
   /* padding: 4px; */
   margin: 1px;
   width: 4.5vh;
@@ -539,8 +537,7 @@ text-align: center;
   background-color: #EFF2D8;
   text-align: center;
   /*black*/
-  border: 2px dotted rgb(126, 126, 126);
-
+  border: 1.5px dotted black;
   position: relative;
   float: left;
   cursor: pointer;
@@ -550,7 +547,7 @@ div.points{
   font-family: 'Source Code Pro', monospace;
   font-size: 10px;
   position: absolute;
-  top: 16px;
+  top: 12px;
   right: 1.5px;
   z-index: 5;
 }
@@ -567,12 +564,11 @@ div.playing-window-left{
  /* margin-top: 30vh;
   margin-left: 1px; */
   /*84*/
-  margin-top: 92vh;
+  margin-top: 95.5vh;
   margin-left: 40vh;
   /*overflow: hidden;*/
   text-align: center;
   display: inline-block;
-  
 }
 
 
@@ -581,15 +577,15 @@ div.playing-window-left{
 .play-tiles{
   
   cursor: pointer;
-
-        position:absolute;
-        left: 60vh;
-        top:1vh;
-        font-family: 'Neucha', cursive;
-        font-size: 20px;
-         background-color: #EFF2D8;
-         border: 3px solid #A5A686; 
-         border-radius: 3px;
+  padding: 0.27vh;
+  position:absolute;
+  left: 62vh;
+  top: 2vh;
+  font-family: 'Source Code Pro', monospace;
+  font-size: 15px;
+  background-color: #EFF2D8;
+  border: 2px solid #A5A686; 
+  border-radius: 3px;
 }
 .play-tiles:hover{
   font-family: 'Source Code Pro', monospace;
@@ -601,15 +597,14 @@ div.playing-window-left{
 
 .pass{
   position: absolute;
- font-family: 'Neucha', cursive;
-        font-size: 20px;
-         background-color: #EFF2D8;
-         border: 3px solid #A5A686; 
-         border-radius: 3px;
-
+  font-family: 'Source Code Pro', monospace;
+  font-size: 15px;
+  background-color: #EFF2D8;
+  border: 2px solid #A5A686; 
+  border-radius: 3px;
   cursor: pointer;
-  left: 15vh;
-        top:1vh;
+  left: 4vh;
+  top: 2vh;
 }
 
 .pass:hover{
@@ -623,13 +618,23 @@ div.playing-window-left{
 .change-tiles{ 
   cursor: pointer;
   position:absolute;
-  left: 3vh;
-  bottom:2vh;
-  font-family: 'Neucha', cursive;
-  font-size: 20px;
+  left: 4vh;
+  bottom: 2vh;
+  padding: 0.27vh;
+  text-align: center;
+  font-family: 'Source Code Pro', monospace;
+  font-size: 15px;
   background-color: #EFF2D8;
-  border: 3px solid #A5A686; 
+  border: 2px solid #A5A686; 
   border-radius: 3px;
+}
+
+.change-tiles:hover{
+  font-family: 'Source Code Pro', monospace;
+  font-size: large;
+  background-color: #EFF2D8;
+  color: #A5A686;
+  cursor: pointer;
 }
 
 
@@ -660,8 +665,8 @@ div.playing-window-left{
   font-size: 20px;
   /* padding: 4px; */
   margin: 0.5px;
-  width: 4vh;
-  height: 4vh;
+  width: 5vh;
+  height: 5vh;
   background-color: #EFF2D8;
   text-align: center;
   border: 3px solid #A5A686;
@@ -674,7 +679,7 @@ div.playing-window-left{
 /******************* BOX FOR WORDS FROM SAOL *********************/
 
 .boxForWord {
-  font-family: 'Neucha', cursive;
+  font-family: 'Source Code Pro', monospace;
   background-color:#f2e2d8;
   position: absolute;
   font-size: 15px;
@@ -757,37 +762,34 @@ footer input {
 } 
 
 .key-input{
- background-color:#EFF2D8;
- position: absolute;
- /* top: 80vh; */
- border: 3px solid #A5A686;
- border-radius: 5px;
+  background-color:#EFF2D8;
+  position: absolute;
+  /* top: 80vh; */
+  border: 3px solid #A5A686;
+  border-radius: 5px;
   color: #BF4136;
-
-    top: 65%;
-    left: 50%;
-    margin-right: -50%;
-    transform: translate(-50%, -50%);
-
-  font-family: 'Neucha', cursive;
-  
-  font-size: 20px;
-
+  top: 65%;
+  left: 50%;
+  margin-right: -50%;
+  transform: translate(-50%, -50%);
+  font-family: 'Source Code Pro', monospace;
+  font-size: 15px;
   padding: 1vh;
-  
-  width: 100px;
-  height: 45px;
+  width: 135px;
+  height: 15px;
+  text-align: center;
 }
 
 
 .waiting-box{
-  font-family: 'Neucha', cursive;
-  font-size: 30px;
+  font-family: 'Source Code Pro', monospace;
+  font-size: 15px;
   position: absolute;
-   top: 50%;
-    left: 50%;
-    margin-right: -50%;
-    transform: translate(-50%, -50%);
+  text-align: center;
+  top: 50%;
+  left: 50%;
+  margin-right: -50%;
+  transform: translate(-50%, -50%);
   width: 300px;
   height: 150px;
   background-color: #EFF2D8;
@@ -796,7 +798,8 @@ footer input {
   /* position: absolute; */
   color: #BF4136;
   display: block;
-  overflow: scroll;
+  padding: 1vh;
+  /* overflow: scroll; */
 }
 
 
@@ -812,6 +815,7 @@ footer input {
   text-align: center;
   z-index: 1000;
 }
+
 /****** SAOL *******/
 .saol {
   position: absolute;
@@ -819,11 +823,11 @@ footer input {
   color: #EFF2D8;
   text-shadow: 3px 3px #A5A686;
   cursor: default;
-  font-size: 35px;
+  font-size: 20px;
   top: 10vh;
   right: 3vh;
   padding-bottom: 55vh;
-   width: 35vh;
+   width: 40vh;
    border: 3px solid #A5A686;
    border-radius: 3px;
    padding-bottom: 55vh;
@@ -833,13 +837,13 @@ footer input {
 
 .start-new-game {
    font-family: 'Source Code Pro', monospace;
-   font-size: 20px;
+   font-size: 15px;
    position: absolute;
    background-color: black;
    opacity: 0.7;
    border: 5px solid #A5A686;
    color: white;
-   width: 10%;
+   width: 30%;
    border-radius: 5px;
     padding: 15px;
     cursor: pointer;
@@ -876,7 +880,7 @@ footer input {
 
 .write-key {
     font-family: 'Source Code Pro', monospace;
-    font-size: 20px;
+    font-size: 15px;
     position: absolute;
     top: 55%;
     left: 50%;
@@ -886,13 +890,13 @@ footer input {
 
 .join {
     font-family: 'Source Code Pro', monospace;
-    font-size: 20px;
+    font-size: 15px;
     position: absolute;
     background-color: black;
     opacity: 0.7;
-    /*border: 5px solid #A5A686;*/
+    border: 5px solid #A5A686;
     color: white;
-    width: 10%;
+    width: 30%;
     border-radius: 5px;
     padding: 10px;
     cursor: pointer;
@@ -929,79 +933,131 @@ footer input {
 
 /**************************** CSS STUFF FROM ORIGIN ********************/
 
-#candy{
-  height: 300px;
-   width: 100px;
-	 margin: calc(50vh - 150px) auto 0 auto;
+/* Small devices (landscape mode phones) */
+@media (min-width: 500px) and (max-width: 767.98px) { 
+  /* your rules here */
+ 
+    .scrabble {
+  font-size: 7vh;
+  }
+
+  .newPlayerInput {
+  margin-top: 30vh;
+  font-size: 17px;
+  }
+
+  .game-menu button{
+    left: 35%;
+  }
+
+  .start-new-game{
+    width: 25%;
+    padding: 10px;
+  }
+
+  .write-key{
+    font-size: 17px;
+    position: absolute;
+    top: 55%;
+    left: 50%;
+  }
+
+  .playing-window-left{
+    margin-top: 95vh;
+    margin-left: 40vh;
+  }
+
+  /* .playersName{
+    font-size: 17px;
+  } */
+
+  .score{
+    font-size: 17px;
+  }
+
+  .tiles-from-bag{
+    font-size: 17px;
+  }
+
+  .rules-window .add-rules{
+    left: 20%;
+    top: 30vh;
+    font-size: 18px;
+    width: 55%;
+    height: 50vh;
+    padding: 5vh;
+  }
+
+   .saol{
+    font-size: 25px;
+  }
+
 }
 
- #candy-loader {
-	 height: 100%;
-	 width: 100%;
-  }
-  #candy-loader::after {
-    width: 50px;
-	 height: 270px;
-	 border-radius: 50px;
-  }
-  #candy-loader::before {
-    width: 25px;
-    height: 210px;
-  }
-  .scrabble{
-    top:5vh;
-    left: 10vh;
-    right: 0;
-    font-size: 1px;
-    margin-left: 50px;
-    margin-top: 100px;
-  }
-  .gamecontainer{
-    width: 320px;
-    height: 400px;
-  }
-
-/* Small devices (landscape mode phones) */
-@media (min-width: 576px) and (max-width: 767.98) { 
+/* Medium devices (portrait mode tablets) */
+@media (min-width: 768px) and (max-width: 991.98px) { 
   /* your rules here */
-  #candy{
-    width: 50px;
-	  height: 150px;
-  }
-  #candy-loader {
-	 height: 50%;
-	 width: 50%;
-  }
-  #candy-loader::after {
-    width: 50px;
-    height: 150px;
-    border-radius: 50px;
-  }
-  #candy-loader::before {
-    width: 25px;
-    height: 210px;
-  }
-  .scrabble{
-    top:5vh;
-    left: 10vh;
-    right: 0;
-    font-size: 1vh;
-    margin-left: 50px;
-    margin-top: 100px;
-  }
-  .gamecontainer{
-    width: 500px;
-    height: 400px;
+    .scrabble {
+  font-size: 12vh;
   }
 
+  .newPlayerInput {
+  top: -12vh;
+  font-size: 20px;
+  width: 220px;
+  height: 17px;
+  }
+
+  .game-menu button{
+    left: 35%;
+    top: 40vh;
+    font-size: 17px;
+  }
+
+  .start-new-game{
+    width: 20%;
+    padding: 10px;
+    font-size: 17px;
+  }
+  .join{
+    width: 20%;
+    padding: 10px;
+    font-size: 17px;
+  }
+
+  .write-key{
+    font-size: 20px;
+    position: absolute;
+    top: 51%;
+    left: 50%;
+  }
+  .key-input{
+    top: 64%;
+  }
+
+  .playing-window-left{
+    margin-top: 95.5vh;
+    margin-left: 40vh;
+  }
+
+  .rules-window .add-rules{
+    left: 20%;
+    top: 30vh;
+    font-size: 18px;
+    width: 55%;
+    height: 50vh;
+    padding: 5vh;
+  }
+
+  .saol{
+    font-size: 25px;
+  }
+
+  .waiting-box{
+    font-size: 17px;
+  }
 
   
- 
-}
-
-/* Medium devices (portrait mode  tablets) */
-@media (min-width: 768px) and (max-width: 991.98) { 
-  /* your rules here */
 }
 
 /* Large devices (computer screens) */

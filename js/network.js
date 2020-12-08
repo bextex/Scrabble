@@ -52,10 +52,7 @@ export default class Network {
     let s = this.networkStore;
     store = s;
 
-    if (s.players.length >= 4) {
-      alert('There can only be 4 players');
-      return;
-    }
+
 
     // We want the network to listen for which players connecting to the same game (same game key)
     s.players = s.players || [];
