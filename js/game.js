@@ -67,16 +67,14 @@ export default class Game {
       // this.changeTiles();
     });
 
-    // When click on 'Lägg brickor'-button, there will be a new player and the board will render
-    // Shoul also count score on word
     $('.play-tiles').on('click', async () => {
       console.log(".play-tiles triggered" + "\n".repeat(5))
 
       // read words on board and push to wordArray[]
       this.checkNewWordsOnBorad();
       this.checkNewWordsInSAOL();
-      console.log(".play-tiles 2. ", this.wordArray)
-      this.nextPlayer();
+      // this.countPlayerScore(this.playerIndex);
+      // this.nextPlayer();
     });
     // To change tiles, locate what tile wants to be changed and change them to new tiles from bag. 
     // Put back the tiles that wants to be changed and scramble the bag
@@ -132,7 +130,9 @@ export default class Game {
   }
 
   async checkNewWordsInSAOL() {
-    // check new words in SAOL
+
+    console.log('3. --- checkNewWordsInSAOL ---')
+
     let all = true;
     let none = true;
     for (let i = 0; i < this.wordArray.length; i++) {
@@ -155,11 +155,10 @@ export default class Game {
     console.log("all: " + all)
     console.log("none: " + none)
 
-
+    //if all words in wordsArray are ok in Scrabble
     if (all && !none) {
-
       this.countPlayerScore(this.playerIndex);
-      //if all words in wordsArray are ok in Scrabble, set item/items in wordArray played; true;
+      this.nextPlayer();
       console.log("end of round this.wordArray: ", this.wordArray)
       //console.log("end of round this.wordArrayCommitted", this.wordArrayCommitted)
     }
@@ -167,8 +166,7 @@ export default class Game {
 
   async nextPlayer() {
     // if all words are ok in scrabble:
-    console.log("---nextPlayer---")
-    console.log("PLAY TILES: === true")
+    console.log('5. --- nextPLayer() ---')
     //this.commitPlayedWords();
     // show words played in list
     for (let obj of this.wordArray) {
@@ -178,16 +176,6 @@ export default class Game {
     }
     // empty stored words in array when its the next player
 
-    for (let i = 0; i < this.wordArray.length; i++) {
-      if (this.wordArray[i].played !== 'oldWord') {
-        console.log('played = oldWord')
-        this.wordArray[i].played = 'oldWord';
-        console.log(this.wordArray[i].word, "played: ", this.wordArray[i].played)
-      }
-      else {
-        alert('one or several words were not found in SAOL, try again!')
-      }
-    }
 
     this.playerTurn();
     this.render();
@@ -204,6 +192,7 @@ export default class Game {
   }
 
   async playerTurn() {
+    console.log(".6 ---playerTurn()---")
     console.log("\n.".repeat(5))
     $('body').remove('.boxForWord')
     /* Alternative to switch between players turns */
@@ -543,6 +532,7 @@ export default class Game {
       console.log('horisontal wordH: ', wordH);
 
       console.log('the words currently on board:', wordArray);
+      debugger;
     }
 
     // console.log('print this.wordArrayCommitted', this.wordArrayCommitted);
@@ -561,7 +551,11 @@ export default class Game {
     //   console.log('this.wordArrayCommitted:', this.wordArrayCommitted);
     // }
 
-
+    /* 
+    only add new words to this.wordArray 
+    compare local wordArray to this.Array and only add words which 
+    if(wordArray[i].played !== 'oldWord')
+    */
     this.wordArray = wordArray;
 
   }
@@ -665,11 +659,13 @@ export default class Game {
   // This function to count the player's score
   async countPlayerScore(playerIndex) {
 
+    console.log('4. --- countPLayerScore() ---')
+
     let currentWordPoints = 0;
     console.log('I am in countPlayerScore, wordArray: ', this.wordArray);
     console.log('I am in countPlayerScore, player: ', playerIndex);
     for (let i = 0; i < this.wordArray.length; i++) {
-      if (this.wordArray[i].played === 'newWord') {
+      if (this.wordArray[i].played === 'oldWord') {
         currentWordPoints = this.wordArray[i].points * this.wordArray[i].multiple;
         //wordArray[i].scrabbleOk = true;
         console.log("get point for: " + this.wordArray[i].word)
@@ -677,8 +673,17 @@ export default class Game {
         players[playerIndex - 1].score += currentWordPoints;
       }
     }
-    //this.wordArrayCommitted = wordArray.filter(x => x.scrabbleOk === true);
-    //console.log('I am in countPlayerScore wordArrayCommitted', this.wordArrayCommitted);
+
+    for (let i = 0; i < this.wordArray.length; i++) {
+      if (this.wordArray[i].played !== 'oldWord') {
+        console.log('played = oldWord')
+        this.wordArray[i].played = 'oldWord';
+        console.log(this.wordArray[i].word, "played: ", this.wordArray[i].played)
+      }
+      else {
+        alert('one or several words were not found in SAOL, try again!')
+      }
+    }
   }
 
   showSaolText() {
