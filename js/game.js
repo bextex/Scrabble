@@ -69,14 +69,32 @@ export default class Game {
     // When click on 'Lägg brickor'-button, there will be a new player and the board will render
     // Shoul also count score on word
     $('.play-tiles').on('click', () => {
-      // get points for word
-      this.checkNewWordsOnBorad();
-      this.countPlayerScore(that.playerIndex, that.wordArray);
-      // empty stored words in array when its the next player
-      this.playerTurn();
-      this.render();
-      // this.changeTiles();
 
+      // read words played and push words to wordArray;
+      this.checkNewWordsOnBorad();
+
+      // if all words are ok in scrabble:
+      console.log("this.checkWordsInSAOL: " + await this.checkWordsInSAOL(this.wordArray));
+      if (this.checkWordsInSAOL(this.wordArray)) {
+        console.log("PLAY TILES: === true")
+        this.commitPlayedWords();
+        let that = this;
+        // show words played in list
+        for (let word of that.wordArray) {
+          $('.saol').append('<div class="boxForWord"><span class="word validWord">' +
+            word + '</span>')
+        }
+
+        this.countPlayerScore(that.playerIndex, that.wordArray);
+        // empty stored words in array when its the next player
+        this.playerTurn();
+        this.render();
+        // this.changeTiles();
+      } else {
+        console.log("PLAY TILES: === false")
+        console("lägg brickor : invalid words, try again")
+        that.wordArray = [];
+      }
     });
 
     // To change tiles, locate what tile wants to be changed and change them to new tiles from bag. 
@@ -205,7 +223,7 @@ export default class Game {
   }
 
   addEvents() {
-    console.log("addEvents() called > checkNewWordsOnBoard() > which means pushing to this.wordArray")
+    console.log("addEvents() called")
     $('.board > div').mouseenter(e => {
       let me = $(e.currentTarget);
       if ($('.is-dragging').length && !me.find('.tiles').length) {
@@ -482,28 +500,46 @@ export default class Game {
       console.log('the words currently on board:', wordArray);
     }
 
+    // console.log('print this.wordArrayCommitted', this.wordArrayCommitted);
+
+    // if (this.wordArrayCommitted.length > 0) {
+    //   for (let oldItem of this.wordArrayCommitted) {
+    //     let lastIndexForPosition = oldItem.position.length - 1;
+    //     console.log('lastIndexForPosition', lastIndexForPosition);
+    //     wordArray.splice(wordArray.findIndex
+    //       (newItem => ((newItem.position[0].x === oldItem.position[0].x) && (newItem.position[0].y === oldItem.position[0].y))
+    //         && ((newItem.position[newItem.position.length - 1].x === oldItem.position[lastIndexForPosition].x)
+    //           && (newItem.position[newItem.position.length - 1].y === oldItem.position[lastIndexForPosition].y))
+    //       ), 1);
+    //   }
+    //   console.log('wordArray after delete old item:', wordArray);
+    //   console.log('this.wordArrayCommitted:', this.wordArrayCommitted);
+    // }
+
+
+    this.wordArray = wordArray;
+    // if (wordArray.length > 0) {
+    //   this.checkWordsInSAOL(wordArray);
+    // }
+
+  }
+
+  commitPlayedWords() {
     console.log('print this.wordArrayCommitted', this.wordArrayCommitted);
 
     if (this.wordArrayCommitted.length > 0) {
       for (let oldItem of this.wordArrayCommitted) {
         let lastIndexForPosition = oldItem.position.length - 1;
-        console.log('lastIndexForPosition', lastIndexForPosition);
-        wordArray.splice(wordArray.findIndex
+
+        this.wordArray.splice(this.wordArray.findIndex
           (newItem => ((newItem.position[0].x === oldItem.position[0].x) && (newItem.position[0].y === oldItem.position[0].y))
             && ((newItem.position[newItem.position.length - 1].x === oldItem.position[lastIndexForPosition].x)
               && (newItem.position[newItem.position.length - 1].y === oldItem.position[lastIndexForPosition].y))
           ), 1);
       }
-      console.log('wordArray after delete old item:', wordArray);
+      console.log('wordArray after delete old item:', this.wordArray);
       console.log('this.wordArrayCommitted:', this.wordArrayCommitted);
     }
-
-
-    this.wordArray = wordArray;
-    if (wordArray.length > 0) {
-      this.showWordFromSAOL(wordArray);
-    }
-
   }
 
 
@@ -616,35 +652,36 @@ export default class Game {
     );
   }
 
-  async showWordFromSAOL(wordArray) {
-    console.log('------im in showWordFromSAOL()------');
+  async checkWordsInSAOL(wordArray) {
+    console.log('------im in checkWordsInSAOL()------');
+
+    // let lastWord = wordArray[0].word;
+    // console.log("last word: ----> ", lastWord)
+
+    // // loop wordsInArray and show a list of true/false
+    // console.log(lastWord + "is: " + await SAOLchecker.scrabbleOk(lastWord))
 
     console.log("wordArray:  ", wordArray);
+    console.log("wordArray.length:  ", wordArray.length);
 
-    let lastWord = wordArray[0].word;
-    console.log("last word: ----> ", lastWord)
 
-    // loop wordsInArray and show a list of true/false
-    console.log(lastWord + "is: " + await SAOLchecker.scrabbleOk(lastWord))
 
-    // only shows the last word (ok in scrabble - box)
+    for (let obj of wordArray) {
 
-    if (await SAOLchecker.scrabbleOk(lastWord) === false) {
-      $('.saol').append('<div class="boxForWord"><span class="word">' +
-        lastWord + '</span>')
-
-      //Disable "Lägg brickor" - button when word is false in SAOL
-      $('.play-tiles').prop('disabled', true);
+      if (await SAOLchecker.scrabbleOk(obj.word) === false) {
+        console.log("one or more words are invalid")
+        okInScrabble = false;
+        continue;
+      }
+      else {
+        okInScrabble = true;
+        //Activate "Lägg brickor" - button when all words are true in SAOL
+        // $('.play-tiles').prop('disabled', false);
+      }
     }
-    if (await SAOLchecker.scrabbleOk(lastWord)) {
-      console.log("showInSaol true word")
-      $('.saol').append('<div class="boxForWord"><span class="word validWord">' +
-        lastWord + '</span>')
 
-      //Activate "Lägg brickor" - button when word is true in SAOL
-      $('.play-tiles').prop('disabled', false);
-    }
-    console.log("\n.")
+    console.log("okInScrabble variable: " + okInScrabble === true)
+    return okInScrabble === true;
   }
 
 }
