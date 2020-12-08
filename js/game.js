@@ -18,7 +18,7 @@ export default class Game {
     //this.lettersFromFile();
     this.start();
     this.wordArray = [];
-    //this.wordArrayCommitted = [];
+    this.wordArrayCommitted = [];
 
     // this.changeTiles();
     // Set change button to disabled when starting the game
@@ -135,21 +135,16 @@ export default class Game {
 
     let all = true;
     let none = true;
+    console.log("checkNewWordsInSAOL() this.wordArray: ", this.wordArray)
     for (let i = 0; i < this.wordArray.length; i++) {
+      if (await SAOLchecker.scrabbleOk(this.wordArray[i].word) === false) {
 
-      //only check words from array that have not been played, played = undefined
-      if (this.wordArray[i].played !== 'oldWord') {
-        console.log(this.wordArray[i].played)
-        console.log("!this.wordArray[i].played: " + this.wordArray[i].word)
-        if (await SAOLchecker.scrabbleOk(this.wordArray[i].word) === false) {
+        console.log("one or more words are invalid")
+        all = false;
 
-          console.log("one or more words are invalid")
-          all = false;
-
-        }
-        else {
-          none = false;
-        }
+      }
+      else {
+        none = false;
       }
     }
     console.log("all: " + all)
@@ -563,36 +558,42 @@ export default class Game {
 
 
     // Find if the array contains an object by comparing the property value
-    if (wordArray.length > 0) {
-      for (let i = 0; i < wordArray.length; i++) {
-        if (this.wordArray.some(obj => obj.word === wordArray[i].word)) {
-          alert("Object found inside the array.");
-        } else {
-          alert("Object not found.");
+    // if (wordArray.length > 0) {
+    //   for (let i = 0; i < wordArray.length; i++) {
+    //     if (this.wordArray.some(obj => obj.word === wordArray[i].word)) {
+    //       alert("Object found inside the array.");
+    //     } else {
+    //       alert("Object not found.");
+    //     }
+    //   }
+    // } else {
+    //   this.wordArray = wordArray;
+    // }
+
+    //YUNYAN's code:
+    //Compare the new words of this time and the words that have committed before
+    //If there are som same position's words then remove from the wordArray.
+    if (this.wordArrayCommitted.length > 0) {
+      for (let oldItem of this.wordArrayCommitted) {
+        let lastIndexOfPosition = oldItem.position.length - 1;
+        let newItemIndex = wordArray.findIndex
+          (newItem => ((newItem.position[0].x === oldItem.position[0].x) && (newItem.position[0].y === oldItem.position[0].y))
+            && ((newItem.position[newItem.position.length - 1].x === oldItem.position[lastIndexOfPosition].x)
+              && (newItem.position[newItem.position.length - 1].y === oldItem.position[lastIndexOfPosition].y))
+          )
+        //if newItemIndex is -1 that mean there is no match data. 
+        //If we don't have code "if (newItemIndex !== -1)" then it will delete the last element of wordArray.
+        if (newItemIndex !== -1) {
+          wordArray.splice(newItemIndex, 1)
         }
       }
+      this.wordArray = wordArray;
     } else {
       this.wordArray = wordArray;
     }
-
-    debugger;
+    console.log('wordArray after delete old item:', wordArray);
+    console.log('this.wordArrayCommitted:', this.wordArrayCommitted);
   }
-
-  // commitPlayedWords() {
-
-  //   if (this.wordArrayCommitted.length > 0) {
-  //     for (let oldItem of this.wordArrayCommitted) {
-  //       let lastIndexForPosition = oldItem.position.length - 1;
-
-  //       this.wordArray.splice(this.wordArray.findIndex
-  //         (newItem => ((newItem.position[0].x === oldItem.position[0].x) && (newItem.position[0].y === oldItem.position[0].y))
-  //           && ((newItem.position[newItem.position.length - 1].x === oldItem.position[lastIndexForPosition].x)
-  //             && (newItem.position[newItem.position.length - 1].y === oldItem.position[lastIndexForPosition].y))
-  //         ), 1);
-  //     }
-  //     console.log('wordArray after delete old item:', this.wordArray);
-  //   }
-  // }
 
 
   createBoard() {
@@ -681,27 +682,12 @@ export default class Game {
 
     let currentWordPoints = 0;
     console.log('I am in countPlayerScore, wordArray: ', this.wordArray);
-    console.log('I am in countPlayerScore, player: ', playerIndex);
     for (let i = 0; i < this.wordArray.length; i++) {
-      if (this.wordArray[i].played === 'oldWord') {
-        currentWordPoints = this.wordArray[i].points * this.wordArray[i].multiple;
-        //wordArray[i].scrabbleOk = true;
-        console.log("get point for: " + this.wordArray[i].word)
-        console.log('currentWordPoints', currentWordPoints);
-        players[playerIndex - 1].score += currentWordPoints;
-      }
-    }
+      currentWordPoints = this.wordArray[i].points * this.wordArray[i].multiple;
+      players[playerIndex - 1].score += currentWordPoints;
 
-    for (let i = 0; i < this.wordArray.length; i++) {
-      if (this.wordArray[i].played !== 'oldWord') {
-        console.log('played = oldWord')
-        this.wordArray[i].played = 'oldWord';
-        console.log(this.wordArray[i].word, "played: ", this.wordArray[i].played)
-      }
-      else {
-        alert('one or several words were not found in SAOL, try again!')
-      }
     }
+    console.log(players[playerIndex - 1].name + " score: " + players[playerIndex - 1].score)
   }
 
   showSaolText() {
