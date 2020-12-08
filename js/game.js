@@ -423,7 +423,7 @@ export default class Game {
     $('.board').html(
       this.board.flat().map(x => `
         <div class="${x.special ? 'special-' + x.special : ''}">
-        ${x.tile ? `<div class="tile">${x.tile[0].char}<div class="points">${x.tile[0].points}</div></div>` : ''}
+        ${x.tile ? `<div class="tile" >${x.tile[0].char}<div class="points">${x.tile[0].points}</div></div>` : ''}
         </div>
       `).join('')
     );
@@ -814,6 +814,7 @@ export default class Game {
   showPlayers() {
     this.players.forEach(player => {
       let index = 0
+
       $('.playing-window-left').append(`
       <div class="playerWrapper">
       <div class="playername">${player.name}</div>
@@ -823,11 +824,48 @@ export default class Game {
       `);
       while (index < player.tiles[0].length) {
         $(`#box0`).append(`
-      <div class="playertiles">${player.tiles[0][index].char}<div class="points">${player.tiles[0][index].points}</div>
+      <div data-index="${index}" class="playertiles ${player.tiles[0][index].char === ' ' ? 'blankTile' : ''}">${player.tiles[0][index].char}<div class="points">${player.tiles[0][index].points || ''}</div>
     `);
         index++;
       }
+      $('.blankTile').on('staticClick', e => {
+        let me = $(e.currentTarget);
+        let index = +me.attr('data-index');
+        let alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖ';
+        let pass = false;
+        let char = '';
+        //We use a do while loop to check the input of the player
+        //We set it to capitalized letters and check through the string in our forloop.
+        //If the input matches a character in the alphabet, the loop is true and it ends.
+        do {
+          char = prompt('Skriv in en bokstav eller tryck avbryt för att byta bricka');
+          if (char === null) {
+            me.dblclick();
+            return;
+          }
+
+          for (let i = 0; i < alphabet.length; i++) {
+
+            console.log(char)
+            console.log(alphabet.charAt(i))
+
+            if (alphabet.charAt(i) == char) {
+              console.log(alphabet.charAt(i) + ' is equals to' + char)
+              player.tiles[0][index].char = char;
+              pass = true;
+
+            }
+          }
+        }
+        while (!pass);
+        //Now we set the tiles character to our verified and safe input.
+
+        console.log(player.tiles)
+        me.html(char)
+
+      })
     });
+
   }
 
 
