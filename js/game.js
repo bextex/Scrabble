@@ -26,6 +26,9 @@ export default class Game {
     }
 
     console.log('game starting');
+    this.wordArray = [];
+    this.wordArrayCommitted = [];
+
     this.players = [];
 
 
@@ -64,6 +67,9 @@ export default class Game {
     for (let i = 0; i < store.players.length; i++) {
       if (playerName === store.players[i]) {
         this.players.push(new Player(store.players[i], ([...this.tilesFromBag.splice(0, 7)])));
+        ///Initialize player score
+        this.players[i].score = 0;
+        console.log('init PlayerScore', this.players[i], this.players[i].score);
       }
     }
 
@@ -112,6 +118,22 @@ export default class Game {
       console.log('i have clicked on lägg brickor');
       // get points for word
       // CountScores(); ??? 
+      console.log('i have clicked on lägg brickor');
+      // get points for word
+      console.log('play tile on click  wordArray ', that.wordArray);
+      /*
+      if (that.wordArray.length > 0) {
+        this.showWordWithList(that.wordArray)
+      }
+      */
+
+      if (that.wordArray.length > 0) {
+        this.countPlayerScore(that.playerIndex, that.wordArray);
+      }
+      else {
+        alert('Du har ingen godkänd ord');
+        return;
+      }
 
       store.currentPlayer++;
       console.log('Changing player index', store.currentPlayer);
@@ -192,6 +214,8 @@ export default class Game {
     });
 
   }
+
+
 
   playerTurn() {
     if (store.currentPlayer >= store.players.length) {
@@ -291,36 +315,39 @@ export default class Game {
 
         //Here we create a reference to the tile and the input.
         //console.log('tiles from board', this.board[y][x].tile);
-        // let tileChar = this.board[y][x].tile.char;
-        // console.log(tileChar)
-        // console.log('hejhej')
-        // let charInput = "";
+        /*
+        let tileChar = this.board[y][x].tile[0].char;
+        let charInput = "";
 
-        // //We need to check if the tile is empty and if thats true we enter the statement.
-        // if (tileChar == ' ') {
-        //   let alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖ';
-        //   let pass = false
-        //   //We use a do while loop to check the input of the player
-        //   //We set it to capitalized letters and check through the string in our forloop.
-        //   //If the input matches a character in the alphabet, the loop is true and it ends.
-        //   do {
-        //     let rawInput = prompt("Please enter a letter");
-        //     charInput = rawInput.toUpperCase();
-        //     for (let i = 0; i < alphabet.length; i++) {
+        //We need to check if the tile is empty and if thats true we enter the statement.
+        if (tileChar == ' ') {
+          let alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖ';
+          let pass = false
+          //We use a do while loop to check the input of the player
+          //We set it to capitalized letters and check through the string in our forloop.
+          //If the input matches a character in the alphabet, the loop is true and it ends.
+          do {
+            let rawInput = prompt("Please enter a letter");
+            charInput = rawInput.toUpperCase();
+            for (let i = 0; i < alphabet.length; i++) {
 
-        //       console.log(charInput)
-        //       console.log(alphabet.charAt(i))
+              console.log(charInput)
+              console.log(alphabet.charAt(i))
 
-        //       if (alphabet.charAt(i) == charInput) {
-        //         console.log(alphabet.charAt(i) + ' is equals to' + charInput)
-        //         pass = true;
-        //       }
-        //     }
-        //   }
-        //   while (!pass);
-        //   //Now we set the tiles character to our verified and safe input.
-        //   this.board[y][x].tile[0].char = charInput;
-        // }
+              if (alphabet.charAt(i) == charInput) {
+                console.log(alphabet.charAt(i) + ' is equals to' + charInput)
+                pass = true;
+              }
+            }
+            while (!pass);
+            //Now we set the tiles character to our verified and safe input.
+            this.board[y][x].tile[0].char = charInput;
+          }
+          while (!pass);
+          //Now we set the tiles character to our verified and safe input.
+          this.board[y][x].tile[0].char = charInput;
+        }
+        */
         this.checkNewWordsOnBoard(y, x);
 
         // Add the moved tile from players tile array to the boards tiles
@@ -501,6 +528,31 @@ export default class Game {
       console.log('i have clicked on lägg brickor');
       // get points for word
       // CountScores(); ??? 
+      if (this.wordArray.length > 0) {
+        this.showWordWithList(this.wordArray)
+      }
+
+      if (this.wordArray.length > 0) {
+        this.countPlayerScore(store.players.indexOf(this.name), this.wordArray);
+        // this.countPlayerScore(this.playerIndex, this.wordArray);
+      }
+      else {
+        alert('Du har ingen godkänd ord');
+        return;
+      }
+      /*
+      if (that.wordArray.length > 0) {
+        this.showWordWithList(that.wordArray)
+      }
+
+      if (that.wordArray.length > 0) {
+        this.countPlayerScore(that.playerIndex, that.wordArray);
+      }
+      else {
+        alert('Du har ingen godkänd ord');
+        return;
+      }
+      */
 
       store.currentPlayer++;
       console.log('Changing player index', store.currentPlayer);
@@ -586,7 +638,6 @@ export default class Game {
 
     console.log('y: ' + y);
     console.log('x: ' + x);
-
     // CHECK HORISONTAL
     for (let i = 0; i < this.board.length; i++) {
       // CHECK VERTICAL
@@ -626,8 +677,8 @@ export default class Game {
         }
       }
     }
-    wordV.sort((a, b) => a.y > b.y ? -1 : 1);
-    wordH.sort((a, b) => a.x > b.x ? -1 : 1);
+    wordV.sort((a, b) => a.y > b.y ? -1 : 1);//sort by value of y from small to big
+    wordH.sort((a, b) => a.x > b.x ? -1 : 1);//sort by value of x from small to big
     console.log('vertical wordV: ', wordV);
     console.log('horisontal wordH: ', wordH);
 
@@ -638,9 +689,12 @@ export default class Game {
       let word = '';
       let points = 0;
       let multiple = 1;
+      let position = [];
+      let totalPoints = 0;
       for (let i = 0; i < wordV.length; i++) {
         if (((i < wordV.length - 1) && (wordV[i].y === wordV[i + 1].y)) || ((i > 0) && (wordV[i].y === wordV[i - 1].y))) {
           word += wordV[i].char;
+          position.push({ x: wordV[i].x, y: wordV[i].y });
           if (wordV[i].special) {
             if ((wordV[i].special) === '2xLS') { points += 2 * wordV[i].points }
             else if ((wordV[i].special) === '3xLS') { points += 3 * wordV[i].points }
@@ -654,10 +708,13 @@ export default class Game {
         }
         //if it is another column then save the word to wordArray. Initialize variables in order to save the new words.
         if ((i === wordV.length - 1) || (wordV[i].y !== wordV[i + 1].y)) {
-          wordArray.push({ word: word, points: points, multiple: multiple })
+          totalPoints = multiple * points;
+          wordArray.push({ word: word, points: points, multiple: multiple, position: position, totalPoints: totalPoints })
           word = '';
           points = 0;
           multiple = 1;
+          position = [];
+          totalPoints = 0;
         }
 
       }
@@ -670,9 +727,12 @@ export default class Game {
       let word = '';
       let points = 0;
       let multiple = 1;
+      let position = [];
+      let totalPoints = 0;
       for (let i = 0; i < wordH.length; i++) {
         if (((i < wordH.length - 1) && (wordH[i].x === wordH[i + 1].x)) || ((i > 0) && (wordH[i].x === wordH[i - 1].x))) {
-          word += wordH[i].char
+          word += wordH[i].char;
+          position.push({ x: wordH[i].x, y: wordH[i].y });
           if (wordH[i].special) {
             if ((wordH[i].special) === '2xLS') { points += 2 * wordH[i].points }
             else if ((wordH[i].special) === '3xLS') { points += 3 * wordH[i].points }
@@ -686,15 +746,44 @@ export default class Game {
         }
         //if it is another row then save the word to wordArray. Initialize variables in order to save the new words.
         if ((i === wordH.length - 1) || (wordH[i].x !== wordH[i + 1].x)) {
-          wordArray.push({ word: word, points: points, multiple: multiple })
+          totalPoints = multiple * points;
+          wordArray.push({ word: word, points: points, multiple: multiple, position: position, totalPoints: totalPoints })
           word = '';
           points = 0;
           multiple = 1;
+          position = [];
+          totalPoints = 0;
         }
       }
       console.log('the words currently on board:', wordArray);
     }
 
+    //console.log('print this.wordArrayCommitted', this.wordArrayCommitted);
+    //let wordArrayCopy = wordArray.slice();
+    //console.log('print wordArrayCopy', wordArrayCopy);
+
+    //Compare the new words of this time and the wors that have committed before
+    //If there are som same position's words then remove from the wordArray.
+    if (this.wordArrayCommitted.length > 0) {
+      for (let oldItem of this.wordArrayCommitted) {
+        let lastIndexOfPosition = oldItem.position.length - 1;
+        let newItemIndex = wordArray.findIndex
+          (newItem => ((newItem.position[0].x === oldItem.position[0].x) && (newItem.position[0].y === oldItem.position[0].y))
+            && ((newItem.position[newItem.position.length - 1].x === oldItem.position[lastIndexOfPosition].x)
+              && (newItem.position[newItem.position.length - 1].y === oldItem.position[lastIndexOfPosition].y))
+          )
+        //if newItemIndex is -1 that mean there is no match data. 
+        //If we don't have code "if (newItemIndex !== -1)" then it will delete the last element of wordArray.
+        if (newItemIndex !== -1) {
+          wordArray.splice(newItemIndex, 1)
+        }
+      }
+      console.log('wordArray after delete old item:', wordArray);
+      console.log('this.wordArrayCommitted:', this.wordArrayCommitted);
+    }
+
+
+    this.wordArray = wordArray;
     if (wordArray.length > 0) {
       this.countScore(wordArray);
     }
@@ -722,7 +811,6 @@ export default class Game {
     return this.board;
   }
 
-
   showPlayers() {
     this.players.forEach(player => {
       let index = 0
@@ -730,7 +818,7 @@ export default class Game {
       $('.playing-window-left').append(`
       <div class="playerWrapper">
       <div class="playername">${player.name}</div>
-      <div class="score">Poäng :<div id="score${this.players.indexOf(player)}"></div></div>
+      <div <p class= "score">Poäng : ${player.score}</p></div>       
       </div>
       <div class="tiles-box"><div id="box${this.players.indexOf(player)}"></div></div>
       `);
@@ -799,6 +887,31 @@ export default class Game {
       <button class="change-tiles">Byt brickor</button>
     `);
   }
+  // This function to count the player's score
+  async countPlayerScore(playerIndex, wordArray) {
+    let currentWordPoints = 0;
+    console.log('I am in countPlayerScore, wordArray: ', wordArray);
+    console.log('I am in countPlayerScore, player: ', playerIndex);
+    for (let i = 0; i < wordArray.length; i++) {
+      if (await SAOLchecker.scrabbleOk(wordArray[i].word)) {
+        // currentWordPoints = wordArray[i].points * wordArray[i].multiple;
+        currentWordPoints = wordArray[i].totalPoints;
+        wordArray[i].scrabbleOk = true;
+      }
+      else {
+        currentWordPoints = 0;
+        wordArray[i].scrabbleOk = false;
+      }
+      console.log('currentWordPoints', currentWordPoints);
+      // players[playerIndex - 1].score += currentWordPoints;
+      this.players[playerIndex].score += currentWordPoints;
+      console.log('play.score: ', this.players[playerIndex].score);
+    }
+    //console.log('play.score', player.score);
+    this.wordArrayCommitted = wordArray.filter(x => x.scrabbleOk === true);
+    console.log('I am in countPlayerScore wordArray committed', this.wordArrayCommitted);
+  }
+
 
   showSaolText() {
     $('.board').append(
@@ -807,7 +920,7 @@ export default class Game {
     );
   }
 
-  async countScore(wordsInArray) {
+  async showWordFromSAOL(wordsInArray) {
     console.log('------im in countScore()------');
     console.log("wordsInArray:  ", wordsInArray);
 
@@ -860,5 +973,25 @@ export default class Game {
         // (maybe fun to show in scrabble at some point?)
         await SAOLchecker.lookupWord(lastWord) + '</div');
     }
+  }
+  async showWordWithList(wordsInArray) {
+    console.log('------I am in showWordWithList()-----');
+    $('.playing-window').append(`<section class="wordList"><h3>Ord Listor</h3>
+     <table><tr><th>Ord</th><th>ok in Scrabble</th><th>poäng</th></tr>
+     `)
+    for (let item of wordsInArray) {
+      if (await SAOLchecker.scrabbleOk(item.word)) {
+        item.scrabbleOk = true;
+      }
+      else {
+        item.scrabbleOk = false;
+        item.totalPoints = 0;
+      }
+      $(`.wordList`).append(`<span class="word">
+      <tr><td>${item.word}</td></tr><tr><td>${item.scrabbleOk}</td></tr><tr><td>${item.totalPoints}</td></tr>
+      `)
+    }
+
+
   }
 }
