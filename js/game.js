@@ -11,6 +11,14 @@ console.log("Store från början", store)
 export default class Game {
 
   constructor() {
+
+    // this.createBoard();
+    // this.render();
+    // this.showPlayerButtons();
+    // this.playerIndex = 0;
+
+    // When resizing the window realign tiles with squares
+    // (some extra code here to make sure we do not connect resize several times)
     window.currentGame = this;
     if (!window.resizeAdded) {
       window.resizeAdded = true;
@@ -19,11 +27,30 @@ export default class Game {
 
     console.log('game starting');
     this.players = [];
+
+
+
+    // this.start();
+
+    // //this.lettersFromFile();
+    // this.start();
+    // // this.changeTiles();
+    // // Set change button to disabled when starting the game
+    // $('.change-tiles').prop('disabled', true);
   }
 
   async getTiles() {
     this.tilesFromBag = store.tilesFromFile;
   }
+
+  // get playerIndex() { return store.currentPlayer; }
+
+  // set playerIndex(x) { store.currentPlayer = x; }
+
+
+
+
+  /* Starting up the game with start() to set how's the first player */
 
   start(playerName) {
     this.getTiles();
@@ -48,7 +75,121 @@ export default class Game {
     // Set change button to disabled when starting the game
     $('.change-tiles').prop('disabled', true);
 
-    this.buttonEvents();
+
+
+
+    // When click on 'Stå över'-button, there will be a new player and the board will render
+    $('.pass').on('click', () => {
+      console.log('i have clicked on pass button');
+
+      store.currentPlayer++;
+      console.log('Changing player index', store.currentPlayer);
+
+      // this.board = store.board;
+      // this.tilesFromBag = store.tilesFromFile;
+
+      this.playerTurn();
+      this.render();
+      this.changeTiles();
+    });
+
+    // When click on 'Lägg brickor'-button, there will be a new player and the board will render
+    // Shoul also count score on word
+    $('.play-tiles').on('click', () => {
+
+      // TF comments:
+
+      // only a valid move if not first move or center is taken
+      if (!this.notFirstMoveOrCenterIsTaken()) {
+        this.render();
+        return;
+
+      }
+
+      this.placePrelTilesOnBoard();
+      this.render();
+
+      console.log('i have clicked on lägg brickor');
+      // get points for word
+      // CountScores(); ??? 
+
+      store.currentPlayer++;
+      console.log('Changing player index', store.currentPlayer);
+
+      // this.board = store.board;
+      // this.tilesFromBag = store.tilesFromFile;
+
+      this.playerTurn();
+      this.render();
+      this.changeTiles();
+    });
+
+    // To change tiles, locate what tile wants to be changed and change them to new tiles from bag. 
+    // Put back the tiles that wants to be changed and scramble the bag
+    let that = this;
+    $('.change-tiles').on('click', () => {
+      if (that.tilesFromBag.length < 7) {
+        console.log('there are 7 or less tiles in bag');
+        alert('there are 7 or less tiles in bag');
+        // Put a div and message here instead
+      }
+      // How many tiles the player wants to remove
+      let numberOfTiles = 0;
+      // Loop through the current players player tiles div
+      // $(`#box${players.indexOf(players[this.playerIndex - 1])} > div`).each(function () {
+      $(`#box0 > div`).each(function () {
+        // If the current div have the class 'change'
+        console.log('Does this div have change class?', $(this).hasClass('change'));
+        if ($(this).hasClass('change')) {
+          // What index does the div with the 'change' class have
+
+          let indexOfTile = $('.change').index();
+          console.log('Index of the tile that wants to change', indexOfTile);
+          // What text value does the current div have (we need to know the letter)
+          let letterWithPoint = $(this).text();
+          console.log('The whole text from div that wants to change', letterWithPoint);
+          // Remove the point that follows when asking for text()
+          let letterWithoutPoint = letterWithPoint[0];
+          console.log('The letter', letterWithoutPoint);
+          // Increase numberOfTiles so we now how many new tiles we need at the end
+          numberOfTiles++;
+          console.log('How many tiles do you wanna change?', numberOfTiles);
+
+          // ---------------- CHECK THIS METHOD!!! NOT WORKING
+
+          // Loop through the players tiles
+          that.tiles.forEach(tile => {
+            // When we come across the players tiles that match the marked tile
+            if (tile.char === letterWithoutPoint) {
+              // Remove that tile using the indexOfTile
+              that.tiles.splice(indexOfTile, 1);
+              // Push the players removed(changed) tiles back to tilesFromBag
+              that.tilesFromBag.push(tile);
+            }
+          });
+        }
+      });
+      // This is the same as for player when they need new tiles
+      // Remove the number of tiles from tilesFromBag 
+      let newTiles = [...that.tilesFromBag.splice(0, numberOfTiles)];
+      // push the new tiles to the players current tiles
+      for (let i = 0; i < numberOfTiles; i++) {
+        that.tiles.push(newTiles[i]);
+      }
+      // 'Shake the bag'
+      that.tilesFromBag.sort(() => Math.random() - 0.5);
+      // Change player (since changing tiles is a move) and re-render
+
+      store.currentPlayer++;
+      console.log('Changing player index', store.currentPlayer);
+
+      // this.board = store.board;
+      // this.tilesFromBag = store.tilesFromFile;
+
+      this.playerTurn();
+      this.render();
+      this.changeTiles();
+    });
 
   }
 
@@ -149,8 +290,8 @@ export default class Game {
         this.alignPrelTilesWithSquares();
 
         //Here we create a reference to the tile and the input.
-        console.log('tiles from board', this.board[y][x]);
-        let tileChar = this.board[y][x].tile[0].char;
+        //console.log('tiles from board', this.board[y][x].tile);
+        /*let tileChar = this.board[y][x].tile[0].char;
         let charInput = "";
 
         //We need to check if the tile is empty and if thats true we enter the statement.
@@ -177,7 +318,7 @@ export default class Game {
           while (!pass);
           //Now we set the tiles character to our verified and safe input.
           this.board[y][x].tile[0].char = charInput;
-        }
+        }*/
         this.checkNewWordsOnBoard(y, x);
 
         // Add the moved tile from players tile array to the boards tiles
@@ -553,7 +694,7 @@ export default class Game {
     }
 
     if (wordArray.length > 0) {
-      this.showWordFromSAOL(wordArray);
+      this.countScore(wordArray);
     }
   }
 
@@ -621,14 +762,14 @@ export default class Game {
 
   showSaolText() {
     $('.board').append(
-      `<p class="saol">🎄SAOL🎄</p>`
+      `<p class="saol">🎄SAOL🎄</p>
+      <section class="placeForBox"><section>`
     );
   }
 
   async countScore(wordsInArray) {
     console.log('------im in countScore()------');
-
-    // console.log("wordsInArray:  ", wordsInArray);
+    console.log("wordsInArray:  ", wordsInArray);
 
     let lastWord = wordsInArray[0].word;
     console.log("last word: ----> ", lastWord)
@@ -640,9 +781,10 @@ export default class Game {
       $('body .boxForWord').remove();
     }
 
+    /*Remove?*/
     if (await SAOLchecker.scrabbleOk(lastWord) === false) {
       // (false === false) --> (true)
-      $('.board').append('<section class="boxForWord"><span class="word">' +
+      $('.placeForBox').append('<div class="boxForWord"><span class="word">' +
         lastWord + '</span><hr>ok in Scrabble: ' +
         // check if ok scrabble words
         // by calling await SAOLchecker.scrabbleOk(word)
@@ -650,14 +792,12 @@ export default class Game {
         // add explanations/entries from SAOL in body
         // by using await SAOLchecker.lookupWord(word)
         // (maybe fun to show in scrabble at some point?)
-        await SAOLchecker.lookupWord(lastWord) + '</section>');
+        await SAOLchecker.lookupWord(lastWord) + '</div');
 
-      //Disable "Lägg brickor" - button when word is false in SAOL
-      $('.play-tiles').prop('disabled', true);
     }
     if (await SAOLchecker.scrabbleOk(lastWord)) {
-      $('.board').append(`<section class="boxForWord" id="${lastWord}-box"><span class="word">
-      ` +
+      $('.placeForBox').append(`<div class="boxForWord" id="${lastWord}-box"><span class="word">` +
+
         lastWord + `</span><hr>ok in Scrabble: ` +
         // check if ok scrabble words
         // by calling await SAOLchecker.scrabbleOk(word)
@@ -679,9 +819,6 @@ export default class Game {
         // by using await SAOLchecker.lookupWord(word)
         // (maybe fun to show in scrabble at some point?)
         await SAOLchecker.lookupWord(lastWord) + '</div');
-
-      //Activate "Lägg brickor" - button when word is true in SAOL
-      $('.play-tiles').prop('disabled', false);
     }
   }
 }

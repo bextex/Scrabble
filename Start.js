@@ -40,9 +40,19 @@ export default class Start {
 
     // let that = this;
 
-    $('.game-menu').append(
-      `<input type="text" id="playerName" class="newPlayerInput" placeholder="Namn" />`
+    $('.game-menu').hide(0).delay(6000).show(0).append(
+      `<input type="text" 
+        id="playerName" 
+        class="newPlayerInput" 
+        placeholder="Namn" />
+        `
     );
+
+
+    /*append(
+      `<input type="text" id="playerName" class="newPlayerInput" placeholder="Namn" />`
+    );*/
+
 
     $('.get-key').on('click', async function () {
       // If there isn't a name, ask the player to first type in a name
@@ -53,13 +63,14 @@ export default class Start {
         return;
       }
       // Fade out the 'start-side' and replace it with waiting for other players
-      $('.game-menu').fadeOut(1700);
+      $('#candy').hide();
+      $('.game-menu').fadeOut(250);
 
       let networkKey = await network.getLocalKey();
       console.log('network key is ' + networkKey);
       $('.playersName').append(`<div class="waiting-for-players"><div class="waiting-box">Väntar på spelare...</div>
-      <button class="start-new-game">Starta</button>
-      <div type="key-input" class="key-input"><span class="key">${networkKey}</span><span class="oi" data-glyph="file"></span></div>
+      <button class="start-new-game"><span>Starta</span></button>
+      <div type="key-input" class="key-input"><span class="key">NYCKEL : ${networkKey}</span></div>
       </div>`);
 
       // that is all the tiles from the bag. Which has been created in clickFunctions
@@ -87,12 +98,14 @@ export default class Start {
       }
 
       // Fade out the 'start-side' and replace it with waiting for other players
-      $('.game-menu').fadeOut(1700);
+      $('#candy').hide();
+      $('.game-menu').fadeOut(250);
 
       // let networkKey = await network.getLocalKey();
       $('.playersName').append(`<div>
-      <button class="join">Gå med</button>
+      <button class="join"><span>Gå med</span></button>
       <input type="key-input" class="key-input"><span class="key" placeholder="Skriv nyckel här"></span></input>
+      <p class=write-key>Skriv nyckel här</p>
       </div>`);
 
       $('.join').on('click', function () {
@@ -154,41 +167,22 @@ export default class Start {
 
 
 // rules open-close 
-
 $(document).ready(function () {
 
-  // Play animations in that order: 
-
-  // 1 - Candy: -> play it first
-  // Then show:
-  // 2 - game-menu and players 
-
-  $('.game-menu').hide(0).delay(6000).show(0);
-  $('.newPlayerInput').hide(0).delay(6000).show(0);
-  //$('#candy-loader').hide();
-
-
-
   $('.rules').click(function () {
+    $('.newPlayerInput').hide();
     $('.game-menu').hide();
-    $('.game-screen').hide();
     $('.add-rules').animate({
       height: 'toggle'
     });
   });
   $('.close').click(function () {
-    $('.add-rules').hide();
+    $('.add-rules').hide(150);
+    $('.newPlayerInput').fadeIn(850);
     $('.game-menu').fadeIn(850);
-    $('.game-screen').fadeIn(850);
   });
 
 });
-
-
-
-
-
-
 
 
 
