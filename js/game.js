@@ -41,8 +41,8 @@ export default class Game {
       if (playerName === store.players[i]) {
         this.players.push(new Player(store.players[i], ([...this.tilesFromBag.splice(0, 7)])));
         ///Initialize player score
-        store.players[i].score = 0;
-        console.log('init PlayerScore', store.players[i], store.players[i].score);
+        this.players[i].score = 0;
+        console.log('init PlayerScore', this.players[i], this.players[i].score);
       }
     }
 
@@ -153,7 +153,7 @@ export default class Game {
         // (jQuery can add data to any element)
         $tile.data().prelBoardPos = { y, x };
         this.alignPrelTilesWithSquares();
-
+        /*
         //Here we create a reference to the tile and the input.
         console.log('tiles from board', this.board[y][x].tile);
         let tileChar = this.board[y][x].tile[0].char;
@@ -184,6 +184,8 @@ export default class Game {
           //Now we set the tiles character to our verified and safe input.
           this.board[y][x].tile[0].char = charInput;
         }
+
+        */
         this.checkNewWordsOnBoard(y, x);
 
         // Add the moved tile from players tile array to the boards tiles
