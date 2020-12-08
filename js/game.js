@@ -522,40 +522,15 @@ export default class Game {
           position = [];
         }
       }
-
-      console.log('vertical wordV: ', wordV);
-      console.log('horisontal wordH: ', wordH);
-
-      console.log('the words currently on board:', wordArray);
-
-
     }
+    console.log('the words currently on board:', wordArray);
 
-    // console.log('print this.wordArrayCommitted', this.wordArrayCommitted);
-
-    // if (this.wordArrayCommitted.length > 0) {
-    //   for (let oldItem of this.wordArrayCommitted) {
-    //     let lastIndexForPosition = oldItem.position.length - 1;
-    //     console.log('lastIndexForPosition', lastIndexForPosition);
-    //     wordArray.splice(wordArray.findIndex
-    //       (newItem => ((newItem.position[0].x === oldItem.position[0].x) && (newItem.position[0].y === oldItem.position[0].y))
-    //         && ((newItem.position[newItem.position.length - 1].x === oldItem.position[lastIndexForPosition].x)
-    //           && (newItem.position[newItem.position.length - 1].y === oldItem.position[lastIndexForPosition].y))
-    //       ), 1);
-    //   }
-    //   console.log('wordArray after delete old item:', wordArray);
-    //   console.log('this.wordArrayCommitted:', this.wordArrayCommitted);
-    // }
 
     /* 
     only add new words to this.wordArray 
     compare local wordArray to this.Array and only add words which 
     if(wordArray[i].played !== 'oldWord')
     */
-    console.log("this.wordArray: ", this.wordArray)
-    console.log("wordArray: ", wordArray)
-
-
 
     // Find if the array contains an object by comparing the property value
     // if (wordArray.length > 0) {
@@ -573,7 +548,10 @@ export default class Game {
     //YUNYAN's code:
     //Compare the new words of this time and the words that have committed before
     //If there are som same position's words then remove from the wordArray.
-    console.log("wordArray before commit method: ", wordArray)
+    for (let objWord of wordArray) {
+      console.log("wordArray before commit method: ", objWord)
+    }
+
     if (this.wordArrayCommitted.length > 0) {
       for (let oldItem of this.wordArrayCommitted) {
         let lastIndexOfPosition = oldItem.position.length - 1;
