@@ -275,7 +275,8 @@ export default class Game {
     let isBesideAnotherTile = !!([...$('.playertiles')].find(x => {
       let p = $(x).data().prelBoardPos;
       console.log('what is p in beside another tile', p);
-      return p && p.x === 7 && p.y === 7;
+      if ()
+        return p && p.x === 7 && p.y === 7;
     }));
     console.log('is beside anbother file', isBesideAnotherTile);
   }
