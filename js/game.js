@@ -33,6 +33,8 @@ export default class Game {
 
 
 
+
+
     // this.start();
 
     // //this.lettersFromFile();
@@ -61,8 +63,10 @@ export default class Game {
       if (playerName === store.players[i]) {
         this.players.push(new Player(store.players[i], ([...this.tilesFromBag.splice(0, 7)])));
         ///Initialize player score
-        this.players[0].score = 0;
-        console.log('init PlayerScore', this.players[0], this.players[0].score);
+
+        // COMMENTED OUT
+        // this.players[0].score = 0;
+        // console.log('init PlayerScore', this.players[0], this.players[0].score);
       }
     }
 
@@ -150,7 +154,7 @@ export default class Game {
     // $('.stand .tile').not('.none').draggabilly({ containment: 'body' })
     $('.playertiles').not('.none').draggabilly({ containment: 'body' })
       // Edited by TF
-      .on('dragStart', e => delete $(e.currentTarget).data().prelBoardPos)
+      .on('dragStart', e => { delete $(e.currentTarget).data().prelBoardPos; delete $(e.currentTarget).data().playerStand; })
       .on('dragMove', e => this.alignPrelTilesWithSquares())
       .on('dragEnd', function (e, pointer) {
 
@@ -173,50 +177,47 @@ export default class Game {
 
           let { pageX, pageY } = pointer;
           let tileIndex = +$tile.attr('data-index');
-          let tile = that.tiles[0][tileIndex];
+          let $tileBoxSquare = $tile.parent('.tiles-box');
+          let tileBoxSquareIndex = +$tileBoxSquare.attr('data-box');
 
-          let $stand = $tile.parent('#box0');
+          let $stand = $('#box0');
+
           let { top, left } = $stand.offset();
+
           let bottom = top + $stand.height();
           let right = left + $stand.width();
 
-          let newIndex;
-          let playerMovedAroundTiles = false;
+          let newBoxIndex;
+
+
           if (pageX > left && pageX < right
             && pageY > top && pageY > bottom) {
 
-            newIndex = Math.floor(8 * (pageX - left) / $stand.width());
-            console.log('My new index is', newIndex);
-            let pt = that.tiles[0];
-            let replacedTile = pt[newIndex];
-            console.log('iam player tiles', pt);
-            // move around
-            pt[newIndex] = tile;
-            pt[tileIndex] = ' ';
+            newBoxIndex = Math.floor(8 * (pageX - left) / $stand.width());
 
-            if (tileIndex === newIndex) {
+            let $newBoxSquare = $(`.tiles-box[data-box="${newBoxIndex}"]`);
+
+            if (!$(`.tiles-box[data-box="${newBoxIndex}"] > div`).length) {
+
+              $(`.tiles-box[data-box="${newBoxIndex}"]`).append($tile);
+              $(`.tiles-box[data-box="${tileBoxSquareIndex}"]`).empty();
+
+              let so = $newBoxSquare.offset(), to = $tile.offset();
+
+              let swh = { w: $newBoxSquare.width(), h: $newBoxSquare.height() };
+
+              let twh = { w: $tile.width(), h: $tile.height() };
+
+              let pos = {
+                left: so.left - to.left + (swh.w - twh.w) / 2.8,
+                top: so.top - to.top + (swh.h - twh.h) / 2.8
+              };
+              $tile.css(pos);
+
+            } else {
               $tile.css({ top: '', left: '' });
-            } else if (tileIndex > newIndex) {
-              pt.splice(newIndex + 1, 0, replacedTile);
-              playerMovedAroundTiles = true;
-            } else if (tileIndex < newIndex) {
-              pt.splice(newIndex, 0, replacedTile);
-              playerMovedAroundTiles = true;
             }
-            pt.splice(pt.indexOf(' '), 1);
           }
-
-          if (playerMovedAroundTiles) {
-            $('.playing-window-left').empty();
-            that.render();
-            // $tile.css({ top: '' });
-          }
-          else {
-            // move the tile back to its original position
-            $tile.css({ top: '', left: '' });
-          }
-          // $tile.data().prelBoardPos = { y, x };
-          // this.alignPrelTilesWithSquares();
           return;
         }
 
@@ -224,8 +225,12 @@ export default class Game {
         // (jQuery can add data to any element)
         $tile.data().prelBoardPos = { y, x };
         that.alignPrelTilesWithSquares();
-      });
+        // that.placePrelTilesOnBoard();
+
+      })
+
   }
+
 
   // added by TF
   alignPrelTilesWithSquares() {
@@ -249,6 +254,7 @@ export default class Game {
 
   // added by TF
   placePrelTilesOnBoard() {
+    console.log('im in place prel on board');
     $('.playertiles').each((i, el) => {
       let $tile = $(el);
       let p = $tile.data().prelBoardPos;
@@ -257,9 +263,11 @@ export default class Game {
       let tile = this.tiles[0][tileIndex];
       tile.onBoard = true;
       this.board[p.y][p.x].tile = [tile];
-      this.checkNewWordsOnBoard(p.y, p.x);
+      console.log('whats on this.board.tile in prel board', this.board[p.y][p.x].tile);
+      // this.checkNewWordsOnBoard(p.y, p.x);
     });
     this.tiles[0] = this.tiles[0].filter(x => !x.onBoard);
+    console.log('this tiles array in place prel on board', this.tiles[0]);
   }
 
   // added by TF
@@ -291,6 +299,20 @@ export default class Game {
         </div>
       `).join('')
     );
+
+    // let index = 0;
+
+    // $('#box0').html(
+    //   this.tiles.flat().map(x => {
+    //     console.log('what is x inte flat map in players', x);
+    //     `
+    //     <div data-index="${index}" class="playertiles ${x.char === ' ' ? 'blankTile' : ''}">${x.char}<div class="points">${x.points || ''}</div>
+    //   `
+    //     index++;
+    //   }).join('')
+    // );
+
+
 
     console.log('Index of this player in store.players:', store.players.indexOf(this.name));
     console.log('Current player in store:', store.currentPlayer);
@@ -363,12 +385,18 @@ export default class Game {
     $('.pass').on('click', () => {
       console.log('i have clicked on pass button');
 
+      console.log('this board in pass', this.tiles[0]);
+
       $('.playertiles').each((i, el) => {
         let $tile = $(el);
         let p = $tile.data().prelBoardPos;
+        console.log('p from .pass button is', p)
+        console.log('the tile from board', $tile);
         if (p) {
           console.log('There is tiles when I clicked the pass button');
           p = '';
+          // The tile renders back to its player tiles if not played and is on board
+          $tile.css({ top: '', left: '' });
         }
       });
 
@@ -396,14 +424,15 @@ export default class Game {
         return;
       }
 
-      this.placePrelTilesOnBoard();
-      this.render();
+      // this.placePrelTilesOnBoard();
+      // this.render();
 
       console.log('i have clicked on lägg brickor');
 
       console.log('Changing player index', store.currentPlayer);
 
-      this.checkNewWordsOnBoard(y, x);
+      // removed x and y from arguments
+      this.checkNewWordsOnBoard();
       // get points for word
       // CountScores(); ??? 
 
@@ -681,8 +710,7 @@ export default class Game {
 
   showPlayers() {
     this.players.forEach(player => {
-      let index = 0
-
+      let index = 0;
       $('.playing-window-left').append(`
       <div class="playerWrapper">
       <div class="playersName">${player.name}</div>
@@ -692,10 +720,14 @@ export default class Game {
       `);
       while (index < player.tiles[0].length) {
         $(`#box0`).append(`
-       <div data-index="${index}" class="playertiles ${player.tiles[0][index].char === ' ' ? 'blankTile' : ''}">${player.tiles[0][index].char}<div class="points">${player.tiles[0][index].points || ''}</div>
-     `);
+        <div class="tiles-box" data-box="${index}"><div data-index="${index}" class="playertiles ${player.tiles[0][index].char === ' ' ? 'blankTile' : ''}">${player.tiles[0][index].char}<div class="points">${player.tiles[0][index].points || ''}</div></div>
+      `);
         index++;
       }
+      $(`#box0`).append(`
+        <div class="tiles-box" data-box="${index}"></div>
+      `);
+
       $('.blankTile').on('staticClick', e => {
         let me = $(e.currentTarget);
         let index = +me.attr('data-index');
@@ -732,7 +764,11 @@ export default class Game {
         me.html(char)
 
       })
+
+
     });
+
+
 
   }
 
