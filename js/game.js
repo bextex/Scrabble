@@ -222,6 +222,26 @@ export default class Game {
   }
 
   // added by TF
+  alignPrelTilesWithSquares() {
+    // align tiles that have a prelBoardPos with correct squares
+    $('.playertiles').each((i, el) => {
+      let $tile = $(el);
+      let p = $tile.data().prelBoardPos;
+      if (!p) { return; }
+      let $square = $('.board > div').eq(p.y * 15 + p.x);
+      $tile.css({ top: '', left: '' });
+      let so = $square.offset(), to = $tile.offset();
+      let swh = { w: $square.width(), h: $square.height() };
+      let twh = { w: $tile.width(), h: $tile.height() };
+      let pos = {
+        left: so.left - to.left + (swh.w - twh.w) / 2.8,
+        top: so.top - to.top + (swh.h - twh.h) / 2.8
+      };
+      $tile.css(pos);
+    });
+  }
+
+  // added by TF
   placePrelTilesOnBoard() {
     console.log('im in place prel on board');
     $('.playertiles').each((i, el) => {
