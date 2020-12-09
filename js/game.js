@@ -580,8 +580,8 @@ export default class Game {
     let p = 0;  //temp variable to save this.board[i][j].tile[0].points;
     let s = ''; //temp variableto save this.board[i][j].special
 
-    console.log('y: ' + y);
-    console.log('x: ' + x);
+    //console.log('y: ' + y);
+    //console.log('x: ' + x);
 
     // CHECK HORISONTAL
     for (let i = 0; i < this.board.length; i++) {
@@ -718,6 +718,7 @@ export default class Game {
       this.storeOldWords.push(wordArray[i].word)
     }
     console.log("storeOldWords: ", this.storeOldWords)
+    console.log("Checking word array: " + wordArray);
     //------------------------------
   }
 
