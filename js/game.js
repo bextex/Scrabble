@@ -170,7 +170,7 @@ export default class Game {
     // $('.stand .tile').not('.none').draggabilly({ containment: 'body' })
     $('.playertiles').not('.none').draggabilly({ containment: 'body' })
       // Edited by TF
-      .on('dragStart', e => { delete $(e.currentTarget).data().prelBoardPos; delete $(e.currentTarget).data().playerStand; })
+      .on('dragStart', e => { delete $(e.currentTarget).data().prelBoardPos; console.log('curren target data', $(e.currentTarget).data()) })
       .on('dragMove', e => this.alignPrelTilesWithSquares())
       .on('dragEnd', function (e, pointer) {
 
@@ -256,7 +256,7 @@ export default class Game {
         // (jQuery can add data to any element)
         $tile.data().prelBoardPos = { y, x };
         that.alignPrelTilesWithSquares();
-        that.placePrelTilesOnBoard();
+        // that.placePrelTilesOnBoard();
 
       })
 
@@ -267,7 +267,11 @@ export default class Game {
     // align tiles that have a prelBoardPos with correct squares
     $('.playertiles').each((i, el) => {
       let $tile = $(el);
+      console.log('im tile in align', $tile);
+      console.log('what is tile data', $tile.data());
       let p = $tile.data().prelBoardPos;
+      console.log('im p in align', p);
+      console.log('is p falsey?', (!p === true));
       if (!p) { return; }
       let $square = $('.board > div').eq(p.y * 15 + p.x);
       $tile.css({ top: '', left: '' });
@@ -287,13 +291,15 @@ export default class Game {
     console.log('im in place prel on board');
     $('.playertiles').each((i, el) => {
       let $tile = $(el);
+      console.log('im tiles', $tile);
       let p = $tile.data().prelBoardPos;
+      console.log('im p', p);
       if (!p) { return; }
       let tileIndex = $(`#box0 > div`).index($tile);
       let tile = this.tiles[0][tileIndex];
       tile.onBoard = true;
       this.board[p.y][p.x].tile = [tile];
-      // this.checkNewWordsOnBoard();
+      this.checkNewWordsOnBoard();
     });
     this.tiles[0] = this.tiles[0].filter(x => !x.onBoard);
     console.log('this tiles array in place prel on board', this.tiles[0]);
@@ -482,9 +488,10 @@ export default class Game {
 
       /////// NEW /////// 
 
-      // this.placePrelTilesOnBoard();
+      this.placePrelTilesOnBoard();
+      this.render();
 
-      this.checkNewWordsOnBoard();
+      // this.checkNewWordsOnBoard();
 
       ////// END /////////
 
