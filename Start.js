@@ -40,6 +40,8 @@ export default class Start {
     // this.tiles = await bag.tilesFromFile();
 
     let network = new Network();
+
+    // ------  CHAT -------
     let chat = new Chat();
 
     // let game = new Game(this.tiles);
