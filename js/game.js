@@ -227,6 +227,7 @@ export default class Game {
     // align tiles that have a prelBoardPos with correct squares
     $('.playertiles').each((i, el) => {
       let $tile = $(el);
+      $($tile).addClass('onBoard');
       let p = $tile.data().prelBoardPos;
       if (!p) { return; }
       let $square = $('.board > div').eq(p.y * 15 + p.x);
