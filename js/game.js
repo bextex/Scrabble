@@ -18,6 +18,7 @@ export default class Game {
     //this.lettersFromFile();
     this.start();
     this.wordArray = [];
+    this.newestWords = [];
     //this.wordArrayCommitted = [];
 
     // this.changeTiles();
@@ -138,19 +139,19 @@ export default class Game {
     for (let i = 0; i < this.wordArray.length; i++) {
 
       //only check words from array that have not been played, played = undefined
-      if (this.wordArray[i].played !== 'oldWord') {
-        console.log(this.wordArray[i].played)
-        console.log("!this.wordArray[i].played: " + this.wordArray[i].word)
-        if (await SAOLchecker.scrabbleOk(this.wordArray[i].word) === false) {
 
-          console.log("one or more words are invalid")
-          all = false;
+      console.log(this.wordArray[i])
+      console.log("!this.wordArray[i].played: " + this.wordArray[i].word)
+      if (await SAOLchecker.scrabbleOk(this.wordArray[i].word) === false) {
 
-        }
-        else {
-          none = false;
-        }
+        console.log("one or more words are invalid")
+        all = false;
+
       }
+      else {
+        none = false;
+      }
+
     }
     console.log("all: " + all)
     console.log("none: " + none)
@@ -530,51 +531,53 @@ export default class Game {
 
       console.log('vertical wordV: ', wordV);
       console.log('horisontal wordH: ', wordH);
-
-      console.log('the words currently on board:', wordArray);
-      debugger;
     }
 
-    // console.log('print this.wordArrayCommitted', this.wordArrayCommitted);
+    for (let objWord of wordArray) {
+      console.log('the words currently on board:', objWord.word);
+    }
 
-    // if (this.wordArrayCommitted.length > 0) {
-    //   for (let oldItem of this.wordArrayCommitted) {
-    //     let lastIndexForPosition = oldItem.position.length - 1;
-    //     console.log('lastIndexForPosition', lastIndexForPosition);
-    //     wordArray.splice(wordArray.findIndex
-    //       (newItem => ((newItem.position[0].x === oldItem.position[0].x) && (newItem.position[0].y === oldItem.position[0].y))
-    //         && ((newItem.position[newItem.position.length - 1].x === oldItem.position[lastIndexForPosition].x)
-    //           && (newItem.position[newItem.position.length - 1].y === oldItem.position[lastIndexForPosition].y))
-    //       ), 1);
-    //   }
-    //   console.log('wordArray after delete old item:', wordArray);
-    //   console.log('this.wordArrayCommitted:', this.wordArrayCommitted);
-    // }
 
-    /* 
-    only add new words to this.wordArray 
-    compare local wordArray to this.Array and only add words which 
-    if(wordArray[i].played !== 'oldWord')
-    */
-    this.wordArray = wordArray;
+    //push the new words only from wordArray to this.newestWords, by finding dublicate words and remove from newestWords.
+    // Ex: this.newestWords = [BLOMMA, BIL]
+    // and wordArray = [BLOMMA, BIL, HUS]
+    // BLOMMA and BIL will be removed from this.newestWords[] because there are duplicates
+    // and HUS will be pushed to this.newestWords.
+    // this.wordArray = this.newestWord and therefore this.wordArray will contain the latest words only
+
+    // create array with duplicates when pushing wordArray to arrayWithDuplicates
+    if (wordArray.length > 1) {
+      for (let word of wordArray) {
+        console.log("push word.word to this.array: ", word.word)
+        this.wordArray.push(word)
+      }
+
+      let unique = [...new Set(this.wordArray.map(a => a.word))];
+
+      console.log("unique: ", unique);
+
+      //Loop through wordArray again and push to newestWords,
+      // if wordArray.word doesn't exist in duplicates, push
+      for (let obj of wordArray) {
+        console.log("matching words method, obj.word: ", obj.word)
+        console.log("matching words method, unique.word: ", unique)
+        if (unique.some(unique => unique === obj.word)) {
+          alert("Object found inside the array.");
+        } else {
+          alert("Object not found.");
+          //this.newestWords.push(word)
+        }
+      }
+    } else {
+      this.wordArray = wordArray;
+    }
+
+
+
+
+
 
   }
-
-  // commitPlayedWords() {
-
-  //   if (this.wordArrayCommitted.length > 0) {
-  //     for (let oldItem of this.wordArrayCommitted) {
-  //       let lastIndexForPosition = oldItem.position.length - 1;
-
-  //       this.wordArray.splice(this.wordArray.findIndex
-  //         (newItem => ((newItem.position[0].x === oldItem.position[0].x) && (newItem.position[0].y === oldItem.position[0].y))
-  //           && ((newItem.position[newItem.position.length - 1].x === oldItem.position[lastIndexForPosition].x)
-  //             && (newItem.position[newItem.position.length - 1].y === oldItem.position[lastIndexForPosition].y))
-  //         ), 1);
-  //     }
-  //     console.log('wordArray after delete old item:', this.wordArray);
-  //   }
-  // }
 
 
   createBoard() {
