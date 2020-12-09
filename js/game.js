@@ -442,7 +442,7 @@ export default class Game {
     // Put back the tiles that wants to be changed and scramble the bag
 
     $('.change-tiles').on('click', () => {
-      console.log('im pushing play-tiles');
+      console.log('im pushing change-tiles');
       if (this.tilesFromBag.length < 7) {
         console.log('there are 7 or less tiles in bag');
         alert('there are 7 or less tiles in bag');
@@ -453,7 +453,7 @@ export default class Game {
       let that = this;
       // Loop through the current players player tiles div
       // $(`#box${players.indexOf(players[this.playerIndex - 1])} > div`).each(function () {
-      $(`#box0 > div`).each(function () {
+      $(`#box0 > div > div`).each(function () {
         // If the current div have the class 'change'
         if ($(this).hasClass('change')) {
           // What index does the div with the 'change' class have
