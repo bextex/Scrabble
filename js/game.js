@@ -192,6 +192,8 @@ export default class Game {
         // if no drop zone or the square is taken then do nothing
         if (!$dropZone.length || store.board[y][x].tile) {
 
+          $tile.data().prelBoardPos = { y, x };
+
           let { pageX, pageY } = pointer;
           let tileIndex = +$tile.attr('data-index');
           let $tileBoxSquare = $tile.parent('.tiles-box');
