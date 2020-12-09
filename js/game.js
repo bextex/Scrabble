@@ -662,7 +662,7 @@ export default class Game {
       $('.playing-window-left').append(`
       <div class="playerWrapper">
       <div class="playername">${player.name}</div>
-      <div class="score">Poäng :<div id="score${this.players.indexOf(player)}">${player.score}</div></div>      
+      <div class="score">Poäng: ${player.score}</div>     
       </div>
       <div class="tiles-box"><div id="box${this.players.indexOf(player)}"></div></div>
       `);
@@ -752,11 +752,10 @@ export default class Game {
       this.players[playerIndex].score += currentWordPoints;
       console.log('play.score: ', this.players[playerIndex].score);
     }
-    //console.log('play.score', player.score);
-    $("#score".join($playIndex)).attr({ value: $this.players[playerIndex].score });
 
     this.wordArrayCommitted = wordArray.filter(x => x.scrabbleOk === true);
     console.log('I am in countPlayerScore wordArray committed', this.wordArrayCommitted);
+    this.render();
   }
 
 
