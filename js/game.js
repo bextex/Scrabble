@@ -148,6 +148,8 @@ export default class Game {
       .on('dragMove', e => this.alignPrelTilesWithSquares())
       .on('dragEnd', function (e, pointer) {
 
+        console.log('im in drag end');
+
         // get the tile and the dropZone square
         let $tile = $(e.currentTarget);
         let $dropZone = $('.hover');
@@ -163,28 +165,22 @@ export default class Game {
 
         // if no drop zone or the square is taken then do nothing
         if (!$dropZone.length || store.board[y][x].tile) {
-          /********************** NEW CODE *******************/
 
           let { pageX, pageY } = pointer;
           let tileIndex = +$tile.attr('data-index');
           let $tileBoxSquare = $tile.parent('.tiles-box');
           let tileBoxSquareIndex = +$tileBoxSquare.attr('data-box');
-
           let $stand = $('#box0');
-
           let { top, left } = $stand.offset();
-
           let bottom = top + $stand.height();
           let right = left + $stand.width();
 
           let newBoxIndex;
 
-
           if (pageX > left && pageX < right
             && pageY > top && pageY > bottom) {
 
             newBoxIndex = Math.floor(8 * (pageX - left) / $stand.width());
-
             let $newBoxSquare = $(`.tiles-box[data-box="${newBoxIndex}"]`);
 
             if (!$(`.tiles-box[data-box="${newBoxIndex}"] > div`).length) {
@@ -193,11 +189,8 @@ export default class Game {
               $(`.tiles-box[data-box="${tileBoxSquareIndex}"]`).empty();
 
               let so = $newBoxSquare.offset(), to = $tile.offset();
-
               let swh = { w: $newBoxSquare.width(), h: $newBoxSquare.height() };
-
               let twh = { w: $tile.width(), h: $tile.height() };
-
               let pos = {
                 left: so.left - to.left + (swh.w - twh.w) / 2.8,
                 top: so.top - to.top + (swh.h - twh.h) / 2.8
@@ -205,7 +198,15 @@ export default class Game {
               $tile.css(pos);
 
             } else {
-              $tile.css({ top: '', left: '' });
+              // Added render the tiles when putting tiles back from board to players tiles board
+              let so = $tileBoxSquare.offset(), to = $tile.offset();
+              let swh = { w: $tileBoxSquare.width(), h: $tileBoxSquare.height() };
+              let twh = { w: $tile.width(), h: $tile.height() };
+              let pos = {
+                left: so.left - to.left + (swh.w - twh.w) / 2.8,
+                top: so.top - to.top + (swh.h - twh.h) / 2.8
+              };
+              $tile.css(pos);
             }
           }
           return;
@@ -356,7 +357,7 @@ export default class Game {
 
     $('.change-tiles').prop('disabled', true);
     // When double-clicking on the tiles do this function
-    $('.playertiles').not('.none').dblclick(function () {
+    $('.playertiles').not('.none').dblclick(async function () {
       // If the player has played a tile then they cannot change any tiles the same round
 
       let stop = false;
@@ -364,6 +365,7 @@ export default class Game {
       $('.playertiles').each((i, el) => {
         let $tile = $(el);
         let p = $tile.data().prelBoardPos;
+        console.log('what is p in change tiles', p);
         if (p) {
           stop = true;
           return;
@@ -371,6 +373,7 @@ export default class Game {
       });
 
       if (stop) {
+        await Modal.alert('Du kan inte byta brickor när du har lagt brickor på brädet! Lägg tillbaka dem och försök igen!');
         return;
       } else {
         $(this).toggleClass('change');
@@ -480,7 +483,7 @@ export default class Game {
       console.log('im pushing change-tiles');
       if (this.tilesFromBag.length < 7) {
         console.log('there are 7 or less tiles in bag');
-        await Modal.confirm('Du kan inte byta brickor när det är mindre än 8 brickor kvar.');
+        await Modal.alert('Du kan inte byta brickor när det är mindre än 7 brickor kvar.');
         // Put a div and message here instead
       }
       // How many tiles the player wants to remove
