@@ -694,7 +694,6 @@ export default class Game {
         let char = '';
         do {
           char = await Modal.prompt('Skriv in en bokstav eller tryck avbryt för att markera brickan');
-
           if (char === null) {
             me.dblclick();
             return;

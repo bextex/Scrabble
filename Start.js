@@ -89,13 +89,13 @@ export default class Start {
     });
 
 
-    $('.set-key').on('click', function () {
+    $('.set-key').on('click', async function () {
       // If there isn't a name, ask the player to first type in a name
       let name = $('.newPlayerInput').val();
       console.log('my name is' + name);
       if (!name) {
         // Should be a warning label from div instead
-        alert('Type in a name first');
+        await Modal.alert('Skriv in ett namn först!', 'OK');
         return;
       }
 
