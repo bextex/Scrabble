@@ -17,7 +17,8 @@ export default class Game {
     this.playerIndex = 0;
     //this.lettersFromFile();
     this.start();
-    this.wordArray = [];
+    this.storeCurrentWords = [];
+    this.storeOldWords = [];
     this.newestWords = [];
     //this.wordArrayCommitted = [];
 
@@ -131,36 +132,28 @@ export default class Game {
   }
 
   async checkNewWordsInSAOL() {
-
     console.log('3. --- checkNewWordsInSAOL ---')
-
     let all = true;
     let none = true;
-    for (let i = 0; i < this.wordArray.length; i++) {
-
-      //only check words from array that have not been played, played = undefined
-
-      console.log(this.wordArray[i])
-      console.log("!this.wordArray[i].played: " + this.wordArray[i].word)
-      if (await SAOLchecker.scrabbleOk(this.wordArray[i].word) === false) {
-
+    console.log(this.storeCurrentWords.length)
+    for (let i = 0; i < this.storeCurrentWords.length; i++) {
+      console.log(this.storeCurrentWords[i])
+      if (await SAOLchecker.scrabbleOk(this.storeCurrentWords[i].word) === false) {
         console.log("one or more words are invalid")
+        this.newestWords = [];
         all = false;
-
       }
       else {
         none = false;
       }
-
     }
     console.log("all: " + all)
     console.log("none: " + none)
-
     //if all words in wordsArray are ok in Scrabble
     if (all && !none) {
       this.countPlayerScore(this.playerIndex);
       this.nextPlayer();
-      console.log("end of round this.wordArray: ", this.wordArray)
+      console.log("end of round this.storeCurrentWords: ", this.storeCurrentWords)
       //console.log("end of round this.wordArrayCommitted", this.wordArrayCommitted)
     }
   }
@@ -170,18 +163,13 @@ export default class Game {
     console.log('5. --- nextPLayer() ---')
     //this.commitPlayedWords();
     // show words played in list
-    for (let obj of this.wordArray) {
+    for (let obj of this.storeCurrentWords) {
       console.log("appending " + obj.word + "to SAOL window")
       $('.saol').append('<div class="boxForWord"><span class="word validWord">' +
         obj.word + '</span>')
     }
-    // empty stored words in array when its the next player
-
-
     this.playerTurn();
     this.render();
-    // this.changeTiles();
-
   }
 
   //function for initialize player score
@@ -528,55 +516,30 @@ export default class Game {
           position = [];
         }
       }
-
-      console.log('vertical wordV: ', wordV);
-      console.log('horisontal wordH: ', wordH);
     }
 
-    for (let objWord of wordArray) {
-      console.log('the words currently on board:', objWord.word);
-    }
-
-
-    //push the new words only from wordArray to this.newestWords, by finding dublicate words and remove from newestWords.
-    // Ex: this.newestWords = [BLOMMA, BIL]
-    // and wordArray = [BLOMMA, BIL, HUS]
-    // BLOMMA and BIL will be removed from this.newestWords[] because there are duplicates
-    // and HUS will be pushed to this.newestWords.
-    // this.wordArray = this.newestWord and therefore this.wordArray will contain the latest words only
-
-    // create array with duplicates when pushing wordArray to arrayWithDuplicates
-    if (wordArray.length > 1) {
-      for (let word of wordArray) {
-        console.log("push word.word to this.array: ", word.word)
-        this.wordArray.push(word)
-      }
-
-      let unique = [...new Set(this.wordArray.map(a => a.word))];
-
-      console.log("unique: ", unique);
-
-      //Loop through wordArray again and push to newestWords,
-      // if wordArray.word doesn't exist in duplicates, push
-      for (let obj of wordArray) {
-        console.log("matching words method, obj.word: ", obj.word)
-        console.log("matching words method, unique.word: ", unique)
-        if (unique.some(unique => unique === obj.word)) {
-          alert("Object found inside the array.");
+    this.newestWords = []
+    if (this.storeCurrentWords.length > 0) {
+      // Check if a old words exists in the wordsarray
+      for (let i = 0; i < wordArray.length; i++) {
+        if (this.storeOldWords.indexOf(wordArray[i].word) !== -1) {
+          console.log("old word! ", wordArray[i].word)
         } else {
-          alert("Object not found.");
-          //this.newestWords.push(word)
+          console.log("new word! ", wordArray[i].word)
+          this.newestWords.push(wordArray[i])
         }
       }
+      this.storeCurrentWords = this.newestWords;
     } else {
-      this.wordArray = wordArray;
+      this.storeCurrentWords = wordArray;
     }
 
-
-
-
-
-
+    this.storeOldWords = [];
+    //store all words played in this.storeOldWords string value
+    for (let i = 0; i < wordArray.length; i++) {
+      this.storeOldWords.push(wordArray[i].word)
+    }
+    console.log("storeOldWords: ", this.storeOldWords)
   }
 
 
@@ -665,28 +628,14 @@ export default class Game {
     console.log('4. --- countPLayerScore() ---')
 
     let currentWordPoints = 0;
-    console.log('I am in countPlayerScore, wordArray: ', this.wordArray);
-    console.log('I am in countPlayerScore, player: ', playerIndex);
-    for (let i = 0; i < this.wordArray.length; i++) {
-      if (this.wordArray[i].played === 'oldWord') {
-        currentWordPoints = this.wordArray[i].points * this.wordArray[i].multiple;
-        //wordArray[i].scrabbleOk = true;
-        console.log("get point for: " + this.wordArray[i].word)
-        console.log('currentWordPoints', currentWordPoints);
-        players[playerIndex - 1].score += currentWordPoints;
-      }
-    }
+    console.log('I am in countPlayerScore, wordArray: ', this.storeCurrentWords);
+    for (let i = 0; i < this.storeCurrentWords.length; i++) {
+      currentWordPoints = this.storeCurrentWords[i].points * this.storeCurrentWords[i].multiple;
+      console.log("get point for: " + this.storeCurrentWords[i].word)
 
-    for (let i = 0; i < this.wordArray.length; i++) {
-      if (this.wordArray[i].played !== 'oldWord') {
-        console.log('played = oldWord')
-        this.wordArray[i].played = 'oldWord';
-        console.log(this.wordArray[i].word, "played: ", this.wordArray[i].played)
-      }
-      else {
-        alert('one or several words were not found in SAOL, try again!')
-      }
     }
+    console.log('currentWordPoints', currentWordPoints);
+    players[playerIndex - 1].score += currentWordPoints;
   }
 
   showSaolText() {
