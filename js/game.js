@@ -52,9 +52,10 @@ export default class Game {
       if (playerName === store.players[i]) {
         // this.players.push(new Player(store.players[i], ([...this.tilesFromBag.splice(0, 7)])));
         this.players.push(new Player(store.players[i], ([...this.tilesFromBag.splice(0, 7)]), 0));
-        console.log('init PlayerScore', this.players[i], this.players[i].score);
+        // console.log('init PlayerScore', this.players[i], this.players[i].score);
       }
     }
+    console.log('this player', this.players[0]);
 
     // store.board = this.createBoard();
     this.playerTurn();
@@ -662,7 +663,7 @@ export default class Game {
       $('.playing-window-left').append(`
       <div class="playerWrapper">
       <div class="playername">${player.name}</div>
-      <div class="score">Poäng :<div id="score${this.players.indexOf(player)}">${player.score}</div></div>      
+      <div class="score">Poäng :<div class="score">${player.score}</div></div>      
       </div>
       <div class="tiles-box"><div id="box${this.players.indexOf(player)}"></div></div>
       `);
@@ -731,6 +732,7 @@ export default class Game {
       <button class="change-tiles">Byt brickor</button>
     `);
   }
+
   // This function to count the player's score
   async countPlayerScore(playerIndex, wordArray) {
     let currentWordPoints = 0;
@@ -749,11 +751,14 @@ export default class Game {
       }
       console.log('currentWordPoints', currentWordPoints);
       // players[playerIndex - 1].score += currentWordPoints;
-      this.players[playerIndex].score += currentWordPoints;
-      console.log('play.score: ', this.players[playerIndex].score);
+      this.players[0].score += currentWordPoints;
+      // this.players[playerIndex].score += currentWordPoints;
+      // console.log('play.score: ', this.players[playerIndex].score);
+      console.log('play.score: ', this.players[0].score);
     }
     //console.log('play.score', player.score);
-    $("#score".join($playIndex)).attr({ value: $this.players[playerIndex].score });
+    $(".score".join($playIndex)).attr({ value: $this.players[playerIndex].score });
+    // $("#score".join($playIndex)).attr({ value: $this.players[playerIndex].score });
 
     this.wordArrayCommitted = wordArray.filter(x => x.scrabbleOk === true);
     console.log('I am in countPlayerScore wordArray committed', this.wordArrayCommitted);
