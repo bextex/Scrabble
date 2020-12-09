@@ -502,6 +502,46 @@ text-align: center;
   border: 1px solid black;
 }*/
 
+
+/************ TESTAR NY KOD **************/
+/* #box0 {
+  position: relative;
+  width: calc(75vh + 50px);
+  border: 3px solid black;
+  border-radius: 3px;
+  display: inline-block;
+  padding: 50px 350px 100px 20px;
+
+  /*#F23847
+  background-color:  white;
+
+} */
+
+#box0 > div {
+  border: 1px solid #000000;
+  width: 5.5vh;
+  height: 5.5vh;
+  background-color: #A5A686;
+  float: left;
+  
+}
+
+#box0 > div:nth-child(8n+1){
+  clear: both;
+}
+
+
+/* .board > div::after {
+  display: block;
+  text-align: center;
+}
+
+.board .tile {
+  position: absolute;
+  margin: 1px;
+} */
+/******************* TESTAR NY KOD ****************/
+
 .playertiles.none{
 
   background-color: #F23847;
