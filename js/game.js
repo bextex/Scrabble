@@ -2,6 +2,7 @@ import Player from './player.js';
 import SAOLchecker from './SAOLchecker.js';
 import Board from './board.js';
 import Score from './score.js';
+import Modal from './modal.js';
 // import { players } from './player.js';
 import { store } from './network.js';
 import Bag from './bag.js';
@@ -31,17 +32,6 @@ export default class Game {
 
     this.players = [];
 
-
-
-
-
-    // this.start();
-
-    // //this.lettersFromFile();
-    // this.start();
-    // // this.changeTiles();
-    // // Set change button to disabled when starting the game
-    // $('.change-tiles').prop('disabled', true);
   }
 
   async getTiles() {
@@ -231,7 +221,6 @@ export default class Game {
 
   }
 
-
   // added by TF
   alignPrelTilesWithSquares() {
     // align tiles that have a prelBoardPos with correct squares
@@ -263,8 +252,7 @@ export default class Game {
       let tile = this.tiles[0][tileIndex];
       tile.onBoard = true;
       this.board[p.y][p.x].tile = [tile];
-      console.log('whats on this.board.tile in prel board', this.board[p.y][p.x].tile);
-      // this.checkNewWordsOnBoard(p.y, p.x);
+      //  this.checkNewWordsOnBoard(p.y, p.x);
     });
     this.tiles[0] = this.tiles[0].filter(x => !x.onBoard);
     console.log('this tiles array in place prel on board', this.tiles[0]);
@@ -431,7 +419,7 @@ export default class Game {
 
       console.log('Changing player index', store.currentPlayer);
 
-      // removed x and y from arguments
+      // this.checkNewWordsOnBoard(y, x);
       this.checkNewWordsOnBoard();
       // get points for word
       // CountScores(); ??? 
@@ -464,7 +452,7 @@ export default class Game {
     // Put back the tiles that wants to be changed and scramble the bag
 
     $('.change-tiles').on('click', () => {
-      console.log('im pushing play-tiles');
+      console.log('im pushing change-tiles');
       if (this.tilesFromBag.length < 7) {
         console.log('there are 7 or less tiles in bag');
         alert('there are 7 or less tiles in bag');
@@ -475,7 +463,7 @@ export default class Game {
       let that = this;
       // Loop through the current players player tiles div
       // $(`#box${players.indexOf(players[this.playerIndex - 1])} > div`).each(function () {
-      $(`#box0 > div`).each(function () {
+      $(`#box0 > div > div`).each(function () {
         // If the current div have the class 'change'
         if ($(this).hasClass('change')) {
           // What index does the div with the 'change' class have
@@ -523,16 +511,14 @@ export default class Game {
 
   }
 
-  checkNewWordsOnBoard(y, x) {
+  checkNewWordsOnBoard() {
     let wordH = [];  //to save  all the infromation on the horisontal 
     let wordV = [];  //to save all the infromation on the vertical 
     let wordArray = [];  //to save the final word array(word,points,extra points word times) 
     let c = ''; //temp variable to save this.board[i][j].tile[0].char
     let p = 0;  //temp variable to save this.board[i][j].tile[0].points;
     let s = ''; //temp variableto save this.board[i][j].special
-
-    console.log('y: ' + y);
-    console.log('x: ' + x);
+    console.log('I am in checkNewWordsOnBoard');
     // CHECK HORISONTAL
     for (let i = 0; i < this.board.length; i++) {
       // CHECK VERTICAL
@@ -728,17 +714,16 @@ export default class Game {
         <div class="tiles-box" data-box="${index}"></div>
       `);
 
-      $('.blankTile').on('staticClick', e => {
+
+      $('.blankTile').on('staticClick', async e => {
+
         let me = $(e.currentTarget);
         let index = +me.attr('data-index');
         let alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖ';
         let pass = false;
         let char = '';
-        //We use a do while loop to check the input of the player
-        //We set it to capitalized letters and check through the string in our forloop.
-        //If the input matches a character in the alphabet, the loop is true and it ends.
         do {
-          char = prompt('Skriv in en bokstav eller tryck avbryt för att byta bricka');
+          char = await Modal.prompt('Skriv in en bokstav eller tryck avbryt för att markera brickan');
           if (char === null) {
             me.dblclick();
             return;
@@ -758,11 +743,8 @@ export default class Game {
           }
         }
         while (!pass);
-        //Now we set the tiles character to our verified and safe input.
-
         console.log(player.tiles)
         me.html(char)
-
       })
 
 
