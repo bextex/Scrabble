@@ -451,14 +451,16 @@ export default class Game {
       //  this.showWordWithList(this.wordArray)
       //}
 
-      if (this.wordArray.length > 0) {
-        this.countPlayerScore(store.players.indexOf(this.name), this.wordArray);
-        // this.countPlayerScore(this.playerIndex, this.wordArray);
-      }
-      else {
-        alert('Du har ingen godkänd ord');
-        return;
-      }
+      this.countPlayerScore(store.players.indexOf(this.name), this.wordArray);
+
+      // if (this.wordArray.length > 0) {
+      //   this.countPlayerScore(store.players.indexOf(this.name), this.wordArray);
+      //   // this.countPlayerScore(this.playerIndex, this.wordArray);
+      // }
+      // else {
+      //   alert('Du har ingen godkänd ord');
+      //   return;
+      // }
 
       store.currentPlayer++;
 
@@ -474,11 +476,11 @@ export default class Game {
     // To change tiles, locate what tile wants to be changed and change them to new tiles from bag. 
     // Put back the tiles that wants to be changed and scramble the bag
 
-    $('.change-tiles').on('click', () => {
+    $('.change-tiles').on('click', async () => {
       console.log('im pushing change-tiles');
       if (this.tilesFromBag.length < 7) {
         console.log('there are 7 or less tiles in bag');
-        alert('there are 7 or less tiles in bag');
+        await Modal.confirm('Du kan inte byta brickor när det är mindre än 8 brickor kvar.');
         // Put a div and message here instead
       }
       // How many tiles the player wants to remove
