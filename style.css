@@ -370,22 +370,28 @@ text-align: center;
 
 /****************** My special colors ******************/
 .board > div.special-3xWS {
-
-  background-color: #F23847;
+  /* background-color: #F23847; */
+  background-color: #BF2E39;
 }
 .board > div.special-2xWS {
-  background-color: #BF4136;
+  /* background-color: #BF4136; */
+  background-color: #51733C;
+  
 }
 .board > div.special-3xLS {
-  background-color: #F20505;
+  /* background-color: #F20505; */
+  background-color: #A0C275;
+  
+  
 }
 .board > div.special-2xLS {
-  background-color: #e159599e;
+  /* background-color: #e159599e; */
+  background-color: #DA3D5B;
 }
 
 .board > div.special-middle-star {
-
-  background-color: #BF4136;
+  /* background-color: #BF4136; */
+  background-color: #A0C275;
 }
 
 /* The pseudo-element after can have text */
@@ -410,19 +416,19 @@ text-align: center;
 } 
 
 .board > div.special-3xLS::after {
-  content: '3x \A BOKSTAV';
+  content: '3x \A BKSTV';
   display: block;
   text-align: center;
-  font-size: 1.2vh;
+  font-size: 1.3vh;
   margin-top: 1vh;
   color: white;
 }
 
 .board > div.special-2xLS::after {
-  content: '2x \A BOKSTAV';
+  content: '2x \A BKSTV';
   display: block;
   text-align: center;
-  font-size: 1.2vh;
+  font-size: 1.3vh;
   margin-top: 1vh;
   color: white;
 }
@@ -517,13 +523,30 @@ text-align: center;
 
 } */
 
+
+/* 
+.tiles-box::after {
+  content: "";
+  /* display: table; 
+  clear: both;
+} */
+
+/* #box0 {
+  background-color: #A5A686;
+  padding: 5px;
+  height: 5vh;
+} */
+
 #box0 > div {
-  border: 1px solid #000000;
-  width: 5.5vh;
-  height: 5.5vh;
+  border-radius: 1px solid black;
+  
+  padding: 3px;
+  /* padding: 3px; */
+  width: 4.5vh;
+  height: 4.5vh;
   background-color: #A5A686;
   float: left;
-  
+
 }
 
 #box0 > div:nth-child(8n+1){
@@ -604,7 +627,7 @@ div.playing-window-left{
  /* margin-top: 30vh;
   margin-left: 1px; */
   /*84*/
-  margin-top: 84vh;
+  margin-top: 88.5vh;
   margin-left: 40vh;
   /*overflow: hidden;*/
   text-align: center;
@@ -996,7 +1019,11 @@ footer input {
 
   .newPlayerInput {
   margin-top: 30vh;
-  font-size: 17px;
+
+  }
+
+  .playersName{
+    font-size: 17px;
   }
 
   .game-menu button{
@@ -1016,7 +1043,7 @@ footer input {
   }
 
   .playing-window-left{
-    margin-top: 84vh;
+    margin-top: 88.5vh;
     margin-left: 40vh;
   }
 
@@ -1064,6 +1091,11 @@ footer input {
   font-size: 20px;
   width: 220px;
   height: 17px;
+  
+  }
+
+  .playersName{
+    font-size: 17px;
   }
 
   .game-menu button{
@@ -1093,7 +1125,7 @@ footer input {
   }
 
   .playing-window-left{
-    margin-top: 85vh;
+    margin-top: 88.5vh;
     margin-left: 40vh;
   }
 
@@ -1119,6 +1151,10 @@ footer input {
     padding-right: 350px;
   }
 
+  .score{
+    font-size: 17px;
+  }
+
   
 }
 
@@ -1130,7 +1166,7 @@ footer input {
   }
 
   .playing-window-left{
-    margin-top: 84vh;
+    margin-top: 88.5vh;
     margin-left: 40vh;
   }
   .saol{
@@ -1138,7 +1174,6 @@ footer input {
   }
   .newPlayerInput {
   margin-top: 35vh;
-  font-size: 20px;
   width: 200px;
   height: 17px;
   }
@@ -1180,6 +1215,12 @@ footer input {
     padding-bottom: 100px;
     padding-right: 350px;
   }
+  .playersName{
+    font-size: 17px;
+  }
+  .score{
+    font-size: 17px;
+  }
 
 }
 
@@ -1191,19 +1232,15 @@ footer input {
   }
 
   .playing-window-left{
-    margin-top: 84vh;
+    margin-top: 88.5vh;
     margin-left: 40vh;
-  }
-  .newPlayerInput{
-    font-size: 35px;
   }
     .saol{
     font-size: 30px;
   }
   .newPlayerInput {
-  margin-top: 35vh;
+  margin-top: 30vh;
   margin-right: 11vh;
-  font-size: 20px;
   width: 200px;
   height: 17px;
   }
@@ -1243,11 +1280,8 @@ footer input {
     padding: 5vh;
   }
 
-  .playertiles{
-    font-size: 21px;
-  }
   div.points{
-  font-size: 12px;
+  font-size: 10px;
   top: 17px;
   right: 1.5px;
   }
