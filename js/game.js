@@ -50,9 +50,8 @@ export default class Game {
     this.name = playerName;
     for (let i = 0; i < store.players.length; i++) {
       if (playerName === store.players[i]) {
-        this.players.push(new Player(store.players[i], ([...this.tilesFromBag.splice(0, 7)])));
-        ///Initialize player score
-        this.players[i].score = 0;
+        // this.players.push(new Player(store.players[i], ([...this.tilesFromBag.splice(0, 7)])));
+        this.players.push(new Player(store.players[i], ([...this.tilesFromBag.splice(0, 7)]), 0));
         console.log('init PlayerScore', this.players[i], this.players[i].score);
       }
     }
@@ -659,11 +658,11 @@ export default class Game {
   showPlayers() {
     this.players.forEach(player => {
       let index = 0
-
+      console.log('I am in showPlayers player.score', player.score);
       $('.playing-window-left').append(`
       <div class="playerWrapper">
       <div class="playername">${player.name}</div>
-      <div <p class= "score">Poäng : ${player.score}</p></div>       
+      <div class="score">Poäng :<div id="score${this.players.indexOf(player)}">${player.score}</div></div>      
       </div>
       <div class="tiles-box"><div id="box${this.players.indexOf(player)}"></div></div>
       `);
@@ -754,6 +753,8 @@ export default class Game {
       console.log('play.score: ', this.players[playerIndex].score);
     }
     //console.log('play.score', player.score);
+    $("#score".join($playIndex)).attr({ value: $this.players[playerIndex].score });
+
     this.wordArrayCommitted = wordArray.filter(x => x.scrabbleOk === true);
     console.log('I am in countPlayerScore wordArray committed', this.wordArrayCommitted);
   }
@@ -820,6 +821,8 @@ export default class Game {
         await SAOLchecker.lookupWord(lastWord) + '</div');
     }
   }
+
+  //This function(showWordWithList(wordsInArray)) have not been finished.
   async showWordWithList(wordsInArray) {
     console.log('------I am in showWordWithList()-----');
     $('.playing-window').append(`<section class="wordList"><h3>Ord Listor</h3>
@@ -837,7 +840,6 @@ export default class Game {
       <tr><td>${item.word}</td></tr><tr><td>${item.scrabbleOk}</td></tr><tr><td>${item.totalPoints}</td></tr>
       `)
     }
-
-
   }
+
 }
