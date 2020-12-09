@@ -370,22 +370,28 @@ text-align: center;
 
 /****************** My special colors ******************/
 .board > div.special-3xWS {
-
-  background-color: #F23847;
+  /* background-color: #F23847; */
+  background-color: #BF2E39;
 }
 .board > div.special-2xWS {
-  background-color: #BF4136;
+  /* background-color: #BF4136; */
+  background-color: #51733C;
+  
 }
 .board > div.special-3xLS {
-  background-color: #F20505;
+  /* background-color: #F20505; */
+  background-color: #A0C275;
+  
+  
 }
 .board > div.special-2xLS {
-  background-color: #e159599e;
+  /* background-color: #e159599e; */
+  background-color: #DA3D5B;
 }
 
 .board > div.special-middle-star {
-
-  background-color: #BF4136;
+  /* background-color: #BF4136; */
+  background-color: #A0C275;
 }
 
 /* The pseudo-element after can have text */
@@ -410,19 +416,19 @@ text-align: center;
 } 
 
 .board > div.special-3xLS::after {
-  content: '3x \A BOKSTAV';
+  content: '3x \A BKSTV';
   display: block;
   text-align: center;
-  font-size: 1.2vh;
+  font-size: 1.3vh;
   margin-top: 1vh;
   color: white;
 }
 
 .board > div.special-2xLS::after {
-  content: '2x \A BOKSTAV';
+  content: '2x \A BKSTV';
   display: block;
   text-align: center;
-  font-size: 1.2vh;
+  font-size: 1.3vh;
   margin-top: 1vh;
   color: white;
 }
