@@ -206,6 +206,14 @@ export default class Game {
           if (pageX > left && pageX < right
             && pageY > top && pageY > bottom) {
 
+            //////// NEW /////////
+            // if ($($tile).hasClass('tile')) {
+            //   $($tile).removeClass('tile');
+            // }
+
+            ///////// END /////////
+
+
             newBoxIndex = Math.floor(8 * (pageX - left) / $stand.width());
             let $newBoxSquare = $(`.tiles-box[data-box="${newBoxIndex}"]`);
 
@@ -238,11 +246,17 @@ export default class Game {
           return;
         }
 
+
+        /////////// NEW ///////////
+        // $($tile).addClass('tile');
+
+        ////////// END //////////
+
         // store the preliminary board position with the tile div
         // (jQuery can add data to any element)
         $tile.data().prelBoardPos = { y, x };
         that.alignPrelTilesWithSquares();
-        // that.placePrelTilesOnBoard();
+        that.placePrelTilesOnBoard();
 
       })
 
@@ -253,7 +267,6 @@ export default class Game {
     // align tiles that have a prelBoardPos with correct squares
     $('.playertiles').each((i, el) => {
       let $tile = $(el);
-      $($tile).addClass('onBoard');
       let p = $tile.data().prelBoardPos;
       if (!p) { return; }
       let $square = $('.board > div').eq(p.y * 15 + p.x);
@@ -280,7 +293,7 @@ export default class Game {
       let tile = this.tiles[0][tileIndex];
       tile.onBoard = true;
       this.board[p.y][p.x].tile = [tile];
-      //  this.checkNewWordsOnBoard(p.y, p.x);
+      // this.checkNewWordsOnBoard();
     });
     this.tiles[0] = this.tiles[0].filter(x => !x.onBoard);
     console.log('this tiles array in place prel on board', this.tiles[0]);
@@ -322,6 +335,8 @@ export default class Game {
   // }
 
   render() {
+    console.log('jag renderar');
+
     if (!$('.board').length) {
       $('.playing-window').append(`
         <div class="board"></div>
@@ -334,7 +349,7 @@ export default class Game {
     $('.board').html(
       this.board.flat().map(x => `
         <div class="${x.special ? 'special-' + x.special : ''}">
-        ${x.tile ? `<div class="tile" >${x.tile[0].char}<div class="points">${x.tile[0].points}</div></div>` : ''}
+        ${x.tile ? `<div class="tile">${x.tile[0].char}<div class="points">${x.tile[0].points}</div></div>` : ''}
         </div>
       `).join('')
     );
@@ -465,6 +480,14 @@ export default class Game {
         return;
       }
 
+      /////// NEW /////// 
+
+      // this.placePrelTilesOnBoard();
+
+      this.checkNewWordsOnBoard();
+
+      ////// END /////////
+
       // this.placePrelTilesOnBoard();
       // this.render();
 
@@ -474,7 +497,7 @@ export default class Game {
 
       //----johanna
       // read words on board and push to wordArray[]
-      this.checkNewWordsOnBoard();
+
       this.checkNewWordsInSAOL();
       //----johanna
 
@@ -484,8 +507,8 @@ export default class Game {
       // this.board = store.board;
       // this.tilesFromBag = store.tilesFromFile;
 
-      //    this.playerTurn();
-      //    this.render();
+      //  this.playerTurn();
+      //  this.render();
       // this.changeTiles();
     });
 
@@ -571,6 +594,36 @@ export default class Game {
   // --- johanna (gamla checkNewWordsOnBoard funktionen)
   checkNewWordsOnBoard() {
 
+
+
+    // // First render the tiles on board
+
+    // if (!$('.board').length) {
+    //   $('.playing-window').append(`
+    //     <div class="board"></div>
+    //     <div class="tiles"></div>
+    //   `);
+    // }
+
+    // $('.board').empty();
+
+    // render the board RENDER THE BOARD AFTER EACH PLAYER
+    // $('.board').html(
+    //   this.board.flat().map(x => `
+    //     <div class="${x.special ? 'special-' + x.special : ''}">
+    //     ${x.tile ? `<div class="layertiles tile" >${x.tile[0].char}<div class="points">${x.tile[0].points}</div></div>` : ''}
+    //     </div>
+    //   `).join('')
+    // );
+
+    // // this.showPlayers();
+    // this.showSaolText();
+
+    // this.buttonEvents();
+    // this.addEvents();
+    // // this.changeTiles();
+
+
     console.log('2. --- checkNewWordsOnBoard ---')
 
     let wordH = [];  //to save  all the infromation on the horisontal 
@@ -613,6 +666,7 @@ export default class Game {
             // If we have a tile but no other tile beside us, add to both vertical and horisontal word
             // This will only be at the start of game, when the first tile is placed
           } else {
+            ////// NEW ///////
             c = this.board[i][j].tile[0].char;
             p = this.board[i][j].tile[0].points;
             s = this.board[i][j].special;
