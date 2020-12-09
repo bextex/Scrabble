@@ -489,7 +489,7 @@ export default class Game {
       /////// NEW /////// 
 
       this.placePrelTilesOnBoard();
-      this.render();
+      // this.render();
 
       // this.checkNewWordsOnBoard();
 
@@ -1078,7 +1078,8 @@ export default class Game {
     console.log('currentWordPoints', currentWordPoints);
 
     ////// NEW ADDED this. ///////
-    this.players[store.currentPlayer].score += currentWordPoints;
+    // players[store.currentPlayer].score += currentWordPoints;
+    this.players[0].score += currentWordPoints;
     ////// END //////
   }
   // --- johanna
