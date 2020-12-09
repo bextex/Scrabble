@@ -2,6 +2,7 @@ import Player from './player.js';
 import SAOLchecker from './SAOLchecker.js';
 import Board from './board.js';
 import Score from './score.js';
+import Modal from './modal.js';
 // import { players } from './player.js';
 import { store } from './network.js';
 import Bag from './bag.js';
@@ -671,7 +672,6 @@ export default class Game {
   showPlayers() {
     this.players.forEach(player => {
       let index = 0
-
       $('.playing-window-left').append(`
       <div class="playerWrapper">
       <div class="playersName">${player.name}</div>
@@ -685,17 +685,16 @@ export default class Game {
     `);
         index++;
       }
-      $('.blankTile').on('staticClick', e => {
+      $('.blankTile').on('staticClick', async e => {
+
         let me = $(e.currentTarget);
         let index = +me.attr('data-index');
         let alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖ';
         let pass = false;
         let char = '';
-        //We use a do while loop to check the input of the player
-        //We set it to capitalized letters and check through the string in our forloop.
-        //If the input matches a character in the alphabet, the loop is true and it ends.
         do {
-          char = prompt('Skriv in en bokstav eller tryck avbryt för att byta bricka');
+          char = await Modal.prompt('Skriv in en bokstav eller tryck avbryt för att markera brickan');
+
           if (char === null) {
             me.dblclick();
             return;
@@ -715,11 +714,8 @@ export default class Game {
           }
         }
         while (!pass);
-        //Now we set the tiles character to our verified and safe input.
-
         console.log(player.tiles)
         me.html(char)
-
       })
     });
 

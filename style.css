@@ -1317,3 +1317,51 @@ table,th,td
 th {
 	 background-color: yellow;
    }
+
+
+   /*************** Modals ***************/
+
+ 
+
+.modal {
+  font-family: Verdana;
+  font-size: 14px;
+  position: absolute;
+  display:none;
+  z-index: 1000;
+}
+
+.modal .box {
+  width: 40vw;
+  background-color: #fff;
+  top: 20vh;
+  left: 30vw;
+  position: fixed;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 3px 3px 5px 6px #aaa;
+}
+
+.modal .hider {
+  width: 100vw;
+  height: 100vh;
+  opacity: 0.2;
+  background-color: #000;
+  top: 0;
+  left: 0;
+  position: fixed;
+}
+
+.modal button {
+  float: right;
+  cursor: pointer;
+  margin-left: 20px;
+  border-radius: 5px; 
+  padding: 5px 10px;
+}
+
+.modal input {
+  display: block;
+  width: 100%;
+  margin-bottom: 20px;
+}

@@ -2,6 +2,7 @@
 import Game from './js/game.js';
 import Board from './js/board.js';
 import Network from './js/network.js';
+import Modal from './js/modal.js'
 
 //
 //!!!! Kalla new Board().start(); där ni vill ha brädet! 
@@ -60,7 +61,7 @@ export default class Start {
       let name = $('.newPlayerInput').val();
       if (!name) {
         // Should be a warning label from div instead
-        alert('Type in a name first');
+        await Modal.alert('Skriv in ett namn först!', 'OK');
         return;
       }
       // Fade out the 'start-side' and replace it with waiting for other players
