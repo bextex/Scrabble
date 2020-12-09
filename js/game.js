@@ -297,8 +297,9 @@ export default class Game {
       let p = $tile.data().prelBoardPos;
       console.log('im p', p);
       if (!p) { return; }
-      let tileIndex = $(`#box0 > div`).index($tile);
+      let tileIndex = $(`#box0 > div > div`).index($tile);
       let tile = this.tiles[0][tileIndex];
+      console.log('tile in place prel board', tile);
       tile.onBoard = true;
       this.board[p.y][p.x].tile = [tile];
       this.checkNewWordsOnBoard();
