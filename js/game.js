@@ -199,8 +199,8 @@ export default class Game {
               let twh = { w: $tile.width(), h: $tile.height() };
 
               let pos = {
-                left: so.left - to.left + (swh.w - twh.w) / 2.8,
-                top: so.top - to.top + (swh.h - twh.h) / 2.8
+                left: so.left - to.left + (swh.w - twh.w) / 2.5,
+                top: so.top - to.top + (swh.h - twh.h) / 2.5
               };
               $tile.css(pos);
 
@@ -465,9 +465,11 @@ export default class Game {
       $(`#box0 > div > div`).each(function () {
         // If the current div have the class 'change'
         if ($(this).hasClass('change')) {
+          console.log($(this).hasClass('change'));
           // What index does the div with the 'change' class have
 
           let indexOfTile = $('.change').index();
+          console.log('this index has the change class', indexOfTile);
           // What text value does the current div have (we need to know the letter)
           let letterWithPoint = $(this).text();
           // Remove the point that follows when asking for text()

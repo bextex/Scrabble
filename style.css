@@ -518,7 +518,7 @@ text-align: center;
 } */
 
 #box0 > div {
-  border: 1px solid #000000;
+  border-radius: 1px;
   width: 5.5vh;
   height: 5.5vh;
   background-color: #A5A686;
