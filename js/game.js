@@ -166,6 +166,8 @@ export default class Game {
         // if no drop zone or the square is taken then do nothing
         if (!$dropZone.length || store.board[y][x].tile) {
 
+          $($tile).removeClass('onBoard');
+
           let { pageX, pageY } = pointer;
           let tileIndex = +$tile.attr('data-index');
           let $tileBoxSquare = $tile.parent('.tiles-box');
@@ -228,6 +230,7 @@ export default class Game {
     $('.playertiles').each((i, el) => {
       let $tile = $(el);
       $($tile).addClass('onBoard');
+
       let p = $tile.data().prelBoardPos;
       if (!p) { return; }
       let $square = $('.board > div').eq(p.y * 15 + p.x);
