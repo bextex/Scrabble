@@ -621,7 +621,7 @@ div.playing-window-left{
  /* margin-top: 30vh;
   margin-left: 1px; */
   /*84*/
-  margin-top: 84vh;
+  margin-top: 88.5vh;
   margin-left: 40vh;
   /*overflow: hidden;*/
   text-align: center;
@@ -1013,7 +1013,11 @@ footer input {
 
   .newPlayerInput {
   margin-top: 30vh;
-  font-size: 17px;
+
+  }
+
+  .playersName{
+    font-size: 17px;
   }
 
   .game-menu button{
@@ -1033,7 +1037,7 @@ footer input {
   }
 
   .playing-window-left{
-    margin-top: 84vh;
+    margin-top: 88.5vh;
     margin-left: 40vh;
   }
 
@@ -1081,6 +1085,11 @@ footer input {
   font-size: 20px;
   width: 220px;
   height: 17px;
+  
+  }
+
+  .playersName{
+    font-size: 17px;
   }
 
   .game-menu button{
@@ -1110,7 +1119,7 @@ footer input {
   }
 
   .playing-window-left{
-    margin-top: 85vh;
+    margin-top: 88.5vh;
     margin-left: 40vh;
   }
 
@@ -1136,6 +1145,10 @@ footer input {
     padding-right: 350px;
   }
 
+  .score{
+    font-size: 17px;
+  }
+
   
 }
 
@@ -1147,7 +1160,7 @@ footer input {
   }
 
   .playing-window-left{
-    margin-top: 84vh;
+    margin-top: 88.5vh;
     margin-left: 40vh;
   }
   .saol{
@@ -1155,7 +1168,6 @@ footer input {
   }
   .newPlayerInput {
   margin-top: 35vh;
-  font-size: 20px;
   width: 200px;
   height: 17px;
   }
@@ -1197,6 +1209,12 @@ footer input {
     padding-bottom: 100px;
     padding-right: 350px;
   }
+  .playersName{
+    font-size: 17px;
+  }
+  .score{
+    font-size: 17px;
+  }
 
 }
 
@@ -1208,19 +1226,15 @@ footer input {
   }
 
   .playing-window-left{
-    margin-top: 84vh;
+    margin-top: 88.5vh;
     margin-left: 40vh;
-  }
-  .newPlayerInput{
-    font-size: 35px;
   }
     .saol{
     font-size: 30px;
   }
   .newPlayerInput {
-  margin-top: 35vh;
+  margin-top: 30vh;
   margin-right: 11vh;
-  font-size: 20px;
   width: 200px;
   height: 17px;
   }
@@ -1260,11 +1274,8 @@ footer input {
     padding: 5vh;
   }
 
-  .playertiles{
-    font-size: 21px;
-  }
   div.points{
-  font-size: 12px;
+  font-size: 10px;
   top: 17px;
   right: 1.5px;
   }
