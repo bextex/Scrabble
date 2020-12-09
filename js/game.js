@@ -199,8 +199,8 @@ export default class Game {
               let twh = { w: $tile.width(), h: $tile.height() };
 
               let pos = {
-                left: so.left - to.left + (swh.w - twh.w) / 2.5,
-                top: so.top - to.top + (swh.h - twh.h) / 2.5
+                left: so.left - to.left + (swh.w - twh.w) / 2.8,
+                top: so.top - to.top + (swh.h - twh.h) / 2.8
               };
               $tile.css(pos);
 
@@ -270,16 +270,28 @@ export default class Game {
     return !isFirstMove || centerIsTaken;
   }
 
-  besideAnotherTile() {
+  // besideAnotherTile() {
+  //   // !!([...$('.playertiles')].find(playertile =>
+  //   let isBesideAnotherTile = [...$('.playertiles')].find(playertile => {
+  //     let p = $(playertile).data().prelBoardPos;
+  //     console.log('what is p in beside another tile', p);
+  //     // p är [y][x]
+  //     if ((y === 0 && x === 0 && !this.board[y + 1][x].tile && !this.board[y][x + 1].tile)
+  //       || (x === 0 && y > 0 && y < 14 && !this.board[y - 1][x].tile && !this.board[y + 1][x].tile && !this.board[y][x + 1].tile)
+  //       || (x === 14 && y === 0 && !this.board[y][x - 1].tile && !this.board[y + 1][x].tile)
+  //       || (x === 14 && y > 0 && y < 14 && !this.board[y - 1][x].tile && !this.board[y - 1][x].tile && !this.board[y][x - 1].tile)
+  //       || (x === 14 && y === 14 && !this.board[y - 1][x].tile && !this.board[y][x - 1].tile)
+  //       || (y === 14 && x > 0 && x < 14 && !this.board[y][x + 1].tile && !this.board[y][x - 1].tile && !this.board[y - 1][x].tile)
+  //       || (y === 14 && x === 0 && !this.board[y - 1][x].tile && !this.board[y][x + 1].tile)
+  //       || (y === 0 && x > 0 && x < 14 && !this.board[y][x - 1].tile && !this.board[y][x + 1].tile && !this.board[y + 1][x].tile)
+  //       || (x > 0 && x < 14 && y > 0 && y < 14 && !this.board[y - 1][x].tile && !this.board[y + 1][x].tile && !this.board[y][x + 1].tile && !this.board[y][x - 1].tile)) {
+  //       this.render();
+  //       return;
+  //     }
 
-    let isBesideAnotherTile = !!([...$('.playertiles')].find(x => {
-      let p = $(x).data().prelBoardPos;
-      console.log('what is p in beside another tile', p);
-      if ()
-        return p && p.x === 7 && p.y === 7;
-    }));
-    console.log('is beside anbother file', isBesideAnotherTile);
-  }
+  //   });
+  //   console.log('is beside anbother file', isBesideAnotherTile);
+  // }
 
   render() {
     if (!$('.board').length) {
@@ -417,8 +429,8 @@ export default class Game {
       // TF comments:
 
       // only a valid move if not first move or center is taken
-      this.besideAnotherTile();
-      if (!this.notFirstMoveOrCenterIsTaken() && !this.besideAnotherTile()) {
+      // this.besideAnotherTile();
+      if (!this.notFirstMoveOrCenterIsTaken()) {
         this.render();
         return;
       }
@@ -708,6 +720,7 @@ export default class Game {
   }
 
   showPlayers() {
+
     this.players.forEach(player => {
       let index = 0;
       $('.playing-window-left').append(`
@@ -759,6 +772,27 @@ export default class Game {
         console.log(player.tiles)
         me.html(char)
       })
+
+      let boxIndex = 0;
+      $('.playertiles').each((i, el) => {
+        let $tile = $(el);
+
+        let so = $(`.tiles-box[data-box="${boxIndex}"]`).offset(), to = $tile.offset();
+
+        let swh = { w: $(`.tiles-box[data-box="${boxIndex}"]`).width(), h: $(`.tiles-box[data-box="${boxIndex}"]`).height() };
+
+        let twh = { w: $tile.width(), h: $tile.height() };
+
+        let pos = {
+          left: so.left - to.left + (swh.w - twh.w) / 2.8,
+          top: so.top - to.top + (swh.h - twh.h) / 2.8
+        };
+        $tile.css(pos);
+        boxIndex++;
+      });
+
+
+
 
 
     });
