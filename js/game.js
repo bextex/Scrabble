@@ -2,6 +2,7 @@ import Player from './player.js';
 import SAOLchecker from './SAOLchecker.js';
 import Board from './board.js';
 import Score from './score.js';
+import Modal from './modal.js';
 // import { players } from './player.js';
 import { store } from './network.js';
 import Bag from './bag.js';
@@ -135,13 +136,14 @@ export default class Game {
       $(e.currentTarget).removeClass('hover')
     );
 
+    let that = this;
     // Drag-events: We only check if a tile is in place on dragEnd
     // $('.stand .tile').not('.none').draggabilly({ containment: 'body' })
     $('.playertiles').not('.none').draggabilly({ containment: 'body' })
       // Edited by TF
-      .on('dragStart', e => delete $(e.currentTarget).data().prelBoardPos)
+      .on('dragStart', e => { delete $(e.currentTarget).data().prelBoardPos; delete $(e.currentTarget).data().playerStand; })
       .on('dragMove', e => this.alignPrelTilesWithSquares())
-      .on('dragEnd', e => {
+      .on('dragEnd', function (e, pointer) {
 
         // get the tile and the dropZone square
         let $tile = $(e.currentTarget);
@@ -157,61 +159,63 @@ export default class Game {
         $tile.css({ top: '', left: '' });
 
         // if no drop zone or the square is taken then do nothing
-        if (!$dropZone.length || store.board[y][x].tile) { return; }
+        if (!$dropZone.length || store.board[y][x].tile) {
+          /********************** NEW CODE *******************/
+
+          let { pageX, pageY } = pointer;
+          let tileIndex = +$tile.attr('data-index');
+          let $tileBoxSquare = $tile.parent('.tiles-box');
+          let tileBoxSquareIndex = +$tileBoxSquare.attr('data-box');
+
+          let $stand = $('#box0');
+
+          let { top, left } = $stand.offset();
+
+          let bottom = top + $stand.height();
+          let right = left + $stand.width();
+
+          let newBoxIndex;
+
+
+          if (pageX > left && pageX < right
+            && pageY > top && pageY > bottom) {
+
+            newBoxIndex = Math.floor(8 * (pageX - left) / $stand.width());
+
+            let $newBoxSquare = $(`.tiles-box[data-box="${newBoxIndex}"]`);
+
+            if (!$(`.tiles-box[data-box="${newBoxIndex}"] > div`).length) {
+
+              $(`.tiles-box[data-box="${newBoxIndex}"]`).append($tile);
+              $(`.tiles-box[data-box="${tileBoxSquareIndex}"]`).empty();
+
+              let so = $newBoxSquare.offset(), to = $tile.offset();
+
+              let swh = { w: $newBoxSquare.width(), h: $newBoxSquare.height() };
+
+              let twh = { w: $tile.width(), h: $tile.height() };
+
+              let pos = {
+                left: so.left - to.left + (swh.w - twh.w) / 2.8,
+                top: so.top - to.top + (swh.h - twh.h) / 2.8
+              };
+              $tile.css(pos);
+
+            } else {
+              $tile.css({ top: '', left: '' });
+            }
+          }
+          return;
+        }
 
         // store the preliminary board position with the tile div
         // (jQuery can add data to any element)
         $tile.data().prelBoardPos = { y, x };
-        this.alignPrelTilesWithSquares();
+        that.alignPrelTilesWithSquares();
+        // that.placePrelTilesOnBoard();
 
-        //Here we create a reference to the tile and the input.
-        //console.log('tiles from board', this.board[y][x].tile);
-        /*
-        let tileChar = this.board[y][x].tile[0].char;
-        let charInput = "";
+      })
 
-        //We need to check if the tile is empty and if thats true we enter the statement.
-        if (tileChar == ' ') {
-          let alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖ';
-          let pass = false
-          //We use a do while loop to check the input of the player
-          //We set it to capitalized letters and check through the string in our forloop.
-          //If the input matches a character in the alphabet, the loop is true and it ends.
-          do {
-            let rawInput = prompt("Please enter a letter");
-            charInput = rawInput.toUpperCase();
-            for (let i = 0; i < alphabet.length; i++) {
-
-              console.log(charInput)
-              console.log(alphabet.charAt(i))
-
-              if (alphabet.charAt(i) == charInput) {
-                console.log(alphabet.charAt(i) + ' is equals to' + charInput)
-                pass = true;
-              }
-            }
-            while (!pass);
-            //Now we set the tiles character to our verified and safe input.
-            this.board[y][x].tile[0].char = charInput;
-          }
-          while (!pass);
-          //Now we set the tiles character to our verified and safe input.
-          this.board[y][x].tile[0].char = charInput;
-        }
-        */
-        //this.checkNewWordsOnBoard(y, x);
-
-        // Add the moved tile from players tile array to the boards tiles
-        //this.board[y][x].prelTile = that.tiles[0].splice(tileIndex, 1);
-
-        // When droped a tile on the board, re-render
-
-        // store.board = this.board;
-
-        //this.checkNewWordsOnBorad(y, x);
-
-        //this.render();
-      });
   }
 
   // added by TF
@@ -236,6 +240,7 @@ export default class Game {
 
   // added by TF
   placePrelTilesOnBoard() {
+    console.log('im in place prel on board');
     $('.playertiles').each((i, el) => {
       let $tile = $(el);
       let p = $tile.data().prelBoardPos;
@@ -247,6 +252,7 @@ export default class Game {
       //  this.checkNewWordsOnBoard(p.y, p.x);
     });
     this.tiles[0] = this.tiles[0].filter(x => !x.onBoard);
+    console.log('this tiles array in place prel on board', this.tiles[0]);
   }
 
   // added by TF
@@ -279,12 +285,26 @@ export default class Game {
       `).join('')
     );
 
+    // let index = 0;
+
+    // $('#box0').html(
+    //   this.tiles.flat().map(x => {
+    //     console.log('what is x inte flat map in players', x);
+    //     `
+    //     <div data-index="${index}" class="playertiles ${x.char === ' ' ? 'blankTile' : ''}">${x.char}<div class="points">${x.points || ''}</div>
+    //   `
+    //     index++;
+    //   }).join('')
+    // );
+
+
+
     console.log('Index of this player in store.players:', store.players.indexOf(this.name));
     console.log('Current player in store:', store.currentPlayer);
     if (store.players.indexOf(this.name) === store.currentPlayer) {
       $('.not-your-turn').remove();
     } else {
-      $('body').append(`<div class="not-your-turn">Vänta på din tur</div>`);
+      $('.playing-window').append(`<div class="not-your-turn"><p>${this.player} spelar just nu...</p></div>`);
 
     }
 
@@ -349,6 +369,21 @@ export default class Game {
     $('.pass').on('click', () => {
       console.log('i have clicked on pass button');
 
+      console.log('this board in pass', this.tiles[0]);
+
+      $('.playertiles').each((i, el) => {
+        let $tile = $(el);
+        let p = $tile.data().prelBoardPos;
+        console.log('p from .pass button is', p)
+        console.log('the tile from board', $tile);
+        if (p) {
+          console.log('There is tiles when I clicked the pass button');
+          p = '';
+          // The tile renders back to its player tiles if not played and is on board
+          $tile.css({ top: '', left: '' });
+        }
+      });
+
       store.currentPlayer++;
       console.log('Changing player index', store.currentPlayer);
 
@@ -373,8 +408,8 @@ export default class Game {
         return;
       }
 
-      this.placePrelTilesOnBoard();
-      this.render();
+      // this.placePrelTilesOnBoard();
+      // this.render();
 
       console.log('i have clicked on lägg brickor');
 
@@ -413,7 +448,7 @@ export default class Game {
     // Put back the tiles that wants to be changed and scramble the bag
 
     $('.change-tiles').on('click', () => {
-      console.log('im pushing play-tiles');
+      console.log('im pushing change-tiles');
       if (this.tilesFromBag.length < 7) {
         console.log('there are 7 or less tiles in bag');
         alert('there are 7 or less tiles in bag');
@@ -424,7 +459,7 @@ export default class Game {
       let that = this;
       // Loop through the current players player tiles div
       // $(`#box${players.indexOf(players[this.playerIndex - 1])} > div`).each(function () {
-      $(`#box0 > div`).each(function () {
+      $(`#box0 > div > div`).each(function () {
         // If the current div have the class 'change'
         if ($(this).hasClass('change')) {
           // What index does the div with the 'change' class have
@@ -662,27 +697,29 @@ export default class Game {
       $('.playing-window-left').append(`
       <div class="playerWrapper">
       <div class="playername">${player.name}</div>
-      <div class="score">Poäng: ${player.score}</div>     
-      </div>
+      <div class="score">Poäng: ${player.score}</div>
       <div class="tiles-box"><div id="box${this.players.indexOf(player)}"></div></div>
       `);
       while (index < player.tiles[0].length) {
         $(`#box0`).append(`
-      <div data-index="${index}" class="playertiles ${player.tiles[0][index].char === ' ' ? 'blankTile' : ''}">${player.tiles[0][index].char}<div class="points">${player.tiles[0][index].points || ''}</div>
-    `);
+        <div class="tiles-box" data-box="${index}"><div data-index="${index}" class="playertiles ${player.tiles[0][index].char === ' ' ? 'blankTile' : ''}">${player.tiles[0][index].char}<div class="points">${player.tiles[0][index].points || ''}</div></div>
+      `);
         index++;
       }
-      $('.blankTile').on('staticClick', e => {
+      $(`#box0`).append(`
+        <div class="tiles-box" data-box="${index}"></div>
+      `);
+
+
+      $('.blankTile').on('staticClick', async e => {
+
         let me = $(e.currentTarget);
         let index = +me.attr('data-index');
         let alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖ';
         let pass = false;
         let char = '';
-        //We use a do while loop to check the input of the player
-        //We set it to capitalized letters and check through the string in our forloop.
-        //If the input matches a character in the alphabet, the loop is true and it ends.
         do {
-          char = prompt('Skriv in en bokstav eller tryck avbryt för att byta bricka');
+          char = await Modal.prompt('Skriv in en bokstav eller tryck avbryt för att markera brickan');
           if (char === null) {
             me.dblclick();
             return;
@@ -702,13 +739,14 @@ export default class Game {
           }
         }
         while (!pass);
-        //Now we set the tiles character to our verified and safe input.
-
         console.log(player.tiles)
         me.html(char)
-
       })
+
+
     });
+
+
 
   }
 

@@ -9,16 +9,16 @@ body{
   background-color: #fafafa;
   text-align: center;
    animation: color 6s linear ;
-
- 
 }
-
-
+/* 
  #candy {
 	 overflow: hidden;
 	 display: flex;
 	 opacity: 0;
-	 margin: calc(50vh - 150px) auto 0 auto;
+   margin-top: calc(50vh - 150px);
+   margin-left: 150px; 
+   margin-bottom: 0;
+   /* margin-right: 300px; 
 	 width: 100px;
 	 height: 300px;
 	 border-radius: 100px;
@@ -29,7 +29,6 @@ body{
 	 transform: rotate(90deg);
 	 animation: PARTY 6s cubic-bezier(0.87, -0.41, 0.19, 1.44);
 }
-
 
  #candy-loader {
 	 height: 100%;
@@ -63,7 +62,7 @@ body{
 	 display: flex;
 	 align-self: flex-end;
    animation: color 6s linear ;
-}
+} */
  @keyframes load {
 	 0% {
 		 height: 0%;
@@ -109,10 +108,6 @@ body{
 	}
 }
 
-
-
-
-
 ul {
   width: auto;
   text-align: center;
@@ -130,7 +125,7 @@ ul {
 .scrabble {
  font-family: 'Stalinist One', cursive;
  position: absolute;
- font-size: 10vh;
+ font-size: 7vh;
  text-align: center;
  color: #F23847;
  text-shadow: 3px 3px rgb(42, 30, 24);
@@ -146,7 +141,7 @@ ul {
 
 @keyframes move {
   0% {
-    transform: translate(-20%, 0);
+    transform: translate(-3%, 0);
   }
 
   50% {
@@ -154,7 +149,7 @@ ul {
   }
 
   5% {
-    transform: translate(20%, 0);
+    transform: translate(3%, 0);
   }
 }
 
@@ -174,17 +169,15 @@ ul {
   position: absolute;
   /*removed top. Doesn't work when position is relative*/
   /*doen't work with percentage '%'*/
-  left: 33%;
+  left: 18%;
   top:30vh;
   color: rgb(40, 20, 20);
   font-size: 18px;
   border: 3px solid #A5A686;
   border-radius: 10px;
   background-color: #EFF2D8;
-  width: 30%;
- 
-  
-  height: 30vh;
+  width: 50%;
+  height: 50vh;
   padding: 5vh;
   overflow: auto;
   display: none;
@@ -234,21 +227,21 @@ ul {
   display: none;
 }
 
-.game-menu button {
+.game-menu button{
   font-family: 'Source Code Pro', monospace;
-  font-size: 20px;
+  font-size: 15px;
   background-color: black; /* black background */
   opacity: 0.7;
-  border: 5px solid #EFF2D8; /* Aliceblue border */
+  border: 2px solid #EFF2D8; /* Aliceblue border */
   border-radius: 5px;
   color: white; /* White text */
   padding: 20px; /* Some padding */
   cursor: pointer; /* Pointer/hand icon */
-  width: 20%; /* Set a width if needed */
+  width: 30%; /* Set a width if needed */
   display: block; /* Make the buttons appear below each other */
   position: relative;
-  left: 40%;
-  top: 50vh;
+  left: 35%;
+  top: 1vh;
   animation-name: move, changeColorText;
   animation-duration: 1.5s; 
   /*display: none;*/
@@ -257,7 +250,7 @@ ul {
 }
 
 .game-menu button:hover {
-    background-color: rgb(153, 153, 153);
+  background-color: rgb(153, 153, 153);
   color: black;
 }
 
@@ -295,17 +288,18 @@ text-align: center;
 }
 
 .newPlayerInput {
- background-color:black;
- position: relative;
- top: 10vh;
- margin-right: auto;
- margin-left: auto;
- font-family: 'Source Code Pro', monospace;
- font-size: 20px;
- opacity: 0.8;
- border: 5px solid #EFF2D8;
- border-radius: 5px;
- color: white;
+  background-color:black;
+  margin-top: 25vh;
+  /* position: relative; */
+  margin-right: auto;
+  margin-left: auto;
+  opacity: 0.7;
+  border: 2px solid #EFF2D8; /* Aliceblue border */
+  border-radius: 5px;
+  color: white;
+  width: 30%; /* Set a width if needed */
+  height: 20px;
+  padding: 5px; /* Some padding */
 
   animation-name: playerAnimation;
   animation-iteration-count: 1;
@@ -333,7 +327,7 @@ text-align: center;
   border: 3px solid black;
   border-radius: 3px;
   display: inline-block;
-  padding: 50px 400px 90px 20px;
+  padding: 50px 350px 100px 20px;
 
   /*#F23847*/
   background-color:  #F23847;
@@ -443,47 +437,47 @@ text-align: center;
 }
 
 .tiles-from-bag{
-  width: 50px;
+  width: 75px;
   height: 25px;
   text-align: center;
   right: 5vh;
-  top:0.5vh;
+  top: 0.5vh;
   position: absolute;
-  font-family: 'Neucha', cursive;
-  font-size: 20px;
+  font-family: 'Source Code Pro', monospace;
+  font-size: 15px;
   background-color: #EFF2D8;
-  border: 3px solid #A5A686; 
+  border: 2px solid #A5A686; 
   border-radius: 3px;
+  padding-bottom: 2px;
 }
 
 /*************************** PLAYER NAMES AND TILES ****************************/
 .playerWrapper {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-evenly;
+  /* justify-content: space-evenly; */
   width:300px;  
 }
 
-.playername{
-  font-family: 'Neucha', cursive;
-  font-size: large;
-  font-size: 20px;
+.playersName{
+  font-family: 'Source Code Pro', monospace;
+  font-size: 15px;
   color: black;
-  padding: 2vh;
+  padding-top: 2vh;
+  padding-bottom: 1vh;
+  padding-right: 12vh;
   text-align: left;
-  width: 100px;
-  height: 10px;
 }
 
 .score{
-  font-family: 'Neucha', cursive;
-  font-size: large;
-  font-size: 20px;
+  font-family: 'Source Code Pro', monospace;
+  font-size: 15px;
   color: black;
   padding: 2vh;  
   text-align: left;
   width: 100px;
   height: 10px;
+
 }
 
 /* .not-current-player{
@@ -508,6 +502,46 @@ text-align: center;
   border: 1px solid black;
 }*/
 
+
+/************ TESTAR NY KOD **************/
+/* #box0 {
+  position: relative;
+  width: calc(75vh + 50px);
+  border: 3px solid black;
+  border-radius: 3px;
+  display: inline-block;
+  padding: 50px 350px 100px 20px;
+
+  /*#F23847
+  background-color:  white;
+
+} */
+
+#box0 > div {
+  border: 1px solid #000000;
+  width: 5.5vh;
+  height: 5.5vh;
+  background-color: #A5A686;
+  float: left;
+  
+}
+
+#box0 > div:nth-child(8n+1){
+  clear: both;
+}
+
+
+/* .board > div::after {
+  display: block;
+  text-align: center;
+}
+
+.board .tile {
+  position: absolute;
+  margin: 1px;
+} */
+/******************* TESTAR NY KOD ****************/
+
 .playertiles.none{
 
   background-color: #F23847;
@@ -517,15 +551,16 @@ text-align: center;
 
 .playertiles{
   font-family: 'Source Code Pro', monospace;
-  font-size: 20px;
+  font-size: 17px;
   /* padding: 4px; */
   margin: 1px;
   width: 4vh;
   height: 4vh;
+  padding: 0.3vh;
   background-color: #EFF2D8;
   text-align: center;
-  border: 5px solid #A5A686;
-  border-radius: 5px;
+  /* border: 3px solid #A5A686; */
+  border-radius: 3px;
   position: relative;
   float: left;
   cursor: pointer;
@@ -533,17 +568,16 @@ text-align: center;
 
 .playertiles.change{
   font-family: 'Source Code Pro', monospace;
-  font-size: 20px;
+  font-size: 17px;
   /* padding: 4px; */
   margin: 1px;
-  width: 4.5vh;
-  height: 4.5vh;
+  width: 4vh;
+  height: 4vh;
   /*white*/
   background-color: #EFF2D8;
   text-align: center;
   /*black*/
-  border: 2px dotted rgb(126, 126, 126);
-
+  border: 1.5px dotted black;
   position: relative;
   float: left;
   cursor: pointer;
@@ -553,7 +587,7 @@ div.points{
   font-family: 'Source Code Pro', monospace;
   font-size: 10px;
   position: absolute;
-  top: 16px;
+  top: 12px;
   right: 1.5px;
   z-index: 5;
 }
@@ -570,12 +604,11 @@ div.playing-window-left{
  /* margin-top: 30vh;
   margin-left: 1px; */
   /*84*/
-  margin-top: 92vh;
+  margin-top: 84vh;
   margin-left: 40vh;
   /*overflow: hidden;*/
   text-align: center;
   display: inline-block;
-  
 }
 
 
@@ -584,15 +617,15 @@ div.playing-window-left{
 .play-tiles{
   
   cursor: pointer;
-
-        position:absolute;
-        left: 60vh;
-        top:1vh;
-        font-family: 'Neucha', cursive;
-        font-size: 20px;
-         background-color: #EFF2D8;
-         border: 3px solid #A5A686; 
-         border-radius: 3px;
+  padding: 0.27vh;
+  position:absolute;
+  left: 62vh;
+  top: 2vh;
+  font-family: 'Source Code Pro', monospace;
+  font-size: 15px;
+  background-color: #EFF2D8;
+  border: 2px solid #A5A686; 
+  border-radius: 3px;
 }
 .play-tiles:hover{
   font-family: 'Source Code Pro', monospace;
@@ -604,15 +637,14 @@ div.playing-window-left{
 
 .pass{
   position: absolute;
- font-family: 'Neucha', cursive;
-        font-size: 20px;
-         background-color: #EFF2D8;
-         border: 3px solid #A5A686; 
-         border-radius: 3px;
-
+  font-family: 'Source Code Pro', monospace;
+  font-size: 15px;
+  background-color: #EFF2D8;
+  border: 2px solid #A5A686; 
+  border-radius: 3px;
   cursor: pointer;
-  left: 15vh;
-        top:1vh;
+  left: 4vh;
+  top: 2vh;
 }
 
 .pass:hover{
@@ -626,13 +658,23 @@ div.playing-window-left{
 .change-tiles{ 
   cursor: pointer;
   position:absolute;
-  left: 3vh;
-  bottom:2vh;
-  font-family: 'Neucha', cursive;
-  font-size: 20px;
+  left: 4vh;
+  bottom: 2vh;
+  padding: 0.27vh;
+  text-align: center;
+  font-family: 'Source Code Pro', monospace;
+  font-size: 15px;
   background-color: #EFF2D8;
-  border: 3px solid #A5A686; 
+  border: 2px solid #A5A686; 
   border-radius: 3px;
+}
+
+.change-tiles:hover{
+  font-family: 'Source Code Pro', monospace;
+  font-size: large;
+  background-color: #EFF2D8;
+  color: #A5A686;
+  cursor: pointer;
 }
 
 
@@ -659,25 +701,27 @@ div.playing-window-left{
 }
 
 .tile {
-  font-family: 'Source Code Pro', monospace;
-  font-size: 20px;
+   font-family: 'Source Code Pro', monospace;
+  font-size: 17px;
   /* padding: 4px; */
-  margin: 0.5px;
+  margin: 1px;
   width: 4vh;
   height: 4vh;
+  padding: 0.3vh;
   background-color: #EFF2D8;
   text-align: center;
-  border: 3px solid #A5A686;
-  border-radius: 5px;
+  /* border: 3px solid #A5A686; */
+  border-radius: 3px;
   position: relative;
   float: left;
+  cursor: pointer;
 }
 
 
 /******************* BOX FOR WORDS FROM SAOL *********************/
 
 .boxForWord {
-  font-family: 'Neucha', cursive;
+  font-family: 'Source Code Pro', monospace;
   background-color:#f2e2d8;
   position: absolute;
   font-size: 15px;
@@ -705,6 +749,7 @@ div.playing-window-left{
   letter-spacing: 3px;
   color: blue;
 }
+
 
 /************************** NETWORK CHAT ************************/
 
@@ -760,37 +805,34 @@ footer input {
 } 
 
 .key-input{
- background-color:#EFF2D8;
- position: absolute;
- /* top: 80vh; */
- border: 3px solid #A5A686;
- border-radius: 5px;
+  background-color:#EFF2D8;
+  position: absolute;
+  /* top: 80vh; */
+  border: 3px solid #A5A686;
+  border-radius: 5px;
   color: #BF4136;
-
-    top: 65%;
-    left: 50%;
-    margin-right: -50%;
-    transform: translate(-50%, -50%);
-
-  font-family: 'Neucha', cursive;
-  
-  font-size: 20px;
-
+  top: 65%;
+  left: 50%;
+  margin-right: -50%;
+  transform: translate(-50%, -50%);
+  font-family: 'Source Code Pro', monospace;
+  font-size: 15px;
   padding: 1vh;
-  
-  width: 100px;
-  height: 45px;
+  width: 135px;
+  height: 15px;
+  text-align: center;
 }
 
 
 .waiting-box{
-  font-family: 'Neucha', cursive;
-  font-size: 30px;
+  font-family: 'Source Code Pro', monospace;
+  font-size: 15px;
   position: absolute;
-   top: 50%;
-    left: 50%;
-    margin-right: -50%;
-    transform: translate(-50%, -50%);
+  text-align: center;
+  top: 50%;
+  left: 50%;
+  margin-right: -50%;
+  transform: translate(-50%, -50%);
   width: 300px;
   height: 150px;
   background-color: #EFF2D8;
@@ -799,7 +841,8 @@ footer input {
   /* position: absolute; */
   color: #BF4136;
   display: block;
-  overflow: scroll;
+  padding: 1vh;
+  /* overflow: scroll; */
 }
 
 
@@ -810,11 +853,21 @@ footer input {
   left: 0;
   right: 0;
   background-color: rgba(161, 161, 161, 0.431);
-  color: white;
-  font-size: 100px;
-  text-align: center;
+  text-align: left;
   z-index: 1000;
 }
+
+.not-your-turn > p{
+  font-family: 'Source Code Pro', monospace;
+  font-size: 50px;
+  color: white;
+  background-color: #EFF2D8;
+  border: 2px solid #A5A686; 
+  border-radius: 3px;
+  padding: 15px;
+  padding-left: 20px;
+}
+
 /****** SAOL *******/
 .saol {
   position: absolute;
@@ -822,7 +875,7 @@ footer input {
   color: #EFF2D8;
   text-shadow: 3px 3px #A5A686;
   cursor: default;
-  font-size: 35px;
+  font-size: 20px;
   top: 10vh;
   right: 3vh;
   padding-bottom: 55vh;
@@ -836,13 +889,13 @@ footer input {
 
 .start-new-game {
    font-family: 'Source Code Pro', monospace;
-   font-size: 20px;
+   font-size: 15px;
    position: absolute;
    background-color: black;
    opacity: 0.7;
    border: 5px solid #A5A686;
    color: white;
-   width: 10%;
+   width: 30%;
    border-radius: 5px;
     padding: 15px;
     cursor: pointer;
@@ -879,7 +932,7 @@ footer input {
 
 .write-key {
     font-family: 'Source Code Pro', monospace;
-    font-size: 20px;
+    font-size: 15px;
     position: absolute;
     top: 55%;
     left: 50%;
@@ -889,13 +942,13 @@ footer input {
 
 .join {
     font-family: 'Source Code Pro', monospace;
-    font-size: 20px;
+    font-size: 15px;
     position: absolute;
     background-color: black;
     opacity: 0.7;
-    /*border: 5px solid #A5A686;*/
+    border: 5px solid #A5A686;
     color: white;
-    width: 10%;
+    width: 30%;
     border-radius: 5px;
     padding: 10px;
     cursor: pointer;
@@ -928,8 +981,364 @@ footer input {
  .join:hover span:after {
    opacity: 1;
    right: 0;
+ }
+
+
+/**************************** CSS STUFF FROM ORIGIN ********************/
+
+/* Small devices (landscape mode phones) */
+@media (min-width: 500px) and (max-width: 767.98px) { 
+  /* your rules here */
+ 
+    .scrabble {
+  font-size: 7vh;
+  }
+
+  .newPlayerInput {
+  margin-top: 30vh;
+  font-size: 17px;
+  }
+
+  .game-menu button{
+    left: 35%;
+  }
+
+  .start-new-game{
+    width: 25%;
+    padding: 10px;
+  }
+
+  .write-key{
+    font-size: 17px;
+    position: absolute;
+    top: 55%;
+    left: 50%;
+  }
+
+  .playing-window-left{
+    margin-top: 84vh;
+    margin-left: 40vh;
+  }
+
+  /* .playersName{
+    font-size: 17px;
+  } */
+
+  .score{
+    font-size: 17px;
+  }
+
+  .tiles-from-bag{
+    font-size: 17px;
+  }
+
+  .rules-window .add-rules{
+    left: 20%;
+    top: 30vh;
+    font-size: 18px;
+    width: 55%;
+    height: 50vh;
+    padding: 5vh;
+  }
+
+   .saol{
+    font-size: 20px;
+  }
+
+  .board{
+    padding-right: 350px;
+    padding-bottom: 100px;
+  }
+
 }
 
+/* Medium devices (portrait mode tablets) */
+@media (min-width: 768px) and (max-width: 991.98px) { 
+  /* your rules here */
+    .scrabble {
+  font-size: 10vh;
+  }
+
+  .newPlayerInput {
+  margin-top: 30vh;
+  font-size: 20px;
+  width: 220px;
+  height: 17px;
+  }
+
+  .game-menu button{
+    left: 35%;
+    font-size: 17px;
+  }
+
+  .start-new-game{
+    width: 20%;
+    padding: 10px;
+    font-size: 17px;
+  }
+  .join{
+    width: 20%;
+    padding: 10px;
+    font-size: 17px;
+  }
+
+  .write-key{
+    font-size: 20px;
+    position: absolute;
+    top: 51%;
+    left: 50%;
+  }
+  .key-input{
+    top: 64%;
+  }
+
+  .playing-window-left{
+    margin-top: 85vh;
+    margin-left: 40vh;
+  }
+
+  .rules-window .add-rules{
+    left: 20%;
+    top: 30vh;
+    font-size: 18px;
+    width: 55%;
+    height: 50vh;
+    padding: 5vh;
+  }
+
+  .saol{
+    font-size: 25px;
+  }
+
+  .waiting-box{
+    font-size: 17px;
+  }
+
+  .board{
+    padding-bottom: 100px;
+    padding-right: 350px;
+  }
+
+  
+}
+
+/* Large devices (computer screens) */
+@media (min-width: 992px) and (max-width: 1199.98px) { 
+  /* your rules here */
+   .scrabble {
+  font-size: 12vh;
+  }
+
+  .playing-window-left{
+    margin-top: 84vh;
+    margin-left: 40vh;
+  }
+  .saol{
+    font-size: 30px;
+  }
+  .newPlayerInput {
+  margin-top: 35vh;
+  font-size: 20px;
+  width: 200px;
+  height: 17px;
+  }
+
+  .game-menu button{
+    left: 40%;
+    width: 20%;
+    font-size: 17px;
+  }
+
+  .start-new-game{
+    padding: 10px;
+    font-size: 17px;
+  }
+  .join{
+    width: 20%;
+    padding: 10px;
+    font-size: 17px;
+  }
+
+  .write-key{
+    font-size: 20px;
+    position: absolute;
+    top: 51%;
+    left: 50%;
+  }
+  .key-input{
+    top: 64%;
+  }
+  .rules-window .add-rules{
+    left: 20%;
+    top: 30vh;
+    font-size: 18px;
+    width: 55%;
+    height: 50vh;
+    padding: 5vh;
+  }
+  .board{
+    padding-bottom: 100px;
+    padding-right: 350px;
+  }
+
+}
+
+/* Extra large devices (bigger computer screens) */
+@media (min-width: 1200px) { 
+  /* your rules here */
+   .scrabble {
+  font-size: 10vh;
+  }
+
+  .playing-window-left{
+    margin-top: 84vh;
+    margin-left: 40vh;
+  }
+  .newPlayerInput{
+    font-size: 35px;
+  }
+    .saol{
+    font-size: 30px;
+  }
+  .newPlayerInput {
+  margin-top: 35vh;
+  margin-right: 11vh;
+  font-size: 20px;
+  width: 200px;
+  height: 17px;
+  }
+
+  .game-menu button{
+    left: 40%;
+    width: 15%;
+    font-size: 17px;
+  }
+
+  .start-new-game{
+    padding: 10px;
+    font-size: 17px;
+    width: 15%;
+  }
+  .join{
+    width: 15%;
+    padding: 10px;
+    font-size: 17px;
+  }
+
+  .write-key{
+    font-size: 20px;
+    position: absolute;
+    top: 51%;
+    left: 50%;
+  }
+  .key-input{
+    top: 64%;
+  }
+  .rules-window .add-rules{
+    left: 28%;
+    top: 30vh;
+    font-size: 18px;
+    width: 40%;
+    height: 50vh;
+    padding: 5vh;
+  }
+
+  .playertiles{
+    font-size: 21px;
+  }
+  div.points{
+  font-size: 12px;
+  top: 17px;
+  right: 1.5px;
+  }
+  .playersName{
+    font-size: 17px;
+  }
+  .score{
+    font-size: 17px;
+  }
+
+  .board{
+    padding-bottom: 100px;
+  }
+
+}
+
+
+/* 
+#candy {
+	 overflow: hidden;
+	 display: flex;
+   opacity: 0;
+   height: 300px;
+   width: 100px;
+	 margin: calc(50vh - 150px) auto 0 auto;
+	 border-radius: 100px;
+	 border-bottom-left-radius: 0px;
+	 border-bottom-right-radius: 0px;
+	 background-color: #fafafa;
+	 box-shadow: 40px 20px 15px -30px rgba(255, 0, 0, 0.1);
+	 transform: rotate(90deg);
+	 animation: PARTY 6s cubic-bezier(0.87, -0.41, 0.19, 1.44);
+}
+
+ #candy-loader {
+	 height: 100%;
+	 width: 100%;
+	 z-index: 1;
+	 display: flex;
+	 align-items: center;
+	 align-self: flex-end;
+	 box-shadow: 0px 0px 10px rgba(255, 50, 0, 0.8) inset;
+	 background: #d33144;
+	 background: repeating-linear-gradient(45deg, #ffe, #ffe 15px, #d33144 15px, #d33144 30px);
+   animation: load 6s ease-in;
+}
+ #candy-loader::after {
+	 content: "";
+	 background-color: #fafafa;
+	 width: 50px;
+	 height: 270px;
+	 border-radius: 50px;
+	 border-bottom-left-radius: 0px;
+	 border-bottom-right-radius: 0px;
+	 display: flex;
+	 align-self: flex-end;
+   animation: color 6s linear;
+}
+ #candy-loader::before {
+	 content: "";
+	 background-color: #fafafa;
+	 width: 25px;
+	 height: 210px;
+	 display: flex;
+	 align-self: flex-end;
+   animation: color 6s linear ;
+} 
+
+.gamecontainer {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  max-width: auto;
+}
+
+.scrabble {
+  font-family: 'Stalinist One', cursive;
+  position: absolute;
+  text-align: center;
+  color: #F23847;
+  text-shadow: 3px 3px rgb(42, 30, 24);
+  animation-name: move;
+  animation-duration: 6s; 
+  cursor: default;
+  margin-left: auto;
+  margin-top: auto; 
+  top:10vh;
+  left: 0;
+  right: 0;
+  font-size: 10vh;
+} */
 /****** Words List *******/
 table,th,td
 	{
@@ -948,3 +1357,51 @@ table,th,td
 th {
 	 background-color: yellow;
    }
+
+
+   /*************** Modals ***************/
+
+ 
+
+.modal {
+  font-family: Verdana;
+  font-size: 14px;
+  position: absolute;
+  display:none;
+  z-index: 1000;
+}
+
+.modal .box {
+  width: 40vw;
+  background-color: #fff;
+  top: 20vh;
+  left: 30vw;
+  position: fixed;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 3px 3px 5px 6px #aaa;
+}
+
+.modal .hider {
+  width: 100vw;
+  height: 100vh;
+  opacity: 0.2;
+  background-color: #000;
+  top: 0;
+  left: 0;
+  position: fixed;
+}
+
+.modal button {
+  float: right;
+  cursor: pointer;
+  margin-left: 20px;
+  border-radius: 5px; 
+  padding: 5px 10px;
+}
+
+.modal input {
+  display: block;
+  width: 100%;
+  margin-bottom: 20px;
+}
