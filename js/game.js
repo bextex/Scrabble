@@ -698,6 +698,7 @@ export default class Game {
       <div class="playerWrapper">
       <div class="playername">${player.name}</div>
       <div class="score">Poäng: ${player.score}</div>
+      </div>
       <div class="tiles-box"><div id="box${this.players.indexOf(player)}"></div></div>
       `);
       while (index < player.tiles[0].length) {
@@ -788,6 +789,7 @@ export default class Game {
       console.log('currentWordPoints', currentWordPoints);
       // players[playerIndex - 1].score += currentWordPoints;
       this.players[playerIndex].score += currentWordPoints;
+      // this.players[0].score += currentWordPoints;
       console.log('play.score: ', this.players[playerIndex].score);
     }
 
