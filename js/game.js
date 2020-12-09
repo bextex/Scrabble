@@ -400,7 +400,7 @@ export default class Game {
 
     // When click on 'Lägg brickor'-button, there will be a new player and the board will render
     // Shoul also count score on word
-    $('.play-tiles').on('click', () => {
+    $('.play-tiles').on('click', async () => {
       console.log('im pushing play-tiles');
 
       // TF comments:
@@ -432,7 +432,7 @@ export default class Game {
         // this.countPlayerScore(this.playerIndex, this.wordArray);
       }
       else {
-        alert('Du har ingen godkänd ord');
+        await Modal.alert('Ordet du placerade finns inte i SAOL', 'OK');
         return;
       }
 
