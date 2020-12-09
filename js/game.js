@@ -47,6 +47,10 @@ export default class Game {
         console.log("one or more words are invalid")
         this.newestWords = [];
         all = false;
+
+        ////// NEW //////
+        await Modal.alert('Du har icke-godkända ord på brädet');
+        ////// OLD /////
       }
       else {
         none = false;
@@ -269,11 +273,7 @@ export default class Game {
     // align tiles that have a prelBoardPos with correct squares
     $('.playertiles').each((i, el) => {
       let $tile = $(el);
-      console.log('im tile in align', $tile);
-      console.log('what is tile data', $tile.data());
       let p = $tile.data().prelBoardPos;
-      console.log('im p in align', p);
-      console.log('is p falsey?', (!p === true));
       if (!p) { return; }
       let $square = $('.board > div').eq(p.y * 15 + p.x);
       $tile.css({ top: '', left: '' });
@@ -293,13 +293,10 @@ export default class Game {
     console.log('im in place prel on board');
     $('.playertiles').each((i, el) => {
       let $tile = $(el);
-      console.log('im tiles', $tile);
       let p = $tile.data().prelBoardPos;
-      console.log('im p', p);
       if (!p) { return; }
       let tileIndex = $(`#box0 > div > div`).index($tile);
       let tile = this.tiles[0][tileIndex];
-      console.log('tile in place prel board', tile);
       tile.onBoard = true;
       this.board[p.y][p.x].tile = [tile];
       this.checkNewWordsOnBoard();
@@ -1079,7 +1076,10 @@ export default class Game {
 
     }
     console.log('currentWordPoints', currentWordPoints);
-    players[store.currentPlayer].score += currentWordPoints;
+
+    ////// NEW ADDED this. ///////
+    this.players[store.currentPlayer].score += currentWordPoints;
+    ////// END //////
   }
   // --- johanna
 
