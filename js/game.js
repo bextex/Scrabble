@@ -270,6 +270,16 @@ export default class Game {
     return !isFirstMove || centerIsTaken;
   }
 
+  besideAnotherTile() {
+
+    let isBesideAnotherTile = !!([...$('.playertiles')].find(x => {
+      let p = $(x).data().prelBoardPos;
+      console.log('what is p in beside another tile', p);
+      return p && p.x === 7 && p.y === 7;
+    }));
+    console.log('is beside anbother file', isBesideAnotherTile);
+  }
+
   render() {
     if (!$('.board').length) {
       $('.playing-window').append(`
@@ -406,7 +416,8 @@ export default class Game {
       // TF comments:
 
       // only a valid move if not first move or center is taken
-      if (!this.notFirstMoveOrCenterIsTaken()) {
+      this.besideAnotherTile();
+      if (!this.notFirstMoveOrCenterIsTaken() && !this.besideAnotherTile()) {
         this.render();
         return;
       }
