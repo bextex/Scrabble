@@ -1439,3 +1439,52 @@ th {
   width: 100%;
   margin-bottom: 20px;
 }
+
+
+
+/*****---------------NETWORK-CHAT-------------------******/
+
+header, footer {
+  background-color:  #F23847;
+  border-bottom: 10px solid  #A5A686;
+  position: fixed;
+  width: 600px;
+  padding: 10px;
+  padding-bottom: 50px;
+  color: white;
+  /* Tried right: 0; but it didn't work */
+  left: 135vh;
+  
+}
+
+header {
+  top: 0;
+}
+
+footer {
+  bottom: 0;
+}
+
+.key {
+  float: right;
+  display: block;
+  padding-right: 10px;
+  font-weight: bold;
+}
+
+.key::before {
+  content: 'Chat-kod: ';
+  font-weight: normal;
+}
+
+footer input {
+  width: 80%;
+}
+
+.message {
+  padding: 6px 0;
+}
+
+.sender {
+  font-weight: bold;
+}

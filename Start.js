@@ -3,6 +3,7 @@ import Game from './js/game.js';
 import Board from './js/board.js';
 import Network from './js/network.js';
 import Modal from './js/modal.js'
+import Chat from './js/chat.js';
 
 //
 //!!!! Kalla new Board().start(); där ni vill ha brädet! 
@@ -21,6 +22,9 @@ export default class Start {
   constructor() {
     $('.start-screen').fadeOut(1700);
     $('.game-screen').fadeIn(1350);
+
+
+
     // let player = new Player();
     // player.choosePlayers();
     this.clickFunction();
@@ -36,12 +40,15 @@ export default class Start {
     // this.tiles = await bag.tilesFromFile();
 
     let network = new Network();
+    let chat = new Chat();
 
     // let game = new Game(this.tiles);
 
     // let that = this;
 
+
     $('.game-menu').hide(0).delay(6000).show(0);
+
 
     // $('.game-menu').hide(0).delay(6000).show(0).append(
     //   `<input type="text" 
@@ -109,6 +116,8 @@ export default class Start {
       <input type="key-input" class="key-input"><span class="key" placeholder="Skriv nyckel här"></span></input>
       <p class=write-key>Skriv nyckel här</p>
       </div>`);
+
+
 
       $('.join').on('click', function () {
         console.log('im clicking the join button');
