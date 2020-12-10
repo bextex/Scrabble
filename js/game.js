@@ -46,6 +46,7 @@ export default class Game {
       if (await SAOLchecker.scrabbleOk(this.storeCurrentWords[i].word) === false) {
         console.log("one or more words are invalid")
         this.newestWords = [];
+
         all = false;
 
         ////// NEW //////
@@ -92,7 +93,9 @@ export default class Game {
       this.countPlayerScore(this.playerIndex);
       this.nextPlayer();
       console.log("end of round this.storeCurrentWords: ", this.storeCurrentWords)
-      //console.log("end of round this.wordArrayCommitted", this.wordArrayCommitted)
+      //conselseole.log("end of round this.wordArrayCommitted", this.wordArrayCommitted)
+    } else {
+
     }
   }
 
@@ -104,7 +107,7 @@ export default class Game {
 
   start(playerName) {
     this.getTiles();
-
+    let passcounternew = 0;
     this.board = store.board;
 
 
@@ -128,14 +131,12 @@ export default class Game {
   }
 
 
+  endscreen() {
 
-  playerTurn() {
+    console.log('Sending player to score screen...')
+    $('.playing-window').hide()
 
-    if (this.tilesFromBag == 0) {
-      console.log('Sending player to score screen...')
-      $('.playing-window').hide()
-
-      $('.score-screen-container').append(`
+    $('.score-screen-container').append(`
         <div class="player-table">
         <p class="scoreboard-text">  Scoreboard</p>
           <div class="player-table-inner">
@@ -144,22 +145,28 @@ export default class Game {
         </div>
         
       `);
-      for (let i = 0; i < store.players.length; i++) {
-        $('.player-table-inner').append(`
+    for (let i = 0; i < store.players.length; i++) {
+      $('.player-table-inner').append(`
         <div class="scoreboard-players"> 
         <p class="scoreboard-players-text"> [${i}] ${store.players[i].score} ${store.players[i]}</p>
         <br> </br>
         </div>
         `);
-        $('.waiting-box').append(`
+      $('.waiting-box').append(`
         <br>
           
           `);
-      }
-      this.render();
-
-
     }
+    this.render();
+
+
+
+  }
+  playerTurn() {
+    if (this.tilesFromBag == 0) {
+      this.endscreen();
+    }
+
     // if (this.tilesFromBag.length == 0) {
     //   alert('game over')
     // }
@@ -333,6 +340,10 @@ export default class Game {
     // align tiles that have a prelBoardPos with correct squares
     $('.playertiles').each((i, el) => {
       let $tile = $(el);
+<<<<<<< HEAD
+=======
+
+>>>>>>> b58e73c8cea2591c55249c9037adb6a976c5029e
       let p = $tile.data().prelBoardPos;
       if (!p) { return; }
       let $square = $('.board > div').eq(p.y * 15 + p.x);
@@ -353,10 +364,18 @@ export default class Game {
     console.log('im in place prel on board');
     $('.playertiles').each((i, el) => {
       let $tile = $(el);
+      console.log($tile)
       let p = $tile.data().prelBoardPos;
+
       if (!p) { return; }
+<<<<<<< HEAD
       let tileIndex = $(`#box0 > div > div`).index($tile);
+=======
+      let tileIndex = $('#box0 > div > div').index($tile);
+      console.log(tileIndex)
+>>>>>>> b58e73c8cea2591c55249c9037adb6a976c5029e
       let tile = this.tiles[0][tileIndex];
+      console.log(tile)
       tile.onBoard = true;
       this.board[p.y][p.x].tile = [tile];
       this.checkNewWordsOnBoard();
@@ -502,10 +521,17 @@ export default class Game {
 
     console.log('Im in button events');
 
+
     // When click on 'Stå över'-button, there will be a new player and the board will render
     $('.pass').on('click', () => {
       console.log('i have clicked on pass button');
+      store.passcounter++;
+      if (store.passcounter == 3) {
+        this.endscreen();
+      }
 
+      console.log('----------------------------------------------')
+      console.log(store.passcounter);
       console.log('this board in pass', this.tiles[0]);
 
       $('.playertiles').each((i, el) => {
@@ -546,6 +572,7 @@ export default class Game {
         return;
       }
 
+<<<<<<< HEAD
       /////// NEW /////// 
 
       this.placePrelTilesOnBoard();
@@ -556,6 +583,9 @@ export default class Game {
       ////// END /////////
 
       // this.placePrelTilesOnBoard();
+=======
+      this.placePrelTilesOnBoard();
+>>>>>>> b58e73c8cea2591c55249c9037adb6a976c5029e
       // this.render();
 
       console.log('i have clicked on lägg brickor');
@@ -564,6 +594,7 @@ export default class Game {
 
       //----johanna
       // read words on board and push to wordArray[]
+<<<<<<< HEAD
 
       if (this.wordArray.length > 0) {
         this.countPlayerScore(store.players.indexOf(this.name), this.wordArray);
@@ -577,6 +608,13 @@ export default class Game {
       //----johanna
 
       store.currentPlayer++;
+=======
+      //this.checkNewWordsOnBoard();
+      this.checkNewWordsInSAOL();
+      //----johanna
+
+
+>>>>>>> b58e73c8cea2591c55249c9037adb6a976c5029e
 
 
       // this.board = store.board;
@@ -662,6 +700,7 @@ export default class Game {
       $('.saol').append('<div class="boxForWord"><span class="word validWord">' +
         obj.word + '</span>')
     }
+    store.currentPlayer++;
     this.playerTurn();
     this.render();
   }
@@ -708,8 +747,6 @@ export default class Game {
     let p = 0;  //temp variable to save this.board[i][j].tile[0].points;
     let s = ''; //temp variableto save this.board[i][j].special
 
-    //console.log('y: ' + y);
-    //console.log('x: ' + x);
 
     // CHECK HORISONTAL
     for (let i = 0; i < this.board.length; i++) {
@@ -1135,7 +1172,7 @@ export default class Game {
   async countPlayerScore() {
 
     console.log('4. --- countPLayerScore() ---')
-    console.log('player index: ' + store.currentPlayer)
+
 
     let currentWordPoints = 0;
     console.log('I am in countPlayerScore, wordArray: ', this.storeCurrentWords);
@@ -1145,11 +1182,16 @@ export default class Game {
 
     }
     console.log('currentWordPoints', currentWordPoints);
+<<<<<<< HEAD
 
     ////// NEW ADDED this. ///////
     // players[store.currentPlayer].score += currentWordPoints;
     this.players[0].score += currentWordPoints;
     ////// END //////
+=======
+    //$('player1 > .coreOnscreen').html() += currentWordPoints;
+
+>>>>>>> b58e73c8cea2591c55249c9037adb6a976c5029e
   }
   // --- johanna
 
