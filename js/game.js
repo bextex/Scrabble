@@ -73,6 +73,40 @@ export default class Game {
 
 
   playerTurn() {
+
+    if (this.tilesFromBag == 0) {
+      console.log('Sending player to score screen...')
+      $('.playing-window').hide()
+
+      $('.score-screen-container').append(`
+        <div class="player-table">
+        <button class="returnBtn"><span>Starta om</span></button>
+        <p class="scoreboard-text">  Scoreboard</p>
+          <div class="player-table-inner">
+          
+          </div>
+        </div>
+        
+      `);
+      for (let i = 0; i < store.players.length; i++) {
+        $('.player-table-inner').append(`
+        <div class="scoreboard-players"> 
+        <p class="scoreboard-players-text"> [${i}] ${store.players[i].score} ${store.players[i]}</p>
+        <br> </br>
+        </div>
+        `);
+        $('.waiting-box').append(`
+        <br>
+          
+          `);
+      }
+      this.render();
+
+
+    }
+    // if (this.tilesFromBag.length == 0) {
+    //   alert('game over')
+    // }
     if (store.currentPlayer >= store.players.length) {
       store.currentPlayer = 0;
       console.log('Trying to set playerindex to 0');
