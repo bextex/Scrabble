@@ -48,6 +48,24 @@ export default class Game {
         this.newestWords = [];
         all = false;
 
+
+        $('.playertiles').each((i, el) => {
+          let $tile = $(el);
+
+          let p = $tile.data().prelBoardPos;
+
+          if (!p) { return; }
+          let tileIndex = $('#box0 > div > div').index($tile);
+          console.log(tileIndex)
+          let tile = this.tiles[0][tileIndex];
+          console.log(tile)
+          tile.onBoard = false;
+          this.board[p.y][p.x].tile = '';
+
+          console.log("p after false word:", p)
+
+        });
+
         ////// NEW //////
         // $('.playertiles').each((i, el) => {
         //   let $tile = $(el);
@@ -75,9 +93,9 @@ export default class Game {
         // $tile.css(pos);
         // });
 
-        await Modal.alert('Du har icke-godkända ord på brädet');
+        // await Modal.alert('Du har icke-godkända ord på brädet');
 
-        this.render();
+        // this.render();
 
         ////// OLD /////
       }
@@ -111,7 +129,7 @@ export default class Game {
     this.name = playerName;
     for (let i = 0; i < store.players.length; i++) {
       if (playerName === store.players[i]) {
-        this.players.push(new Player(store.players[i], ([...this.tilesFromBag.splice(0, 7)])));
+        this.players.push(new Player(store.players[i], ([...this.tilesFromBag.splice(0, 7)]), 0));
         ///Initialize player score
 
         // COMMENTED OUT
@@ -569,14 +587,14 @@ export default class Game {
       //----johanna
       // read words on board and push to wordArray[]
 
-      if (this.wordArray.length > 0) {
-        this.countPlayerScore(store.players.indexOf(this.name), this.wordArray);
-        // this.countPlayerScore(this.playerIndex, this.wordArray);
-      }
-      else {
-        await Modal.alert('Ordet du placerade finns inte i SAOL', 'OK');
-        return;
-      }
+      // if (this.wordArray.length > 0) {
+      //   this.countPlayerScore(store.players.indexOf(this.name), this.wordArray);
+      //   // this.countPlayerScore(this.playerIndex, this.wordArray);
+      // }
+      // else {
+      //   await Modal.alert('Ordet du placerade finns inte i SAOL', 'OK');
+      //   return;
+      // }
       this.checkNewWordsInSAOL();
       //----johanna
 
@@ -1039,7 +1057,7 @@ export default class Game {
       $('.playing-window-left').append(`
       <div class="playerWrapper">
       <div class="playersName">${player.name}</div>
-      <div class="score">Poäng:<div id="score${this.players.indexOf(player)}"></div></div>
+      <div class="score">Poäng: ${player.score}</div></div>
       </div>
       <div class="tiles-box"><div id="box${this.players.indexOf(player)}"></div></div>
       `);
@@ -1135,6 +1153,33 @@ export default class Game {
   }
 
   // --- johanna
+
+  // async countPlayerScore(playerIndex, wordArray) {
+  //   let currentWordPoints = 0;
+  //   console.log('I am in countPlayerScore, wordArray: ', wordArray);
+  //   console.log('I am in countPlayerScore, player: ', playerIndex);
+  //   for (let i = 0; i < wordArray.length; i++) {
+  //     console.log('I am in countPlayerScore, wordArray[i].word: ', wordArray[i].word);
+  //     if (await SAOLchecker.scrabbleOk(wordArray[i].word)) {
+  //       // currentWordPoints = wordArray[i].points * wordArray[i].multiple;
+  //       currentWordPoints = wordArray[i].totalPoints;
+  //       wordArray[i].scrabbleOk = true;
+  //     }
+  //     else {
+  //       currentWordPoints = 0;
+  //       wordArray[i].scrabbleOk = false;
+  //     }
+  //     console.log('currentWordPoints', currentWordPoints);
+  //     // players[playerIndex - 1].score += currentWordPoints;
+  //     this.players[0].score += currentWordPoints;
+  //     console.log('play.score: ', this.players[playerIndex].score);
+  //   }
+
+  //   this.render();
+  //   //console.log('play.score', player.score);
+  //   // this.wordArrayCommitted = wordArray.filter(x => x.scrabbleOk === true);
+  //   // console.log('I am in countPlayerScore wordArray committed', this.wordArrayCommitted);
+  // }
   async countPlayerScore() {
 
     console.log('4. --- countPLayerScore() ---')
@@ -1148,6 +1193,7 @@ export default class Game {
 
     }
     console.log('currentWordPoints', currentWordPoints);
+    // this.render();
 
     ////// NEW ADDED this. ///////
     // players[store.currentPlayer].score += currentWordPoints;
