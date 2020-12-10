@@ -180,11 +180,7 @@ ul {
   display: none;
 }
 
-* {
-  padding: 0;
-  margin: 0;
-  box-sizing: border-box;
-}
+
 
 .outer {
   position: absolute;
@@ -911,7 +907,8 @@ footer input {
   transform: translate(-50%, -50%);
   font-family: 'Source Code Pro', monospace;
   font-size: 15px;
-  padding-bottom: 3vh;
+  padding-bottom: 2vh;
+   padding-top: 2vh;
   width: 135px;
   height: 15px;
   text-align: center;
