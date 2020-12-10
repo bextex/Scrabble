@@ -33,7 +33,10 @@ export default class Chat {
     this.render();
   }
 
+  // add parameters: key, playerName
   async connectToChat() {
+    //this.localStore.name = playerName;
+    //let name = this.localStore.name;
 
     // The network key we have in our localStore
     let key = this.localStore.networkKey;

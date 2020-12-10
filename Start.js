@@ -78,7 +78,10 @@ export default class Start {
       $('.game-menu').fadeOut(250);
 
       let networkKey = await network.getLocalKey();
+      //let chatKey = await chat.start();
+
       console.log('network key is ' + networkKey);
+      //console.log('network key is ' + chatKey);
       $('.playersName').append(`<div class="waiting-for-players"><div class="waiting-box">Väntar på spelare...</div>
       <button class="start-new-game"><span>Starta</span></button>
       <div type="key-input" class="key-input"><span class="key">NYCKEL: ${networkKey}</span></div>
@@ -94,7 +97,7 @@ export default class Start {
       // console.log(players);
       // console.log(that);
       network.connectToStore(networkKey, name);
-
+      //chat.connectToChat(key, name);
     });
 
 
