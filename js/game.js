@@ -42,7 +42,7 @@ export default class Game {
 
   start(playerName) {
     this.getTiles();
-
+    let passcounternew = 0;
     this.board = store.board;
 
     console.log(this.players);
@@ -68,14 +68,12 @@ export default class Game {
   }
 
 
+  endscreen() {
 
-  playerTurn() {
+    console.log('Sending player to score screen...')
+    $('.playing-window').hide()
 
-    if (this.tilesFromBag == 0) {
-      console.log('Sending player to score screen...')
-      $('.playing-window').hide()
-
-      $('.score-screen-container').append(`
+    $('.score-screen-container').append(`
         <div class="player-table">
         <p class="scoreboard-text">  Scoreboard</p>
           <div class="player-table-inner">
@@ -84,22 +82,28 @@ export default class Game {
         </div>
         
       `);
-      for (let i = 0; i < store.players.length; i++) {
-        $('.player-table-inner').append(`
+    for (let i = 0; i < store.players.length; i++) {
+      $('.player-table-inner').append(`
         <div class="scoreboard-players"> 
         <p class="scoreboard-players-text"> [${i}] ${store.players[i].score} ${store.players[i]}</p>
         <br> </br>
         </div>
         `);
-        $('.waiting-box').append(`
+      $('.waiting-box').append(`
         <br>
           
           `);
-      }
-      this.render();
-
-
     }
+    this.render();
+
+
+
+  }
+  playerTurn() {
+    if (this.tilesFromBag == 0) {
+      this.endscreen();
+    }
+
     // if (this.tilesFromBag.length == 0) {
     //   alert('game over')
     // }
@@ -424,10 +428,17 @@ export default class Game {
 
     console.log('Im in button events');
 
+
     // When click on 'Stå över'-button, there will be a new player and the board will render
     $('.pass').on('click', () => {
       console.log('i have clicked on pass button');
+      store.passcounter++;
+      if (store.passcounter == 3) {
+        this.endscreen();
+      }
 
+      console.log('----------------------------------------------')
+      console.log(store.passcounter);
       console.log('this board in pass', this.tiles[0]);
 
       $('.playertiles').each((i, el) => {

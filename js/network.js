@@ -53,7 +53,7 @@ export default class Network {
     store = s;
 
 
-
+    s.passcounter = 0;
     // We want the network to listen for which players connecting to the same game (same game key)
     s.players = s.players || [];
 
