@@ -6,9 +6,19 @@ import Bag from './bag.js';
 
 export default class Player {
 
+  //comment by YL
+  /*
   constructor(name, tiles) {
     this.name = name;
     this.tiles = [tiles, ' '];
+    // this.game = game;
+    console.log(this.name + ' is added as a player');
+  }
+  */
+  constructor(name, tiles, score) {
+    this.name = name;
+    this.tiles = [tiles, ' '];
+    this.score = score;
     // this.game = game;
     console.log(this.name + ' is added as a player');
   }

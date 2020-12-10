@@ -51,7 +51,8 @@ export default class Game {
     this.name = playerName;
     for (let i = 0; i < store.players.length; i++) {
       if (playerName === store.players[i]) {
-        this.players.push(new Player(store.players[i], ([...this.tilesFromBag.splice(0, 7)])));
+        this.players.push(new Player(store.players[i], ([...this.tilesFromBag.splice(0, 7)]), 0));
+        //this.players.push(new Player(store.players[i], ([...this.tilesFromBag.splice(0, 7)])));
         ///Initialize player score
 
         // COMMENTED OUT
@@ -763,7 +764,7 @@ export default class Game {
       $('.playing-window-left').append(`
       <div class="playerWrapper">
       <div class="playersName">${player.name}</div>
-      <div class="score">Poäng:<div id="score${this.players.indexOf(player)}"></div></div>
+      <div class="score">Poäng: ${player.score}</div>
       </div>
       <div class="tiles-box"><div id="box${this.players.indexOf(player)}"></div></div>
       `);
@@ -878,6 +879,8 @@ export default class Game {
       this.players[playerIndex].score += currentWordPoints;
       console.log('play.score: ', this.players[playerIndex].score);
     }
+
+    this.render();
     //console.log('play.score', player.score);
     this.wordArrayCommitted = wordArray.filter(x => x.scrabbleOk === true);
     console.log('I am in countPlayerScore wordArray committed', this.wordArrayCommitted);
