@@ -274,13 +274,17 @@ export default class Game {
     console.log('im in place prel on board');
     $('.playertiles').each((i, el) => {
       let $tile = $(el);
+      console.log($tile)
       let p = $tile.data().prelBoardPos;
+
       if (!p) { return; }
       let tileIndex = $(`#box0 > div`).index($tile);
+      console.log(tileIndex)
       let tile = this.tiles[0][tileIndex];
+      console.log(tile)
       tile.onBoard = true;
       this.board[p.y][p.x].tile = [tile];
-      //  this.checkNewWordsOnBoard(p.y, p.x);
+      this.checkNewWordsOnBoard(p.y, p.x);
     });
     this.tiles[0] = this.tiles[0].filter(x => !x.onBoard);
     console.log('this tiles array in place prel on board', this.tiles[0]);
@@ -465,7 +469,7 @@ export default class Game {
         return;
       }
 
-      // this.placePrelTilesOnBoard();
+      this.placePrelTilesOnBoard();
       // this.render();
 
       console.log('i have clicked on lägg brickor');
@@ -474,7 +478,7 @@ export default class Game {
 
       //----johanna
       // read words on board and push to wordArray[]
-      this.checkNewWordsOnBoard();
+      //this.checkNewWordsOnBoard();
       this.checkNewWordsInSAOL();
       //----johanna
 
@@ -572,6 +576,15 @@ export default class Game {
   checkNewWordsOnBoard() {
 
     console.log('2. --- checkNewWordsOnBoard ---')
+    $('.board').empty();
+    // render the board RENDER THE BOARD AFTER EACH PLAYER
+    $('.board').html(
+      this.board.flat().map(x => `
+        <div class="${x.special ? 'special-' + x.special : ''}">
+        ${x.tile ? `<div class="tile playertiles" >${x.tile[0].char}<div class="points">${x.tile[0].points}</div></div>` : ''}
+        </div>
+      `).join('')
+    );
 
     let wordH = [];  //to save  all the infromation on the horisontal 
     let wordV = [];  //to save all the infromation on the vertical 
@@ -580,8 +593,8 @@ export default class Game {
     let p = 0;  //temp variable to save this.board[i][j].tile[0].points;
     let s = ''; //temp variableto save this.board[i][j].special
 
-    //console.log('y: ' + y);
-    //console.log('x: ' + x);
+
+    console.log('this.board: ' + this.board[x][y]);
 
     // CHECK HORISONTAL
     for (let i = 0; i < this.board.length; i++) {
