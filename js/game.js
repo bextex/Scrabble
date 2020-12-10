@@ -111,9 +111,12 @@ export default class Game {
     this.name = playerName;
     for (let i = 0; i < store.players.length; i++) {
       if (playerName === store.players[i]) {
-        // this.players.push(new Player(store.players[i], ([...this.tilesFromBag.splice(0, 7)])));
-        this.players.push(new Player(store.players[i], ([...this.tilesFromBag.splice(0, 7)]), 0));
-        console.log('init PlayerScore', this.players[i], this.players[i].score);
+        this.players.push(new Player(store.players[i], ([...this.tilesFromBag.splice(0, 7)])));
+        ///Initialize player score
+
+        // COMMENTED OUT
+        // this.players[0].score = 0;
+        // console.log('init PlayerScore', this.players[0], this.players[0].score);
       }
     }
 
@@ -137,6 +140,7 @@ export default class Game {
 
       $('.score-screen-container').append(`
         <div class="player-table">
+        <button class="returnBtn"><span>Starta om</span></button>
         <p class="scoreboard-text">  Scoreboard</p>
           <div class="player-table-inner">
           
@@ -1031,12 +1035,11 @@ export default class Game {
   showPlayers() {
 
     this.players.forEach(player => {
-      let index = 0
-      console.log('I am in showPlayers player.score', player.score);
+      let index = 0;
       $('.playing-window-left').append(`
       <div class="playerWrapper">
-      <div class="playername">${player.name}</div>
-      <div class="score">Poäng: ${player.score}</div>
+      <div class="playersName">${player.name}</div>
+      <div class="score">Poäng:<div id="score${this.players.indexOf(player)}"></div></div>
       </div>
       <div class="tiles-box"><div id="box${this.players.indexOf(player)}"></div></div>
       `);
@@ -1181,80 +1184,3 @@ export default class Game {
 
   // }
 }
-/* async showWordFromSAOL(wordsInArray) {
-   console.log('------im in countScore()------');
-   console.log("wordsInArray:  ", wordsInArray);
-
-   let lastWord = wordsInArray[0].word;
-   console.log("last word: ----> ", lastWord)
-
-   console.log(lastWord + "is: " + await SAOLchecker.scrabbleOk(lastWord))*/
-
-// only shows the last word (ok in scrabble - box)
-if ($('body .boxForWord').length > 0) {
-  $('body .boxForWord').remove();
-}
-
-/*Remove?*/
-if (await SAOLchecker.scrabbleOk(lastWord) === false) {
-  // (false === false) --> (true)
-  $('.placeForBox').append('<div class="boxForWord"><span class="word">' +
-    lastWord + '</span><hr>ok in Scrabble: ' +
-    // check if ok scrabble words
-    // by calling await SAOLchecker.scrabbleOk(word)
-    await SAOLchecker.scrabbleOk(lastWord) + '<hr>' +
-    // add explanations/entries from SAOL in body
-    // by using await SAOLchecker.lookupWord(word)
-    // (maybe fun to show in scrabble at some point?)
-    await SAOLchecker.lookupWord(lastWord) + '</div');
-
-}
-if (await SAOLchecker.scrabbleOk(lastWord)) {
-  $('.placeForBox').append(`<div class="boxForWord" id="${lastWord}-box"><span class="word">` +
-
-    lastWord + `</span><hr>ok in Scrabble: ` +
-    // check if ok scrabble words
-    // by calling await SAOLchecker.scrabbleOk(word)
-    await SAOLchecker.scrabbleOk(lastWord) + '<hr>');
-  // let wordPoints = 0;
-  // for (let i = 0; i < word.length; i++) {
-  //   let letterInWord = word.charAt(i);
-  //   //find the letters points          
-  //   let letterPoints = letters
-  //     // get char
-  //     .filter(letter => letter.char === letterInWord)
-  //     // get their points
-  //     .map(letter => letter.points);
-  //   let points = letterPoints[0];
-  //   wordPoints += points;
-  // }
-  $(`#${lastWord}-box`).append(`<div><span class="points"></span><hr> points: ${lastWord}<hr>` +
-    // add explanations/entries from SAOL in body
-    // by using await SAOLchecker.lookupWord(word)
-    // (maybe fun to show in scrabble at some point?)
-    await SAOLchecker.lookupWord(lastWord) + '</div');
-}
-
-
-
-  //This function(showWordWithList(wordsInArray)) have not been finished.
-/*async showWordWithList(wordsInArray) {
-  console.log('------I am in showWordWithList()-----');
-  $('.playing-window').append(`<section class="wordList"><h3>Ord Listor</h3>
-   <table><tr><th>Ord</th><th>ok in Scrabble</th><th>poäng</th></tr>
-   `)
-  for (let item of wordsInArray) {
-    if (await SAOLchecker.scrabbleOk(item.word)) {
-      item.scrabbleOk = true;
-    }
-    else {
-      item.scrabbleOk = false;
-      item.totalPoints = 0;
-    }
-    $(`.wordList`).append(`<span class="word">
-    <tr><td>${item.word}</td></tr><tr><td>${item.scrabbleOk}</td></tr><tr><td>${item.totalPoints}</td></tr>
-    `)
-  }
-}
-
-}*/
