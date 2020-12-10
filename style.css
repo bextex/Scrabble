@@ -309,8 +309,7 @@ label {
   width: 30%; /* Set a width if needed */
   display: block; /* Make the buttons appear below each other */
   position: relative;
-  left: 35%;
-  top: 1vh;
+  top:5vh;
   animation-name: move, changeColorText;
   animation-duration: 1.5s; 
   /*display: none;*/
@@ -359,7 +358,7 @@ text-align: center;
 .newPlayerInput {
   background-color:black;
   margin-top: 25vh;
-  /* position: relative; */
+   /*position: relative; */
   margin-right: auto;
   margin-left: auto;
   opacity: 0.7;
@@ -368,7 +367,7 @@ text-align: center;
   color: white;
   width: 30%; /* Set a width if needed */
   height: 20px;
-  padding: 5px; /* Some padding */
+  padding: 15px; /* Some padding */
 
   animation-name: playerAnimation;
   animation-iteration-count: 1;
@@ -912,7 +911,7 @@ footer input {
   transform: translate(-50%, -50%);
   font-family: 'Source Code Pro', monospace;
   font-size: 15px;
-  padding: 1vh;
+  padding-bottom: 3vh;
   width: 135px;
   height: 15px;
   text-align: center;
