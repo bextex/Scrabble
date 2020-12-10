@@ -49,7 +49,36 @@ export default class Game {
         all = false;
 
         ////// NEW //////
+        // $('.playertiles').each((i, el) => {
+        //   let $tile = $(el);
+
+        //   let $tileBoxSquare = $tile.parent('.tiles-box');
+        //   let so = $tileBoxSquare.offset(), to = $tile.offset();
+        //   let swh = { w: $tileBoxSquare.width(), h: $tileBoxSquare.height() };
+        //   let twh = { w: $tile.width(), h: $tile.height() };
+        //   let pos = {
+        //     left: so.left - to.left + (swh.w - twh.w) / 2.8,
+        //     top: so.top - to.top + (swh.h - twh.h) / 2.8
+        //   };
+        //   $tile.css(pos);
+        // let p = $tile.data().prelBoardPos;
+        // if (!p) { return; }
+        // let $square = $('.board > div').eq(p.y * 15 + p.x);
+        // $tile.css({ top: '', left: '' });
+        // let so = $square.offset(), to = $tile.offset();
+        // let swh = { w: $square.width(), h: $square.height() };
+        // let twh = { w: $tile.width(), h: $tile.height() };
+        // let pos = {
+        //   left: so.left - to.left + (swh.w - twh.w) / 2.8,
+        //   top: so.top - to.top + (swh.h - twh.h) / 2.8
+        // };
+        // $tile.css(pos);
+        // });
+
         await Modal.alert('Du har icke-godkända ord på brädet');
+
+        this.render();
+
         ////// OLD /////
       }
       else {
@@ -152,8 +181,6 @@ export default class Game {
     this.render();
   }
 
-
-
   addEvents() {
     console.log('Im in addEvents');
 
@@ -174,11 +201,9 @@ export default class Game {
     let that = this;
     // Drag-events: We only check if a tile is in place on dragEnd
     // $('.stand .tile').not('.none').draggabilly({ containment: 'body' })
-    $('.playertiles').not('.none').draggabilly({
-      containment: 'body'
-    })
+    $('.playertiles').not('.none').draggabilly({ containment: 'body' })
       // Edited by TF
-      .on('dragStart', e => { delete $(e.currentTarget).data().prelBoardPos; console.log('curren target data', $(e.currentTarget).data()) })
+      .on('dragStart', e => { delete $(e.currentTarget).data().prelBoardPos; console.log('current target data', $(e.currentTarget).data()) })
       .on('dragMove', e => this.alignPrelTilesWithSquares())
       .on('dragEnd', function (e, pointer) {
 
@@ -186,6 +211,7 @@ export default class Game {
 
         // get the tile and the dropZone square
         let $tile = $(e.currentTarget);
+
         let $dropZone = $('.hover');
 
         // the index of the square we are hovering over
@@ -194,114 +220,81 @@ export default class Game {
         let y = Math.floor(squareIndex / 15);
         let x = squareIndex % 15;
 
-        // if no drop zone or the square is taken then don't try
-        // to "preplace" the tile on the board
+        // move the tile back to the rack
+        $tile.css({ top: '', left: '' });
+
+        // if no drop zone or the square is taken then do nothing
         if (!$dropZone.length || store.board[y][x].tile) {
 
-          // Check if the tile is inside the "rack" of tiles
-          // if so calculate if their order should be changed
-
-          let rackCoords = $('#box0').offset();
-          rackCoords.bottom = rackCoords.top + $('#box0').height();
-          rackCoords.right = rackCoords.left + $('#box0').width();
-
-          let d = $tile.data('draggabilly');
-          let tileCoords = {
-            top: d.relativeStartPosition.y + d.position.y,
-            left: d.relativeStartPosition.x + d.position.x
-          };
-          tileCoords.bottom = tileCoords.top + $tile.height();
-          tileCoords.right = tileCoords.left + $tile.width();
-
-          if (
-            // Check if the tile collides with the rack
-            tileCoords.bottom > rackCoords.top &&
-            tileCoords.top < rackCoords.bottom &&
-            tileCoords.right > rackCoords.left &&
-            tileCoords.left < rackCoords.right
-          ) {
-            $tile.css({ top: '' }); // original y-position
-            // now how to move the tiels so that they can't overlap???
-          }
-          else {
-            // move the tile back to its original position
-            $tile.css({ top: '', left: '' });
-          }
-
-
-          // if no drop zone or the square is taken then do nothing
-          if (!$dropZone.length || store.board[y][x].tile) {
-
-            $tile.data().prelBoardPos = { y, x };
-
-            let { pageX, pageY } = pointer;
-            let tileIndex = +$tile.attr('data-index');
-            let $tileBoxSquare = $tile.parent('.tiles-box');
-            let tileBoxSquareIndex = +$tileBoxSquare.attr('data-box');
-            let $stand = $('#box0');
-            let { top, left } = $stand.offset();
-            let bottom = top + $stand.height();
-            let right = left + $stand.width();
-
-            let newBoxIndex;
-
-            if (pageX > left && pageX < right
-              && pageY > top && pageY > bottom) {
-
-              //////// NEW /////////
-              // if ($($tile).hasClass('tile')) {
-              //   $($tile).removeClass('tile');
-              // }
-
-              ///////// END /////////
-
-
-              newBoxIndex = Math.floor(8 * (pageX - left) / $stand.width());
-              let $newBoxSquare = $(`.tiles-box[data-box="${newBoxIndex}"]`);
-
-              if (!$(`.tiles-box[data-box="${newBoxIndex}"] > div`).length) {
-
-                $(`.tiles-box[data-box="${newBoxIndex}"]`).append($tile);
-                $(`.tiles-box[data-box="${tileBoxSquareIndex}"]`).empty();
-
-                let so = $newBoxSquare.offset(), to = $tile.offset();
-                let swh = { w: $newBoxSquare.width(), h: $newBoxSquare.height() };
-                let twh = { w: $tile.width(), h: $tile.height() };
-                let pos = {
-                  left: so.left - to.left + (swh.w - twh.w) / 2.8,
-                  top: so.top - to.top + (swh.h - twh.h) / 2.8
-                };
-                $tile.css(pos);
-
-              } else {
-                // Added render the tiles when putting tiles back from board to players tiles board
-                let so = $tileBoxSquare.offset(), to = $tile.offset();
-                let swh = { w: $tileBoxSquare.width(), h: $tileBoxSquare.height() };
-                let twh = { w: $tile.width(), h: $tile.height() };
-                let pos = {
-                  left: so.left - to.left + (swh.w - twh.w) / 2.8,
-                  top: so.top - to.top + (swh.h - twh.h) / 2.8
-                };
-                $tile.css(pos);
-              }
-            }
-            return;
-          }
-
-
-          /////////// NEW ///////////
-          // $($tile).addClass('tile');
-
-          ////////// END //////////
-
-          // store the preliminary board position with the tile div
-          // (jQuery can add data to any element)
           $tile.data().prelBoardPos = { y, x };
-          that.alignPrelTilesWithSquares();
-          // that.placePrelTilesOnBoard();
 
-        })
+          let { pageX, pageY } = pointer;
+          let tileIndex = +$tile.attr('data-index');
+          let $tileBoxSquare = $tile.parent('.tiles-box');
+          let tileBoxSquareIndex = +$tileBoxSquare.attr('data-box');
+          let $stand = $('#box0');
+          let { top, left } = $stand.offset();
+          let bottom = top + $stand.height();
+          let right = left + $stand.width();
 
+          let newBoxIndex;
+
+          if (pageX > left && pageX < right
+            && pageY > top && pageY > bottom) {
+
+            //////// NEW /////////
+            // if ($($tile).hasClass('tile')) {
+            //   $($tile).removeClass('tile');
+            // }
+
+            ///////// END /////////
+
+
+            newBoxIndex = Math.floor(8 * (pageX - left) / $stand.width());
+            let $newBoxSquare = $(`.tiles-box[data-box="${newBoxIndex}"]`);
+
+            if (!$(`.tiles-box[data-box="${newBoxIndex}"] > div`).length) {
+
+              $(`.tiles-box[data-box="${newBoxIndex}"]`).append($tile);
+              $(`.tiles-box[data-box="${tileBoxSquareIndex}"]`).empty();
+
+              let so = $newBoxSquare.offset(), to = $tile.offset();
+              let swh = { w: $newBoxSquare.width(), h: $newBoxSquare.height() };
+              let twh = { w: $tile.width(), h: $tile.height() };
+              let pos = {
+                left: so.left - to.left + (swh.w - twh.w) / 2.8,
+                top: so.top - to.top + (swh.h - twh.h) / 2.8
+              };
+              $tile.css(pos);
+
+            } else {
+              // Added render the tiles when putting tiles back from board to players tiles board
+              let so = $tileBoxSquare.offset(), to = $tile.offset();
+              let swh = { w: $tileBoxSquare.width(), h: $tileBoxSquare.height() };
+              let twh = { w: $tile.width(), h: $tile.height() };
+              let pos = {
+                left: so.left - to.left + (swh.w - twh.w) / 2.8,
+                top: so.top - to.top + (swh.h - twh.h) / 2.8
+              };
+              $tile.css(pos);
+            }
+          }
+          return;
+        }
+
+
+        /////////// NEW ///////////
+        // $($tile).addClass('tile');
+
+        ////////// END //////////
+
+        // store the preliminary board position with the tile div
+        // (jQuery can add data to any element)
+        $tile.data().prelBoardPos = { y, x };
+        that.alignPrelTilesWithSquares();
+        // that.placePrelTilesOnBoard();
+
+      })
 
   }
 
@@ -324,8 +317,6 @@ export default class Game {
       $tile.css(pos);
     });
   }
-  // MOVE 
-  /*--------ENDED HERE--------------*/
 
   // added by TF
   placePrelTilesOnBoard() {
