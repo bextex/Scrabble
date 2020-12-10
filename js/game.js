@@ -46,7 +46,41 @@ export default class Game {
       if (await SAOLchecker.scrabbleOk(this.storeCurrentWords[i].word) === false) {
         console.log("one or more words are invalid")
         this.newestWords = [];
+
         all = false;
+
+        $('.playertiles').each((i, el) => {
+          let $tile = $(el);
+
+          let p = $tile.data().prelBoardPos;
+
+          if (!p) { return; }
+          let tileIndex = $('#box0 > div > div').index($tile);
+          console.log(tileIndex)
+          let tile = this.tiles[0][tileIndex];
+          console.log(tile)
+          tile.onBoard = false;
+          this.board[p.y][p.x].tile = ''
+
+          console.log("p after false word:", p)
+
+        });
+        // $('.playertiles').each((i, el) => {
+        //   let $tile = $(el);
+        //   let p = $tile.data().prelBoardPos;
+        //   console.log('p ', p)
+        //   console.log('the tile from board', $tile);
+        //   p = '';
+        //   // The tile renders back to its player tiles if not played and is on board
+        //   $tile.css({ top: '', left: '' });
+        //   console.log("p after false word: ", p)
+        //   p = '';
+        //   console.log("empty p again after false word: ", p)
+        //   if (p) {
+        //     console.log('There is tiles when I clicked the pass button');
+
+        //   }
+        // });
       }
       else {
         none = false;
@@ -59,7 +93,9 @@ export default class Game {
       this.countPlayerScore(this.playerIndex);
       this.nextPlayer();
       console.log("end of round this.storeCurrentWords: ", this.storeCurrentWords)
-      //console.log("end of round this.wordArrayCommitted", this.wordArrayCommitted)
+      //conselseole.log("end of round this.wordArrayCommitted", this.wordArrayCommitted)
+    } else {
+
     }
   }
 
@@ -253,7 +289,7 @@ export default class Game {
     // align tiles that have a prelBoardPos with correct squares
     $('.playertiles').each((i, el) => {
       let $tile = $(el);
-      $($tile).addClass('onBoard');
+
       let p = $tile.data().prelBoardPos;
       if (!p) { return; }
       let $square = $('.board > div').eq(p.y * 15 + p.x);
@@ -278,13 +314,13 @@ export default class Game {
       let p = $tile.data().prelBoardPos;
 
       if (!p) { return; }
-      let tileIndex = $(`#box0 > div`).index($tile);
+      let tileIndex = $('#box0 > div > div').index($tile);
       console.log(tileIndex)
       let tile = this.tiles[0][tileIndex];
       console.log(tile)
       tile.onBoard = true;
       this.board[p.y][p.x].tile = [tile];
-      this.checkNewWordsOnBoard(p.y, p.x);
+      this.checkNewWordsOnBoard();
     });
     this.tiles[0] = this.tiles[0].filter(x => !x.onBoard);
     console.log('this tiles array in place prel on board', this.tiles[0]);
@@ -482,7 +518,7 @@ export default class Game {
       this.checkNewWordsInSAOL();
       //----johanna
 
-      store.currentPlayer++;
+
 
 
       // this.board = store.board;
@@ -568,6 +604,7 @@ export default class Game {
       $('.saol').append('<div class="boxForWord"><span class="word validWord">' +
         obj.word + '</span>')
     }
+    store.currentPlayer++;
     this.playerTurn();
     this.render();
   }
@@ -576,15 +613,6 @@ export default class Game {
   checkNewWordsOnBoard() {
 
     console.log('2. --- checkNewWordsOnBoard ---')
-    $('.board').empty();
-    // render the board RENDER THE BOARD AFTER EACH PLAYER
-    $('.board').html(
-      this.board.flat().map(x => `
-        <div class="${x.special ? 'special-' + x.special : ''}">
-        ${x.tile ? `<div class="tile playertiles" >${x.tile[0].char}<div class="points">${x.tile[0].points}</div></div>` : ''}
-        </div>
-      `).join('')
-    );
 
     let wordH = [];  //to save  all the infromation on the horisontal 
     let wordV = [];  //to save all the infromation on the vertical 
@@ -593,8 +621,6 @@ export default class Game {
     let p = 0;  //temp variable to save this.board[i][j].tile[0].points;
     let s = ''; //temp variableto save this.board[i][j].special
 
-
-    console.log('this.board: ' + this.board[x][y]);
 
     // CHECK HORISONTAL
     for (let i = 0; i < this.board.length; i++) {
@@ -1018,7 +1044,7 @@ export default class Game {
   async countPlayerScore() {
 
     console.log('4. --- countPLayerScore() ---')
-    console.log('player index: ' + store.currentPlayer)
+
 
     let currentWordPoints = 0;
     console.log('I am in countPlayerScore, wordArray: ', this.storeCurrentWords);
@@ -1028,7 +1054,8 @@ export default class Game {
 
     }
     console.log('currentWordPoints', currentWordPoints);
-    players[store.currentPlayer].score += currentWordPoints;
+    //$('player1 > .coreOnscreen').html() += currentWordPoints;
+
   }
   // --- johanna
 
