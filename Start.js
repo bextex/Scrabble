@@ -41,7 +41,7 @@ export default class Start {
 
     // let that = this;
 
-    $('.game-menu').hide(0).delay(6000).show(0);
+    $('.game-menu').hide(0).delay(5).show(0);
 
     // $('.game-menu').hide(0).delay(6000).show(0).append(
     //   `<input type="text" 

@@ -73,6 +73,39 @@ export default class Game {
 
 
   playerTurn() {
+
+    if (this.tilesFromBag == 0) {
+      console.log('Sending player to score screen...')
+      $('.playing-window').hide()
+
+      $('.score-screen-container').append(`
+        <div class="player-table">
+        <button class="returnBtn"><span>Starta om</span></button>
+        <p class="scoreboard-text">  Scoreboard</p>
+          <div class="player-table-inner">
+          
+          </div>
+        </div>
+        
+      `);
+      for (let i = 0; i < store.players.length; i++) {
+        $('.player-table-inner').append(`
+        <div class="scoreboard-players"> 
+        <br class="scoreboard-players-text"> [${i}] ${store.players[i].score} ${store.players[i]}</br>
+        </div>
+        `);
+        $('.waiting-box').append(`
+        <br>
+          
+          `);
+      }
+      this.render();
+
+
+    }
+    // if (this.tilesFromBag.length == 0) {
+    //   alert('game over')
+    // }
     if (store.currentPlayer >= store.players.length) {
       store.currentPlayer = 0;
       console.log('Trying to set playerindex to 0');
@@ -393,6 +426,19 @@ export default class Game {
     this.showPlayerButtons();
 
     console.log('Im in button events');
+    $('.score-screen').on('click', () => {
+      alert('closing the screen')
+      $('.playing-window').hide()
+
+      $('.score-screen-container').append(`
+        <div class="player-table">
+        <button class="returnBtn"><span>Starta om</span></button>
+      `);
+      this.render();
+      // this.changeTiles();
+    });
+
+
 
     // When click on 'Stå över'-button, there will be a new player and the board will render
     $('.pass').on('click', () => {
@@ -454,14 +500,14 @@ export default class Game {
       //  this.showWordWithList(this.wordArray)
       //}
 
-      if (this.wordArray.length > 0) {
-        this.countPlayerScore(store.players.indexOf(this.name), this.wordArray);
-        // this.countPlayerScore(this.playerIndex, this.wordArray);
-      }
-      else {
-        await Modal.alert('Ordet du placerade finns inte i SAOL', 'OK');
-        return;
-      }
+      // if (this.wordArray.length > 0) {
+      this.countPlayerScore(store.players.indexOf(this.name), this.wordArray);
+      // this.countPlayerScore(this.playerIndex, this.wordArray);
+      //}
+      // else {
+      // await Modal.alert('Ordet du placerade finns inte i SAOL', 'OK');
+      //  return;
+      // }
 
       store.currentPlayer++;
 
@@ -812,6 +858,7 @@ export default class Game {
     $('.play-tiles').remove();
     $('.pass').remove();
     $('.change-tiles').remove();
+    $('.score-screen').remove();
 
     console.log('The length of the tile bag array from show player buttons', store.tilesFromFile.length);
 
@@ -821,6 +868,7 @@ export default class Game {
       <button class="play-tiles">Lägg brickor</button>
       <button class="pass">Stå över</button>
       <button class="change-tiles">Byt brickor</button>
+      <button class="score-screen">scorescreen</button>
     `);
   }
   // This function to count the player's score
