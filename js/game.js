@@ -77,7 +77,6 @@ export default class Game {
 
       $('.score-screen-container').append(`
         <div class="player-table">
-        <button class="returnBtn"><span>Starta om</span></button>
         <p class="scoreboard-text">  Scoreboard</p>
           <div class="player-table-inner">
           
