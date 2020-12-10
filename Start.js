@@ -2,6 +2,7 @@
 import Game from './js/game.js';
 import Board from './js/board.js';
 import Network from './js/network.js';
+import Modal from './js/modal.js'
 
 //
 //!!!! Kalla new Board().start(); där ni vill ha brädet! 
@@ -40,13 +41,14 @@ export default class Start {
 
     // let that = this;
 
-    $('.game-menu').hide(0).delay(6000).show(0).append(
-      `<input type="text" 
-        id="playerName" 
-        class="newPlayerInput" 
-        placeholder="Namn" />
-        `
-    );
+    $('.game-menu').hide(0).delay(6000).show(0);
+
+    // $('.game-menu').hide(0).delay(6000).show(0).append(
+    //   `<input type="text" 
+    //     class="newPlayerInput" 
+    //     placeholder="Namn" />
+    //     `
+    // );
 
 
     /*append(
@@ -59,7 +61,7 @@ export default class Start {
       let name = $('.newPlayerInput').val();
       if (!name) {
         // Should be a warning label from div instead
-        alert('Type in a name first');
+        await Modal.alert('Skriv in ett namn först!', 'OK');
         return;
       }
       // Fade out the 'start-side' and replace it with waiting for other players
@@ -70,7 +72,7 @@ export default class Start {
       console.log('network key is ' + networkKey);
       $('.playersName').append(`<div class="waiting-for-players"><div class="waiting-box">Väntar på spelare...</div>
       <button class="start-new-game"><span>Starta</span></button>
-      <div type="key-input" class="key-input"><span class="key">NYCKEL : ${networkKey}</span></div>
+      <div type="key-input" class="key-input"><span class="key">NYCKEL: ${networkKey}</span></div>
       </div>`);
 
       // that is all the tiles from the bag. Which has been created in clickFunctions
@@ -87,13 +89,13 @@ export default class Start {
     });
 
 
-    $('.set-key').on('click', function () {
+    $('.set-key').on('click', async function () {
       // If there isn't a name, ask the player to first type in a name
       let name = $('.newPlayerInput').val();
       console.log('my name is' + name);
       if (!name) {
         // Should be a warning label from div instead
-        alert('Type in a name first');
+        await Modal.alert('Skriv in ett namn först!', 'OK');
         return;
       }
 

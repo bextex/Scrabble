@@ -40,7 +40,6 @@ export default class Network {
     let bag = new Bag();
     this.tilesFromFile = await bag.tilesFromFile();
 
-
     let game = new Game();
 
     // this.networkKey is either a created key or a inserted key
@@ -49,17 +48,12 @@ export default class Network {
       () => this.listenForNetworkChanges(game));
     console.log(this.networkStore);
 
-    // Debug
-    //window.store = this.networkStore;
-
     // Shorten the variable name to a shorter one for shorter code
     let s = this.networkStore;
     store = s;
 
-    // // Create an instance of game so methods can be reached
-    // let game = new Game(tilesFromBag);
 
-    // ListenForNetworkChanges() will listen after changes in store (s in our case)
+
     // We want the network to listen for which players connecting to the same game (same game key)
     s.players = s.players || [];
 
@@ -69,27 +63,6 @@ export default class Network {
 
     s.board = s.board || game.createBoard();
     console.log(s.board);
-
-
-
-    // s.name = s.name || name;
-
-    // s.board = s.board || game.createBoard;
-
-    // s.tilesFromBag = s.tilesFromBag || this.tilesFromBag;
-    // s.tilesFromBag.push(start.tiles);
-    // s.tilesFromBag = start.tiles;
-    // console.log('this is tiles from bag from NETWORK');
-    // console.log(s.tilesFromBag);
-
-    // s.tiles = s.tiles || player.tiles;
-    // s.tiles.push(player.tiles);
-    // s.tiles = player.tiles;
-    // console.log('this is your tiles from NETWORK');
-    // console.log(s.tiles);
-
-
-
 
     // We want to listen for which player is the one currently playing
     // s.currentPlayer = s.currentPlayer || game.playerIndex;
@@ -186,59 +159,10 @@ export default class Network {
       game.render();
     }
 
-    // game.board = s.board;
-    // game.tilesFromBag = s.tilesFromBag;
-    // game.tiles = s.tiles;
-    // game.tilesFromBag = s.tilesFromBag;
-    // if (!$('.waiting-box').length) {
-    //   s.game.render();
-    // }
-
-
-
-
-
-
-
-    // if (s.currentPlayerName !== name) {
-    //   $('.playing-window').append(`<div class="not-your-turn">${s.playerName}'s tur</div>`)
-    // } else {
-    //   $('.not-your-turn').remove();
-
-
-    // }
-
-
-
-
-    // } else {
-    //   if (that.playerIndexInNetwork !== s.currentPlayer) {
-    //     $('.playing-window').append(`<div class="not-your-turn">${s.playerName}'s tur</div>`)
-    //   } else {
-    //     $('.not-your-turn').remove();
-    //   }
-    //   game.render();
-    // }
-
-    // if (s.currentPlayer !== this.playerIndexInNetwork) {
-    //   $('.playing-window-left').append(`<div class="not-your-turn">Vänta på att spelet ska starta</div>`);
-    // } else {
-    //   $('.not-your-turn').remove();
-    // }
-
-
   }
 
 
 
-  // game.render();
-  // this.render();
-
-
-  render(game) {
-    console.log('im tryina render');
-    return game.render();
-  }
 
   // async start() {
   //   // Get the localStore (the object that survives between page loads)
