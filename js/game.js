@@ -49,7 +49,36 @@ export default class Game {
         all = false;
 
         ////// NEW //////
+        // $('.playertiles').each((i, el) => {
+        //   let $tile = $(el);
+
+        //   let $tileBoxSquare = $tile.parent('.tiles-box');
+        //   let so = $tileBoxSquare.offset(), to = $tile.offset();
+        //   let swh = { w: $tileBoxSquare.width(), h: $tileBoxSquare.height() };
+        //   let twh = { w: $tile.width(), h: $tile.height() };
+        //   let pos = {
+        //     left: so.left - to.left + (swh.w - twh.w) / 2.8,
+        //     top: so.top - to.top + (swh.h - twh.h) / 2.8
+        //   };
+        //   $tile.css(pos);
+        // let p = $tile.data().prelBoardPos;
+        // if (!p) { return; }
+        // let $square = $('.board > div').eq(p.y * 15 + p.x);
+        // $tile.css({ top: '', left: '' });
+        // let so = $square.offset(), to = $tile.offset();
+        // let swh = { w: $square.width(), h: $square.height() };
+        // let twh = { w: $tile.width(), h: $tile.height() };
+        // let pos = {
+        //   left: so.left - to.left + (swh.w - twh.w) / 2.8,
+        //   top: so.top - to.top + (swh.h - twh.h) / 2.8
+        // };
+        // $tile.css(pos);
+        // });
+
         await Modal.alert('Du har icke-godkända ord på brädet');
+
+        this.render();
+
         ////// OLD /////
       }
       else {
@@ -174,7 +203,7 @@ export default class Game {
     // $('.stand .tile').not('.none').draggabilly({ containment: 'body' })
     $('.playertiles').not('.none').draggabilly({ containment: 'body' })
       // Edited by TF
-      .on('dragStart', e => { delete $(e.currentTarget).data().prelBoardPos; console.log('curren target data', $(e.currentTarget).data()) })
+      .on('dragStart', e => { delete $(e.currentTarget).data().prelBoardPos; console.log('current target data', $(e.currentTarget).data()) })
       .on('dragMove', e => this.alignPrelTilesWithSquares())
       .on('dragEnd', function (e, pointer) {
 
@@ -182,6 +211,7 @@ export default class Game {
 
         // get the tile and the dropZone square
         let $tile = $(e.currentTarget);
+
         let $dropZone = $('.hover');
 
         // the index of the square we are hovering over
