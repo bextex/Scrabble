@@ -60,7 +60,7 @@ export default class Game {
           let tile = this.tiles[0][tileIndex];
           console.log(tile)
           tile.onBoard = false;
-          this.board[p.y][p.x].tile = ''
+          this.board[p.y][p.x].tile = '';
 
           console.log("p after false word:", p)
 
