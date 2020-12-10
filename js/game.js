@@ -148,17 +148,13 @@ export default class Game {
     this.buttonEvents();
   }
 
+  endGame() {
+    console.log('Sending player to score screen...')
+    $('.playing-window').hide()
 
-
-  playerTurn() {
-
-    if (this.tilesFromBag == 0) {
-      console.log('Sending player to score screen...')
-      $('.playing-window').hide()
-
-      $('.score-screen-container').append(`
+    $('.score-screen-container').append(`
         <div class="player-table">
-        <button class="returnBtn"><span>Starta om</span></button>
+        
         <p class="scoreboard-text">  Scoreboard</p>
           <div class="player-table-inner">
           
@@ -166,21 +162,28 @@ export default class Game {
         </div>
         
       `);
-      for (let i = 0; i < store.players.length; i++) {
-        $('.player-table-inner').append(`
+    for (let i = 0; i < store.players.length; i++) {
+      //store.players[i].score = this.players[i].score
+      $('.player-table-inner').append(`
         <div class="scoreboard-players"> 
         <p class="scoreboard-players-text"> [${i}] ${store.players[i].score} ${store.players[i]}</p>
-        <br> </br>
+        
         </div>
         `);
-        $('.waiting-box').append(`
+      $('.waiting-box').append(`
         <br>
           
           `);
-      }
-      this.render();
+    }
+    this.render();
 
 
+  }
+
+  playerTurn() {
+
+    if (this.tilesFromBag == 0) {
+      this.endGame();
     }
     // if (this.tilesFromBag.length == 0) {
     //   alert('game over')
@@ -527,7 +530,12 @@ export default class Game {
     // When click on 'Stå över'-button, there will be a new player and the board will render
     $('.pass').on('click', () => {
       console.log('i have clicked on pass button');
-
+      if (store.passcounter == 3) {
+        this.endGame();
+      }
+      else {
+        store.passcounter++;
+      }
       console.log('this board in pass', this.tiles[0]);
 
       $('.playertiles').each((i, el) => {
