@@ -10,17 +10,14 @@ body{
   text-align: center;
    animation: color 6s linear ;
 }
-/* 
+
  #candy {
-	 overflow: hidden;
+ overflow: hidden;
 	 display: flex;
-	 opacity: 0;
-   margin-top: calc(50vh - 150px);
-   margin-left: 150px; 
-   margin-bottom: 0;
-   /* margin-right: 300px; 
-	 width: 100px;
-	 height: 300px;
+   opacity: 0;
+   height: 300px;
+   width: 100px;
+	 margin: calc(50vh - 150px) auto 0 auto;
 	 border-radius: 100px;
 	 border-bottom-left-radius: 0px;
 	 border-bottom-right-radius: 0px;
@@ -62,7 +59,7 @@ body{
 	 display: flex;
 	 align-self: flex-end;
    animation: color 6s linear ;
-} */
+} 
  @keyframes load {
 	 0% {
 		 height: 0%;
@@ -157,12 +154,12 @@ ul {
   display: none;
 }
 
-/*.rules-window .rule-title {
+.rules-window .rule-title {
   color: rgb(29, 36, 43);
   font-family: 'Big Shoulders Stencil Text', cursive;
   font-size: 35px;
 
-}*/
+}
 
 .rules-window .add-rules {
   font-family: 'Neucha', cursive;
@@ -183,7 +180,79 @@ ul {
   display: none;
 }
 
-.rules-window .close {
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+.outer {
+  position: absolute;
+  margin: auto;
+  width: 40px;
+  top: 10px;
+  cursor: pointer;
+  right: 20px;
+}
+
+.inner {
+  width: inherit;
+  text-align: center;
+}
+
+label { 
+  font-size: .8em; 
+  line-height: 4em;
+  text-transform: uppercase;
+  color: #A5A686;
+  transition: all .3s ease-in;
+  opacity: 0;
+  cursor: pointer;
+}
+.close {
+  background: none;
+   border: none;
+}
+
+.inner:before, .inner:after {
+  position: absolute;
+  content: '';
+  height: 1px;
+  width: inherit;
+  background: #BF4136;
+  left: 0;
+  transition: all .3s ease-in;
+}
+
+.inner:before {
+  top: 50%; 
+  transform: rotate(45deg);  
+}
+
+.inner:after {  
+  bottom: 50%;
+  transform: rotate(-45deg);  
+}
+
+.outer:hover label {
+  opacity: 1;
+}
+
+.outer:hover .inner:before,
+.outer:hover .inner:after {
+  transform: rotate(0);
+}
+
+.outer:hover .inner:before {
+  top: 0;
+}
+
+.outer:hover .inner:after {
+  bottom: 0;
+}
+ 
+
+/*.rules-window .close {
   position: absolute;
   cursor: pointer;
   top: 6%;
@@ -221,7 +290,7 @@ ul {
 .close:hover .hover-text {
   visibility: visible;
   opacity: 1;
-}
+}*/
 
 .game-menu {
   display: none;
