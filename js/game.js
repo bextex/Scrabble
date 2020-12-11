@@ -689,7 +689,7 @@ export default class Game {
     // show words played in list
     for (let obj of this.storeCurrentWords) {
       console.log("appending " + obj.word + "to SAOL window")
-      $('.saol').append('<div class="boxForWord"><span class="word validWord">' +
+      $('body').append('<div class="boxForWord"><span class="word validWord">' +
         obj.word + '</span>')
     }
     this.playerTurn();
