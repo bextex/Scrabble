@@ -306,6 +306,10 @@ export default class Game {
           let bottom = top + $stand.height();
           let right = left + $stand.width();
 
+          console.log('the stands width', $stand.width());
+
+          console.log('How wide is 8 tile box squares?', (8 * $tileBoxSquare.width()));
+
 
           if (pageX > left && pageX < right
             && pageY > top && pageY > bottom) {
