@@ -47,57 +47,6 @@ export default class Game {
         console.log("one or more words are invalid")
         this.newestWords = [];
         all = false;
-
-
-        $('.playertiles').each((i, el) => {
-          let $tile = $(el);
-
-          let p = $tile.data().prelBoardPos;
-
-          if (!p) { return; }
-          let tileIndex = $('#box0 > div > div').index($tile);
-          console.log(tileIndex)
-          let tile = this.tiles[0][tileIndex];
-          console.log(tile)
-          tile.onBoard = false;
-          this.board[p.y][p.x].tile = '';
-
-          console.log("p after false word:", p)
-
-        });
-
-        ////// NEW //////
-        // $('.playertiles').each((i, el) => {
-        //   let $tile = $(el);
-
-        //   let $tileBoxSquare = $tile.parent('.tiles-box');
-        //   let so = $tileBoxSquare.offset(), to = $tile.offset();
-        //   let swh = { w: $tileBoxSquare.width(), h: $tileBoxSquare.height() };
-        //   let twh = { w: $tile.width(), h: $tile.height() };
-        //   let pos = {
-        //     left: so.left - to.left + (swh.w - twh.w) / 2.8,
-        //     top: so.top - to.top + (swh.h - twh.h) / 2.8
-        //   };
-        //   $tile.css(pos);
-        // let p = $tile.data().prelBoardPos;
-        // if (!p) { return; }
-        // let $square = $('.board > div').eq(p.y * 15 + p.x);
-        // $tile.css({ top: '', left: '' });
-        // let so = $square.offset(), to = $tile.offset();
-        // let swh = { w: $square.width(), h: $square.height() };
-        // let twh = { w: $tile.width(), h: $tile.height() };
-        // let pos = {
-        //   left: so.left - to.left + (swh.w - twh.w) / 2.8,
-        //   top: so.top - to.top + (swh.h - twh.h) / 2.8
-        // };
-        // $tile.css(pos);
-        // });
-
-        // await Modal.alert('Du har icke-godkända ord på brädet');
-
-        // this.render();
-
-        ////// OLD /////
       }
       else {
         none = false;
@@ -111,8 +60,70 @@ export default class Game {
       this.nextPlayer();
       console.log("end of round this.storeCurrentWords: ", this.storeCurrentWords)
       //console.log("end of round this.wordArrayCommitted", this.wordArrayCommitted)
+    } else if (!all && none) {
+      console.log('--------Not approved word, will remove it from board-------');
+      this.removeTilesFromBoard();
     }
   }
+
+  removeTilesFromBoard() {
+    $('.playertiles').each((i, el) => {
+      let $tile = $(el);
+      console.log('tile from remove tiles from board', $tile.data());
+      let p = $tile.data().prelBoardPos;
+      console.log('p in check new words')
+      if (p) {
+
+        console.log('------- IF P HAS A VALUE -------');
+
+        // Töm först prelBoardPos
+        delete $tile.data().prelBoardPos;
+        console.log('is there any tile data prel board left?', $tile.data().prelBoardPos);
+
+        let tileOnBoard = this.board[p.y][p.x].tile;
+        console.log('what is tile on this.board.tile', tileOnBoard);
+
+        delete this.board[p.y][p.x].tile;
+        console.log('Is it anything on that position now?', this.board[p.y][p.x].tile);
+
+        // delete tile.onBoard;
+        // console.log('Is it anything on tile board now?', tile.onBoard);
+
+        let tileIndex = $(`#box0 > div > div`).index($tile);
+        console.log('tile index', tileIndex);
+
+        this.tiles[0].splice(tileIndex, 0, ...tileOnBoard).join('');
+
+        console.log('this tile on this.tiles[0][tileIndex] BEFORE', this.tiles[0][tileIndex].onBoard === true);
+
+        let tileInArray = this.tiles[0][tileIndex];
+        delete tileInArray.onBoard;
+
+        console.log('this tile on this.tiles[0][tileIndex] AFTER', this.tiles[0][tileIndex].onBoard === true);
+
+
+
+        console.log('---- PUTTING TILE BACK ON PLAYER RACK ----');
+        // let $tileBoxSquare = $tile.parent('.tiles-box');
+        // let so = $tileBoxSquare.offset(), to = $tile.offset();
+        // let swh = { w: $tileBoxSquare.width(), h: $tileBoxSquare.height() };
+        // let twh = { w: $tile.width(), h: $tile.height() };
+        // let pos = {
+        //   left: so.left - to.left + (swh.w - twh.w) / 2.8,
+        //   top: so.top - to.top + (swh.h - twh.h) / 2.8
+        // };
+        // $tile.css(pos);
+
+        $tile.css({ top: '', left: '' });
+
+        // console.log('The css position for the tile', pos);
+
+
+      }
+      console.log('this tiles array after loop', this.tiles[0]);
+    });
+  }
+
 
   async getTiles() {
     this.tilesFromBag = store.tilesFromFile;
@@ -266,6 +277,7 @@ export default class Game {
 
         // get the tile and the dropZone square
         let $tile = $(e.currentTarget);
+        console.log('data från dagend', $tile.data());
 
         let $dropZone = $('.hover');
 
@@ -281,7 +293,9 @@ export default class Game {
         // if no drop zone or the square is taken then do nothing
         if (!$dropZone.length || store.board[y][x].tile) {
 
-          $tile.data().prelBoardPos = { y, x };
+          console.log('---- IF THERE IS NO DROPZONE ------');
+
+          // $tile.data().prelBoardPos = { y, x };
 
           let { pageX, pageY } = pointer;
           let tileIndex = +$tile.attr('data-index');
@@ -292,21 +306,19 @@ export default class Game {
           let bottom = top + $stand.height();
           let right = left + $stand.width();
 
-          let newBoxIndex;
 
           if (pageX > left && pageX < right
             && pageY > top && pageY > bottom) {
 
-            //////// NEW /////////
-            // if ($($tile).hasClass('tile')) {
-            //   $($tile).removeClass('tile');
-            // }
+            console.log('------ IM DROPPING THE TILE IN THE PLAYER RACK ------');
 
-            ///////// END /////////
+            let newBoxIndex = Math.floor(8 * (pageX - left) / $stand.width());
+            console.log('Im dropping the tile on the NEW index', newBoxIndex);
 
 
-            newBoxIndex = Math.floor(8 * (pageX - left) / $stand.width());
             let $newBoxSquare = $(`.tiles-box[data-box="${newBoxIndex}"]`);
+
+            console.log('Is there any tile on this new index?', $(`.tiles-box[data-box="${newBoxIndex}"] > div`).length);
 
             if (!$(`.tiles-box[data-box="${newBoxIndex}"] > div`).length) {
 
@@ -378,6 +390,7 @@ export default class Game {
     console.log('im in place prel on board');
     $('.playertiles').each((i, el) => {
       let $tile = $(el);
+      console.log('tile from place prel on board', $tile.data());
       let p = $tile.data().prelBoardPos;
       if (!p) { return; }
       let tileIndex = $(`#box0 > div > div`).index($tile);
@@ -1067,7 +1080,7 @@ export default class Game {
       <div class="playersName">${player.name}</div>
       <div class="score">Poäng: ${player.score}</div></div>
       </div>
-      <div class="tiles-box"><div id="box${this.players.indexOf(player)}"></div></div>
+      <div class="tiles-box-parent-div"><div id="box${this.players.indexOf(player)}"></div></div>
       `);
       while (index < player.tiles[0].length) {
         $(`#box0`).append(`
