@@ -99,6 +99,10 @@ export default class Game {
         $tile.css({ top: '', left: '' });
       }
     });
+
+    $('.playertiles').each((i, el) => {
+      $(el).removeAttr('style');
+    });
   }
 
 
@@ -243,12 +247,8 @@ export default class Game {
       .on('dragMove', e => this.alignPrelTilesWithSquares())
       .on('dragEnd', function (e, pointer) {
 
-        console.log('im in drag end');
-
         // get the tile and the dropZone square
         let $tile = $(e.currentTarget);
-        console.log('data från dagend', $tile.data());
-
         let $dropZone = $('.hover');
 
         // the index of the square we are hovering over
@@ -266,7 +266,7 @@ export default class Game {
           console.log('---- IF THERE IS NO DROPZONE ------');
 
           let { pageX, pageY } = pointer;
-          let tileIndex = +$tile.attr('data-index');
+          // let tileIndex = +$tile.attr('data-index');
           let $tileBoxSquare = $tile.parent('.tiles-box');
           let tileBoxSquareIndex = +$tileBoxSquare.attr('data-box');
           let $stand = $('#box0');
@@ -278,13 +278,29 @@ export default class Game {
 
           console.log('How wide is 8 tile box squares?', (8 * $tileBoxSquare.width()));
 
+          console.log('What is page X', pageX);
+          console.log('Whats is left?', left);
+          console.log('what is the stand width?', $stand.width());
+          console.log('What is pageX minus left?', (pageX - left));
+          console.log('pagex-left / stand.width', ((pageX - left) / $stand.width()));
+
 
           if (pageX > left && pageX < right
             && pageY > top && pageY > bottom) {
 
             console.log('------ IM DROPPING THE TILE IN THE PLAYER RACK ------');
 
+            // console.log('What is page X', pageX);
+            // console.log('Whats is left?', left);
+            // console.log('what is the stand width?', $stand.width());
+            // console.log('What is pageX minus left?', (pageX - left));
+            // console.log('pagex-left / stand.width', ((pageX - left) / $stand.width()));
+            // let newBoxIndex = Math.floor((8 * (pageX - left)) / $stand.width());
             let newBoxIndex = Math.floor(8 * (pageX - left) / $stand.width());
+            // let width = $stand.width();
+            // console.log('what is stand width / 8', (width / 8))
+            // let newBoxIndex = Math.floor(pageX-left);
+            // let newBoxIndex = Math.floor(8 * (pageX - left) / $tileBoxSquare.width());
             console.log('Im dropping the tile on the NEW index', newBoxIndex);
 
 
@@ -318,6 +334,13 @@ export default class Game {
               $tile.css(pos);
             }
           }
+
+          $('.playertiles').each((i, el) => {
+            if ($tile.is($(el))) {
+              $(el).removeAttr('style');
+            }
+          });
+
           return;
         }
 
@@ -483,7 +506,6 @@ export default class Game {
       $('.playertiles').each((i, el) => {
         let $tile = $(el);
         let p = $tile.data().prelBoardPos;
-        console.log('what is p in change tiles', p);
         if (p) {
           stop = true;
           return;
@@ -1100,13 +1122,9 @@ export default class Game {
       let boxIndex = 0;
       $('.playertiles').each((i, el) => {
         let $tile = $(el);
-
         let so = $(`.tiles-box[data-box="${boxIndex}"]`).offset(), to = $tile.offset();
-
         let swh = { w: $(`.tiles-box[data-box="${boxIndex}"]`).width(), h: $(`.tiles-box[data-box="${boxIndex}"]`).height() };
-
         let twh = { w: $tile.width(), h: $tile.height() };
-
         let pos = {
           left: so.left - to.left + (swh.w - twh.w) / 2.8,
           top: so.top - to.top + (swh.h - twh.h) / 2.8
@@ -1115,12 +1133,11 @@ export default class Game {
         boxIndex++;
       });
 
-
-
-
-
     });
 
+    $('.playertiles').each((i, el) => {
+      $(el).removeAttr('style');
+    });
 
 
   }
