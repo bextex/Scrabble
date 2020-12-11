@@ -817,10 +817,10 @@ div.playing-window-left{
   font-size: 15px;
   top: 200px;
   width: 200px;
-  right: 4.5vh;  /*6 - win, 4.5 - mac*/
+  right: -19vh;
   border: 4px solid #A5A686;
   overflow: scroll;
-  height: 40vh;
+  
   padding: 20px;
   margin: 10px;
   /*width: calc(15% - 40px);*/
@@ -837,7 +837,7 @@ div.playing-window-left{
   font-size: 20px;
   font-weight: bold;
   letter-spacing: 3px;
-  color: blue;
+  color: #A0C275;
 }
 
 

@@ -706,7 +706,7 @@ export default class Game {
     // show words played in list
     for (let obj of this.storeCurrentWords) {
       console.log("appending " + obj.word + "to SAOL window")
-      $('.saol').append('<div class="boxForWord"><span class="word validWord">' +
+      $('body').append('<div class="boxForWord"><span class="word validWord">' +
         obj.word + '</span>')
     }
     this.playerTurn();
@@ -1229,14 +1229,12 @@ export default class Game {
 
   showSaolText() {
     $('.board').append(
-      `<p class="saol">🎄SAOL🎄</p>
-      <section class="placeForBox"><section>`
-    );
+      `<section class="saol">🎄SAOL🎄</section>`);
   }
 
   // async showWordWithList(wordsInArray) {
   //   console.log('------I am in showWordWithList()-----');
-  //   $('.playing-window').append(`<section class="wordList"><h3>Ord Listor</h3>
+  //   $('.playing-window').append(`< section class= "wordList" > <h3>Ord Listor</h3>
   //    <table><tr><th>Ord</th><th>ok in Scrabble</th><th>poäng</th></tr>
   //    `)
   //   for (let item of wordsInArray) {
