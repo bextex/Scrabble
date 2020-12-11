@@ -1212,14 +1212,12 @@ export default class Game {
 
   showSaolText() {
     $('.board').append(
-      `<p class="saol">🎄SAOL🎄</p>
-      <section class="placeForBox"><section>`
-    );
+      `<section class="saol">🎄SAOL🎄</section>`);
   }
 
   // async showWordWithList(wordsInArray) {
   //   console.log('------I am in showWordWithList()-----');
-  //   $('.playing-window').append(`<section class="wordList"><h3>Ord Listor</h3>
+  //   $('.playing-window').append(`< section class= "wordList" > <h3>Ord Listor</h3>
   //    <table><tr><th>Ord</th><th>ok in Scrabble</th><th>poäng</th></tr>
   //    `)
   //   for (let item of wordsInArray) {
