@@ -62,6 +62,7 @@ export default class Game {
       //console.log("end of round this.wordArrayCommitted", this.wordArrayCommitted)
     } else if (!all && none) {
       console.log('--------Not approved word, will remove it from board-------');
+      await Modal.alert('Du har ogiltiga ord på brädet!');
       this.removeTilesFromBoard();
     }
   }
