@@ -80,7 +80,21 @@ export default class Network {
 
 
     // Add my name to s.players array
+
+    // ÄNDRA DENNA
     s.players.push(name);
+
+    // // TILL DENNA I NÄTVERK
+    // s.players.push({ name: name, score: 0 });
+
+    // // I GAME FOR LOOP 
+    // for (player in store.players) {
+    //   if (player.name === this.player) {
+    //     player.score = this.score;
+    //   }
+    // }
+
+
     console.log('my name is ' + name);
     console.log(s.players);
 
