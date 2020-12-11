@@ -70,58 +70,34 @@ export default class Game {
   removeTilesFromBoard() {
     $('.playertiles').each((i, el) => {
       let $tile = $(el);
-      console.log('tile from remove tiles from board', $tile.data());
       let p = $tile.data().prelBoardPos;
-      console.log('p in check new words')
+      // If the tile has the property 'prelBoardPos' and it's not falsey. 
+      // The tile thinks its on the board and we need to remove all 'board' propertys since it was a false word
       if (p) {
-
-        console.log('------- IF P HAS A VALUE -------');
-
-        // Töm först prelBoardPos
+        // Empty the property 'prelBoardPos' for the tile data 
         delete $tile.data().prelBoardPos;
-        console.log('is there any tile data prel board left?', $tile.data().prelBoardPos);
 
+        // Save the tile that is currently on the board at p.y and p.x position
         let tileOnBoard = this.board[p.y][p.x].tile;
-        console.log('what is tile on this.board.tile', tileOnBoard);
 
+        // Delete the property 'tile' from board, the tile should not have a tile in that position anymore
         delete this.board[p.y][p.x].tile;
-        console.log('Is it anything on that position now?', this.board[p.y][p.x].tile);
 
-        // delete tile.onBoard;
-        // console.log('Is it anything on tile board now?', tile.onBoard);
-
+        // Get the tileIndex from what tile-box it's currently in (It still think it belongs to a tile-box because we never really move it from the div)
         let tileIndex = $(`#box0 > div > div`).index($tile);
-        console.log('tile index', tileIndex);
 
+        // Add the tile back to the players this.tiles array, by adding it back at the index it was before and with the tile that was on the board
         this.tiles[0].splice(tileIndex, 0, ...tileOnBoard).join('');
 
-        console.log('this tile on this.tiles[0][tileIndex] BEFORE', this.tiles[0][tileIndex].onBoard === true);
-
+        // Save the tile we just added back, to a local variable
         let tileInArray = this.tiles[0][tileIndex];
+
+        // Delete the tiles property 'onBoard' so it doesn't think that its on the board anymore
         delete tileInArray.onBoard;
 
-        console.log('this tile on this.tiles[0][tileIndex] AFTER', this.tiles[0][tileIndex].onBoard === true);
-
-
-
-        console.log('---- PUTTING TILE BACK ON PLAYER RACK ----');
-        // let $tileBoxSquare = $tile.parent('.tiles-box');
-        // let so = $tileBoxSquare.offset(), to = $tile.offset();
-        // let swh = { w: $tileBoxSquare.width(), h: $tileBoxSquare.height() };
-        // let twh = { w: $tile.width(), h: $tile.height() };
-        // let pos = {
-        //   left: so.left - to.left + (swh.w - twh.w) / 2.8,
-        //   top: so.top - to.top + (swh.h - twh.h) / 2.8
-        // };
-        // $tile.css(pos);
-
+        // Style the css back to its original place (the place it was on the player rack)
         $tile.css({ top: '', left: '' });
-
-        // console.log('The css position for the tile', pos);
-
-
       }
-      console.log('this tiles array after loop', this.tiles[0]);
     });
   }
 
@@ -142,11 +118,6 @@ export default class Game {
     for (let i = 0; i < store.players.length; i++) {
       if (playerName === store.players[i]) {
         this.players.push(new Player(store.players[i], ([...this.tilesFromBag.splice(0, 7)]), 0));
-        ///Initialize player score
-
-        // COMMENTED OUT
-        // this.players[0].score = 0;
-        // console.log('init PlayerScore', this.players[0], this.players[0].score);
       }
     }
 
@@ -188,8 +159,6 @@ export default class Game {
           `);
     }
     this.render();
-
-
   }
 
   playerTurn() {
@@ -295,8 +264,6 @@ export default class Game {
         if (!$dropZone.length || store.board[y][x].tile) {
 
           console.log('---- IF THERE IS NO DROPZONE ------');
-
-          // $tile.data().prelBoardPos = { y, x };
 
           let { pageX, pageY } = pointer;
           let tileIndex = +$tile.attr('data-index');
