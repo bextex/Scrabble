@@ -607,7 +607,7 @@ export default class Game {
       //----johanna
 
       store.currentPlayer++;
-
+      store.passcounter = 0;
 
       // this.board = store.board;
       // this.tilesFromBag = store.tilesFromFile;
