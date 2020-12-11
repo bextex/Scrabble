@@ -43,8 +43,11 @@ export default class Game {
     console.log(this.storeCurrentWords.length)
     for (let i = 0; i < this.storeCurrentWords.length; i++) {
       console.log(this.storeCurrentWords[i])
-      if (await SAOLchecker.scrabbleOk(this.storeCurrentWords[i].word) === false) {
+      if (/\s/.test(this.storeCurrentWords[i].word) || await SAOLchecker.scrabbleOk(this.storeCurrentWords[i].word) === false) {
         console.log("one or more words are invalid")
+        if (/\s/.test(this.storeCurrentWords[i].word)) {
+          alert("Fill in the blank tile!")
+        }
         this.newestWords = [];
         all = false;
       }
@@ -854,11 +857,6 @@ export default class Game {
     if (this.storeCurrentWords.length > 0) {
       // Check if a old words exists in the wordsarray
       for (let i = 0; i < wordArray.length; i++) {
-        if (/\s/.test(wordArray[i].word)) {
-          await Modal.prompt("Fill in the blank tile!")
-
-
-        }
         if (this.storeOldWords.indexOf(wordArray[i].word) !== -1) {
           console.log("old word! ", wordArray[i].word)
         } else {
