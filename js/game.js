@@ -419,6 +419,11 @@ export default class Game {
     // this.showPlayerButtons();
   }
 
+  showSaolText() {
+    $('.board').append(
+      `<section class="saol">🎄SAOL🎄</section>`);
+  }
+
   changeTiles() {
     console.log('Im in changeTiles()');
 
@@ -599,11 +604,13 @@ export default class Game {
     console.log('5. --- nextPLayer() ---')
     //this.commitPlayedWords();
     // show words played in list
+    let boxForWord = '';
     for (let obj of this.storeCurrentWords) {
       console.log("appending " + obj.word + "to SAOL window")
-      $('.saol').append('<div class="boxForWord"><span class="word validWord">' +
-        obj.word + '</span>')
+      boxForWord = '<div class="boxForWord"><span class="word validWord">' + obj.word + '</span>'
     }
+    $('.saol').append(boxForWord)
+
     store.currentPlayer++;
     this.playerTurn();
     this.render();
@@ -1059,10 +1066,7 @@ export default class Game {
   }
   // --- johanna
 
-  showSaolText() {
-    $('.board').append(
-      `<section class="saol">🎄SAOL🎄</section>`);
-  }
+
 
   // async showWordWithList(wordsInArray) {
   //   console.log('------I am in showWordWithList()-----');
