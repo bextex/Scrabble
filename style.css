@@ -645,9 +645,10 @@ text-align: center;
   height: 4vh;
   padding: 0.3vh;
   background-color: #EFF2D8;
+  border: 3px solid #A5A686;
   text-align: center;
   /* border: 3px solid #A5A686; */
-  border-radius: 3px;
+ /* border-radius: 3px;*/
   position: relative;
   float: left;
   cursor: pointer;
@@ -656,14 +657,14 @@ text-align: center;
 .playertiles.change{
   font-family: 'Source Code Pro', monospace;
   font-size: 17px;
-  /* padding: 4px; */
+
   margin: 1px;
   width: 4vh;
   height: 4vh;
-  /*white*/
+  
   background-color: #EFF2D8;
   text-align: center;
-  /*black*/
+  
   border: 1.5px dotted black;
   position: relative;
   float: left;
