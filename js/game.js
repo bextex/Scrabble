@@ -680,16 +680,20 @@ export default class Game {
     console.log('5. --- nextPLayer() ---')
     //this.commitPlayedWords();
     // show words played in list
-    let boxForWord = '';
-    for (let obj of this.storeCurrentWords) {
-      console.log("appending " + obj.word + "to SAOL window")
-      boxForWord = '<div class="boxForWord"><span class="word validWord">' + obj.word + '</span>'
-    }
-    $('.saol').append(boxForWord)
 
     store.currentPlayer++;
     this.playerTurn();
     this.render();
+
+    //apend after render so it will appear in .saol element
+    let boxForWord = '';
+    for (let obj of this.storeCurrentWords) {
+      console.log("appending " + obj.word + "to SAOL window")
+      boxForWord = '<div class="boxForWord"><span class="word validWord">' + obj.word + '</span>'
+      $('.saol').append(boxForWord)
+    }
+
+
   }
 
   // --- johanna (gamla checkNewWordsOnBoard funktionen)
