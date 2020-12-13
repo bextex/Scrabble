@@ -373,8 +373,8 @@ export default class Game {
       let tile = this.tiles[0][tileIndex];
       tile.onBoard = true;
       this.board[p.y][p.x].tile = [tile];
-      this.checkNewWordsOnBoard();
     });
+    this.checkNewWordsOnBoard();
     this.tiles[0] = this.tiles[0].filter(x => !x.onBoard);
     console.log('this tiles array in place prel on board', this.tiles[0]);
   }
@@ -898,6 +898,7 @@ export default class Game {
     }
 
     this.storeOldWords = [];
+    console.log("wordArray before pushing to storeOldWords: ", this.storeOldWords)
     //store all words played in this.storeOldWords string value
     for (let i = 0; i < wordArray.length; i++) {
       this.storeOldWords.push(wordArray[i].word)
