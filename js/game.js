@@ -29,11 +29,12 @@ export default class Game {
     console.log('game starting');
     //----johanna
     this.storeCurrentWords = [];
-    this.storeOldWords = [];
+    // this.storeOldWords = [];
     this.newestWords = [];
     // special-rutan
     this.usedSpecialTiles = [];
     //----johanna
+    //  this.positionHasCounted = []; //this array to save the position on the board that has counted extra points.
     this.players = [];
     this.boxIndex;
 
@@ -62,7 +63,7 @@ export default class Game {
     console.log("none: " + none)
     //if all words in wordsArray are ok in Scrabble
     if (all && !none) {
-      console.log('This is the current player index', store.currentPlayer);
+      console.log('this.storeOldWords before countPlayerScore', this.storeOldWords);
       this.countPlayerScore(this.playerIndex);
       this.nextPlayer();
       console.log("end of round this.storeCurrentWords: ", this.storeCurrentWords)
@@ -123,6 +124,8 @@ export default class Game {
     this.getTiles();
 
     this.board = store.board;
+    this.storeOldWords = store.storeOldWords;
+    // this.positionHasCounted = store.positionHasCounted;
 
 
     this.name = playerName;
@@ -679,6 +682,7 @@ export default class Game {
   checkNewWordsOnBoard() {
 
     console.log('2. --- checkNewWordsOnBoard ---')
+    console.log('this.storeOldWords in the ', this.storeOldWords);
 
     let wordH = [];  //to save  all the infromation on the horisontal 
     let wordV = [];  //to save all the infromation on the vertical 
@@ -743,6 +747,7 @@ export default class Game {
       let points = 0;
       let multiple = 1;
       let position = [];
+      //  let currentPositon = [];
       for (let i = 0; i < wordV.length; i++) {
         if (((i < wordV.length - 1) && (wordV[i].y === wordV[i + 1].y)) || ((i > 0) && (wordV[i].y === wordV[i - 1].y))) {
           word += wordV[i].char;
@@ -750,11 +755,12 @@ export default class Game {
           if (wordV[i].special && !this.usedSpecialTiles.find(tile => (tile.x === wordV[i].x && tile.y === wordV[i].y))) {
             if ((wordV[i].special) === '2xLS') { points += 2 * wordV[i].points }
             else if ((wordV[i].special) === '3xLS') { points += 3 * wordV[i].points }
-            else if ((wordV[i].special) === '2xLW') { multiple *= 2 }
-            else if ((wordV[i].special) === '3xLW') { multiple *= 3 }
+            else if ((wordV[i].special) === '2xLW') { multiple *= 2; points += wordV[i].points; }
+            else if ((wordV[i].special) === '3xLW') { multiple *= 3; points += wordV[i].points; }
+            else if ((wordV[i].special) === 'middle-star') { multiple *= 2; points += wordV[i].points; }
             else points += wordV[i].points;
 
-            // Memorerar redan använd special-rutan
+            // save the word that have used special box
             this.usedSpecialTiles.push({ x: wordV[i].x, y: wordV[i].y });
 
           }
@@ -781,16 +787,20 @@ export default class Game {
       let points = 0;
       let multiple = 1;
       let position = [];
+      // let currentPositon = [];
       for (let i = 0; i < wordH.length; i++) {
         if (((i < wordH.length - 1) && (wordH[i].x === wordH[i + 1].x)) || ((i > 0) && (wordH[i].x === wordH[i - 1].x))) {
           word += wordH[i].char;
           position.push({ x: wordH[i].x, y: wordH[i].y });
-          if (wordH[i].special) {
-            if ((wordH[i].special) === '2xLS') { points += 2 * wordH[i].points }
+          if (wordH[i].special && !this.usedSpecialTiles.find(tile => (tile.x === wordH[i].x && tile.y === wordH[i].y))) {
+            if ((wordH[i].special) === '2xLS') { points += 2 * wordH[i].points; }
             else if ((wordH[i].special) === '3xLS') { points += 3 * wordH[i].points }
-            else if ((wordH[i].special) === '2xLW') { multiple *= 2 }
-            else if ((wordH[i].special) === '3xLW') { multiple *= 3 }
+            else if ((wordH[i].special) === '2xLW') { multiple *= 2; points += wordH[i].points; }
+            else if ((wordH[i].special) === '3xLW') { multiple *= 3; points += wordH[i].points; }
+            else if ((wordH[i].special) === 'middle-star') { multiple *= 2; points += wordH[i].points; }
             else points += wordH[i].points;
+            // save the word that have used special box
+            this.usedSpecialTiles.push({ x: wordH[i].x, y: wordH[i].y });
           }
           else {
             points += wordH[i].points;
@@ -824,16 +834,20 @@ export default class Game {
       this.storeCurrentWords = this.newestWords;
     } else {
       this.storeCurrentWords = wordArray;
+      // this.storeCurrentWords = wordArray.map(x => x);
     }
 
-    this.storeOldWords = [];
+    // this.storeOldWords = [];
     console.log("wordArray before pushing to storeOldWords: ", this.storeOldWords)
     //store all words played in this.storeOldWords string value
     for (let i = 0; i < wordArray.length; i++) {
       this.storeOldWords.push(wordArray[i].word)
     }
+    store.storeOldWords = this.storeOldWords;
     console.log("storeOldWords: ", this.storeOldWords)
-    console.log("Checking word array: " + wordArray);
+    console.log("store.storeOldWords: ", store.storeOldWords)
+    console.log("Checking word array: ", wordArray);
+    console.log("this.storeCurrentWords: ", this.storeCurrentWords);
     //------------------------------
   }
 
@@ -886,7 +900,7 @@ export default class Game {
 
         let me = $(e.currentTarget);
         let index = +me.attr('data-index');
-        let alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖ';
+        let alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖabcdefghijklmnopqrstuvwxyzåäö';
         let pass = false;
         let char = '';
         do {
@@ -995,14 +1009,14 @@ export default class Game {
     for (let i = 0; i < this.storeCurrentWords.length; i++) {
       currentWordPoints = this.storeCurrentWords[i].points * this.storeCurrentWords[i].multiple;
       console.log("get point for: " + this.storeCurrentWords[i].word)
-
+      this.players[0].score += currentWordPoints;
     }
     console.log('currentWordPoints', currentWordPoints);
     // this.render();
 
     ////// NEW ADDED this. ///////
     // players[store.currentPlayer].score += currentWordPoints;
-    this.players[0].score += currentWordPoints;
+    //this.players[0].score += currentWordPoints;
     ////// END //////
   }
   // --- johanna
