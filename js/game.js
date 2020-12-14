@@ -377,32 +377,31 @@ export default class Game {
   }
 
   besideAnotherTile() {
-    // !!([...$('.playertiles')].find(playertile =>
+    let isFirstMove = this.board.flat().every(square => !square.tile);
+    if (isFirstMove) { return true; }
+    let isBesideAnotherTile = false;
     console.log('-------- IM IN BESIDE ANOTHER TILE -------');
-    let isBesideAnotherTile = $('.playertiles').each((el) => {
-      console.log('What is el', el);
-      console.log('What is el in jquery', $(el));
-      console.log('What is the els data', $(el).data());
+    $('.playertiles').each((i, el) => {
       let p = $(el).data().prelBoardPos;
-      console.log('what is p in beside another tile', p);
-      // p är [y][x]
-      let y = p.y;
-      let x = p.x;
-      console.log('What is x and y here', y, x);
-      if ((y === 0 && x === 0 && !this.board[y + 1][x].tile && !this.board[y][x + 1].tile)
-        || (x === 0 && y > 0 && y < 14 && !this.board[y - 1][x].tile && !this.board[y + 1][x].tile && !this.board[y][x + 1].tile)
-        || (x === 14 && y === 0 && !this.board[y][x - 1].tile && !this.board[y + 1][x].tile)
-        || (x === 14 && y > 0 && y < 14 && !this.board[y - 1][x].tile && !this.board[y - 1][x].tile && !this.board[y][x - 1].tile)
-        || (x === 14 && y === 14 && !this.board[y - 1][x].tile && !this.board[y][x - 1].tile)
-        || (y === 14 && x > 0 && x < 14 && !this.board[y][x + 1].tile && !this.board[y][x - 1].tile && !this.board[y - 1][x].tile)
-        || (y === 14 && x === 0 && !this.board[y - 1][x].tile && !this.board[y][x + 1].tile)
-        || (y === 0 && x > 0 && x < 14 && !this.board[y][x - 1].tile && !this.board[y][x + 1].tile && !this.board[y + 1][x].tile)
-        || (x > 0 && x < 14 && y > 0 && y < 14 && !this.board[y - 1][x].tile && !this.board[y + 1][x].tile && !this.board[y][x + 1].tile && !this.board[y][x - 1].tile)) {
-        this.render();
-        return;
+      console.log('What is p ', p);
+      if (p) {
+        let y = p.y;
+        let x = p.x;
+        if ((y === 0 && x === 0 && !!this.board[y + 1][x].tile || !!this.board[y][x + 1].tile)
+          || (x === 0 && y > 0 && y < 14 && !!this.board[y - 1][x].tile || !!this.board[y + 1][x].tile || !!this.board[y][x + 1].tile)
+          || (x === 14 && y === 0 && !!this.board[y][x - 1].tile || !!this.board[y + 1][x].tile)
+          || (x === 14 && y > 0 && y < 14 && !!this.board[y - 1][x].tile || !!this.board[y - 1][x].tile || !!this.board[y][x - 1].tile)
+          || (x === 14 && y === 14 && !!this.board[y - 1][x].tile || !!this.board[y][x - 1].tile)
+          || (y === 14 && x > 0 && x < 14 && !!this.board[y][x + 1].tile || !!this.board[y][x - 1].tile || !!this.board[y - 1][x].tile)
+          || (y === 14 && x === 0 && !!this.board[y - 1][x].tile || !!this.board[y][x + 1].tile)
+          || (y === 0 && x > 0 && x < 14 && !!this.board[y][x - 1].tile || !!this.board[y][x + 1].tile || !!this.board[y + 1][x].tile)
+          || (x > 0 && x < 14 && y > 0 && y < 14 && !!this.board[y - 1][x].tile || !!this.board[y + 1][x].tile || !!this.board[y][x + 1].tile || !!this.board[y][x - 1].tile)) {
+          console.log('Im in the if-sats')
+          isBesideAnotherTile = true;
+        }
       }
     });
-    console.log('besideAnotherTile', isBesideAnotherTile);
+    return isBesideAnotherTile;
   }
 
   render() {
@@ -540,14 +539,14 @@ export default class Game {
         this.render();
         return;
       }
-      this.besideAnotherTile();
-      if (!this.besideAnotherTile) {
+
+      if (!this.besideAnotherTile()) {
         await Modal.alert('Du måste lägga dina ord brevid redan befintliga ord på brädet!');
         this.render();
         return;
       }
+
       this.placePrelTilesOnBoard();
-      console.log('i have clicked on lägg brickor');
       this.checkNewWordsInSAOL();
       store.passcounter = 0;
     });
