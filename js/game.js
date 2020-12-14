@@ -12,12 +12,6 @@ console.log("Store från början", store)
 export default class Game {
 
   constructor() {
-
-    // this.createBoard();
-    // this.render();
-    // this.showPlayerButtons();
-    // this.playerIndex = 0;
-
     // When resizing the window realign tiles with squares
     // (some extra code here to make sure we do not connect resize several times)
     window.currentGame = this;
@@ -25,30 +19,26 @@ export default class Game {
       window.resizeAdded = true;
       $(window).resize(() => currentGame.alignPrelTilesWithSquares());
     }
-
     console.log('game starting');
     //----johanna
-    this.storeCurrentWords = [];
+    //this.storeCurrentWords = [];
     //this.storeOldWords = [];
     this.newestWords = [];
-    // special-rutan
-    this.usedSpecialTiles = [];
     //----johanna
     this.players = [];
     this.boxIndex;
-
   }
 
   async checkNewWordsInSAOL() {
     console.log('3. --- checkNewWordsInSAOL ---')
     let all = true;
     let none = true;
-    console.log(this.storeCurrentWords.length)
-    for (let i = 0; i < this.storeCurrentWords.length; i++) {
-      console.log(this.storeCurrentWords[i])
-      if (/\s/.test(this.storeCurrentWords[i].word) || await SAOLchecker.scrabbleOk(this.storeCurrentWords[i].word) === false) {
+    console.log(store.storeCurrentWords.length)
+    for (let i = 0; i < store.storeCurrentWords.length; i++) {
+      console.log(store.storeCurrentWords[i])
+      if (/\s/.test(store.storeCurrentWords[i].word) || await SAOLchecker.scrabbleOk(store.storeCurrentWords[i].word) === false) {
         console.log("one or more words are invalid")
-        if (/\s/.test(this.storeCurrentWords[i].word)) {
+        if (/\s/.test(store.storeCurrentWords[i].word)) {
           alert("Fill in the blank tile!")
         }
         this.newestWords = [];
@@ -62,12 +52,11 @@ export default class Game {
     console.log("none: " + none)
     //if all words in wordsArray are ok in Scrabble
     if (all && !none) {
-      console.log('this.storeOldWords before countPlayerScore', this.storeOldWords);
       this.countPlayerScore(this.playerIndex);
       this.nextPlayer();
-      console.log("end of round this.storeCurrentWords: ", this.storeCurrentWords)
+      console.log("end of round store.storeCurrentWords: ", store.storeCurrentWords)
       //console.log("end of round this.wordArrayCommitted", this.wordArrayCommitted)
-    } else if (!all && none) {
+    } else {
       console.log('--------Not approved word, will remove it from board-------');
       await Modal.alert('Du har ogiltiga ord på brädet!');
       this.removeTilesFromBoard();
@@ -83,35 +72,23 @@ export default class Game {
       if (p) {
         // Empty the property 'prelBoardPos' for the tile data 
         delete $tile.data().prelBoardPos;
-
         // Save the tile that is currently on the board at p.y and p.x position
         let tileOnBoard = this.board[p.y][p.x].tile;
-
         // Delete the property 'tile' from board, the tile should not have a tile in that position anymore
         delete this.board[p.y][p.x].tile;
-
         // Get the tileIndex from what tile-box it's currently in (It still think it belongs to a tile-box because we never really move it from the div)
         let tileIndex = $(`#box0 > div > div`).index($tile);
-
         // Add the tile back to the players this.tiles array, by adding it back at the index it was before and with the tile that was on the board
         this.tiles[0].splice(tileIndex, 0, ...tileOnBoard).join('');
-
         // Save the tile we just added back, to a local variable
         let tileInArray = this.tiles[0][tileIndex];
-
         // Delete the tiles property 'onBoard' so it doesn't think that its on the board anymore
         delete tileInArray.onBoard;
-
         // Style the css back to its original place (the place it was on the player rack)
         $tile.css({ top: '', left: '' });
       }
     });
-
-    // $('.playertiles').each((i, el) => {
-    //   $(el).css({ top: 0, left: 0 });
-    // });
   }
-
 
   async getTiles() {
     this.tilesFromBag = store.tilesFromFile;
@@ -121,9 +98,7 @@ export default class Game {
 
   start(playerName) {
     this.getTiles();
-
     this.board = store.board;
-    this.storeOldWords = store.storeOldWords;
 
 
     this.name = playerName;
@@ -132,10 +107,8 @@ export default class Game {
         this.players.push(new Player(store.players[i], ([...this.tilesFromBag.splice(0, 7)]), 0));
       }
     }
-
     // store.board = this.createBoard();
     this.playerTurn();
-
     // this.render();
     this.showPlayerButtons();
     // Set change button to disabled when starting the game
@@ -145,28 +118,20 @@ export default class Game {
 
   endGame() {
     console.log('Sending player to score screen...')
-    for (let i = 0; i < store.players.length; i++) {
-      if (store.players[i] === this.player) {
-        store.score[i] = this.players[0].score;
-      }
-    }
     $('.playing-window').hide()
 
     $('.score-screen-container').append(`
         <div class="player-table">
-        
         <p class="scoreboard-text">  Scoreboard</p>
           <div class="player-table-inner">
-          
           </div>
         </div>
-        
       `);
     for (let i = 0; i < store.players.length; i++) {
       //store.players[i].score = this.players[i].score
       $('.player-table-inner').append(`
         <div class="scoreboard-players"> 
-        <p class="scoreboard-players-text"> [${i}] ${store.score[i]} ${store.players[i]}</p>
+        <p class="scoreboard-players-text"> [${i}] ${store.players[i].score} ${store.players[i]}</p>
         
         </div>
         `);
@@ -179,7 +144,6 @@ export default class Game {
   }
 
   playerTurn() {
-
     if (this.tilesFromBag == 0) {
       this.endGame();
     }
@@ -189,14 +153,11 @@ export default class Game {
     if (store.currentPlayer >= store.players.length) {
       store.currentPlayer = 0;
     }
-
     console.log('This index is currently this.playerindex ' + store.currentPlayer);
-
     console.log('store players length', store.players.length);
 
     // This players turn
     this.player = store.players[store.currentPlayer];
-
     console.log('players name in playerturn ' + this.player);
 
     // Set this.tiles to empty so the current players tiles can be this.tiles
@@ -220,7 +181,6 @@ export default class Game {
         }
       }
       console.log('number of new tiles', numberOfTiles);
-
       // newTiles will get x number of new tiles from tilesFromBag
       let newTiles = [...this.tilesFromBag.splice(0, numberOfTiles)];
       // push the new tiles to the players current tiles
@@ -228,15 +188,12 @@ export default class Game {
         this.tiles[0].push(newTiles[i]);
       }
     }
-
     console.log('this many tiles are left in the bag: ' + this.tilesFromBag.length);
-
     this.render();
   }
 
   addEvents() {
     console.log('Im in addEvents');
-
     $('.board > div').mouseenter(e => {
       let me = $(e.currentTarget);
       if ($('.is-dragging').length && !me.find('.tiles').length) {
@@ -260,9 +217,12 @@ export default class Game {
       .on('dragMove', e => this.alignPrelTilesWithSquares())
       .on('dragEnd', function (e, pointer) {
 
+        console.log('im in drag end');
+
         // get the tile and the dropZone square
         let $tile = $(e.currentTarget);
-        console.log('current target data in dragend', $tile);
+        console.log('data från dagend', $tile.data());
+
         let $dropZone = $('.hover');
 
         // the index of the square we are hovering over
@@ -280,7 +240,7 @@ export default class Game {
           console.log('---- IF THERE IS NO DROPZONE ------');
 
           let { pageX, pageY } = pointer;
-          // let tileIndex = +$tile.attr('data-index');
+          let tileIndex = +$tile.attr('data-index');
           let $tileBoxSquare = $tile.parent('.tiles-box');
           let tileBoxSquareIndex = +$tileBoxSquare.attr('data-box');
           let $stand = $('#box0');
@@ -288,21 +248,26 @@ export default class Game {
           let bottom = top + $stand.height();
           let right = left + $stand.width();
 
+          console.log('the stands width', $stand.width());
+
+          console.log('How wide is 8 tile box squares?', (8 * $tileBoxSquare.width()));
+
 
           if (pageX > left && pageX < right
             && pageY > top && pageY > bottom) {
 
             console.log('------ IM DROPPING THE TILE IN THE PLAYER RACK ------');
 
-            // 1. What is the new box index?
             let newBoxIndex = Math.floor(8 * (pageX - left) / $stand.width());
             console.log('Im dropping the tile on the NEW index', newBoxIndex);
+
+
             let $newBoxSquare = $(`.tiles-box[data-box="${newBoxIndex}"]`);
 
-            // 2. Is the new box empty?
+            console.log('Is there any tile on this new index?', $(`.tiles-box[data-box="${newBoxIndex}"] > div`).length);
+
             if (!$(`.tiles-box[data-box="${newBoxIndex}"] > div`).length) {
 
-              // 3. Add the tile to the new box and remove it from the old position
               $(`.tiles-box[data-box="${newBoxIndex}"]`).append($tile);
               $(`.tiles-box[data-box="${tileBoxSquareIndex}"]`).empty();
 
@@ -331,7 +296,6 @@ export default class Game {
                   }
                   that.tiles[0].push({ char: letter, points: points });
                 }
-
                 // If the stile on player rack is weird, remove this
                 // if ($tile.is($(el))) {
                 //   $(el).removeAttr('style');
@@ -343,21 +307,22 @@ export default class Game {
               let swh = { w: $tileBoxSquare.width(), h: $tileBoxSquare.height() };
               let twh = { w: $tile.width(), h: $tile.height() };
               let pos = {
-                left: so.left - to.left + (swh.w - twh.w) / 2.5,
-                top: so.top - to.top + (swh.h - twh.h) / 2.5
+                left: so.left - to.left + (swh.w - twh.w) / 2.8,
+                top: so.top - to.top + (swh.h - twh.h) / 2.8
               };
               $tile.css(pos);
             }
           }
           return;
         }
-
         // store the preliminary board position with the tile div
         // (jQuery can add data to any element)
         $tile.data().prelBoardPos = { y, x };
         that.alignPrelTilesWithSquares();
         // that.placePrelTilesOnBoard();
-      });
+
+      })
+
   }
 
   // added by TF
@@ -373,8 +338,8 @@ export default class Game {
       let swh = { w: $square.width(), h: $square.height() };
       let twh = { w: $tile.width(), h: $tile.height() };
       let pos = {
-        left: so.left - to.left + (swh.w - twh.w) / 6,
-        top: so.top - to.top + (swh.h - twh.h) / 6
+        left: so.left - to.left + (swh.w - twh.w) / 2.8,
+        top: so.top - to.top + (swh.h - twh.h) / 2.8
       };
       $tile.css(pos);
     });
@@ -382,9 +347,10 @@ export default class Game {
 
   // added by TF
   placePrelTilesOnBoard() {
-    console.log('----- IM IN PLACE PREL TILES ON BOARD -----');
+    console.log('im in place prel on board');
     $('.playertiles').each((i, el) => {
       let $tile = $(el);
+      console.log('tile from place prel on board', $tile.data());
       let p = $tile.data().prelBoardPos;
       if (!p) { return; }
       let tileIndex = $(`#box0 > div > div`).index($tile);
@@ -394,6 +360,7 @@ export default class Game {
     });
     this.checkNewWordsOnBoard();
     this.tiles[0] = this.tiles[0].filter(x => !x.onBoard);
+    console.log('this tiles array in place prel on board', this.tiles[0]);
   }
 
   // added by TF
@@ -406,6 +373,31 @@ export default class Game {
     }));
     console.log('centerIsTaken', centerIsTaken);
     return !isFirstMove || centerIsTaken;
+  }
+
+  besideAnotherTile() {
+    let isFirstMove = this.board.flat().every(square => !square.tile);
+    if (isFirstMove) { return true; }
+    let isBesideAnotherTile = false;
+    $('.playertiles').each((i, el) => {
+      let p = $(el).data().prelBoardPos;
+      if (p) {
+        let y = p.y;
+        let x = p.x;
+        if ((y === 0 && x === 0 && !!this.board[y + 1][x].tile || !!this.board[y][x + 1].tile)
+          || (x === 0 && y > 0 && y < 14 && !!this.board[y - 1][x].tile || !!this.board[y + 1][x].tile || !!this.board[y][x + 1].tile)
+          || (x === 14 && y === 0 && !!this.board[y][x - 1].tile || !!this.board[y + 1][x].tile)
+          || (x === 14 && y > 0 && y < 14 && !!this.board[y - 1][x].tile || !!this.board[y - 1][x].tile || !!this.board[y][x - 1].tile)
+          || (x === 14 && y === 14 && !!this.board[y - 1][x].tile || !!this.board[y][x - 1].tile)
+          || (y === 14 && x > 0 && x < 14 && !!this.board[y][x + 1].tile || !!this.board[y][x - 1].tile || !!this.board[y - 1][x].tile)
+          || (y === 14 && x === 0 && !!this.board[y - 1][x].tile || !!this.board[y][x + 1].tile)
+          || (y === 0 && x > 0 && x < 14 && !!this.board[y][x - 1].tile || !!this.board[y][x + 1].tile || !!this.board[y + 1][x].tile)
+          || (x > 0 && x < 14 && y > 0 && y < 14 && !!this.board[y - 1][x].tile || !!this.board[y + 1][x].tile || !!this.board[y][x + 1].tile || !!this.board[y][x - 1].tile)) {
+          isBesideAnotherTile = true;
+        }
+      }
+    });
+    return isBesideAnotherTile;
   }
 
   render() {
@@ -427,6 +419,20 @@ export default class Game {
         </div>
       `).join('')
     );
+
+    // let index = 0;
+
+    // $('#box0').html(
+    //   this.tiles.flat().map(x => {
+    //     console.log('what is x inte flat map in players', x);
+    //     `
+    //     <div data-index="${index}" class="playertiles ${x.char === ' ' ? 'blankTile' : ''}">${x.char}<div class="points">${x.points || ''}</div>
+    //   `
+    //     index++;
+    //   }).join('')
+    // );
+
+
 
     console.log('Index of this player in store.players:', store.players.indexOf(this.name));
     console.log('Current player in store:', store.currentPlayer);
@@ -461,23 +467,20 @@ export default class Game {
 
   changeTiles() {
     console.log('Im in changeTiles()');
-
     $('.change-tiles').prop('disabled', true);
     // When double-clicking on the tiles do this function
     $('.playertiles').not('.none').dblclick(async function () {
       // If the player has played a tile then they cannot change any tiles the same round
-
       let stop = false;
-
       $('.playertiles').each((i, el) => {
         let $tile = $(el);
         let p = $tile.data().prelBoardPos;
+        console.log('what is p in change tiles', p);
         if (p) {
           stop = true;
           return;
         }
       });
-
       if (stop) {
         await Modal.alert('Du kan inte byta brickor när du har lagt brickor på brädet! Lägg tillbaka dem och försök igen!');
         return;
@@ -540,54 +543,26 @@ export default class Game {
     $('.play-tiles').on('click', async () => {
       console.log('im pushing play-tiles');
 
-      // TF comments:
-
       // only a valid move if not first move or center is taken
       // this.besideAnotherTile();
       if (!this.notFirstMoveOrCenterIsTaken()) {
+        await Modal.alert('Du måste lägga första ordet så att det korsar mittenrutan!');
         this.render();
         return;
       }
 
-      /////// NEW /////// 
+      if (!this.besideAnotherTile()) {
+        await Modal.alert('Du måste lägga dina ord brevid redan befintliga ord på brädet!');
+        this.render();
+        return;
+      }
 
       this.placePrelTilesOnBoard();
-      // this.render();
-
-      // this.checkNewWordsOnBoard();
-
-      ////// END /////////
-
-      // this.placePrelTilesOnBoard();
-      // this.render();
-
-      console.log('i have clicked on lägg brickor');
-
-      console.log('Changing player index', store.currentPlayer);
-
-      //----johanna
-      // read words on board and push to wordArray[]
-
-      // if (this.wordArray.length > 0) {
-      //   this.countPlayerScore(store.players.indexOf(this.name), this.wordArray);
-      //   // this.countPlayerScore(this.playerIndex, this.wordArray);
-      // }
-      // else {
-      //   await Modal.alert('Ordet du placerade finns inte i SAOL', 'OK');
-      //   return;
-      // }
       this.checkNewWordsInSAOL();
       //----johanna
 
-      store.currentPlayer++;
+
       store.passcounter = 0;
-
-      // this.board = store.board;
-      // this.tilesFromBag = store.tilesFromFile;
-
-      //  this.playerTurn();
-      //  this.render();
-      // this.changeTiles();
     });
 
     // To change tiles, locate what tile wants to be changed and change them to new tiles from bag. 
@@ -667,20 +642,47 @@ export default class Game {
 
     //apend after render so it will appear in .saol element
     let boxForWord = '';
-    for (let obj of this.storeCurrentWords) {
+    for (let obj of store.storeCurrentWords) {
       console.log("appending " + obj.word + "to SAOL window")
       boxForWord = '<div class="boxForWord"><span class="word validWord">' + obj.word + '</span>'
       $('.saol').append(boxForWord)
     }
-
-
   }
 
   // --- johanna (gamla checkNewWordsOnBoard funktionen)
   checkNewWordsOnBoard() {
 
+
+
+    // // First render the tiles on board
+
+    // if (!$('.board').length) {
+    //   $('.playing-window').append(`
+    //     <div class="board"></div>
+    //     <div class="tiles"></div>
+    //   `);
+    // }
+
+    // $('.board').empty();
+
+    // render the board RENDER THE BOARD AFTER EACH PLAYER
+    // $('.board').html(
+    //   this.board.flat().map(x => `
+    //     <div class="${x.special ? 'special-' + x.special : ''}">
+    //     ${x.tile ? `<div class="layertiles tile" >${x.tile[0].char}<div class="points">${x.tile[0].points}</div></div>` : ''}
+    //     </div>
+    //   `).join('')
+    // );
+
+    // // this.showPlayers();
+    // this.showSaolText();
+
+    // this.buttonEvents();
+    // this.addEvents();
+    // // this.changeTiles();
+
+
     console.log('2. --- checkNewWordsOnBoard ---')
-    console.log('this.storeOldWords in the ', this.storeOldWords);
 
     let wordH = [];  //to save  all the infromation on the horisontal 
     let wordV = [];  //to save all the infromation on the vertical 
@@ -688,9 +690,6 @@ export default class Game {
     let c = ''; //temp variable to save this.board[i][j].tile[0].char
     let p = 0;  //temp variable to save this.board[i][j].tile[0].points;
     let s = ''; //temp variableto save this.board[i][j].special
-
-    //console.log('y: ' + y);
-    //console.log('x: ' + x);
 
     // CHECK HORISONTAL
     for (let i = 0; i < this.board.length; i++) {
@@ -745,11 +744,12 @@ export default class Game {
       let points = 0;
       let multiple = 1;
       let position = [];
-      //  let currentPositon = [];
       for (let i = 0; i < wordV.length; i++) {
         if (((i < wordV.length - 1) && (wordV[i].y === wordV[i + 1].y)) || ((i > 0) && (wordV[i].y === wordV[i - 1].y))) {
           word += wordV[i].char;
           position.push({ x: wordV[i].x, y: wordV[i].y });
+          // Changed here. 
+
           if (wordV[i].special && !this.usedSpecialTiles.find(tile => (tile.x === wordV[i].x && tile.y === wordV[i].y))) {
             if ((wordV[i].special) === '2xLS') { points += 2 * wordV[i].points }
             else if ((wordV[i].special) === '3xLS') { points += 3 * wordV[i].points }
@@ -785,7 +785,6 @@ export default class Game {
       let points = 0;
       let multiple = 1;
       let position = [];
-      // let currentPositon = [];
       for (let i = 0; i < wordH.length; i++) {
         if (((i < wordH.length - 1) && (wordH[i].x === wordH[i + 1].x)) || ((i > 0) && (wordH[i].x === wordH[i - 1].x))) {
           word += wordH[i].char;
@@ -816,35 +815,35 @@ export default class Game {
     }
 
 
-
+    console.log("wordArray before pushing new words: ", wordArray)
+    console.log("storeOldWords before pushing new words: ", store.storeOldWords)
+    console.log("storeCurrentWords before pushing new words: ", store.storeCurrentWords)
     //------------------------------
     this.newestWords = []
-    if (this.storeCurrentWords.length > 0) {
+    if (store.storeCurrentWords.length !== undefined && store.storeCurrentWords.length > 0) {
       // Check if a old words exists in the wordsarray
       for (let i = 0; i < wordArray.length; i++) {
-        if (this.storeOldWords.indexOf(wordArray[i].word) !== -1) {
-       // if (this.storeOldWords.find(item => (item.position.x === wordArray[i].position.x && item.position.y === wordArray[i].position.y))) {
+        if (store.storeOldWords.indexOf(wordArray[i].word) !== -1) {
           console.log("old word! ", wordArray[i].word)
+
         } else {
           console.log("new word! ", wordArray[i].word)
           this.newestWords.push(wordArray[i])
         }
       }
-      this.storeCurrentWords = this.newestWords;
+      store.storeCurrentWords = this.newestWords;
     } else {
-      this.storeCurrentWords = wordArray;
+      store.storeCurrentWords = wordArray;
     }
 
-    console.log("wordArray before pushing to storeOldWords: ", this.storeOldWords)
+    store.storeOldWords = [];
     //store all words played in this.storeOldWords string value
     for (let i = 0; i < wordArray.length; i++) {
-      this.storeOldWords.push(wordArray[i].word)
+      store.storeOldWords.push(wordArray[i].word)
     }
-    store.storeOldWords = this.storeOldWords;
-    console.log("storeOldWords: ", this.storeOldWords)
-    //console.log("store.storeOldWords: ", store.storeOldWords)
-    console.log("Checking word array: ", wordArray);
-    console.log("this.storeCurrentWords: ", this.storeCurrentWords);
+
+    console.log("storeOldWords: ", store.storeOldWords)
+    console.log("Checking word array: " + wordArray);
     //------------------------------
   }
 
@@ -889,15 +888,13 @@ export default class Game {
         index++;
       }
       $(`#box0`).append(`
-        <div class="tiles-box empty" data-box="${index}"></div>
+        <div class="tiles-box" data-box="${index}"></div>
       `);
 
-
       $('.blankTile').on('staticClick', async e => {
-
         let me = $(e.currentTarget);
         let index = +me.attr('data-index');
-        let alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖabcdefghijklmnopqrstuvwxyzåäö';
+        let alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖ';
         let pass = false;
         let char = '';
         do {
@@ -908,15 +905,12 @@ export default class Game {
           }
 
           for (let i = 0; i < alphabet.length; i++) {
-
             console.log(char)
             console.log(alphabet.charAt(i))
-
             if (alphabet.charAt(i) == char) {
               console.log(alphabet.charAt(i) + ' is equals to' + char)
               player.tiles[0][index].char = char.toUpperCase();
               pass = true;
-
             }
           }
         }
@@ -928,9 +922,13 @@ export default class Game {
       let boxIndex = 0;
       $('.playertiles').each((i, el) => {
         let $tile = $(el);
+
         let so = $(`.tiles-box[data-box="${boxIndex}"]`).offset(), to = $tile.offset();
+
         let swh = { w: $(`.tiles-box[data-box="${boxIndex}"]`).width(), h: $(`.tiles-box[data-box="${boxIndex}"]`).height() };
+
         let twh = { w: $tile.width(), h: $tile.height() };
+
         let pos = {
           left: so.left - to.left + (swh.w - twh.w) / 2.8,
           top: so.top - to.top + (swh.h - twh.h) / 2.8
@@ -939,11 +937,12 @@ export default class Game {
         boxIndex++;
       });
 
+
+
+
+
     });
 
-    // $('.playertiles').each((i, el) => {
-    //   $(el).css({ top: 0, left: 0 });
-    // });
 
 
   }
@@ -951,14 +950,12 @@ export default class Game {
 
   showPlayerButtons() {
     console.log('Im in showPlayerButtons');
-
     $('.tiles-from-bag').remove();
     $('.play-tiles').remove();
     $('.pass').remove();
     $('.change-tiles').remove();
 
     console.log('The length of the tile bag array from show player buttons', store.tilesFromFile.length);
-
     $('.board').append(
       `
       <p class= "tiles-from-bag">🎁 ${this.tilesFromBag.length}</p>
@@ -968,44 +965,15 @@ export default class Game {
     `);
   }
 
-  // --- johanna
-
-  // async countPlayerScore(playerIndex, wordArray) {
-  //   let currentWordPoints = 0;
-  //   console.log('I am in countPlayerScore, wordArray: ', wordArray);
-  //   console.log('I am in countPlayerScore, player: ', playerIndex);
-  //   for (let i = 0; i < wordArray.length; i++) {
-  //     console.log('I am in countPlayerScore, wordArray[i].word: ', wordArray[i].word);
-  //     if (await SAOLchecker.scrabbleOk(wordArray[i].word)) {
-  //       // currentWordPoints = wordArray[i].points * wordArray[i].multiple;
-  //       currentWordPoints = wordArray[i].totalPoints;
-  //       wordArray[i].scrabbleOk = true;
-  //     }
-  //     else {
-  //       currentWordPoints = 0;
-  //       wordArray[i].scrabbleOk = false;
-  //     }
-  //     console.log('currentWordPoints', currentWordPoints);
-  //     // players[playerIndex - 1].score += currentWordPoints;
-  //     this.players[0].score += currentWordPoints;
-  //     console.log('play.score: ', this.players[playerIndex].score);
-  //   }
-
-  //   this.render();
-  //   //console.log('play.score', player.score);
-  //   // this.wordArrayCommitted = wordArray.filter(x => x.scrabbleOk === true);
-  //   // console.log('I am in countPlayerScore wordArray committed', this.wordArrayCommitted);
-  // }
   async countPlayerScore() {
 
     console.log('4. --- countPLayerScore() ---')
     console.log('player index: ' + store.currentPlayer)
 
     let currentWordPoints = 0;
-    console.log('I am in countPlayerScore, wordArray: ', this.storeCurrentWords);
-    for (let i = 0; i < this.storeCurrentWords.length; i++) {
-      currentWordPoints = this.storeCurrentWords[i].points * this.storeCurrentWords[i].multiple;
-      console.log("get point for: " + this.storeCurrentWords[i].word)
+    for (let i = 0; i < store.storeCurrentWords.length; i++) {
+      currentWordPoints = store.storeCurrentWords[i].points * store.storeCurrentWords[i].multiple;
+      console.log("word: " + store.storeCurrentWords[i].word + ", point: " + currentWordPoints)
       this.players[0].score += currentWordPoints;
     }
     console.log('currentWordPoints', currentWordPoints);
@@ -1017,31 +985,8 @@ export default class Game {
 
     ////// NEW ADDED this. ///////
     // players[store.currentPlayer].score += currentWordPoints;
-    //this.players[0].score += currentWordPoints;
+    // this.players[0].score += currentWordPoints;
     ////// END //////
   }
-  // --- johanna
 
-
-
-  // async showWordWithList(wordsInArray) {
-  //   console.log('------I am in showWordWithList()-----');
-  //   $('.playing-window').append(`< section class= "wordList" > <h3>Ord Listor</h3>
-  //    <table><tr><th>Ord</th><th>ok in Scrabble</th><th>poäng</th></tr>
-  //    `)
-  //   for (let item of wordsInArray) {
-  //     if (await SAOLchecker.scrabbleOk(item.word)) {
-  //       item.scrabbleOk = true;
-  //     }
-  //     else {
-  //       item.scrabbleOk = false;
-  //       item.totalPoints = 0;
-  //     }
-  //     $(`.wordList`).append(`<span class="word">
-  //     <tr><td>${item.word}</td></tr><tr><td>${item.scrabbleOk}</td></tr><tr><td>${item.totalPoints}</td></tr>
-  //     `)
-  //   }
-
-
-  // }
 }

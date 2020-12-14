@@ -15,6 +15,9 @@ export default class Network {
     localStorage.clear();
     this.localStore = Store.getLocalStore();
     // this.tilesFromBag = tilesFromBag;
+
+
+
     // this.start();
   }
 
@@ -53,8 +56,9 @@ export default class Network {
 
     // We want the network to listen for which players connecting to the same game (same game key)
     s.players = s.players || [];
-    s.score = s.score || [];
+
     s.storeOldWords = s.storeOldWords || [];
+    s.storeCurrentWords = s.storeCurrentWords || [];
 
     s.currentPlayer = 0;
 
@@ -79,10 +83,7 @@ export default class Network {
 
 
     // Add my name to s.players array
-
-    // ÄNDRA DENNA
     s.players.push(name);
-    s.score.push(0);
     console.log('my name is ' + name);
     console.log(s.players);
 
@@ -158,7 +159,11 @@ export default class Network {
       // game.playerTurn();
       game.board = s.board;
       game.tilesFromBag = s.tilesFromFile;
-      // game.storeOldWords = s.storeOldWords;
+      game.storeOldWords = s.storeOldWords;
+      game.storeCurrentWords = s.storeCurrentWords;
+
+
+
       game.render();
     }
 
