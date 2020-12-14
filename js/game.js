@@ -124,7 +124,7 @@ export default class Game {
     this.getTiles();
 
     this.board = store.board;
-    this.storeOldWords = store.storeOldWords;
+    // this.storeOldWords = store.storeOldWords;
     // this.positionHasCounted = store.positionHasCounted;
 
 
@@ -878,9 +878,9 @@ export default class Game {
     for (let i = 0; i < wordArray.length; i++) {
       this.storeOldWords.push(wordArray[i].word)
     }
-    store.storeOldWords = this.storeOldWords;
+    //  store.storeOldWords = this.storeOldWords;
     console.log("storeOldWords: ", this.storeOldWords)
-    console.log("store.storeOldWords: ", store.storeOldWords)
+    //console.log("store.storeOldWords: ", store.storeOldWords)
     console.log("Checking word array: ", wordArray);
     console.log("this.storeCurrentWords: ", this.storeCurrentWords);
     //------------------------------
