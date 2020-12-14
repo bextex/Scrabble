@@ -276,186 +276,21 @@ export default class Game {
           let bottom = top + $stand.height();
           let right = left + $stand.width();
 
-          // console.log('the stands width', $stand.width());
-
-          // console.log('How wide is 8 tile box squares?', (8 * $tileBoxSquare.width()));
-
-          // console.log('What is page X', pageX);
-          // console.log('Whats is left?', left);
-          // console.log('what is the stand width?', $stand.width());
-          // console.log('What is pageX minus left?', (pageX - left));
-          // console.log('pagex-left / stand.width', ((pageX - left) / $stand.width()));
-
 
           if (pageX > left && pageX < right
             && pageY > top && pageY > bottom) {
 
             console.log('------ IM DROPPING THE TILE IN THE PLAYER RACK ------');
 
-            // 1. WHAT IS THE NEW BOX INDEX?
+            // 1. What is the new box index?
             let newBoxIndex = Math.floor(8 * (pageX - left) / $stand.width());
             console.log('Im dropping the tile on the NEW index', newBoxIndex);
             let $newBoxSquare = $(`.tiles-box[data-box="${newBoxIndex}"]`);
 
-
-            // console.log('Is the new index EMPTY?', $(`.tiles-box[data-box="${newBoxIndex}"]`).hasClass('empty'));
-
-            // console.log('Is the old box square the same as the new one?', $newBoxSquare === $tileBoxSquare)
-
-
-
-            ///////////// TESTING CODE //////////////
-
-            // 2. DOES THE NEW BOX HAVE THE CLASS 'EMPTY'?
-
-            // if ($(`.tiles-box[data-box="${newBoxIndex}"]`).hasClass('empty')) {
-
-            //   console.log('--------- IM IN IF SATS IF THE BOX HAS THE CLASS EMPTY --------');
-
-            // console.log('I am the TILE', $tile);
-
-            // let $tileElement = $tile.data().draggabilly.element;
-
-            // console.log('I am the tile ELEMENT', $tileElement);
-
-
-
-            // $(`.tiles-box[data-box="${newBoxIndex}"]`).append($tile);
-            // $(`.tiles-box[data-box="${tileBoxSquareIndex}"]`).empty();
-
-            // let so = $newBoxSquare.offset(), to = $tile.offset();
-            // let swh = { w: $newBoxSquare.width(), h: $newBoxSquare.height() };
-            // let twh = { w: $tile.width(), h: $tile.height() };
-            // let pos = {
-            //   left: so.left - to.left + (swh.w - twh.w) / 2.8,
-            //   top: so.top - to.top + (swh.h - twh.h) / 2.8
-            // };
-            // $tile.css(pos);
-
-            // 3. CSS THE BRICK TO ITS NEW BOX 
-
-            // console.log('What is the new box square?', $newBoxSquare);
-
-            // let so = $newBoxSquare.offset(), to = $tile.offset();
-            // let swh = { w: $newBoxSquare.width(), h: $newBoxSquare.height() };
-            // let twh = { w: $tile.width(), h: $tile.height() };
-            // let pos = {
-            //   left: so.left - to.left + (swh.w - twh.w) / 2.8,
-            //   top: so.top - to.top + (swh.h - twh.h) / 2.8
-            // };
-            // $tile.css(pos);
-
-            // console.log('The new box squares OFFSET', so);
-            // console.log('The tiles OFFSET', to);
-            // console.log('-----------');
-            // console.log('The WIDTH and HEIGHT of the new box', swh);
-            // console.log('The WIDTH and the HEIGHT of the tile', twh);
-            // console.log('-----------');
-            // console.log('The NEW position of the tile', pos);
-
-
-            // console.log('what is the tiles NEW position?', pos);
-
-            // console.log('what IS THE OLD BOX`s INDEX?', this.oldBoxIndex);
-
-            //       if (this.oldBoxIndex === undefined) {
-
-            //         // 4. IF THE OLD BOX IS UNDEFINED SET IT TO THE FIRST BRICKS ORIGINAL LOCATION
-            //         // this.oldBoxIndex = tileBoxSquareIndex;
-            //         // 4.1 ADD CLASS TO THE NOW EMPTY BOX
-            //         console.log('what is the tile box square?', tileBoxSquareIndex);
-            //         $(`.tiles-box[data-box="${tileBoxSquareIndex}"]`).addClass('empty');
-            //         // 4.2 REMOVE CLASS TO THE NOW NOT EMPTY BOX
-            //         $(`.tiles-box[data-box="${newBoxIndex}"]`).removeClass('empty');
-            //         this.oldBoxIndex = newBoxIndex;
-            //         console.log('The new index inside undefined old box', newBoxIndex);
-            //         console.log('what IS THE OLD BOX`s INDEX after undefined?', this.oldBoxIndex);
-            //       } else {
-
-            //         // 5. IF THE OLDBOXINDEX HAS A VALUE THEN THAT VALUE IS NOW THE BOX WHO SHOULD BE EMPTIED
-            //         $('#box0 > div').each((el) => {
-            //           // console.log('What is el without jQuery', el);
-            //           // let $boxIndex = $(el);
-            //           // console.log('Who am I?', $boxIndex);
-            //           // console.log('I am in the tiles box loop');
-            //           // console.log('Does I have the class empty?', $(`.tiles-box[data-box="${el}"]`).hasClass('empty'));
-
-            //           // 5.1 WHICH BOX IS CURRENTLY EMPTY?
-            //           if ($(`.tiles-box[data-box="${el}"]`).hasClass('empty')) {
-            //             console.log('This tileBox has the class empty', $(`.tiles-box[data-box="${el}"]`));
-            //             // (`.tiles-box[data-box="${el}"]`).removeClass('empty');
-            //             // this.oldBoxIndex = el;
-
-            //             // 5.2 IF THE BOX IS CURRENTLY EMPTY, ADD CLASS 'EMPTY' FROM THE OLD BOX (THE BOX THE TILE CAME FROM)
-            //             $(`.tiles-box[data-box="${this.oldBoxIndex}"]`).addClass('empty');
-
-            //             // 5.3 REMOVE THE CLASS FROM THE BOX THAT WAS EMPTY
-            //             $(`.tiles-box[data-box="${el}"]`).removeClass('empty');
-
-            //             // AND SET THE OLD BOX INDEX TO THE NOW CURRENT BOX THAT THE BRICK IS IN
-            //             this.oldBoxIndex = el;
-            //             return;
-            //           }
-
-            //         });
-            //         console.log('what IS THE OLD BOX`s INDEX when no longer undefined?', this.oldBoxIndex);
-            //       }
-
-
-
-
-
-            //       // if (this.oldBoxIndex === undefined) {
-            //       //   this.oldBoxIndex = tileBoxSquareIndex;
-            //       // } else {
-            //       //   this.oldBoxIndex = newBoxIndex;
-            //       // }
-
-            //       // $(`.tiles-box[data-box="${this.oldBoxIndex}"]`).addClass('empty');
-            //       // $(`.tiles-box[data-box="${newBoxIndex}"]`).removeClass('empty');
-
-
-
-
-
-
-
-            //     }
-
-            //     // } else {
-            //     //   // Added render the tiles when putting tiles back from board to players tiles board
-            //     //   let so = $tileBoxSquare.offset(), to = $tile.offset();
-            //     //   let swh = { w: $tileBoxSquare.width(), h: $tileBoxSquare.height() };
-            //     //   let twh = { w: $tile.width(), h: $tile.height() };
-            //     //   let pos = {
-            //     //     left: so.left - to.left + (swh.w - twh.w) / 2.8,
-            //     //     top: so.top - to.top + (swh.h - twh.h) / 2.8
-            //     //   };
-            //     //   $tile.css(pos);
-            //     // }
-            //   }
-
-            //   // $('.playertiles').each((i, el) => {
-            //   //   if ($tile.is($(el))) {
-            //   //     $(el).css({ top: 0, left: 0 });
-            //   //   }
-            //   // });
-
-            //   return;
-            // }
-
-
-
-
-
-            ////////////////// END ///////////////////
-
-
-
-
-
+            // 2. Is the new box empty?
             if (!$(`.tiles-box[data-box="${newBoxIndex}"] > div`).length) {
 
+              // 3. Add the tile to the new box and remove it from the old position
               $(`.tiles-box[data-box="${newBoxIndex}"]`).append($tile);
               $(`.tiles-box[data-box="${tileBoxSquareIndex}"]`).empty();
 
@@ -468,9 +303,7 @@ export default class Game {
               };
               $tile.css(pos);
 
-              //////////// CHANGE IN THE THIS.TILES ARRAY /////////////
-
-
+              // 4. Re-arrange the array so it matches to order on the player rack, by empty the array and push it back in the order it is on the rack (only if tiles-box is not empty)
               that.tiles[0] = [];
               console.log('Is the tile empty?', that.tiles[0].length);
 
@@ -484,24 +317,14 @@ export default class Game {
                   } else {
                     points = tile[1];
                   }
-
                   that.tiles[0].push({ char: letter, points: points });
-
-
-                  console.log('What is the tile', tile);
-                  console.log('What is the letter', letter);
-                  console.log('What is the point', points);
-
-                  console.log('This new tiles array', that.tiles);
                 }
 
+                // If the stile on player rack is weird, remove this
                 // if ($tile.is($(el))) {
                 //   $(el).removeAttr('style');
                 // }
               });
-
-
-
             } else {
               // Added render the tiles when putting tiles back from board to players tiles board
               let so = $tileBoxSquare.offset(), to = $tile.offset();
@@ -514,11 +337,6 @@ export default class Game {
               $tile.css(pos);
             }
           }
-
-          // If there has been a change, then re-make the this.tiles array to match where it lays
-          // First empty the array, to then push it back in the right order
-
-
           return;
         }
 
@@ -527,10 +345,7 @@ export default class Game {
         $tile.data().prelBoardPos = { y, x };
         that.alignPrelTilesWithSquares();
         // that.placePrelTilesOnBoard();
-
-
       });
-
   }
 
   // added by TF
@@ -558,33 +373,15 @@ export default class Game {
     console.log('----- IM IN PLACE PREL TILES ON BOARD -----');
     $('.playertiles').each((i, el) => {
       let $tile = $(el);
-      // console.log('tile from place prel on board', $tile.data());
-      // let $tileElement = $tile.data().draggabilly.element;
-      // console.log('What is the tile element?', $tileElement);
       let p = $tile.data().prelBoardPos;
       if (!p) { return; }
-      let tileIndex = $('#box0 > div > div').indexOf($tile);
-      // $('.tiles-box').each((i, el) => {
-      //   let $boxElement = $(el);
-      //   console.log('WHO IS boxelement?', $boxElement);
-      //   // console.log('What child does the div have?', $boxElement.children);
-      //   console.log('What is i?', i);
-      //   let $boxElementsChildren = $boxElement.children();
-      //   let $boxElementChild = $boxElementsChildren[0];
-      //   console.log('THe boxElements CHILD', $boxElementChild);
-      //   console.log('IS boxelements child the same as $tileElement?', $boxElementChild === $tileElement);
-      //   if ($boxElementChild === $tileElement) {
-      //     tileIndex = i;
-      //   }
-      // });
-      // console.log('What is tileIndex AFTER loop?', tileIndex);
+      let tileIndex = $(`#box0 > div > div`).index($tile);
       let tile = this.tiles[0][tileIndex];
       tile.onBoard = true;
       this.board[p.y][p.x].tile = [tile];
-      this.checkNewWordsOnBoard();
+      this.checkNewWordsOnBoard(p.y, p.x);
     });
     this.tiles[0] = this.tiles[0].filter(x => !x.onBoard);
-    console.log('this tiles array in place prel on board', this.tiles[0]);
   }
 
   // added by TF
