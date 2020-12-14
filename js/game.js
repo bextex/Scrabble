@@ -29,12 +29,11 @@ export default class Game {
     console.log('game starting');
     //----johanna
     this.storeCurrentWords = [];
-    // this.storeOldWords = [];
+    //this.storeOldWords = [];
     this.newestWords = [];
     // special-rutan
     this.usedSpecialTiles = [];
     //----johanna
-    //  this.positionHasCounted = []; //this array to save the position on the board that has counted extra points.
     this.players = [];
     this.boxIndex;
 
@@ -124,8 +123,7 @@ export default class Game {
     this.getTiles();
 
     this.board = store.board;
-    // this.storeOldWords = store.storeOldWords;
-    // this.positionHasCounted = store.positionHasCounted;
+    this.storeOldWords = store.storeOldWords;
 
 
     this.name = playerName;
@@ -825,6 +823,7 @@ export default class Game {
       // Check if a old words exists in the wordsarray
       for (let i = 0; i < wordArray.length; i++) {
         if (this.storeOldWords.indexOf(wordArray[i].word) !== -1) {
+       // if (this.storeOldWords.find(item => (item.position.x === wordArray[i].position.x && item.position.y === wordArray[i].position.y))) {
           console.log("old word! ", wordArray[i].word)
         } else {
           console.log("new word! ", wordArray[i].word)
@@ -841,7 +840,7 @@ export default class Game {
     for (let i = 0; i < wordArray.length; i++) {
       this.storeOldWords.push(wordArray[i].word)
     }
-    //  store.storeOldWords = this.storeOldWords;
+    store.storeOldWords = this.storeOldWords;
     console.log("storeOldWords: ", this.storeOldWords)
     //console.log("store.storeOldWords: ", store.storeOldWords)
     console.log("Checking word array: ", wordArray);
@@ -1010,6 +1009,10 @@ export default class Game {
       this.players[0].score += currentWordPoints;
     }
     console.log('currentWordPoints', currentWordPoints);
+    if (this.tiles[0].length === 0) {
+      this.players[0].score += 50;
+    }
+    console.log('this.players[0].score', this.players[0].score);
     // this.render();
 
     ////// NEW ADDED this. ///////
