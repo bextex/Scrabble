@@ -376,6 +376,35 @@ export default class Game {
     return !isFirstMove || centerIsTaken;
   }
 
+  besideAnotherTile() {
+    // !!([...$('.playertiles')].find(playertile =>
+    console.log('-------- IM IN BESIDE ANOTHER TILE -------');
+    let isBesideAnotherTile = $('.playertiles').each((el) => {
+      console.log('What is el', el);
+      console.log('What is el in jquery', $(el));
+      console.log('What is the els data', $(el).data());
+      let p = $(el).data().prelBoardPos;
+      console.log('what is p in beside another tile', p);
+      // p är [y][x]
+      let y = p.y;
+      let x = p.x;
+      console.log('What is x and y here', y, x);
+      if ((y === 0 && x === 0 && !this.board[y + 1][x].tile && !this.board[y][x + 1].tile)
+        || (x === 0 && y > 0 && y < 14 && !this.board[y - 1][x].tile && !this.board[y + 1][x].tile && !this.board[y][x + 1].tile)
+        || (x === 14 && y === 0 && !this.board[y][x - 1].tile && !this.board[y + 1][x].tile)
+        || (x === 14 && y > 0 && y < 14 && !this.board[y - 1][x].tile && !this.board[y - 1][x].tile && !this.board[y][x - 1].tile)
+        || (x === 14 && y === 14 && !this.board[y - 1][x].tile && !this.board[y][x - 1].tile)
+        || (y === 14 && x > 0 && x < 14 && !this.board[y][x + 1].tile && !this.board[y][x - 1].tile && !this.board[y - 1][x].tile)
+        || (y === 14 && x === 0 && !this.board[y - 1][x].tile && !this.board[y][x + 1].tile)
+        || (y === 0 && x > 0 && x < 14 && !this.board[y][x - 1].tile && !this.board[y][x + 1].tile && !this.board[y + 1][x].tile)
+        || (x > 0 && x < 14 && y > 0 && y < 14 && !this.board[y - 1][x].tile && !this.board[y + 1][x].tile && !this.board[y][x + 1].tile && !this.board[y][x - 1].tile)) {
+        this.render();
+        return;
+      }
+    });
+    console.log('besideAnotherTile', isBesideAnotherTile);
+  }
+
   render() {
     console.log('jag renderar');
 
@@ -429,14 +458,11 @@ export default class Game {
 
   changeTiles() {
     console.log('Im in changeTiles()');
-
     $('.change-tiles').prop('disabled', true);
     // When double-clicking on the tiles do this function
     $('.playertiles').not('.none').dblclick(async function () {
       // If the player has played a tile then they cannot change any tiles the same round
-
       let stop = false;
-
       $('.playertiles').each((i, el) => {
         let $tile = $(el);
         let p = $tile.data().prelBoardPos;
@@ -445,7 +471,6 @@ export default class Game {
           return;
         }
       });
-
       if (stop) {
         await Modal.alert('Du kan inte byta brickor när du har lagt brickor på brädet! Lägg tillbaka dem och försök igen!');
         return;
@@ -511,6 +536,13 @@ export default class Game {
       // only a valid move if not first move or center is taken
       // this.besideAnotherTile();
       if (!this.notFirstMoveOrCenterIsTaken()) {
+        await Modal.alert('Du måste lägga första ordet så att det korsar mittenrutan!');
+        this.render();
+        return;
+      }
+      this.besideAnotherTile();
+      if (!this.besideAnotherTile) {
+        await Modal.alert('Du måste lägga dina ord brevid redan befintliga ord på brädet!');
         this.render();
         return;
       }
@@ -759,7 +791,7 @@ export default class Game {
 
     // this.storeOldWords = [];
     console.log("wordArray before pushing to storeOldWords: ", this.storeOldWords)
-    //store all words played in this.storeOldWords string value
+    // store all words played in this.storeOldWords string value
     for (let i = 0; i < wordArray.length; i++) {
       this.storeOldWords.push(wordArray[i].word)
     }
