@@ -62,11 +62,12 @@ export default class Game {
     console.log("none: " + none)
     //if all words in wordsArray are ok in Scrabble
     if (all && !none) {
+      console.log('This is the current player index', store.currentPlayer);
       this.countPlayerScore(this.playerIndex);
       this.nextPlayer();
       console.log("end of round this.storeCurrentWords: ", this.storeCurrentWords)
       //console.log("end of round this.wordArrayCommitted", this.wordArrayCommitted)
-    } else if (!all && none) {
+    } else {
       console.log('--------Not approved word, will remove it from board-------');
       await Modal.alert('Du har ogiltiga ord på brädet!');
       this.removeTilesFromBoard();
@@ -561,7 +562,7 @@ export default class Game {
 
       console.log('i have clicked on lägg brickor');
 
-      console.log('Changing player index', store.currentPlayer);
+      // console.log('Changing player index', store.currentPlayer);
 
       //----johanna
       // read words on board and push to wordArray[]
@@ -577,7 +578,7 @@ export default class Game {
       this.checkNewWordsInSAOL();
       //----johanna
 
-      store.currentPlayer++;
+      // store.currentPlayer++;
       store.passcounter = 0;
 
       // this.board = store.board;
