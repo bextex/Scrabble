@@ -136,6 +136,11 @@ export default class Game {
 
   endGame() {
     console.log('Sending player to score screen...')
+    for (let i = 0; i < store.players.length; i++) {
+      if (store.players[i] === this.player) {
+        store.score[i] = this.players[0].score;
+      }
+    }
     $('.playing-window').hide()
 
     $('.score-screen-container').append(`
@@ -152,7 +157,7 @@ export default class Game {
       //store.players[i].score = this.players[i].score
       $('.player-table-inner').append(`
         <div class="scoreboard-players"> 
-        <p class="scoreboard-players-text"> [${i}] ${store.players[i].score} ${store.players[i]}</p>
+        <p class="scoreboard-players-text"> [${i}] ${store.score[i]} ${store.players[i]}</p>
         
         </div>
         `);
