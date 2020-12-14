@@ -835,13 +835,15 @@ export default class Game {
           //  console.log('calculateCondition1', calculateCondition1);
 
           // if ((wordH[i].special) && (this.positionHasCounted.indexOf(currentPositon[0].position) === -1)) {
-          if (wordH[i].special) {
+          if (wordH[i].special && !this.usedSpecialTiles.find(tile => (tile.x === wordH[i].x && tile.y === wordH[i].y))) {
             if ((wordH[i].special) === '2xLS') { points += 2 * wordH[i].points; }
             else if ((wordH[i].special) === '3xLS') { points += 3 * wordH[i].points }
             else if ((wordH[i].special) === '2xLW') { multiple *= 2; points += wordH[i].points; }
             else if ((wordH[i].special) === '3xLW') { multiple *= 3; points += wordH[i].points; }
             else if ((wordH[i].special) === 'middle-star') { multiple *= 2; points += wordH[i].points; }
             else points += wordH[i].points;
+            // Memorerar redan använd special-rutan
+            this.usedSpecialTiles.push({ x: wordH[i].x, y: wordH[i].y });
           }
           else {
             points += wordH[i].points;
