@@ -545,6 +545,9 @@ export default class Game {
 
       this.placePrelTilesOnBoard();
       this.checkNewWordsInSAOL();
+      //----johanna
+
+
       store.passcounter = 0;
     });
 
