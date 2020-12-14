@@ -36,6 +36,7 @@ export default class Game {
     //----johanna
     //  this.positionHasCounted = []; //this array to save the position on the board that has counted extra points.
     this.players = [];
+    this.boxIndex;
 
   }
 
@@ -106,6 +107,10 @@ export default class Game {
         $tile.css({ top: '', left: '' });
       }
     });
+
+    // $('.playertiles').each((i, el) => {
+    //   $(el).css({ top: 0, left: 0 });
+    // });
   }
 
 
@@ -257,12 +262,9 @@ export default class Game {
       .on('dragMove', e => this.alignPrelTilesWithSquares())
       .on('dragEnd', function (e, pointer) {
 
-        console.log('im in drag end');
-
         // get the tile and the dropZone square
         let $tile = $(e.currentTarget);
-        console.log('data från dagend', $tile.data());
-
+        console.log('current target data in dragend', $tile);
         let $dropZone = $('.hover');
 
         // the index of the square we are hovering over
@@ -280,7 +282,7 @@ export default class Game {
           console.log('---- IF THERE IS NO DROPZONE ------');
 
           let { pageX, pageY } = pointer;
-          let tileIndex = +$tile.attr('data-index');
+          // let tileIndex = +$tile.attr('data-index');
           let $tileBoxSquare = $tile.parent('.tiles-box');
           let tileBoxSquareIndex = +$tileBoxSquare.attr('data-box');
           let $stand = $('#box0');
@@ -288,26 +290,21 @@ export default class Game {
           let bottom = top + $stand.height();
           let right = left + $stand.width();
 
-          console.log('the stands width', $stand.width());
-
-          console.log('How wide is 8 tile box squares?', (8 * $tileBoxSquare.width()));
-
 
           if (pageX > left && pageX < right
             && pageY > top && pageY > bottom) {
 
             console.log('------ IM DROPPING THE TILE IN THE PLAYER RACK ------');
 
+            // 1. What is the new box index?
             let newBoxIndex = Math.floor(8 * (pageX - left) / $stand.width());
             console.log('Im dropping the tile on the NEW index', newBoxIndex);
-
-
             let $newBoxSquare = $(`.tiles-box[data-box="${newBoxIndex}"]`);
 
-            console.log('Is there any tile on this new index?', $(`.tiles-box[data-box="${newBoxIndex}"] > div`).length);
-
+            // 2. Is the new box empty?
             if (!$(`.tiles-box[data-box="${newBoxIndex}"] > div`).length) {
 
+              // 3. Add the tile to the new box and remove it from the old position
               $(`.tiles-box[data-box="${newBoxIndex}"]`).append($tile);
               $(`.tiles-box[data-box="${tileBoxSquareIndex}"]`).empty();
 
@@ -320,6 +317,28 @@ export default class Game {
               };
               $tile.css(pos);
 
+              // 4. Re-arrange the array so it matches to order on the player rack, by empty the array and push it back in the order it is on the rack (only if tiles-box is not empty)
+              that.tiles[0] = [];
+              console.log('Is the tile empty?', that.tiles[0].length);
+
+              $('.tiles-box').each((i, el) => {
+                if ($(`.tiles-box[data-box="${i}"] > div`).length) {
+                  let tile = $(`.tiles-box[data-box="${i}"] > div`).text();
+                  let letter = tile[0];
+                  let points;
+                  if (tile.length > 2) {
+                    points = tile[1] + tile[2];
+                  } else {
+                    points = tile[1];
+                  }
+                  that.tiles[0].push({ char: letter, points: points });
+                }
+
+                // If the stile on player rack is weird, remove this
+                // if ($tile.is($(el))) {
+                //   $(el).removeAttr('style');
+                // }
+              });
             } else {
               // Added render the tiles when putting tiles back from board to players tiles board
               let so = $tileBoxSquare.offset(), to = $tile.offset();
@@ -335,20 +354,12 @@ export default class Game {
           return;
         }
 
-
-        /////////// NEW ///////////
-        // $($tile).addClass('tile');
-
-        ////////// END //////////
-
         // store the preliminary board position with the tile div
         // (jQuery can add data to any element)
         $tile.data().prelBoardPos = { y, x };
         that.alignPrelTilesWithSquares();
         // that.placePrelTilesOnBoard();
-
-      })
-
+      });
   }
 
   // added by TF
@@ -373,10 +384,9 @@ export default class Game {
 
   // added by TF
   placePrelTilesOnBoard() {
-    console.log('im in place prel on board');
+    console.log('----- IM IN PLACE PREL TILES ON BOARD -----');
     $('.playertiles').each((i, el) => {
       let $tile = $(el);
-      console.log('tile from place prel on board', $tile.data());
       let p = $tile.data().prelBoardPos;
       if (!p) { return; }
       let tileIndex = $(`#box0 > div > div`).index($tile);
@@ -386,7 +396,6 @@ export default class Game {
     });
     this.checkNewWordsOnBoard();
     this.tiles[0] = this.tiles[0].filter(x => !x.onBoard);
-    console.log('this tiles array in place prel on board', this.tiles[0]);
   }
 
   // added by TF
@@ -502,7 +511,6 @@ export default class Game {
       $('.playertiles').each((i, el) => {
         let $tile = $(el);
         let p = $tile.data().prelBoardPos;
-        console.log('what is p in change tiles', p);
         if (p) {
           stop = true;
           return;
@@ -921,7 +929,7 @@ export default class Game {
         index++;
       }
       $(`#box0`).append(`
-        <div class="tiles-box" data-box="${index}"></div>
+        <div class="tiles-box empty" data-box="${index}"></div>
       `);
 
 
@@ -960,13 +968,9 @@ export default class Game {
       let boxIndex = 0;
       $('.playertiles').each((i, el) => {
         let $tile = $(el);
-
         let so = $(`.tiles-box[data-box="${boxIndex}"]`).offset(), to = $tile.offset();
-
         let swh = { w: $(`.tiles-box[data-box="${boxIndex}"]`).width(), h: $(`.tiles-box[data-box="${boxIndex}"]`).height() };
-
         let twh = { w: $tile.width(), h: $tile.height() };
-
         let pos = {
           left: so.left - to.left + (swh.w - twh.w) / 2.8,
           top: so.top - to.top + (swh.h - twh.h) / 2.8
@@ -975,12 +979,11 @@ export default class Game {
         boxIndex++;
       });
 
-
-
-
-
     });
 
+    // $('.playertiles').each((i, el) => {
+    //   $(el).css({ top: 0, left: 0 });
+    // });
 
 
   }

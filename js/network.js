@@ -83,6 +83,8 @@ export default class Network {
 
 
     // Add my name to s.players array
+
+    // ÄNDRA DENNA
     s.players.push(name);
     s.score.push(0);
     console.log('my name is ' + name);
