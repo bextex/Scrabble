@@ -749,7 +749,6 @@ export default class Game {
           word += wordV[i].char;
           position.push({ x: wordV[i].x, y: wordV[i].y });
           // Changed here. 
-
           if (wordV[i].special && !this.usedSpecialTiles.find(tile => (tile.x === wordV[i].x && tile.y === wordV[i].y))) {
             if ((wordV[i].special) === '2xLS') { points += 2 * wordV[i].points }
             else if ((wordV[i].special) === '3xLS') { points += 3 * wordV[i].points }
