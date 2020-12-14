@@ -31,6 +31,8 @@ export default class Game {
     this.storeCurrentWords = [];
     // this.storeOldWords = [];
     this.newestWords = [];
+    // special-rutan
+    this.usedSpecialTiles = [];
     //----johanna
     //  this.positionHasCounted = []; //this array to save the position on the board that has counted extra points.
     this.players = [];
@@ -140,6 +142,11 @@ export default class Game {
 
   endGame() {
     console.log('Sending player to score screen...')
+    for (let i = 0; i < store.players.length; i++) {
+      if (store.players[i] === this.player) {
+        store.score[i] = this.players[0].score;
+      }
+    }
     $('.playing-window').hide()
 
     $('.score-screen-container').append(`
@@ -156,7 +163,7 @@ export default class Game {
       //store.players[i].score = this.players[i].score
       $('.player-table-inner').append(`
         <div class="scoreboard-players"> 
-        <p class="scoreboard-players-text"> [${i}] ${store.players[i].score} ${store.players[i]}</p>
+        <p class="scoreboard-players-text"> [${i}] ${store.score[i]} ${store.players[i]}</p>
         
         </div>
         `);
@@ -319,8 +326,8 @@ export default class Game {
               let swh = { w: $tileBoxSquare.width(), h: $tileBoxSquare.height() };
               let twh = { w: $tile.width(), h: $tile.height() };
               let pos = {
-                left: so.left - to.left + (swh.w - twh.w) / 2.8,
-                top: so.top - to.top + (swh.h - twh.h) / 2.8
+                left: so.left - to.left + (swh.w - twh.w) / 2.5,
+                top: so.top - to.top + (swh.h - twh.h) / 2.5
               };
               $tile.css(pos);
             }
@@ -357,8 +364,8 @@ export default class Game {
       let swh = { w: $square.width(), h: $square.height() };
       let twh = { w: $tile.width(), h: $tile.height() };
       let pos = {
-        left: so.left - to.left + (swh.w - twh.w) / 2.8,
-        top: so.top - to.top + (swh.h - twh.h) / 2.8
+        left: so.left - to.left + (swh.w - twh.w) / 6,
+        top: so.top - to.top + (swh.h - twh.h) / 6
       };
       $tile.css(pos);
     });
@@ -703,36 +710,6 @@ export default class Game {
   // --- johanna (gamla checkNewWordsOnBoard funktionen)
   checkNewWordsOnBoard() {
 
-
-
-    // // First render the tiles on board
-
-    // if (!$('.board').length) {
-    //   $('.playing-window').append(`
-    //     <div class="board"></div>
-    //     <div class="tiles"></div>
-    //   `);
-    // }
-
-    // $('.board').empty();
-
-    // render the board RENDER THE BOARD AFTER EACH PLAYER
-    // $('.board').html(
-    //   this.board.flat().map(x => `
-    //     <div class="${x.special ? 'special-' + x.special : ''}">
-    //     ${x.tile ? `<div class="layertiles tile" >${x.tile[0].char}<div class="points">${x.tile[0].points}</div></div>` : ''}
-    //     </div>
-    //   `).join('')
-    // );
-
-    // // this.showPlayers();
-    // this.showSaolText();
-
-    // this.buttonEvents();
-    // this.addEvents();
-    // // this.changeTiles();
-
-
     console.log('2. --- checkNewWordsOnBoard ---')
     console.log('this.storeOldWords in the ', this.storeOldWords);
 
@@ -807,20 +784,17 @@ export default class Game {
           // currentPositon.push({ position: ({ x: wordV[i].x, y: wordV[i].y }) });
           // position.push(currentPositon);
           position.push({ x: wordV[i].x, y: wordV[i].y });
-          //console.log('this.positionHasCounted.indexOf(currentPositon)', this.positionHasCounted.indexOf(currentPositon[0].position))
-          //let calculateCondition = ((wordV[i].special) && (this.positionHasCounted.indexOf(currentPositon[0].position) === -1));
-          // console.log('this.positionHasCounted', this.positionHasCounted);
-          // console.log('currentPositon', currentPositon);
-          //  console.log('calculateCondition', calculateCondition);
-          // if ((wordV[i].special) && (this.positionHasCounted.indexOf(currentPositon[0].position) === -1)) {
-
-          if (wordV[i].special) {
+          if (wordV[i].special && !this.usedSpecialTiles.find(tile => (tile.x === wordV[i].x && tile.y === wordV[i].y))) {
             if ((wordV[i].special) === '2xLS') { points += 2 * wordV[i].points }
             else if ((wordV[i].special) === '3xLS') { points += 3 * wordV[i].points }
             else if ((wordV[i].special) === '2xLW') { multiple *= 2; points += wordV[i].points; }
             else if ((wordV[i].special) === '3xLW') { multiple *= 3; points += wordV[i].points; }
             else if ((wordV[i].special) === 'middle-star') { multiple *= 2; points += wordV[i].points; }
             else points += wordV[i].points;
+
+            // Memorerar redan använd special-rutan
+            this.usedSpecialTiles.push({ x: wordV[i].x, y: wordV[i].y });
+
           }
           else {
             points += wordV[i].points;
