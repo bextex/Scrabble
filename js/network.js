@@ -57,6 +57,9 @@ export default class Network {
     // We want the network to listen for which players connecting to the same game (same game key)
     s.players = s.players || [];
 
+    s.storeOldWords = s.storeOldWords || [];
+    s.storeCurrentWords = s.storeCurrentWords || [];
+
     s.currentPlayer = 0;
 
     s.tilesFromFile = s.tilesFromFile || this.tilesFromFile;
@@ -157,6 +160,7 @@ export default class Network {
       game.board = s.board;
       game.tilesFromBag = s.tilesFromFile;
       game.storeOldWords = s.storeOldWords;
+      game.storeCurrentWords = s.storeCurrentWords;
 
 
 

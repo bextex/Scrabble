@@ -28,7 +28,7 @@ export default class Game {
 
     console.log('game starting');
     //----johanna
-    this.storeCurrentWords = [];
+    //this.storeCurrentWords = [];
     //this.storeOldWords = [];
     this.newestWords = [];
     //----johanna
@@ -40,12 +40,12 @@ export default class Game {
     console.log('3. --- checkNewWordsInSAOL ---')
     let all = true;
     let none = true;
-    console.log(this.storeCurrentWords.length)
-    for (let i = 0; i < this.storeCurrentWords.length; i++) {
-      console.log(this.storeCurrentWords[i])
-      if (/\s/.test(this.storeCurrentWords[i].word) || await SAOLchecker.scrabbleOk(this.storeCurrentWords[i].word) === false) {
+    console.log(store.storeCurrentWords.length)
+    for (let i = 0; i < store.storeCurrentWords.length; i++) {
+      console.log(store.storeCurrentWords[i])
+      if (/\s/.test(store.storeCurrentWords[i].word) || await SAOLchecker.scrabbleOk(store.storeCurrentWords[i].word) === false) {
         console.log("one or more words are invalid")
-        if (/\s/.test(this.storeCurrentWords[i].word)) {
+        if (/\s/.test(store.storeCurrentWords[i].word)) {
           alert("Fill in the blank tile!")
         }
         this.newestWords = [];
@@ -61,7 +61,7 @@ export default class Game {
     if (all && !none) {
       this.countPlayerScore(this.playerIndex);
       this.nextPlayer();
-      console.log("end of round this.storeCurrentWords: ", this.storeCurrentWords)
+      console.log("end of round store.storeCurrentWords: ", store.storeCurrentWords)
       //console.log("end of round this.wordArrayCommitted", this.wordArrayCommitted)
     } else if (!all && none) {
       console.log('--------Not approved word, will remove it from board-------');
@@ -599,7 +599,7 @@ export default class Game {
       this.checkNewWordsInSAOL();
       //----johanna
 
-      store.currentPlayer++;
+
       store.passcounter = 0;
 
       // this.board = store.board;
@@ -687,7 +687,7 @@ export default class Game {
 
     //apend after render so it will appear in .saol element
     let boxForWord = '';
-    for (let obj of this.storeCurrentWords) {
+    for (let obj of store.storeCurrentWords) {
       console.log("appending " + obj.word + "to SAOL window")
       boxForWord = '<div class="boxForWord"><span class="word validWord">' + obj.word + '</span>'
       $('.saol').append(boxForWord)
@@ -857,23 +857,23 @@ export default class Game {
 
     console.log("wordArray before pushing new words: ", wordArray)
     console.log("storeOldWords before pushing new words: ", store.storeOldWords)
-    console.log("storeCurrentWords before pushing new words: ", this.storeCurrentWords)
+    console.log("storeCurrentWords before pushing new words: ", store.storeCurrentWords)
     //------------------------------
     this.newestWords = []
-    if (this.storeCurrentWords.length !== undefined && this.storeCurrentWords.length > 0) {
+    if (store.storeCurrentWords.length !== undefined && store.storeCurrentWords.length > 0) {
       // Check if a old words exists in the wordsarray
       for (let i = 0; i < wordArray.length; i++) {
         if (store.storeOldWords.indexOf(wordArray[i].word) !== -1) {
           console.log("old word! ", wordArray[i].word)
-          delete wordArray[i].special
+
         } else {
           console.log("new word! ", wordArray[i].word)
           this.newestWords.push(wordArray[i])
         }
       }
-      this.storeCurrentWords = this.newestWords;
+      store.storeCurrentWords = this.newestWords;
     } else {
-      this.storeCurrentWords = wordArray;
+      store.storeCurrentWords = wordArray;
     }
 
     store.storeOldWords = [];
@@ -1018,9 +1018,9 @@ export default class Game {
     console.log('player index: ' + store.currentPlayer)
 
     let currentWordPoints = 0;
-    for (let i = 0; i < this.storeCurrentWords.length; i++) {
-      currentWordPoints = this.storeCurrentWords[i].points * this.storeCurrentWords[i].multiple;
-      console.log("word: " + this.storeCurrentWords[i].word + ", point: " + currentWordPoints)
+    for (let i = 0; i < store.storeCurrentWords.length; i++) {
+      currentWordPoints = store.storeCurrentWords[i].points * store.storeCurrentWords[i].multiple;
+      console.log("word: " + store.storeCurrentWords[i].word + ", point: " + currentWordPoints)
       this.players[0].score += currentWordPoints;
     }
     console.log('currentWordPoints', currentWordPoints);
