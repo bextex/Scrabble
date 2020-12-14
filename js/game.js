@@ -855,7 +855,7 @@ export default class Game {
     }
 
 
-
+    console.log("wordArray before pushing new words: ", wordArray)
     //------------------------------
     this.newestWords = []
     if (this.storeCurrentWords.length > 0) {
@@ -863,6 +863,7 @@ export default class Game {
       for (let i = 0; i < wordArray.length; i++) {
         if (this.storeOldWords.indexOf(wordArray[i].word) !== -1) {
           console.log("old word! ", wordArray[i].word)
+          delete wordArray[i].special
         } else {
           console.log("new word! ", wordArray[i].word)
           this.newestWords.push(wordArray[i])
@@ -874,11 +875,11 @@ export default class Game {
     }
 
     this.storeOldWords = [];
-    console.log("wordArray before pushing to storeOldWords: ", this.storeOldWords)
     //store all words played in this.storeOldWords string value
     for (let i = 0; i < wordArray.length; i++) {
       this.storeOldWords.push(wordArray[i].word)
     }
+
     console.log("storeOldWords: ", this.storeOldWords)
     console.log("Checking word array: " + wordArray);
     //------------------------------
@@ -1043,18 +1044,17 @@ export default class Game {
     console.log('player index: ' + store.currentPlayer)
 
     let currentWordPoints = 0;
-    console.log('I am in countPlayerScore, wordArray: ', this.storeCurrentWords);
     for (let i = 0; i < this.storeCurrentWords.length; i++) {
       currentWordPoints = this.storeCurrentWords[i].points * this.storeCurrentWords[i].multiple;
-      console.log("get point for: " + this.storeCurrentWords[i].word)
-
+      console.log("word: " + this.storeCurrentWords[i].word + ", point: " + currentWordPoints)
+      this.players[0].score += currentWordPoints;
     }
     console.log('currentWordPoints', currentWordPoints);
     // this.render();
 
     ////// NEW ADDED this. ///////
     // players[store.currentPlayer].score += currentWordPoints;
-    this.players[0].score += currentWordPoints;
+    // this.players[0].score += currentWordPoints;
     ////// END //////
   }
   // --- johanna
