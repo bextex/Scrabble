@@ -29,10 +29,10 @@ export default class Game {
     console.log('game starting');
     //----johanna
     this.storeCurrentWords = [];
-    this.storeOldWords = [];
+    // this.storeOldWords = [];
     this.newestWords = [];
     //----johanna
-    this.positionHasCounted = []; //this array to save the position on the board that has counted extra points.
+    //  this.positionHasCounted = []; //this array to save the position on the board that has counted extra points.
     this.players = [];
 
   }
@@ -60,6 +60,7 @@ export default class Game {
     console.log("none: " + none)
     //if all words in wordsArray are ok in Scrabble
     if (all && !none) {
+      console.log('this.storeOldWords before countPlayerScore', this.storeOldWords);
       this.countPlayerScore(this.playerIndex);
       this.nextPlayer();
       console.log("end of round this.storeCurrentWords: ", this.storeCurrentWords)
@@ -116,6 +117,8 @@ export default class Game {
     this.getTiles();
 
     this.board = store.board;
+    this.storeOldWords = store.storeOldWords;
+    // this.positionHasCounted = store.positionHasCounted;
 
 
     this.name = playerName;
@@ -731,6 +734,7 @@ export default class Game {
 
 
     console.log('2. --- checkNewWordsOnBoard ---')
+    console.log('this.storeOldWords in the ', this.storeOldWords);
 
     let wordH = [];  //to save  all the infromation on the horisontal 
     let wordV = [];  //to save all the infromation on the vertical 
@@ -795,21 +799,22 @@ export default class Game {
       let points = 0;
       let multiple = 1;
       let position = [];
-      let currentPositon = [];
+      //  let currentPositon = [];
       for (let i = 0; i < wordV.length; i++) {
         if (((i < wordV.length - 1) && (wordV[i].y === wordV[i + 1].y)) || ((i > 0) && (wordV[i].y === wordV[i - 1].y))) {
           word += wordV[i].char;
-          currentPositon = [];
-          currentPositon.push({ position: ({ x: wordV[i].x, y: wordV[i].y }) });
-          position.push(currentPositon);
-          // position.push({ x: wordV[i].x,y: wordV[i].y });
-          // if ((wordV[i].special){
-          console.log('this.positionHasCounted.indexOf(currentPositon)', this.positionHasCounted.indexOf(currentPositon[0].position))
-          let calculateCondition = ((wordV[i].special) && (this.positionHasCounted.indexOf(currentPositon[0].position) === -1));
-          console.log('this.positionHasCounted', this.positionHasCounted);
-          console.log('currentPositon', currentPositon);
-          console.log('calculateCondition', calculateCondition);
-          if ((wordV[i].special) && (this.positionHasCounted.indexOf(currentPositon[0].position) === -1)) {
+          // currentPositon = [];
+          // currentPositon.push({ position: ({ x: wordV[i].x, y: wordV[i].y }) });
+          // position.push(currentPositon);
+          position.push({ x: wordV[i].x, y: wordV[i].y });
+          //console.log('this.positionHasCounted.indexOf(currentPositon)', this.positionHasCounted.indexOf(currentPositon[0].position))
+          //let calculateCondition = ((wordV[i].special) && (this.positionHasCounted.indexOf(currentPositon[0].position) === -1));
+          // console.log('this.positionHasCounted', this.positionHasCounted);
+          // console.log('currentPositon', currentPositon);
+          //  console.log('calculateCondition', calculateCondition);
+          // if ((wordV[i].special) && (this.positionHasCounted.indexOf(currentPositon[0].position) === -1)) {
+
+          if (wordV[i].special) {
             if ((wordV[i].special) === '2xLS') { points += 2 * wordV[i].points }
             else if ((wordV[i].special) === '3xLS') { points += 3 * wordV[i].points }
             else if ((wordV[i].special) === '2xLW') { multiple *= 2; points += wordV[i].points; }
@@ -840,22 +845,24 @@ export default class Game {
       let points = 0;
       let multiple = 1;
       let position = [];
-      let currentPositon = [];
+      // let currentPositon = [];
       for (let i = 0; i < wordH.length; i++) {
         if (((i < wordH.length - 1) && (wordH[i].x === wordH[i + 1].x)) || ((i > 0) && (wordH[i].x === wordH[i - 1].x))) {
           word += wordH[i].char;
-          currentPositon = [];
-          currentPositon.push({ position: ({ x: wordH[i].x, y: wordH[i].y }) });
-          position.push(currentPositon);
-          // position.push({ x: wordH[i].x, y: wordH[i].y });
-          // if (wordH[i].special) {
-          console.log('this.positionHasCounted.indexOf(currentPositon)', this.positionHasCounted.indexOf(currentPositon[0].position))
-          let calculateCondition1 = ((wordH[i].special) && (this.positionHasCounted.indexOf(currentPositon[0].position) === -1));
-          console.log('this.positionHasCounted', this.positionHasCounted);
-          console.log('currentPositon', currentPositon);
-          console.log('calculateCondition1', calculateCondition1);
-          if ((wordH[i].special) && (this.positionHasCounted.indexOf(currentPositon[0].position) === -1)) {
-            if ((wordH[i].special) === '2xLS') { points += 2 * wordH[i].points }
+          position.push({ x: wordH[i].x, y: wordH[i].y });
+          //currentPositon = [];
+          // currentPositon.push({ position: ({ x: wordH[i].x, y: wordH[i].y }) });
+          //  position.push(currentPositon);        
+
+          // console.log('this.positionHasCounted.indexOf(currentPositon)', this.positionHasCounted.indexOf(currentPositon[0].position))
+          // let calculateCondition1 = ((wordH[i].special) && (this.positionHasCounted.indexOf(currentPositon[0].position) === -1));
+          //  console.log('this.positionHasCounted', this.positionHasCounted);
+          //  console.log('currentPositon', currentPositon);
+          //  console.log('calculateCondition1', calculateCondition1);
+
+          // if ((wordH[i].special) && (this.positionHasCounted.indexOf(currentPositon[0].position) === -1)) {
+          if (wordH[i].special) {
+            if ((wordH[i].special) === '2xLS') { points += 2 * wordH[i].points; }
             else if ((wordH[i].special) === '3xLS') { points += 3 * wordH[i].points }
             else if ((wordH[i].special) === '2xLW') { multiple *= 2; points += wordH[i].points; }
             else if ((wordH[i].special) === '3xLW') { multiple *= 3; points += wordH[i].points; }
@@ -897,7 +904,7 @@ export default class Game {
       // this.storeCurrentWords = wordArray.map(x => x);
     }
 
-    this.storeOldWords = [];
+    // this.storeOldWords = [];
     console.log("wordArray before pushing to storeOldWords: ", this.storeOldWords)
     //store all words played in this.storeOldWords string value
     for (let i = 0; i < wordArray.length; i++) {
@@ -1073,10 +1080,12 @@ export default class Game {
       currentWordPoints = this.storeCurrentWords[i].points * this.storeCurrentWords[i].multiple;
       console.log("get point for: " + this.storeCurrentWords[i].word)
       //Save the position that has counted extra points
-      for (let j = 0; j < this.storeCurrentWords[i].word.length; j++) {
-        this.positionHasCounted.push({ position: this.storeCurrentWords[i].position[j] });
-      }
-      console.log('this.positionHasCounted', this.positionHasCounted);
+      // for (let j = 0; j < this.storeCurrentWords[i].word.length; j++) {
+      //   if (this.positionHasCounted.indexOf(this.storeCurrentWords[i].position[j]) === -1) {
+      //     this.positionHasCounted.push({ position: this.storeCurrentWords[i].position[j] });
+      //   }
+      //  }
+      //  console.log('this.positionHasCounted', this.positionHasCounted);
       this.players[0].score += currentWordPoints;
     }
     console.log('currentWordPoints', currentWordPoints);
