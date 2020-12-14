@@ -406,29 +406,6 @@ export default class Game {
     return !isFirstMove || centerIsTaken;
   }
 
-  // besideAnotherTile() {
-  //   // !!([...$('.playertiles')].find(playertile =>
-  //   let isBesideAnotherTile = [...$('.playertiles')].find(playertile => {
-  //     let p = $(playertile).data().prelBoardPos;
-  //     console.log('what is p in beside another tile', p);
-  //     // p är [y][x]
-  //     if ((y === 0 && x === 0 && !this.board[y + 1][x].tile && !this.board[y][x + 1].tile)
-  //       || (x === 0 && y > 0 && y < 14 && !this.board[y - 1][x].tile && !this.board[y + 1][x].tile && !this.board[y][x + 1].tile)
-  //       || (x === 14 && y === 0 && !this.board[y][x - 1].tile && !this.board[y + 1][x].tile)
-  //       || (x === 14 && y > 0 && y < 14 && !this.board[y - 1][x].tile && !this.board[y - 1][x].tile && !this.board[y][x - 1].tile)
-  //       || (x === 14 && y === 14 && !this.board[y - 1][x].tile && !this.board[y][x - 1].tile)
-  //       || (y === 14 && x > 0 && x < 14 && !this.board[y][x + 1].tile && !this.board[y][x - 1].tile && !this.board[y - 1][x].tile)
-  //       || (y === 14 && x === 0 && !this.board[y - 1][x].tile && !this.board[y][x + 1].tile)
-  //       || (y === 0 && x > 0 && x < 14 && !this.board[y][x - 1].tile && !this.board[y][x + 1].tile && !this.board[y + 1][x].tile)
-  //       || (x > 0 && x < 14 && y > 0 && y < 14 && !this.board[y - 1][x].tile && !this.board[y + 1][x].tile && !this.board[y][x + 1].tile && !this.board[y][x - 1].tile)) {
-  //       this.render();
-  //       return;
-  //     }
-
-  //   });
-  //   console.log('is beside anbother file', isBesideAnotherTile);
-  // }
-
   render() {
     console.log('jag renderar');
 
@@ -448,20 +425,6 @@ export default class Game {
         </div>
       `).join('')
     );
-
-    // let index = 0;
-
-    // $('#box0').html(
-    //   this.tiles.flat().map(x => {
-    //     console.log('what is x inte flat map in players', x);
-    //     `
-    //     <div data-index="${index}" class="playertiles ${x.char === ' ' ? 'blankTile' : ''}">${x.char}<div class="points">${x.points || ''}</div>
-    //   `
-    //     index++;
-    //   }).join('')
-    // );
-
-
 
     console.log('Index of this player in store.players:', store.players.indexOf(this.name));
     console.log('Current player in store:', store.currentPlayer);
