@@ -24,6 +24,7 @@ export default class Game {
     //this.storeCurrentWords = [];
     //this.storeOldWords = [];
     this.newestWords = [];
+    this.usedSpecialTiles = [];
     //----johanna
     this.players = [];
     this.boxIndex;
