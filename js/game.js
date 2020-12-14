@@ -31,6 +31,8 @@ export default class Game {
     this.storeCurrentWords = [];
     this.storeOldWords = [];
     this.newestWords = [];
+    // special-rutan
+    this.usedSpecialTiles = [];
     //----johanna
     this.players = [];
     this.boxIndex;
@@ -44,8 +46,11 @@ export default class Game {
     console.log(this.storeCurrentWords.length)
     for (let i = 0; i < this.storeCurrentWords.length; i++) {
       console.log(this.storeCurrentWords[i])
-      if (await SAOLchecker.scrabbleOk(this.storeCurrentWords[i].word) === false) {
+      if (/\s/.test(this.storeCurrentWords[i].word) || await SAOLchecker.scrabbleOk(this.storeCurrentWords[i].word) === false) {
         console.log("one or more words are invalid")
+        if (/\s/.test(this.storeCurrentWords[i].word)) {
+          alert("Fill in the blank tile!")
+        }
         this.newestWords = [];
         all = false;
       }
@@ -138,6 +143,11 @@ export default class Game {
 
   endGame() {
     console.log('Sending player to score screen...')
+    for (let i = 0; i < store.players.length; i++) {
+      if (store.players[i] === this.player) {
+        store.score[i] = this.players[0].score;
+      }
+    }
     $('.playing-window').hide()
 
     $('.score-screen-container').append(`
@@ -154,7 +164,7 @@ export default class Game {
       //store.players[i].score = this.players[i].score
       $('.player-table-inner').append(`
         <div class="scoreboard-players"> 
-        <p class="scoreboard-players-text"> [${i}] ${store.players[i].score} ${store.players[i]}</p>
+        <p class="scoreboard-players-text"> [${i}] ${store.score[i]} ${store.players[i]}</p>
         
         </div>
         `);
@@ -331,8 +341,8 @@ export default class Game {
               let swh = { w: $tileBoxSquare.width(), h: $tileBoxSquare.height() };
               let twh = { w: $tile.width(), h: $tile.height() };
               let pos = {
-                left: so.left - to.left + (swh.w - twh.w) / 2.8,
-                top: so.top - to.top + (swh.h - twh.h) / 2.8
+                left: so.left - to.left + (swh.w - twh.w) / 2.5,
+                top: so.top - to.top + (swh.h - twh.h) / 2.5
               };
               $tile.css(pos);
             }
@@ -361,8 +371,8 @@ export default class Game {
       let swh = { w: $square.width(), h: $square.height() };
       let twh = { w: $tile.width(), h: $tile.height() };
       let pos = {
-        left: so.left - to.left + (swh.w - twh.w) / 2.8,
-        top: so.top - to.top + (swh.h - twh.h) / 2.8
+        left: so.left - to.left + (swh.w - twh.w) / 6,
+        top: so.top - to.top + (swh.h - twh.h) / 6
       };
       $tile.css(pos);
     });
@@ -379,8 +389,8 @@ export default class Game {
       let tile = this.tiles[0][tileIndex];
       tile.onBoard = true;
       this.board[p.y][p.x].tile = [tile];
-      this.checkNewWordsOnBoard(p.y, p.x);
     });
+    this.checkNewWordsOnBoard();
     this.tiles[0] = this.tiles[0].filter(x => !x.onBoard);
   }
 
@@ -477,6 +487,11 @@ export default class Game {
     this.addEvents();
     this.changeTiles();
     // this.showPlayerButtons();
+  }
+
+  showSaolText() {
+    $('.board').append(
+      `<section class="saol">🎄SAOL🎄</section>`);
   }
 
   changeTiles() {
@@ -680,47 +695,24 @@ export default class Game {
     console.log('5. --- nextPLayer() ---')
     //this.commitPlayedWords();
     // show words played in list
-    for (let obj of this.storeCurrentWords) {
-      console.log("appending " + obj.word + "to SAOL window")
-      $('body').append('<div class="boxForWord"><span class="word validWord">' +
-        obj.word + '</span>')
-    }
+
+    store.currentPlayer++;
     this.playerTurn();
     this.render();
+
+    //apend after render so it will appear in .saol element
+    let boxForWord = '';
+    for (let obj of this.storeCurrentWords) {
+      console.log("appending " + obj.word + "to SAOL window")
+      boxForWord = '<div class="boxForWord"><span class="word validWord">' + obj.word + '</span>'
+      $('.saol').append(boxForWord)
+    }
+
+
   }
 
   // --- johanna (gamla checkNewWordsOnBoard funktionen)
   checkNewWordsOnBoard() {
-
-
-
-    // // First render the tiles on board
-
-    // if (!$('.board').length) {
-    //   $('.playing-window').append(`
-    //     <div class="board"></div>
-    //     <div class="tiles"></div>
-    //   `);
-    // }
-
-    // $('.board').empty();
-
-    // render the board RENDER THE BOARD AFTER EACH PLAYER
-    // $('.board').html(
-    //   this.board.flat().map(x => `
-    //     <div class="${x.special ? 'special-' + x.special : ''}">
-    //     ${x.tile ? `<div class="layertiles tile" >${x.tile[0].char}<div class="points">${x.tile[0].points}</div></div>` : ''}
-    //     </div>
-    //   `).join('')
-    // );
-
-    // // this.showPlayers();
-    // this.showSaolText();
-
-    // this.buttonEvents();
-    // this.addEvents();
-    // // this.changeTiles();
-
 
     console.log('2. --- checkNewWordsOnBoard ---')
 
@@ -791,12 +783,16 @@ export default class Game {
         if (((i < wordV.length - 1) && (wordV[i].y === wordV[i + 1].y)) || ((i > 0) && (wordV[i].y === wordV[i - 1].y))) {
           word += wordV[i].char;
           position.push({ x: wordV[i].x, y: wordV[i].y });
-          if (wordV[i].special) {
+          if (wordV[i].special && !this.usedSpecialTiles.find(tile => (tile.x === wordV[i].x && tile.y === wordV[i].y))) {
             if ((wordV[i].special) === '2xLS') { points += 2 * wordV[i].points }
             else if ((wordV[i].special) === '3xLS') { points += 3 * wordV[i].points }
             else if ((wordV[i].special) === '2xLW') { multiple *= 2 }
             else if ((wordV[i].special) === '3xLW') { multiple *= 3 }
             else points += wordV[i].points;
+
+            // Memorerar redan använd special-rutan
+            this.usedSpecialTiles.push({ x: wordV[i].x, y: wordV[i].y });
+
           }
           else {
             points += wordV[i].points;
@@ -847,6 +843,8 @@ export default class Game {
       }
     }
 
+
+
     //------------------------------
     this.newestWords = []
     if (this.storeCurrentWords.length > 0) {
@@ -865,6 +863,7 @@ export default class Game {
     }
 
     this.storeOldWords = [];
+    console.log("wordArray before pushing to storeOldWords: ", this.storeOldWords)
     //store all words played in this.storeOldWords string value
     for (let i = 0; i < wordArray.length; i++) {
       this.storeOldWords.push(wordArray[i].word)
@@ -874,160 +873,6 @@ export default class Game {
     //------------------------------
   }
 
-  // ( checkNewWordsOnBoard funktionen från main)
-  // checkNewWordsOnBoard() {
-  //   let wordH = [];  //to save  all the infromation on the horisontal 
-  //   let wordV = [];  //to save all the infromation on the vertical 
-  //   let wordArray = [];  //to save the final word array(word,points,extra points word times) 
-  //   let c = ''; //temp variable to save this.board[i][j].tile[0].char
-  //   let p = 0;  //temp variable to save this.board[i][j].tile[0].points;
-  //   let s = ''; //temp variableto save this.board[i][j].special
-  //   console.log('I am in checkNewWordsOnBoard');
-  //   // CHECK HORISONTAL
-  //   for (let i = 0; i < this.board.length; i++) {
-  //     // CHECK VERTICAL
-  //     for (let j = 0; j < this.board[i].length; j++) {
-  //       // If we come across a board square that has a tile on it 
-  //       if (this.board[i][j].tile) {
-  //         // if (i === y && j === x) {
-  //         // First check if we have another tile above/below AND side/side
-  //         // Add the letter to both vertical and horisontal word  
-  //         if ((this.board[i + 1][j].tile || this.board[i - 1][j].tile) && (this.board[i][j + 1].tile || this.board[i][j - 1].tile)) {
-  //           c = this.board[i][j].tile[0].char;
-  //           p = this.board[i][j].tile[0].points;
-  //           s = this.board[i][j].special;
-  //           wordV.push({ x: i, y: j, char: c, points: p, special: s });
-  //           wordH.push({ x: i, y: j, char: c, points: p, special: s });
-  //           // If we only have a tile above/below, add the letter to vertical word
-  //         } else if (this.board[i + 1][j].tile || this.board[i - 1][j].tile) {
-  //           c = this.board[i][j].tile[0].char;
-  //           p = this.board[i][j].tile[0].points;
-  //           s = this.board[i][j].special;
-  //           wordV.push({ x: i, y: j, char: c, points: p, special: s });
-  //           // If we only have a tile side/side, add the letter to horisontal word
-  //         } else if (this.board[i][j + 1].tile || this.board[i][j - 1].tile) {
-  //           c = this.board[i][j].tile[0].char;
-  //           p = this.board[i][j].tile[0].points;
-  //           s = this.board[i][j].special;
-  //           wordH.push({ x: i, y: j, char: c, points: p, special: s });
-  //           // If we have a tile but no other tile beside us, add to both vertical and horisontal word
-  //           // This will only be at the start of game, when the first tile is placed
-  //         } else {
-  //           c = this.board[i][j].tile[0].char;
-  //           p = this.board[i][j].tile[0].points;
-  //           s = this.board[i][j].special;
-  //           wordV.push({ x: i, y: j, char: c, points: p, special: s });
-  //           wordH.push({ x: i, y: j, char: c, points: p, special: s });
-  //         }
-  //       }
-  //     }
-  //   }
-  //   wordV.sort((a, b) => a.y > b.y ? -1 : 1);//sort by value of y from small to big
-  //   wordH.sort((a, b) => a.x > b.x ? -1 : 1);//sort by value of x from small to big
-  //   console.log('vertical wordV: ', wordV);
-  //   console.log('horisontal wordH: ', wordH);
-
-  //   //Collect all the letters from same column and made it up to en word. 
-  //   //Calulate the points of word even if it has extra points(2x letters,3x letters). 
-  //   //save the words multiple times  if it has extra points(2x word,3x word). 
-  //   if (wordV.length > 1) {
-  //     let word = '';
-  //     let points = 0;
-  //     let multiple = 1;
-  //     let position = [];
-  //     let totalPoints = 0;
-  //     for (let i = 0; i < wordV.length; i++) {
-  //       if (((i < wordV.length - 1) && (wordV[i].y === wordV[i + 1].y)) || ((i > 0) && (wordV[i].y === wordV[i - 1].y))) {
-  //         word += wordV[i].char;
-  //         position.push({ x: wordV[i].x, y: wordV[i].y });
-  //         if (wordV[i].special) {
-  //           if ((wordV[i].special) === '2xLS') { points += 2 * wordV[i].points }
-  //           else if ((wordV[i].special) === '3xLS') { points += 3 * wordV[i].points }
-  //           else if ((wordV[i].special) === '2xLW') { multiple *= 2 }
-  //           else if ((wordV[i].special) === '3xLW') { multiple *= 3 }
-  //           else points += wordV[i].points;
-  //         }
-  //         else {
-  //           points += wordV[i].points;
-  //         }
-  //       }
-  //       //if it is another column then save the word to wordArray. Initialize variables in order to save the new words.
-  //       if ((i === wordV.length - 1) || (wordV[i].y !== wordV[i + 1].y)) {
-  //         totalPoints = multiple * points;
-  //         wordArray.push({ word: word, points: points, multiple: multiple, position: position, totalPoints: totalPoints })
-  //         word = '';
-  //         points = 0;
-  //         multiple = 1;
-  //         position = [];
-  //         totalPoints = 0;
-  //       }
-
-  //     }
-  //     console.log('the words currently on board:', wordArray);
-  //   }
-  //   //Collect all the letters from same row and made it up to en word. 
-  //   //Calulate the points of word even if it has extra points(2x letters,3x letters). 
-  //   //save the words multiple times  if it has extra points(2x word,3x word). 
-  //   if (wordH.length > 1) {
-  //     let word = '';
-  //     let points = 0;
-  //     let multiple = 1;
-  //     let position = [];
-  //     let totalPoints = 0;
-  //     for (let i = 0; i < wordH.length; i++) {
-  //       if (((i < wordH.length - 1) && (wordH[i].x === wordH[i + 1].x)) || ((i > 0) && (wordH[i].x === wordH[i - 1].x))) {
-  //         word += wordH[i].char;
-  //         position.push({ x: wordH[i].x, y: wordH[i].y });
-  //         if (wordH[i].special) {
-  //           if ((wordH[i].special) === '2xLS') { points += 2 * wordH[i].points }
-  //           else if ((wordH[i].special) === '3xLS') { points += 3 * wordH[i].points }
-  //           else if ((wordH[i].special) === '2xLW') { multiple *= 2 }
-  //           else if ((wordH[i].special) === '3xLW') { multiple *= 3 }
-  //           else points += wordH[i].points;
-  //         }
-  //         else {
-  //           points += wordH[i].points;
-  //         }
-  //       }
-  //       //if it is another row then save the word to wordArray. Initialize variables in order to save the new words.
-  //       if ((i === wordH.length - 1) || (wordH[i].x !== wordH[i + 1].x)) {
-  //         totalPoints = multiple * points;
-  //         wordArray.push({ word: word, points: points, multiple: multiple, position: position, totalPoints: totalPoints })
-  //         word = '';
-  //         points = 0;
-  //         multiple = 1;
-  //         position = [];
-  //         totalPoints = 0;
-  //       }
-  //     }
-
-  //   }
-
-  //   // ---- johanna
-  //   this.newestWords = []
-  //   if (this.storeCurrentWords.length > 0) {
-  //     // Check if a old words exists in the wordsarray
-  //     for (let i = 0; i < wordArray.length; i++) {
-  //       if (this.storeOldWords.indexOf(wordArray[i].word) !== -1) {
-  //         console.log("old word! ", wordArray[i].word)
-  //       } else {
-  //         console.log("new word! ", wordArray[i].word)
-  //         this.newestWords.push(wordArray[i])
-  //       }
-  //     }
-  //     this.storeCurrentWords = this.newestWords;
-  //   } else {
-  //     this.storeCurrentWords = wordArray;
-  //   }
-
-  //   this.storeOldWords = [];
-  //   //store all words played in this.storeOldWords string value
-  //   for (let i = 0; i < wordArray.length; i++) {
-  //     this.storeOldWords.push(wordArray[i].word)
-  //   }
-  //   console.log("storeOldWords: ", this.storeOldWords)
-  //   // ---- johanna
-  // }
 
   createBoard() {
     this.board = [...new Array(15)].map(x => [...new Array(15)].map(x => ({})));
@@ -1198,10 +1043,7 @@ export default class Game {
   }
   // --- johanna
 
-  showSaolText() {
-    $('.board').append(
-      `<section class="saol">🎄SAOL🎄</section>`);
-  }
+
 
   // async showWordWithList(wordsInArray) {
   //   console.log('------I am in showWordWithList()-----');

@@ -56,6 +56,7 @@ export default class Network {
 
     // We want the network to listen for which players connecting to the same game (same game key)
     s.players = s.players || [];
+    s.score = s.score || [];
 
     s.currentPlayer = 0;
 
@@ -83,18 +84,7 @@ export default class Network {
 
     // ÄNDRA DENNA
     s.players.push(name);
-
-    // // TILL DENNA I NÄTVERK
-    // s.players.push({ name: name, score: 0 });
-
-    // // I GAME FOR LOOP 
-    // for (player in store.players) {
-    //   if (player.name === this.player) {
-    //     player.score = this.score;
-    //   }
-    // }
-
-
+    s.score.push(0);
     console.log('my name is ' + name);
     console.log(s.players);
 
