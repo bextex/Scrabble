@@ -522,12 +522,12 @@ text-align: center;
 }
 
 /*************************** PLAYER NAMES AND TILES ****************************/
-.playerWrapper {
+/* .playerWrapper {
   display: flex;
   flex-wrap: wrap;
-  /* justify-content: space-evenly; */
+  /* justify-content: space-evenly; 
   width:300px;  
-}
+} */
 
 .playersName{
   font-family: 'Source Code Pro', monospace;
@@ -595,21 +595,17 @@ text-align: center;
   clear: both;
 } */
 
-/* #box0 {
-  background-color: #A5A686;
-  padding: 5px;
-  height: 5vh;
-} */
+
 
 #box0 > div {
   border-radius: 1px solid black;
-  
-  padding: 3px;
-  /* padding: 3px; */
+
+  padding: 5px;
   width: 4.5vh;
   height: 4.5vh;
   background-color: #A5A686;
   float: left;
+  margin: 0.25vh;
 
 }
 
@@ -640,30 +636,35 @@ text-align: center;
   font-family: 'Source Code Pro', monospace;
   font-size: 17px;
   /* padding: 4px; */
-  margin: 1px;
+  /* margin: 1px; */
   width: 4vh;
   height: 4vh;
   padding: 0.3vh;
   background-color: #EFF2D8;
+  border: 3px solid #A5A686;
   text-align: center;
   /* border: 3px solid #A5A686; */
-  border-radius: 3px;
+ /* border-radius: 3px;*/
   position: relative;
-  float: left;
+  /*float: left; */
   cursor: pointer;
+
+  /* width: 50%; */
+  margin: 0 auto;
+
 }
 
 .playertiles.change{
   font-family: 'Source Code Pro', monospace;
   font-size: 17px;
-  /* padding: 4px; */
+
   margin: 1px;
   width: 4vh;
   height: 4vh;
-  /*white*/
+  
   background-color: #EFF2D8;
   text-align: center;
-  /*black*/
+  
   border: 1.5px dotted black;
   position: relative;
   float: left;
@@ -692,13 +693,13 @@ div.playing-window-left{
   margin-left: 1px; */
   /*92 - win, 87 - mac*/
   /*border: 3px solid  #A5A686;*/
-  width: 50vh;
+  /* width: 50vh; */
   padding: 10px;
   margin-top: 84vh;
   margin-left: 40vh;
   /*overflow: hidden;*/
   text-align: center;
-  display: inline-block;
+  /* display: inline-block; */
 }
 
 
@@ -791,7 +792,7 @@ div.playing-window-left{
 }
 
 .tile {
-   font-family: 'Source Code Pro', monospace;
+  font-family: 'Source Code Pro', monospace;
   font-size: 17px;
   /* padding: 4px; */
   margin: 1px;
@@ -1106,10 +1107,10 @@ footer input {
     left: 50%;
   }
 
-  .playing-window-left{
+  /* .playing-window-left{
     margin-top: 88.5vh;
     margin-left: 40vh;
-  }
+  } */
 
   /* .playersName{
     font-size: 17px;
@@ -1188,10 +1189,10 @@ footer input {
     top: 64%;
   }
 
-  .playing-window-left{
+  /* .playing-window-left{
     margin-top: 88.5vh;
     margin-left: 40vh;
-  }
+  } */
 
   .rules-window .add-rules{
     left: 20%;
@@ -1229,10 +1230,10 @@ footer input {
   font-size: 12vh;
   }
 
-  .playing-window-left{
+  /* .playing-window-left{
     margin-top: 88.5vh;
     margin-left: 40vh;
-  }
+  } */
   .saol{
     font-size: 30px;
   }
@@ -1295,10 +1296,10 @@ footer input {
   font-size: 10vh;
   }
 
-  .playing-window-left{
+  /* .playing-window-left{
     margin-top: 88.5vh;
     margin-left: 40vh;
-  }
+  } */
     .saol{
     font-size: 30px;
   }
