@@ -871,10 +871,8 @@ export default class Game {
       this.storeCurrentWords = this.newestWords;
     } else {
       this.storeCurrentWords = wordArray;
-      // this.storeCurrentWords = wordArray.map(x => x);
     }
 
-    // this.storeOldWords = [];
     console.log("wordArray before pushing to storeOldWords: ", this.storeOldWords)
     //store all words played in this.storeOldWords string value
     for (let i = 0; i < wordArray.length; i++) {
@@ -954,7 +952,7 @@ export default class Game {
 
             if (alphabet.charAt(i) == char) {
               console.log(alphabet.charAt(i) + ' is equals to' + char)
-              player.tiles[0][index].char = char;
+              player.tiles[0][index].char = char.toUpperCase();
               pass = true;
 
             }
