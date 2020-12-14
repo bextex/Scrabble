@@ -4,7 +4,7 @@ import Board from './board.js';
 import Score from './score.js';
 import Modal from './modal.js';
 // import { players } from './player.js';
-import { store } from './network.js';
+import Network, { store } from './network.js';
 import Bag from './bag.js';
 
 console.log("Store från början", store)
@@ -116,7 +116,7 @@ export default class Game {
     this.buttonEvents();
   }
 
-  endGame() {
+  endgame() {
     console.log('Sending player to score screen...')
     $('.playing-window').hide()
 
@@ -128,11 +128,15 @@ export default class Game {
         </div>
       `);
     for (let i = 0; i < store.players.length; i++) {
+
+      // if (this.player === store.players[i]) {
+      //   store.score = this.score;
+      // }
+
       //store.players[i].score = this.players[i].score
       $('.player-table-inner').append(`
         <div class="scoreboard-players"> 
-        <p class="scoreboard-players-text"> [${i}] ${store.players[i].score} ${store.players[i]}</p>
-        
+        <p class="scoreboard-players-text"> [${i}] ${store.score[i]} ${store.players[i]}</p>
         </div>
         `);
       $('.waiting-box').append(`
@@ -140,12 +144,15 @@ export default class Game {
           
           `);
     }
-    this.render();
+    // this.render();
   }
 
+
+
+
   playerTurn() {
-    if (this.tilesFromBag == 0) {
-      this.endGame();
+    if (store.passcounter === 3) {
+      this.endgame();
     }
     // if (this.tilesFromBag.length == 0) {
     //   alert('game over')
@@ -506,12 +513,7 @@ export default class Game {
     // When click on 'Stå över'-button, there will be a new player and the board will render
     $('.pass').on('click', () => {
       console.log('i have clicked on pass button');
-      if (store.passcounter == 3) {
-        this.endGame();
-      }
-      else {
-        store.passcounter++;
-      }
+      store.passcounter++;
       console.log('this board in pass', this.tiles[0]);
 
       $('.playertiles').each((i, el) => {
@@ -541,6 +543,8 @@ export default class Game {
     // When click on 'Lägg brickor'-button, there will be a new player and the board will render
     // Shoul also count score on word
     $('.play-tiles').on('click', async () => {
+
+      store.passcounter = 0;
       console.log('im pushing play-tiles');
 
       // only a valid move if not first move or center is taken
@@ -562,13 +566,14 @@ export default class Game {
       //----johanna
 
 
-      store.passcounter = 0;
+
     });
 
     // To change tiles, locate what tile wants to be changed and change them to new tiles from bag. 
     // Put back the tiles that wants to be changed and scramble the bag
 
     $('.change-tiles').on('click', async () => {
+      store.passcounter++;
       console.log('im pushing change-tiles');
       if (this.tilesFromBag.length < 7) {
         console.log('there are 7 or less tiles in bag');
@@ -965,6 +970,11 @@ export default class Game {
       currentWordPoints = store.storeCurrentWords[i].points * store.storeCurrentWords[i].multiple;
       console.log("word: " + store.storeCurrentWords[i].word + ", point: " + currentWordPoints)
       this.players[0].score += currentWordPoints;
+      for (let i = 0; i < store.players.length; i++) {
+        if (this.player === store.players[i]) {
+          store.score[i] = this.players[0].score;
+        }
+      }
     }
     console.log('currentWordPoints', currentWordPoints);
     // this.render();
