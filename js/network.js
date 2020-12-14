@@ -156,6 +156,10 @@ export default class Network {
       // game.playerTurn();
       game.board = s.board;
       game.tilesFromBag = s.tilesFromFile;
+      game.storeOldWords = s.storeOldWords;
+
+
+
       game.render();
     }
 

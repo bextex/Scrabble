@@ -29,7 +29,7 @@ export default class Game {
     console.log('game starting');
     //----johanna
     this.storeCurrentWords = [];
-    this.storeOldWords = [];
+    //this.storeOldWords = [];
     this.newestWords = [];
     //----johanna
     this.players = [];
@@ -856,12 +856,14 @@ export default class Game {
 
 
     console.log("wordArray before pushing new words: ", wordArray)
+    console.log("storeOldWords before pushing new words: ", store.storeOldWords)
+    console.log("storeCurrentWords before pushing new words: ", this.storeCurrentWords)
     //------------------------------
     this.newestWords = []
-    if (this.storeCurrentWords.length > 0) {
+    if (this.storeCurrentWords.length !== undefined && this.storeCurrentWords.length > 0) {
       // Check if a old words exists in the wordsarray
       for (let i = 0; i < wordArray.length; i++) {
-        if (this.storeOldWords.indexOf(wordArray[i].word) !== -1) {
+        if (store.storeOldWords.indexOf(wordArray[i].word) !== -1) {
           console.log("old word! ", wordArray[i].word)
           delete wordArray[i].special
         } else {
@@ -874,13 +876,13 @@ export default class Game {
       this.storeCurrentWords = wordArray;
     }
 
-    this.storeOldWords = [];
+    store.storeOldWords = [];
     //store all words played in this.storeOldWords string value
     for (let i = 0; i < wordArray.length; i++) {
-      this.storeOldWords.push(wordArray[i].word)
+      store.storeOldWords.push(wordArray[i].word)
     }
 
-    console.log("storeOldWords: ", this.storeOldWords)
+    console.log("storeOldWords: ", store.storeOldWords)
     console.log("Checking word array: " + wordArray);
     //------------------------------
   }
@@ -1010,34 +1012,6 @@ export default class Game {
     `);
   }
 
-  // --- johanna
-
-  // async countPlayerScore(playerIndex, wordArray) {
-  //   let currentWordPoints = 0;
-  //   console.log('I am in countPlayerScore, wordArray: ', wordArray);
-  //   console.log('I am in countPlayerScore, player: ', playerIndex);
-  //   for (let i = 0; i < wordArray.length; i++) {
-  //     console.log('I am in countPlayerScore, wordArray[i].word: ', wordArray[i].word);
-  //     if (await SAOLchecker.scrabbleOk(wordArray[i].word)) {
-  //       // currentWordPoints = wordArray[i].points * wordArray[i].multiple;
-  //       currentWordPoints = wordArray[i].totalPoints;
-  //       wordArray[i].scrabbleOk = true;
-  //     }
-  //     else {
-  //       currentWordPoints = 0;
-  //       wordArray[i].scrabbleOk = false;
-  //     }
-  //     console.log('currentWordPoints', currentWordPoints);
-  //     // players[playerIndex - 1].score += currentWordPoints;
-  //     this.players[0].score += currentWordPoints;
-  //     console.log('play.score: ', this.players[playerIndex].score);
-  //   }
-
-  //   this.render();
-  //   //console.log('play.score', player.score);
-  //   // this.wordArrayCommitted = wordArray.filter(x => x.scrabbleOk === true);
-  //   // console.log('I am in countPlayerScore wordArray committed', this.wordArrayCommitted);
-  // }
   async countPlayerScore() {
 
     console.log('4. --- countPLayerScore() ---')
@@ -1057,28 +1031,5 @@ export default class Game {
     // this.players[0].score += currentWordPoints;
     ////// END //////
   }
-  // --- johanna
 
-
-
-  // async showWordWithList(wordsInArray) {
-  //   console.log('------I am in showWordWithList()-----');
-  //   $('.playing-window').append(`< section class= "wordList" > <h3>Ord Listor</h3>
-  //    <table><tr><th>Ord</th><th>ok in Scrabble</th><th>poäng</th></tr>
-  //    `)
-  //   for (let item of wordsInArray) {
-  //     if (await SAOLchecker.scrabbleOk(item.word)) {
-  //       item.scrabbleOk = true;
-  //     }
-  //     else {
-  //       item.scrabbleOk = false;
-  //       item.totalPoints = 0;
-  //     }
-  //     $(`.wordList`).append(`<span class="word">
-  //     <tr><td>${item.word}</td></tr><tr><td>${item.scrabbleOk}</td></tr><tr><td>${item.totalPoints}</td></tr>
-  //     `)
-  //   }
-
-
-  // }
 }
