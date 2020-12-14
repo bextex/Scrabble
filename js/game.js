@@ -581,7 +581,7 @@ export default class Game {
       this.checkNewWordsInSAOL();
       //----johanna
 
-      store.currentPlayer++;
+
       store.passcounter = 0;
 
       // this.board = store.board;
