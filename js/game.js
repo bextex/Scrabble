@@ -31,6 +31,8 @@ export default class Game {
     this.storeCurrentWords = [];
     this.storeOldWords = [];
     this.newestWords = [];
+    // special-rutan
+    this.usedSpecialTiles = [];
     //----johanna
     this.players = [];
 
@@ -315,8 +317,8 @@ export default class Game {
               let swh = { w: $tileBoxSquare.width(), h: $tileBoxSquare.height() };
               let twh = { w: $tile.width(), h: $tile.height() };
               let pos = {
-                left: so.left - to.left + (swh.w - twh.w) / 2.8,
-                top: so.top - to.top + (swh.h - twh.h) / 2.8
+                left: so.left - to.left + (swh.w - twh.w) / 2.5,
+                top: so.top - to.top + (swh.h - twh.h) / 2.5
               };
               $tile.css(pos);
             }
@@ -353,8 +355,8 @@ export default class Game {
       let swh = { w: $square.width(), h: $square.height() };
       let twh = { w: $tile.width(), h: $tile.height() };
       let pos = {
-        left: so.left - to.left + (swh.w - twh.w) / 2.8,
-        top: so.top - to.top + (swh.h - twh.h) / 2.8
+        left: so.left - to.left + (swh.w - twh.w) / 6,
+        top: so.top - to.top + (swh.h - twh.h) / 6
       };
       $tile.css(pos);
     });
@@ -699,36 +701,6 @@ export default class Game {
   // --- johanna (gamla checkNewWordsOnBoard funktionen)
   checkNewWordsOnBoard() {
 
-
-
-    // // First render the tiles on board
-
-    // if (!$('.board').length) {
-    //   $('.playing-window').append(`
-    //     <div class="board"></div>
-    //     <div class="tiles"></div>
-    //   `);
-    // }
-
-    // $('.board').empty();
-
-    // render the board RENDER THE BOARD AFTER EACH PLAYER
-    // $('.board').html(
-    //   this.board.flat().map(x => `
-    //     <div class="${x.special ? 'special-' + x.special : ''}">
-    //     ${x.tile ? `<div class="layertiles tile" >${x.tile[0].char}<div class="points">${x.tile[0].points}</div></div>` : ''}
-    //     </div>
-    //   `).join('')
-    // );
-
-    // // this.showPlayers();
-    // this.showSaolText();
-
-    // this.buttonEvents();
-    // this.addEvents();
-    // // this.changeTiles();
-
-
     console.log('2. --- checkNewWordsOnBoard ---')
 
     let wordH = [];  //to save  all the infromation on the horisontal 
@@ -798,12 +770,16 @@ export default class Game {
         if (((i < wordV.length - 1) && (wordV[i].y === wordV[i + 1].y)) || ((i > 0) && (wordV[i].y === wordV[i - 1].y))) {
           word += wordV[i].char;
           position.push({ x: wordV[i].x, y: wordV[i].y });
-          if (wordV[i].special) {
+          if (wordV[i].special && !this.usedSpecialTiles.find(tile => (tile.x === wordV[i].x && tile.y === wordV[i].y))) {
             if ((wordV[i].special) === '2xLS') { points += 2 * wordV[i].points }
             else if ((wordV[i].special) === '3xLS') { points += 3 * wordV[i].points }
             else if ((wordV[i].special) === '2xLW') { multiple *= 2 }
             else if ((wordV[i].special) === '3xLW') { multiple *= 3 }
             else points += wordV[i].points;
+
+            // Memorerar redan använd special-rutan
+            this.usedSpecialTiles.push({ x: wordV[i].x, y: wordV[i].y });
+
           }
           else {
             points += wordV[i].points;
