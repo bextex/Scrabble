@@ -380,10 +380,8 @@ export default class Game {
     let isFirstMove = this.board.flat().every(square => !square.tile);
     if (isFirstMove) { return true; }
     let isBesideAnotherTile = false;
-    console.log('-------- IM IN BESIDE ANOTHER TILE -------');
     $('.playertiles').each((i, el) => {
       let p = $(el).data().prelBoardPos;
-      console.log('What is p ', p);
       if (p) {
         let y = p.y;
         let x = p.x;
@@ -396,7 +394,6 @@ export default class Game {
           || (y === 14 && x === 0 && !!this.board[y - 1][x].tile || !!this.board[y][x + 1].tile)
           || (y === 0 && x > 0 && x < 14 && !!this.board[y][x - 1].tile || !!this.board[y][x + 1].tile || !!this.board[y + 1][x].tile)
           || (x > 0 && x < 14 && y > 0 && y < 14 && !!this.board[y - 1][x].tile || !!this.board[y + 1][x].tile || !!this.board[y][x + 1].tile || !!this.board[y][x - 1].tile)) {
-          console.log('Im in the if-sats')
           isBesideAnotherTile = true;
         }
       }
