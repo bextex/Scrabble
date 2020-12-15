@@ -530,24 +530,21 @@ text-align: center;
 }
 
 .playersName{
-  font-family: 'Source Code Pro', monospace;
+  font-family: 'Langar', cursive;
+  position: absolute;
   font-size: 15px;
   color: black;
-  padding-top: 2vh;
-  padding-bottom: 1vh;
-  padding-right: 12vh;
-  text-align: left;
+  left: 105vh;
+  bottom: 60vh;
 }
 
 .score{
-  font-family: 'Source Code Pro', monospace;
+  font-family: 'Langar', cursive;
+  position: absolute;
   font-size: 15px;
-  color: black;
-  padding: 2vh;  
-  text-align: left;
-  width: 100px;
-  height: 10px;
-
+  color: black; 
+  left: 125vh;
+  bottom: 60vh;
 }
 
 /* .not-current-player{

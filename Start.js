@@ -70,7 +70,7 @@ export default class Start {
 
       let networkKey = await network.getLocalKey();
       console.log('network key is ' + networkKey);
-      $('.playersName').append(`<div class="waiting-for-players"><div class="waiting-box">Väntar på spelare...</div>
+      $('body').append(`<div class="waiting-for-players"><div class="waiting-box">Väntar på spelare...</div>
       <button class="start-new-game"><span>Starta</span></button>
       <div type="key-input" class="key-input"><span class="key">NYCKEL: ${networkKey}</span></div>
       </div>`);
