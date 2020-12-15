@@ -969,7 +969,7 @@ footer input {
    width: 35vh;
    border: 3px solid #A5A686;
    border-radius: 3px;
-   padding-bottom: 55vh;
+   padding-bottom: 40vh;
    margin-bottom: 20px;
    
 }
@@ -1564,4 +1564,19 @@ th {
 .scoreboard-players-text{
   font-size: 40px;
   font-family: Verdana;
+}
+/******** points-box ********/
+.help-button {
+    width: 75px;
+    height: 30px;
+    text-align: center;
+    right: 15vh;
+    top: 2.1vh;
+    position: absolute;
+    font-family: 'Source Code Pro', monospace;
+    font-size: 15px;
+    background-color: #EFF2D8;
+    border: 2px solid #A5A686;
+    border-radius: 3px;
+    padding-bottom: 2px;
 }
