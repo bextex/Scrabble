@@ -121,13 +121,17 @@ export default class Game {
   }
 
   tilesLeftOnRack() {
-    let anyLeftOnRack = this.tiles.length > 0 ? true : false;
-    let pointsAfterEnd;
+    let anyLeftOnRack = this.tiles[0].length > 0 ? true : false;
+    let pointsAfterEnd = 0;
+    let tilesLeft = [];
     if (anyLeftOnRack) {
-      this.tiles[0].forEach((tile) => {
-        pointsAfterEnd += tile.score;
-      });
+      tilesLeft = this.tiles[0].map((tile) => tile);
     }
+    for (let i = 0; i < tilesLeft.length; i++) {
+      console.log('Points after end',)
+      pointsAfterEnd += +tilesLeft[i].points;
+    }
+    // console.log('Tiles left array', tilesLeft);
     console.log('So many score does the player have on rack', pointsAfterEnd);
     console.log('Does the player have any left on rack', anyLeftOnRack);
   }
@@ -1013,7 +1017,7 @@ export default class Game {
     for (let i = 0; i < store.storeCurrentWords.length; i++) {
       currentWordPoints = store.storeCurrentWords[i].points * store.storeCurrentWords[i].multiple;
       console.log("word: " + store.storeCurrentWords[i].word + ", point: " + currentWordPoints)
-      this.players[0].score += currentWordPoints;
+      this.players[0].score += +currentWordPoints;
     }
     console.log('This players score after addind currentwordpoints', this.players[0].score);
     console.log('currentWordPoints', currentWordPoints);
