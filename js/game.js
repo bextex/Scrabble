@@ -437,10 +437,12 @@ export default class Game {
 
     console.log('Index of this player in store.players:', store.players.indexOf(this.name));
     console.log('Current player in store:', store.currentPlayer);
+    console.log('this.name: ', store.players.indexOf(this.name))
+    console.log('store.players[store.currentPlayer] : ', store.players[store.currentPlayer])
     if (store.players.indexOf(this.name) === store.currentPlayer) {
       $('.not-your-turn').remove();
     } else {
-      $('.playing-window').append(`<div class="not-your-turn"><p>${this.player} spelar just nu...</p></div>`);
+      $('.playing-window').append(`<div class="not-your-turn"><p>${store.players[store.currentPlayer]} spelar just nu...</p></div>`);
 
     }
 
