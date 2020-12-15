@@ -120,30 +120,43 @@ export default class Game {
     this.buttonEvents();
   }
 
-  tilesLeftOnRack() {
-    let anyLeftOnRack = this.tiles[0].length > 0 ? true : false;
-    let pointsAfterEnd = 0;
-    let tilesLeft = [];
-    if (anyLeftOnRack) {
-      tilesLeft = this.tiles[0].map((tile) => tile);
-    }
-    for (let i = 0; i < tilesLeft.length; i++) {
-      console.log('Points after end',)
-      pointsAfterEnd += +tilesLeft[i].points;
-    }
-    // console.log('Tiles left array', tilesLeft);
-    console.log('So many score does the player have on rack', pointsAfterEnd);
-    console.log('Does the player have any left on rack', anyLeftOnRack);
-  }
+  // tilesLeftOnRack() {
+  //   console.log('My player Index in network', this.myPlayerIndexInStore);
+
+  //   if (this.tiles[0].length > 0) {
+
+  //   }
+  //   store.score[this.myPlayerIndexInStore].score -= pointsAfterEnd;
+  //   store.scoreFromTileLeftOnRack += pointsAfterEnd;
+  //   // console.log('Tiles left array', tilesLeft);
+  //   console.log('So many score does the player have on rack', pointsAfterEnd);
+  //   console.log('The player have now this many score', store.score[this.myPlayerIndexInStore].score);
+  // }
 
   endgame() {
 
+    /// DENNA FUNKAR INTE 
+    /// OCH NÄR DEN LÄSER AV OM EN TILE LIGGER BREVID FUNKAR INTE HELLER.
 
-    // Check if the player has any tiles left on rack
+    console.log('What is my player index in network?', this.myPlayerIndexInStore);
 
-    this.tilesLeftOnRack();
 
-    // Make a new array with the points to be able to sort the array
+    let pointsAfterEnd = 0;
+    this.tiles[0].map((tile) => {
+      store.score[this.myPlayerIndexInStore].score -= +tile.points;
+      console.log('Tiles points', tile.points);
+      console.log('STORE SCORE', store.score[this.myPlayerIndexInStore].score);
+    });
+    console.log('What is my score in store?', store.score[this.myPlayerIndexInStore].score);
+    // store.score[this.myPlayerIndexInStore].score =- pointsAfterEnd;
+    // console.log('How many points on the rack?', pointsAfterEnd);
+    console.log('The total points after reduction', store.score);
+
+
+    // if (this.tiles[0].length === 0) {
+    //   store.score[this.myPlayerIndexInStore].score += store.scoreFromTileLeftOnRack;
+    // }
+
     let scoreArray = [];
     for (let i = 0; i < store.score.length; i++) {
       scoreArray.push(store.score[i].score);
@@ -431,6 +444,7 @@ export default class Game {
       if (p) {
         let y = p.y;
         let x = p.x;
+        // KOLLA ÖVER DESSA
         if ((y === 0 && x === 0 && !!this.board[y + 1][x].tile || !!this.board[y][x + 1].tile)
           || (x === 0 && y > 0 && y < 14 && !!this.board[y - 1][x].tile || !!this.board[y + 1][x].tile || !!this.board[y][x + 1].tile)
           || (x === 14 && y === 0 && !!this.board[y][x - 1].tile || !!this.board[y + 1][x].tile)
@@ -483,7 +497,7 @@ export default class Game {
 
     console.log('Index of this player in store.players:', store.players.indexOf(this.name));
     console.log('Current player in store:', store.currentPlayer);
-    if (store.passcounter === 3) {
+    if (store.passcounter === 3 || store.tilesFromFile.length <= 0) {
       this.endgame();
     } else if (store.players.indexOf(this.name) === store.currentPlayer) {
       $('.not-your-turn').remove();

@@ -57,10 +57,10 @@ export default class Network {
     // We want the network to listen for which players connecting to the same game (same game key)
     s.players = s.players || [];
     s.score = s.score || [];
-    // s.scoreFromTileLeftOnRack = s.scoreFromTileLeftOnRack || [];
+    // s.scoreFromTileLeftOnRack = s.scoreFromTileLeftOnRack || 0;
 
     s.storeOldWords = s.storeOldWords || [];
-    s.storeCurrentWords = s.storeCurrentWords || [];
+    s.storeCurrentWords = s.storeCurrentWords || 0;
 
     s.currentPlayer = 0;
 
