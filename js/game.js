@@ -24,6 +24,7 @@ export default class Game {
     //this.storeCurrentWords = [];
     //this.storeOldWords = [];
     this.newestWords = [];
+    this.usedSpecialTiles = [];
     //----johanna
     this.players = [];
     this.boxIndex;
@@ -798,12 +799,19 @@ export default class Game {
         if (((i < wordV.length - 1) && (wordV[i].y === wordV[i + 1].y)) || ((i > 0) && (wordV[i].y === wordV[i - 1].y))) {
           word += wordV[i].char;
           position.push({ x: wordV[i].x, y: wordV[i].y });
-          if (wordV[i].special) {
+          // Changed here. 
+
+          if (wordV[i].special && !this.usedSpecialTiles.find(tile => (tile.x === wordV[i].x && tile.y === wordV[i].y))) {
             if ((wordV[i].special) === '2xLS') { points += 2 * wordV[i].points }
             else if ((wordV[i].special) === '3xLS') { points += 3 * wordV[i].points }
-            else if ((wordV[i].special) === '2xLW') { multiple *= 2 }
-            else if ((wordV[i].special) === '3xLW') { multiple *= 3 }
+            else if ((wordV[i].special) === '2xLW') { multiple *= 2; points += wordV[i].points; }
+            else if ((wordV[i].special) === '3xLW') { multiple *= 3; points += wordV[i].points; }
+            else if ((wordV[i].special) === 'middle-star') { multiple *= 2; points += wordV[i].points; }
             else points += wordV[i].points;
+
+            // save the word that have used special box
+            this.usedSpecialTiles.push({ x: wordV[i].x, y: wordV[i].y });
+
           }
           else {
             points += wordV[i].points;
@@ -832,12 +840,15 @@ export default class Game {
         if (((i < wordH.length - 1) && (wordH[i].x === wordH[i + 1].x)) || ((i > 0) && (wordH[i].x === wordH[i - 1].x))) {
           word += wordH[i].char;
           position.push({ x: wordH[i].x, y: wordH[i].y });
-          if (wordH[i].special) {
-            if ((wordH[i].special) === '2xLS') { points += 2 * wordH[i].points }
+          if (wordH[i].special && !this.usedSpecialTiles.find(tile => (tile.x === wordH[i].x && tile.y === wordH[i].y))) {
+            if ((wordH[i].special) === '2xLS') { points += 2 * wordH[i].points; }
             else if ((wordH[i].special) === '3xLS') { points += 3 * wordH[i].points }
-            else if ((wordH[i].special) === '2xLW') { multiple *= 2 }
-            else if ((wordH[i].special) === '3xLW') { multiple *= 3 }
+            else if ((wordH[i].special) === '2xLW') { multiple *= 2; points += wordH[i].points; }
+            else if ((wordH[i].special) === '3xLW') { multiple *= 3; points += wordH[i].points; }
+            else if ((wordH[i].special) === 'middle-star') { multiple *= 2; points += wordH[i].points; }
             else points += wordH[i].points;
+            // save the word that have used special box
+            this.usedSpecialTiles.push({ x: wordH[i].x, y: wordH[i].y });
           }
           else {
             points += wordH[i].points;
@@ -949,7 +960,7 @@ export default class Game {
             console.log(alphabet.charAt(i))
             if (alphabet.charAt(i) == char) {
               console.log(alphabet.charAt(i) + ' is equals to' + char)
-              player.tiles[0][index].char = char;
+              player.tiles[0][index].char = char.toUpperCase();
               pass = true;
             }
           }
@@ -1017,6 +1028,10 @@ export default class Game {
       this.players[0].score += currentWordPoints;
     }
     console.log('currentWordPoints', currentWordPoints);
+    if (this.tiles[0].length === 0) {
+      this.players[0].score += 50;
+    }
+    console.log('this.players[0].score', this.players[0].score);
     // this.render();
     for (let i = 0; i < store.score.length; i++) {
       if (i === this.myPlayerIndexInStore) {

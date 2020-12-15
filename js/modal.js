@@ -7,13 +7,13 @@ export default class Modal {
   }
 
   //The confirm function
-  static async confirm(message, okMessage = 'OK', cancelMessage = 'Cancel') {
+  static async confirm(message, okMessage = 'OK', cancelMessage = 'Avbryt') {
     // Use the prompt method with type = confirm
     return await this.prompt(message, okMessage, cancelMessage, 'confirm');
   }
 
   //The input function
-  static async prompt(message, okMessage = 'OK', cancelMessage = 'Cancel', type = 'prompt') {
+  static async prompt(message, okMessage = 'OK', cancelMessage = 'Avbryt', type = 'prompt') {
     // Add html for modal
     $('body').append(`
       <div class="modal">
