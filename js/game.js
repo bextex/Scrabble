@@ -134,31 +134,6 @@ export default class Game {
   // }
 
   endgame() {
-
-    /// DENNA FUNKAR INTE 
-    /// OCH NÄR DEN LÄSER AV OM EN TILE LIGGER BREVID FUNKAR INTE HELLER.
-
-    console.log('What is my player index in network?', this.myPlayerIndexInStore);
-
-
-    // let pointsAfterEnd = 0;
-    // let myPointsBeforeReduction = store.score[this.myPlayerIndexInStore].score;
-    // console.log('What is my score in store BEFORE reduction?', myPointsBeforeReduction);
-
-    // let newPoints = myPointsBeforeReduction - pointsAfterEnd;
-    // console.log('My new points are', newPoints);
-    // store.score[this.myPlayerIndexInStore].score -= pointsAfterEnd;
-    console.log('My name in store,', store.players[this.myPlayerIndexInStore]);
-    console.log('What is my score in store AFTER reduction?', store.score[this.myPlayerIndexInStore].points);
-    // store.score[this.myPlayerIndexInStore].score =- pointsAfterEnd;
-    // console.log('How many points on the rack?', pointsAfterEnd);
-    console.log('The total points after reduction', store.score);
-
-
-    // if (this.tiles[0].length === 0) {
-    //   store.score[this.myPlayerIndexInStore].score += store.scoreFromTileLeftOnRack;
-    // }
-
     let scoreArray = [];
     for (let i = 0; i < store.potentialTotalScore.length; i++) {
       scoreArray.push(store.potentialTotalScore[i].points);
@@ -200,9 +175,6 @@ export default class Game {
           `);
 
   }
-
-
-
 
   playerTurn() {
     // if (store.passcounter === 3) {
@@ -450,7 +422,7 @@ export default class Game {
         if ((y === 0 && x === 0 && !!this.board[y + 1][x].tile || !!this.board[y][x + 1].tile)
           || (x === 0 && y > 0 && y < 14 && !!this.board[y - 1][x].tile || !!this.board[y + 1][x].tile || !!this.board[y][x + 1].tile)
           || (x === 14 && y === 0 && !!this.board[y][x - 1].tile || !!this.board[y + 1][x].tile)
-          || (x === 14 && y > 0 && y < 14 && !!this.board[y - 1][x].tile || !!this.board[y - 1][x].tile || !!this.board[y][x - 1].tile)
+          || (x === 14 && y > 0 && y < 14 && !!this.board[y - 1][x].tile || !!this.board[y + 1][x].tile || !!this.board[y][x - 1].tile)
           || (x === 14 && y === 14 && !!this.board[y - 1][x].tile || !!this.board[y][x - 1].tile)
           || (y === 14 && x > 0 && x < 14 && !!this.board[y][x + 1].tile || !!this.board[y][x - 1].tile || !!this.board[y - 1][x].tile)
           || (y === 14 && x === 0 && !!this.board[y - 1][x].tile || !!this.board[y][x + 1].tile)
