@@ -493,6 +493,7 @@ export default class Game {
     } else if (store.players.indexOf(this.name) === store.currentPlayer) {
       $('.not-your-turn').remove();
     } else {
+      this.render();
       $('.playing-window').append(`<div class="not-your-turn"><p>${this.player} spelar just nu...</p></div>`);
     }
 
