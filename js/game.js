@@ -418,20 +418,46 @@ export default class Game {
       if (p) {
         let y = p.y;
         let x = p.x;
-        // KOLLA ÖVER DESSA
-        if ((y === 0 && x === 0 && !!this.board[y + 1][x].tile || !!this.board[y][x + 1].tile)
-          || (x === 0 && y > 0 && y < 14 && !!this.board[y - 1][x].tile || !!this.board[y + 1][x].tile || !!this.board[y][x + 1].tile)
-          || (x === 14 && y === 0 && !!this.board[y][x - 1].tile || !!this.board[y + 1][x].tile)
-          || (x === 14 && y > 0 && y < 14 && !!this.board[y - 1][x].tile || !!this.board[y + 1][x].tile || !!this.board[y][x - 1].tile)
-          || (x === 14 && y === 14 && !!this.board[y - 1][x].tile || !!this.board[y][x - 1].tile)
-          || (y === 14 && x > 0 && x < 14 && !!this.board[y][x + 1].tile || !!this.board[y][x - 1].tile || !!this.board[y - 1][x].tile)
-          || (y === 14 && x === 0 && !!this.board[y - 1][x].tile || !!this.board[y][x + 1].tile)
-          || (y === 0 && x > 0 && x < 14 && !!this.board[y][x - 1].tile || !!this.board[y][x + 1].tile || !!this.board[y + 1][x].tile)
-          || (x > 0 && x < 14 && y > 0 && y < 14 && !!this.board[y - 1][x].tile || !!this.board[y + 1][x].tile || !!this.board[y][x + 1].tile || !!this.board[y][x - 1].tile)) {
-          isBesideAnotherTile = true;
+        if (y === 0 && x === 0) {
+          if (!!this.board[y + 1][x].tile || !!this.board[y][x + 1].tile) {
+            isBesideAnotherTile = true;
+          }
+        } else if (x === 0 && y > 0 && y < 14) {
+          if (!this.board[y - 1][x].tile || !!this.board[y + 1][x].tile || !!this.board[y][x + 1].tile) {
+            isBesideAnotherTile = true;
+          }
+        } else if (x === 14 && y === 0) {
+          if (!!this.board[y][x - 1].tile || !!this.board[y + 1][x].tile) {
+            isBesideAnotherTile = true;
+          }
+        } else if (x === 14 && y > 0 && y < 14) {
+          if (!!this.board[y - 1][x].tile || !!this.board[y + 1][x].tile || !!this.board[y][x - 1].tile) {
+            isBesideAnotherTile = true;
+          }
+        } else if (x === 14 && y === 14) {
+          if (!!this.board[y - 1][x].tile || !!this.board[y][x - 1].tile) {
+            isBesideAnotherTile = true;
+          }
+        } else if (y === 14 && x > 0 && x < 14) {
+          if (!!this.board[y][x + 1].tile || !!this.board[y][x - 1].tile || !!this.board[y - 1][x].tile) {
+            isBesideAnotherTile = true;
+          }
+        } else if (y === 14 && x === 0) {
+          if (!!this.board[y - 1][x].tile || !!this.board[y][x + 1].tile) {
+            isBesideAnotherTile = true;
+          }
+        } else if (y === 0 && x > 0 && x < 14) {
+          if (!!this.board[y][x - 1].tile || !!this.board[y][x + 1].tile || !!this.board[y + 1][x].tile) {
+            isBesideAnotherTile = true;
+          }
+        } else if (x > 0 && x < 14 && y > 0 && y < 14) {
+          if (!!this.board[y - 1][x].tile || !!this.board[y + 1][x].tile || !!this.board[y][x + 1].tile || !!this.board[y][x - 1].tile) {
+            isBesideAnotherTile = true;
+          }
         }
       }
     });
+    console.log('isBesideAnotherTile', isBesideAnotherTile);
     return isBesideAnotherTile;
   }
 
