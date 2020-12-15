@@ -56,6 +56,7 @@ export default class Network {
 
     // We want the network to listen for which players connecting to the same game (same game key)
     s.players = s.players || [];
+    s.score = s.score || [];
 
     s.storeOldWords = s.storeOldWords || [];
     s.storeCurrentWords = s.storeCurrentWords || [];
@@ -87,6 +88,8 @@ export default class Network {
     console.log('my name is ' + name);
     console.log(s.players);
 
+    s.score.push({ name: name, score: 0 });
+
     // For all players except the one starting the game will need a render of the board
 
     // game.start();
@@ -103,7 +106,7 @@ export default class Network {
 
 
     if (s.players.length > 1) {
-      game.start(name);
+      game.start(name, this.playerIndexInNetwork);
     }
 
     // The player that gets a game-key is the only player that can start the game,
@@ -111,6 +114,7 @@ export default class Network {
 
 
 
+    let that = this;
     $('.start-new-game').on('click', function () {
       console.log('im clicking the start button');
 
@@ -123,7 +127,7 @@ export default class Network {
       $('.scrabble').fadeOut(200);
 
       // game.start();
-      game.start(name);
+      game.start(name, that.playerIndexInNetwork);
     });
   }
 
@@ -161,13 +165,16 @@ export default class Network {
       game.tilesFromBag = s.tilesFromFile;
       game.storeOldWords = s.storeOldWords;
       game.storeCurrentWords = s.storeCurrentWords;
-
+      // if (s.passcounter === 3) {
+      //   game.endgame();
+      // }
+      // console.log('From network, what is s.passcounter', s.passcounter);
 
 
       game.render();
     }
-
   }
+}
 
 
 
@@ -290,5 +297,5 @@ export default class Network {
 
 
 
-}
+
 
