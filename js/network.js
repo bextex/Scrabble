@@ -88,7 +88,7 @@ export default class Network {
     console.log('my name is ' + name);
     console.log(s.players);
 
-    s.score.push(0);
+    s.score.push({ name: name, score: 0 });
 
     // For all players except the one starting the game will need a render of the board
 
@@ -106,7 +106,7 @@ export default class Network {
 
 
     if (s.players.length > 1) {
-      game.start(name);
+      game.start(name, this.playerIndexInNetwork);
     }
 
     // The player that gets a game-key is the only player that can start the game,
@@ -114,6 +114,7 @@ export default class Network {
 
 
 
+    let that = this;
     $('.start-new-game').on('click', function () {
       console.log('im clicking the start button');
 
@@ -126,7 +127,7 @@ export default class Network {
       $('.scrabble').fadeOut(200);
 
       // game.start();
-      game.start(name);
+      game.start(name, that.playerIndexInNetwork);
     });
   }
 

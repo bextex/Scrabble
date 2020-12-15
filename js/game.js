@@ -27,6 +27,7 @@ export default class Game {
     //----johanna
     this.players = [];
     this.boxIndex;
+
   }
 
   async checkNewWordsInSAOL() {
@@ -96,9 +97,11 @@ export default class Game {
 
   /* Starting up the game with start() to set how's the first player */
 
-  start(playerName) {
+  start(playerName, myPlayerIndex) {
     this.getTiles();
     this.board = store.board;
+    this.myPlayerIndexInStore = myPlayerIndex;
+    console.log('What is my player index in NETWORK in START?', this.myPlayerIndexInStore);
 
 
     this.name = playerName;
@@ -117,8 +120,49 @@ export default class Game {
   }
 
   endgame() {
-    console.log('Sending player to score screen...')
-    $('.playing-window').hide()
+    console.log('Sending player to score screen...');
+    console.log('What is my player index in STORE?', this.myPlayerIndexInStore);
+
+    // Add the total score to the store score for each player before printing it on screen
+
+
+    // Make a new array with the points to be able to sort the array
+    let scoreArray = [];
+    for (let i = 0; i < store.score.length; i++) {
+      scoreArray.push(store.score[i].score);
+    }
+    scoreArray.sort((a, b) => b - a);
+    console.log('The score array', scoreArray);
+
+    let playerArray = [];
+
+    for (let i = 0; i < scoreArray.length; i++) {
+      for (let j = 0; j < store.score.length; j++) {
+        if (scoreArray[i] === store.score[j].score) {
+          playerArray.push({ name: store.score[j].name, score: store.score[j].score });
+        }
+      }
+    }
+
+
+    // for (let i = 0; i < store.score.length; i++) {
+    //   for (let j = 0; j < scoreArray.length; j++) {
+    //     if (scoreArray[j] === store.score[i].score) {
+    //       scoreArray[j].name = store.score[i].name;
+    //     }
+    //   }
+    // }
+
+    console.log('The new score array with name', playerArray);
+
+    // console.log('What is a', a);
+    // console.log('What is a.score', a.score);
+    // console.log('What is b', b);
+    // console.log('What is b.score', b.score);
+    // console.log('Score array after been sorted', store.score);
+
+
+    $('.playing-window').hide();
 
     // $('.score-screen-contatiner').empty();
     $('.score-screen-container').empty();
@@ -134,9 +178,9 @@ export default class Game {
         <div class="scoreboard-players"></div>
         `);
 
-    for (let i = 0; i < store.players.length; i++) {
+    for (let i = 0; i < playerArray.length; i++) {
       $('.scoreboard-players').append(`
-        <p class="scoreboard-players-text">[${i}] ${store.score[i]} ${store.players[i]}</p>
+        <p class="scoreboard-players-text">[${i}] ${playerArray[i].score} ${playerArray[i].name}</p>
         `);
     }
     $('.waiting-box').append(`
@@ -971,14 +1015,19 @@ export default class Game {
       currentWordPoints = store.storeCurrentWords[i].points * store.storeCurrentWords[i].multiple;
       console.log("word: " + store.storeCurrentWords[i].word + ", point: " + currentWordPoints)
       this.players[0].score += currentWordPoints;
-      for (let i = 0; i < store.players.length; i++) {
-        if (this.player === store.players[i]) {
-          store.score[i] = this.players[0].score;
-        }
-      }
     }
     console.log('currentWordPoints', currentWordPoints);
     // this.render();
+    for (let i = 0; i < store.score.length; i++) {
+      if (i === this.myPlayerIndexInStore) {
+        console.log('What is my player index in store', this.myPlayerIndexInStore);
+        console.log('What name in store matches this player?', store.score[i].name);
+        console.log('Which index matches that name in score?', i);
+        console.log('What is this players score?', this.players[0].score);
+        store.score[i].score = this.players[0].score;
+        console.log('The score array', store.score);
+      }
+    }
 
     ////// NEW ADDED this. ///////
     // players[store.currentPlayer].score += currentWordPoints;
