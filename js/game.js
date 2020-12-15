@@ -141,13 +141,15 @@ export default class Game {
     console.log('What is my player index in network?', this.myPlayerIndexInStore);
 
 
-    let pointsAfterEnd = 0;
-    this.tiles[0].map((tile) => {
-      store.score[this.myPlayerIndexInStore].score -= +tile.points;
-      console.log('Tiles points', tile.points);
-      console.log('STORE SCORE', store.score[this.myPlayerIndexInStore].score);
-    });
-    console.log('What is my score in store?', store.score[this.myPlayerIndexInStore].score);
+    // let pointsAfterEnd = 0;
+    // let myPointsBeforeReduction = store.score[this.myPlayerIndexInStore].score;
+    // console.log('What is my score in store BEFORE reduction?', myPointsBeforeReduction);
+
+    // let newPoints = myPointsBeforeReduction - pointsAfterEnd;
+    // console.log('My new points are', newPoints);
+    // store.score[this.myPlayerIndexInStore].score -= pointsAfterEnd;
+    console.log('My name in store,', store.players[this.myPlayerIndexInStore]);
+    console.log('What is my score in store AFTER reduction?', store.score[this.myPlayerIndexInStore].points);
     // store.score[this.myPlayerIndexInStore].score =- pointsAfterEnd;
     // console.log('How many points on the rack?', pointsAfterEnd);
     console.log('The total points after reduction', store.score);
@@ -158,17 +160,17 @@ export default class Game {
     // }
 
     let scoreArray = [];
-    for (let i = 0; i < store.score.length; i++) {
-      scoreArray.push(store.score[i].score);
+    for (let i = 0; i < store.potentialTotalScore.length; i++) {
+      scoreArray.push(store.potentialTotalScore[i].points);
     }
     scoreArray.sort((a, b) => b - a);
 
     let playerArray = [];
 
     for (let i = 0; i < scoreArray.length; i++) {
-      for (let j = 0; j < store.score.length; j++) {
-        if (scoreArray[i] === store.score[j].score) {
-          playerArray.push({ name: store.score[j].name, score: store.score[j].score });
+      for (let j = 0; j < store.potentialTotalScore.length; j++) {
+        if (scoreArray[i] === store.potentialTotalScore[j].points) {
+          playerArray.push({ name: store.potentialTotalScore[j].name, points: store.potentialTotalScore[j].points });
         }
       }
     }
@@ -190,7 +192,7 @@ export default class Game {
 
     for (let i = 0; i < playerArray.length; i++) {
       $('.scoreboard-players').append(`
-        <p class="scoreboard-players-text">[${i}] ${playerArray[i].score} ${playerArray[i].name}</p>
+        <p class="scoreboard-players-text">[${i}] ${playerArray[i].points} ${playerArray[i].name}</p>
         `);
     }
     $('.waiting-box').append(`
@@ -410,7 +412,7 @@ export default class Game {
     console.log('im in place prel on board');
     $('.playertiles').each((i, el) => {
       let $tile = $(el);
-      console.log('tile from place prel on board', $tile.data());
+
       let p = $tile.data().prelBoardPos;
       if (!p) { return; }
       let tileIndex = $(`#box0 > div > div`).index($tile);
@@ -497,6 +499,35 @@ export default class Game {
 
     console.log('Index of this player in store.players:', store.players.indexOf(this.name));
     console.log('Current player in store:', store.currentPlayer);
+
+    // Always count the last tiles points in case the game is over
+    let tilePointsOnRack = 0;
+    this.tiles[0].map((tile) => {
+      tilePointsOnRack += +tile.points;
+      console.log('Tiles points', tile.points);
+    });
+
+    console.log('Points at the end', tilePointsOnRack);
+    store.scoreFromTileLeftOnRack[this.myPlayerIndexInStore] = tilePointsOnRack;
+    console.log('Tile points array', store.scoreFromTileLeftOnRack);
+
+    let totalSubractedPoints = 0;
+    if (this.tiles[0].length === 0) {
+      for (let i = 0; i < store.scoreFromTileLeftOnRack.length; i++) {
+        if (this.myPlayerIndexInStore === i) {
+          continue;
+        } else {
+          totalSubractedPoints += +store.scoreFromTileLeftOnRack[i];
+          console.log('My new total subracted point if cleaned my rack', totalSubractedPoints);
+        }
+      }
+      store.potentialTotalScore[this.myPlayerIndexInStore] = ({ name: store.players[this.myPlayerIndexInStore], points: (store.score[this.myPlayerIndexInStore].points + totalSubractedPoints) });
+      console.log('My potential points if I have a clean rack', store.potentialTotalScore[this.myPlayerIndexInStore]);
+    } else {
+      store.potentialTotalScore[this.myPlayerIndexInStore] = ({ name: store.players[this.myPlayerIndexInStore], points: (store.score[this.myPlayerIndexInStore].points - tilePointsOnRack) });
+      console.log('My new total points if not cleaned rack', store.potentialTotalScore);
+    }
+
     if (store.passcounter === 3 || store.tilesFromFile.length <= 0) {
       this.endgame();
     } else if (store.players.indexOf(this.name) === store.currentPlayer) {
@@ -569,15 +600,11 @@ export default class Game {
     $('.pass').on('click', () => {
       console.log('i have clicked on pass button');
       store.passcounter++;
-      console.log('this board in pass', this.tiles[0]);
 
       $('.playertiles').each((i, el) => {
         let $tile = $(el);
         let p = $tile.data().prelBoardPos;
-        console.log('p from .pass button is', p)
-        console.log('the tile from board', $tile);
         if (p) {
-          console.log('There is tiles when I clicked the pass button');
           p = '';
           // The tile renders back to its player tiles if not played and is on board
           $tile.css({ top: '', left: '' });
@@ -591,7 +618,7 @@ export default class Game {
       // this.tilesFromBag = store.tilesFromFile;
 
       this.playerTurn();
-      this.render();
+      // this.render();
       // this.changeTiles();
     });
 
@@ -684,7 +711,7 @@ export default class Game {
       console.log('Changing player index', store.currentPlayer);
 
       this.playerTurn();
-      this.render();
+      // this.render();
       // this.changeTiles();
     });
 
@@ -698,7 +725,7 @@ export default class Game {
 
     store.currentPlayer++;
     this.playerTurn();
-    this.render();
+    // this.render();
 
     //apend after render so it will appear in .saol element
     let boxForWord = '';
@@ -1046,7 +1073,7 @@ export default class Game {
         console.log('What name in store matches this player?', store.score[i].name);
         console.log('Which index matches that name in score?', i);
         console.log('What is this players score?', this.players[0].score);
-        store.score[i].score = this.players[0].score;
+        store.score[i].points = this.players[0].score;
         console.log('The score array', store.score);
       }
     }
