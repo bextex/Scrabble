@@ -971,6 +971,13 @@ footer input {
    
 }
 
+/*****************HIGHSCORE-LIST**********************/
+.highScore {
+  position: absolute;
+  bottom: 70vh;
+  left: 120vh;
+}
+
 .start-new-game {
    font-family: 'Source Code Pro', monospace;
    font-size: 15px;

@@ -502,6 +502,7 @@ export default class Game {
 
     this.showPlayers();
     this.showSaolText();
+    this.highScoreList();
 
     // showAndHide cannot be done unless we have read the showPlayers method
     // this.showAndHidePlayers();
@@ -511,6 +512,12 @@ export default class Game {
     this.addEvents();
     this.changeTiles();
     // this.showPlayerButtons();
+  }
+
+  highScoreList() {
+    $('.playing-window-left').append(`
+     <div class="highScore">HIGHSCORE</div>
+    `)
   }
 
   showSaolText() {
@@ -1024,7 +1031,7 @@ export default class Game {
     for (let i = 0; i < store.storeCurrentWords.length; i++) {
       currentWordPoints = store.storeCurrentWords[i].points * store.storeCurrentWords[i].multiple;
       console.log("word: " + store.storeCurrentWords[i].word + ", point: " + currentWordPoints)
-      this.players[0].score += currentWordPoints;
+      this.players[0].score += +currentWordPoints;
     }
     console.log('currentWordPoints', currentWordPoints);
     if (this.tiles[0].length === 0) {
