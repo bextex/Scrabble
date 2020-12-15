@@ -120,12 +120,24 @@ export default class Game {
     this.buttonEvents();
   }
 
+  tilesLeftOnRack() {
+    let anyLeftOnRack = this.tiles.length > 0 ? true : false;
+    let pointsAfterEnd;
+    if (anyLeftOnRack) {
+      this.tiles[0].forEach((tile) => {
+        pointsAfterEnd += tile.score;
+      });
+    }
+    console.log('So many score does the player have on rack', pointsAfterEnd);
+    console.log('Does the player have any left on rack', anyLeftOnRack);
+  }
+
   endgame() {
-    console.log('Sending player to score screen...');
-    console.log('What is my player index in STORE?', this.myPlayerIndexInStore);
 
-    // Add the total score to the store score for each player before printing it on screen
 
+    // Check if the player has any tiles left on rack
+
+    this.tilesLeftOnRack();
 
     // Make a new array with the points to be able to sort the array
     let scoreArray = [];
@@ -133,7 +145,6 @@ export default class Game {
       scoreArray.push(store.score[i].score);
     }
     scoreArray.sort((a, b) => b - a);
-    console.log('The score array', scoreArray);
 
     let playerArray = [];
 
@@ -145,27 +156,8 @@ export default class Game {
       }
     }
 
-
-    // for (let i = 0; i < store.score.length; i++) {
-    //   for (let j = 0; j < scoreArray.length; j++) {
-    //     if (scoreArray[j] === store.score[i].score) {
-    //       scoreArray[j].name = store.score[i].name;
-    //     }
-    //   }
-    // }
-
-    console.log('The new score array with name', playerArray);
-
-    // console.log('What is a', a);
-    // console.log('What is a.score', a.score);
-    // console.log('What is b', b);
-    // console.log('What is b.score', b.score);
-    // console.log('Score array after been sorted', store.score);
-
-
     $('.playing-window').hide();
 
-    // $('.score-screen-contatiner').empty();
     $('.score-screen-container').empty();
 
     $('.score-screen-container').append(`
@@ -188,8 +180,6 @@ export default class Game {
         <br>
           `);
 
-
-    // this.render();
   }
 
 
@@ -310,7 +300,7 @@ export default class Game {
 
             console.log('------ IM DROPPING THE TILE IN THE PLAYER RACK ------');
 
-            let newBoxIndex = Math.floor(8 * (pageX - left) / $stand.width());
+            let newBoxIndex = Math.floor(8 * (pageX - left) / ($stand.width()));
             console.log('Im dropping the tile on the NEW index', newBoxIndex);
 
 
@@ -349,10 +339,11 @@ export default class Game {
                   that.tiles[0].push({ char: letter, points: points });
                 }
                 // If the stile on player rack is weird, remove this
-                // if ($tile.is($(el))) {
-                //   $(el).removeAttr('style');
-                // }
+                if ($tile.is($(el))) {
+                  $(el).removeAttr('style');
+                }
               });
+              console.log('The new array after omorganisation', that.tiles);
             } else {
               // Added render the tiles when putting tiles back from board to players tiles board
               let so = $tileBoxSquare.offset(), to = $tile.offset();
@@ -987,12 +978,9 @@ export default class Game {
         $tile.css(pos);
         boxIndex++;
       });
-
-
-
-
-
     });
+
+
 
 
 
@@ -1027,6 +1015,7 @@ export default class Game {
       console.log("word: " + store.storeCurrentWords[i].word + ", point: " + currentWordPoints)
       this.players[0].score += currentWordPoints;
     }
+    console.log('This players score after addind currentwordpoints', this.players[0].score);
     console.log('currentWordPoints', currentWordPoints);
     if (this.tiles[0].length === 0) {
       this.players[0].score += 50;

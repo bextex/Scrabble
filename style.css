@@ -604,12 +604,14 @@ text-align: center;
 #box0 > div {
   border-radius: 1px solid black;
   
-  padding: 3px;
+  padding: 5px;
+  padding-right:7px;
   /* padding: 3px; */
   width: 4.5vh;
   height: 4.5vh;
   background-color: #A5A686;
   float: left;
+  
 
 }
 
