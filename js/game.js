@@ -516,7 +516,8 @@ export default class Game {
 
   highScoreList() {
     $('.playing-window-left').append(`
-     <div class="highScore">HIGHSCORE</div>
+     <div class="highScore">HIGH❄️SCORE</div>
+
     `)
   }
 
