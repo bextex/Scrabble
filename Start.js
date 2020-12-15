@@ -104,7 +104,7 @@ export default class Start {
       $('.game-menu').fadeOut(250);
 
       // let networkKey = await network.getLocalKey();
-      $('body').append(`<div="giveYourKey">
+      $('body').append(`<div>
       <button class="join"><span>Gå med</span></button>
       <input type="key-input" class="key-input"><span class="key" placeholder="Skriv nyckel här"></span></input>
       <p class=write-key>Skriv nyckel här</p>
