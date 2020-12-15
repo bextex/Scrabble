@@ -164,15 +164,14 @@ export default class Network {
       game.tilesFromBag = s.tilesFromFile;
       game.storeOldWords = s.storeOldWords;
       game.storeCurrentWords = s.storeCurrentWords;
-      if (s.passcounter === 3) {
-        game.endgame();
-      }
-      console.log('From network, what is s.passcounter', s.passcounter);
+      // if (s.passcounter === 3) {
+      //   game.endgame();
+      // }
+      // console.log('From network, what is s.passcounter', s.passcounter);
 
 
       game.render();
     }
-
   }
 }
 

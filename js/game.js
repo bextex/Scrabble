@@ -120,6 +120,9 @@ export default class Game {
     console.log('Sending player to score screen...')
     $('.playing-window').hide()
 
+    // $('.score-screen-contatiner').empty();
+    $('.score-screen-container').empty();
+
     $('.score-screen-container').append(`
         <div class="player-table">
         <p class="scoreboard-text">  Scoreboard</p>
@@ -127,23 +130,20 @@ export default class Game {
           </div>
         </div>
       `);
-    for (let i = 0; i < store.players.length; i++) {
-
-      // if (this.player === store.players[i]) {
-      //   store.score = this.score;
-      // }
-
-      //store.players[i].score = this.players[i].score
-      $('.player-table-inner').append(`
-        <div class="scoreboard-players"> 
-        <p class="scoreboard-players-text"> [${i}] ${store.score[i]} ${store.players[i]}</p>
-        </div>
+    $('.player-table-inner').append(`
+        <div class="scoreboard-players"></div>
         `);
-      $('.waiting-box').append(`
-        <br>
-          
-          `);
+
+    for (let i = 0; i < store.players.length; i++) {
+      $('.scoreboard-players').append(`
+        <p class="scoreboard-players-text">[${i}] ${store.score[i]} ${store.players[i]}</p>
+        `);
     }
+    $('.waiting-box').append(`
+        <br>
+          `);
+
+
     // this.render();
   }
 
@@ -151,9 +151,9 @@ export default class Game {
 
 
   playerTurn() {
-    if (store.passcounter === 3) {
-      this.endgame();
-    }
+    // if (store.passcounter === 3) {
+    //   this.endgame();
+    // }
     // if (this.tilesFromBag.length == 0) {
     //   alert('game over')
     // }
@@ -443,11 +443,12 @@ export default class Game {
 
     console.log('Index of this player in store.players:', store.players.indexOf(this.name));
     console.log('Current player in store:', store.currentPlayer);
-    if (store.players.indexOf(this.name) === store.currentPlayer) {
+    if (store.passcounter === 3) {
+      this.endgame();
+    } else if (store.players.indexOf(this.name) === store.currentPlayer) {
       $('.not-your-turn').remove();
     } else {
       $('.playing-window').append(`<div class="not-your-turn"><p>${this.player} spelar just nu...</p></div>`);
-
     }
 
     // Empty the player tileboards window before rendering, otherwise there will be double each time it renders
