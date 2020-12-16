@@ -187,6 +187,13 @@ export default class Network {
 
 
       game.render();
+    } else if (!$('.waiting-box').length) {
+      if (store.players.indexOf(this.name) === store.currentPlayer) {
+        $('.not-your-turn').remove();
+      } else {
+        //this.render();
+        $('.playing-window').append(`<div class="not-your-turn"><p>${store.players[store.currentPlayer]} spelar just nu...</p></div>`);
+      }
     }
   }
 }
