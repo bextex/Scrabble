@@ -503,6 +503,7 @@ export default class Game {
 
     this.showPlayers();
     this.showSaolText();
+    this.highScoreList();
 
     // showAndHide cannot be done unless we have read the showPlayers method
     // this.showAndHidePlayers();
@@ -512,6 +513,13 @@ export default class Game {
     this.addEvents();
     this.changeTiles();
     // this.showPlayerButtons();
+  }
+
+  highScoreList() {
+    $('.playing-window-left').append(`
+     <div class="highScore">HIGH❄️SCORE</div>
+
+    `)
   }
 
   showSaolText() {
@@ -586,7 +594,9 @@ export default class Game {
       this.render();
       // this.changeTiles();
     });
-
+    $('.help-button').on('click', async () => {
+      await Modal.alert('Blanka brickan: För att använda den blanka brickan, tryck på den och skriv in en bokstav. Om du vill ändra bokstaven senare kan du trycka på den igen. Men när du använder brickan så kommer den att läggas och vara i spel.<br>Byta Brickor: Dubbelklicka på brickorna du vill byta i din brickhållare och tryck sedan på byta brickor.', 'Stäng');
+    });
     // When click on 'Lägg brickor'-button, there will be a new player and the board will render
     // Shoul also count score on word
     $('.play-tiles').on('click', async () => {
@@ -801,7 +811,6 @@ export default class Game {
           word += wordV[i].char;
           position.push({ x: wordV[i].x, y: wordV[i].y });
           // Changed here. 
-
           if (wordV[i].special && !this.usedSpecialTiles.find(tile => (tile.x === wordV[i].x && tile.y === wordV[i].y))) {
             if ((wordV[i].special) === '2xLS') { points += 2 * wordV[i].points }
             else if ((wordV[i].special) === '3xLS') { points += 3 * wordV[i].points }
@@ -1006,6 +1015,7 @@ export default class Game {
     $('.play-tiles').remove();
     $('.pass').remove();
     $('.change-tiles').remove();
+    $('.help-button').remove();
 
     console.log('The length of the tile bag array from show player buttons', store.tilesFromFile.length);
     $('.board').append(
@@ -1014,6 +1024,7 @@ export default class Game {
       <button class="play-tiles">Lägg brickor</button>
       <button class="pass">Stå över</button>
       <button class="change-tiles">Byt brickor</button>
+      <button class="help-button">Help</button>
     `);
   }
 
@@ -1026,7 +1037,7 @@ export default class Game {
     for (let i = 0; i < store.storeCurrentWords.length; i++) {
       currentWordPoints = store.storeCurrentWords[i].points * store.storeCurrentWords[i].multiple;
       console.log("word: " + store.storeCurrentWords[i].word + ", point: " + currentWordPoints)
-      this.players[0].score += currentWordPoints;
+      this.players[0].score += +currentWordPoints;
     }
     console.log('currentWordPoints', currentWordPoints);
     if (this.tiles[0].length === 0) {
