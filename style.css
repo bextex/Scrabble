@@ -823,6 +823,7 @@ div.playing-window-left{
   margin: 10px;
   /*width: calc(15% - 40px);*/
   border-radius: 5px;
+  overflow: scroll;
   
 }
 
@@ -967,12 +968,13 @@ footer input {
   font-size: 20px;
   top: 10vh;
   right: 3vh;
-  padding-bottom: 55vh;
    width: 35vh;
    border: 5px solid #A5A686;
    border-radius: 3px;
-   padding-bottom: 40vh;
+   padding-bottom: 5vh;
    margin-bottom: 20px;
+   overflow: hidden;
+   max-height: 40vh;
    
 }
 
