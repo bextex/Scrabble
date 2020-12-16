@@ -538,13 +538,12 @@ export default class Game {
 
     if (store.passcounter === 3 || store.tilesFromFile.length <= 0) {
       this.endgame();
+    } else if (store.players.indexOf(this.name) === store.currentPlayer) {
+      $('.not-your-turn').remove();
+    } else {
+      //this.render();
+      $('.playing-window').append(`<div class="not-your-turn"><p>${store.players[store.currentPlayer]} spelar just nu...</p></div>`);
     }
-    // } else if (store.players.indexOf(this.name) === store.currentPlayer) {
-    //   $('.not-your-turn').remove();
-    // } else {
-    //   //this.render();
-    //   $('.playing-window').append(`<div class="not-your-turn"><p>${store.players[store.currentPlayer]} spelar just nu...</p></div>`);
-    // }
 
     // Empty the player tileboards window before rendering, otherwise there will be double each time it renders
     $('.playing-window-left').empty();
