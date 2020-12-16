@@ -969,7 +969,7 @@ footer input {
   right: 3vh;
   padding-bottom: 55vh;
    width: 35vh;
-   border: 3px solid #A5A686;
+   border: 5px solid #A5A686;
    border-radius: 3px;
    padding-bottom: 40vh;
    margin-bottom: 20px;
@@ -979,8 +979,8 @@ footer input {
 /*****************HIGHSCORE-LIST**********************/
 .highScore {
   position: absolute;
-  bottom: 30vh;
-  left: 96vh;
+  bottom: -3.75vh;
+  right: 9.5vh;
   font-family: 'Cabin Sketch', cursive;
   font-size: 30px;
   color: cyan;
@@ -988,8 +988,8 @@ footer input {
   text-shadow: 3px 3px #A5A686;
   cursor: default;
   border: 5px solid lightblue;
-  padding-bottom: 40vh;
-  width: 45vh;
+  height: 30vh;
+  width: 35vh;
 
  
 }
