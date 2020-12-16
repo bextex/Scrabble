@@ -740,6 +740,7 @@ export default class Game {
       if (this.tilesFromBag.length < 7) {
         console.log('there are 7 or less tiles in bag');
         await Modal.alert('Du kan inte byta brickor när det är mindre än 7 brickor kvar.');
+        return;
         // Put a div and message here instead
       }
       // How many tiles the player wants to remove
