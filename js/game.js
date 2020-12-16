@@ -130,52 +130,38 @@ export default class Game {
     this.buttonEvents();
   }
 
+  // tilesLeftOnRack() {
+  //   console.log('My player Index in network', this.myPlayerIndexInStore);
+
+  //   if (this.tiles[0].length > 0) {
+
+  //   }
+  //   store.score[this.myPlayerIndexInStore].score -= pointsAfterEnd;
+  //   store.scoreFromTileLeftOnRack += pointsAfterEnd;
+  //   // console.log('Tiles left array', tilesLeft);
+  //   console.log('So many score does the player have on rack', pointsAfterEnd);
+  //   console.log('The player have now this many score', store.score[this.myPlayerIndexInStore].score);
+  // }
+
   endgame() {
-    console.log('Sending player to score screen...');
-    console.log('What is my player index in STORE?', this.myPlayerIndexInStore);
-
-    // Add the total score to the store score for each player before printing it on screen
-
-
-    // Make a new array with the points to be able to sort the array
     let scoreArray = [];
-    for (let i = 0; i < store.score.length; i++) {
-      scoreArray.push(store.score[i].score);
+    for (let i = 0; i < store.potentialTotalScore.length; i++) {
+      scoreArray.push(store.potentialTotalScore[i].points);
     }
     scoreArray.sort((a, b) => b - a);
-    console.log('The score array', scoreArray);
 
     let playerArray = [];
 
     for (let i = 0; i < scoreArray.length; i++) {
-      for (let j = 0; j < store.score.length; j++) {
-        if (scoreArray[i] === store.score[j].score) {
-          playerArray.push({ name: store.score[j].name, score: store.score[j].score });
+      for (let j = 0; j < store.potentialTotalScore.length; j++) {
+        if (scoreArray[i] === store.potentialTotalScore[j].points) {
+          playerArray.push({ name: store.potentialTotalScore[j].name, points: store.potentialTotalScore[j].points });
         }
       }
     }
 
-
-    // for (let i = 0; i < store.score.length; i++) {
-    //   for (let j = 0; j < scoreArray.length; j++) {
-    //     if (scoreArray[j] === store.score[i].score) {
-    //       scoreArray[j].name = store.score[i].name;
-    //     }
-    //   }
-    // }
-
-    console.log('The new score array with name', playerArray);
-
-    // console.log('What is a', a);
-    // console.log('What is a.score', a.score);
-    // console.log('What is b', b);
-    // console.log('What is b.score', b.score);
-    // console.log('Score array after been sorted', store.score);
-
-
     $('.playing-window').hide();
 
-    // $('.score-screen-contatiner').empty();
     $('.score-screen-container').empty();
 
     $('.score-screen-container').append(`
@@ -191,19 +177,14 @@ export default class Game {
 
     for (let i = 0; i < playerArray.length; i++) {
       $('.scoreboard-players').append(`
-        <p class="scoreboard-players-text">[${i}] ${playerArray[i].score} ${playerArray[i].name}</p>
+        <p class="scoreboard-players-text">[${i}] ${playerArray[i].points} ${playerArray[i].name}</p>
         `);
     }
     $('.waiting-box').append(`
         <br>
           `);
 
-
-    // this.render();
   }
-
-
-
 
   playerTurn() {
     // if (store.passcounter === 3) {
@@ -320,7 +301,7 @@ export default class Game {
 
             console.log('------ IM DROPPING THE TILE IN THE PLAYER RACK ------');
 
-            let newBoxIndex = Math.floor(8 * (pageX - left) / $stand.width());
+            let newBoxIndex = Math.floor(8 * (pageX - left) / ($stand.width()));
             console.log('Im dropping the tile on the NEW index', newBoxIndex);
 
 
@@ -359,10 +340,11 @@ export default class Game {
                   that.tiles[0].push({ char: letter, points: points });
                 }
                 // If the stile on player rack is weird, remove this
-                // if ($tile.is($(el))) {
-                //   $(el).removeAttr('style');
-                // }
+                if ($tile.is($(el))) {
+                  $(el).removeAttr('style');
+                }
               });
+              console.log('The new array after omorganisation', that.tiles);
             } else {
               // Added render the tiles when putting tiles back from board to players tiles board
               let so = $tileBoxSquare.offset(), to = $tile.offset();
@@ -412,7 +394,7 @@ export default class Game {
     console.log('im in place prel on board');
     $('.playertiles').each((i, el) => {
       let $tile = $(el);
-      console.log('tile from place prel on board', $tile.data());
+
       let p = $tile.data().prelBoardPos;
       if (!p) { return; }
       let tileIndex = $(`#box0 > div > div`).index($tile);
@@ -446,19 +428,46 @@ export default class Game {
       if (p) {
         let y = p.y;
         let x = p.x;
-        if ((y === 0 && x === 0 && !!this.board[y + 1][x].tile || !!this.board[y][x + 1].tile)
-          || (x === 0 && y > 0 && y < 14 && !!this.board[y - 1][x].tile || !!this.board[y + 1][x].tile || !!this.board[y][x + 1].tile)
-          || (x === 14 && y === 0 && !!this.board[y][x - 1].tile || !!this.board[y + 1][x].tile)
-          || (x === 14 && y > 0 && y < 14 && !!this.board[y - 1][x].tile || !!this.board[y - 1][x].tile || !!this.board[y][x - 1].tile)
-          || (x === 14 && y === 14 && !!this.board[y - 1][x].tile || !!this.board[y][x - 1].tile)
-          || (y === 14 && x > 0 && x < 14 && !!this.board[y][x + 1].tile || !!this.board[y][x - 1].tile || !!this.board[y - 1][x].tile)
-          || (y === 14 && x === 0 && !!this.board[y - 1][x].tile || !!this.board[y][x + 1].tile)
-          || (y === 0 && x > 0 && x < 14 && !!this.board[y][x - 1].tile || !!this.board[y][x + 1].tile || !!this.board[y + 1][x].tile)
-          || (x > 0 && x < 14 && y > 0 && y < 14 && !!this.board[y - 1][x].tile || !!this.board[y + 1][x].tile || !!this.board[y][x + 1].tile || !!this.board[y][x - 1].tile)) {
-          isBesideAnotherTile = true;
+        if (y === 0 && x === 0) {
+          if (!!this.board[y + 1][x].tile || !!this.board[y][x + 1].tile) {
+            isBesideAnotherTile = true;
+          }
+        } else if (x === 0 && y > 0 && y < 14) {
+          if (!this.board[y - 1][x].tile || !!this.board[y + 1][x].tile || !!this.board[y][x + 1].tile) {
+            isBesideAnotherTile = true;
+          }
+        } else if (x === 14 && y === 0) {
+          if (!!this.board[y][x - 1].tile || !!this.board[y + 1][x].tile) {
+            isBesideAnotherTile = true;
+          }
+        } else if (x === 14 && y > 0 && y < 14) {
+          if (!!this.board[y - 1][x].tile || !!this.board[y + 1][x].tile || !!this.board[y][x - 1].tile) {
+            isBesideAnotherTile = true;
+          }
+        } else if (x === 14 && y === 14) {
+          if (!!this.board[y - 1][x].tile || !!this.board[y][x - 1].tile) {
+            isBesideAnotherTile = true;
+          }
+        } else if (y === 14 && x > 0 && x < 14) {
+          if (!!this.board[y][x + 1].tile || !!this.board[y][x - 1].tile || !!this.board[y - 1][x].tile) {
+            isBesideAnotherTile = true;
+          }
+        } else if (y === 14 && x === 0) {
+          if (!!this.board[y - 1][x].tile || !!this.board[y][x + 1].tile) {
+            isBesideAnotherTile = true;
+          }
+        } else if (y === 0 && x > 0 && x < 14) {
+          if (!!this.board[y][x - 1].tile || !!this.board[y][x + 1].tile || !!this.board[y + 1][x].tile) {
+            isBesideAnotherTile = true;
+          }
+        } else if (x > 0 && x < 14 && y > 0 && y < 14) {
+          if (!!this.board[y - 1][x].tile || !!this.board[y + 1][x].tile || !!this.board[y][x + 1].tile || !!this.board[y][x - 1].tile) {
+            isBesideAnotherTile = true;
+          }
         }
       }
     });
+    console.log('isBesideAnotherTile', isBesideAnotherTile);
     return isBesideAnotherTile;
   }
 
@@ -496,9 +505,38 @@ export default class Game {
 
 
 
-    console.log('store.players.indexOf(this.name): ', store.players.indexOf(this.name));
-    console.log('(store.currentPlayer):', store.currentPlayer);
-    if (store.passcounter === 3) {
+    console.log('Index of this player in store.players:', store.players.indexOf(this.name));
+    console.log('Current player in store:', store.currentPlayer);
+
+    // Always count the last tiles points in case the game is over
+    let tilePointsOnRack = 0;
+    this.tiles[0].map((tile) => {
+      tilePointsOnRack += +tile.points;
+      console.log('Tiles points', tile.points);
+    });
+
+    console.log('Points at the end', tilePointsOnRack);
+    store.scoreFromTileLeftOnRack[this.myPlayerIndexInStore] = tilePointsOnRack;
+    console.log('Tile points array', store.scoreFromTileLeftOnRack);
+
+    let totalSubractedPoints = 0;
+    if (this.tiles[0].length === 0) {
+      for (let i = 0; i < store.scoreFromTileLeftOnRack.length; i++) {
+        if (this.myPlayerIndexInStore === i) {
+          continue;
+        } else {
+          totalSubractedPoints += +store.scoreFromTileLeftOnRack[i];
+          console.log('My new total subracted point if cleaned my rack', totalSubractedPoints);
+        }
+      }
+      store.potentialTotalScore[this.myPlayerIndexInStore] = ({ name: store.players[this.myPlayerIndexInStore], points: (store.score[this.myPlayerIndexInStore].points + totalSubractedPoints) });
+      console.log('My potential points if I have a clean rack', store.potentialTotalScore[this.myPlayerIndexInStore]);
+    } else {
+      store.potentialTotalScore[this.myPlayerIndexInStore] = ({ name: store.players[this.myPlayerIndexInStore], points: (store.score[this.myPlayerIndexInStore].points - tilePointsOnRack) });
+      console.log('My new total points if not cleaned rack', store.potentialTotalScore);
+    }
+
+    if (store.passcounter === 3 || store.tilesFromFile.length <= 0) {
       this.endgame();
     } else if (store.players.indexOf(this.name) === store.currentPlayer) {
       $('.not-your-turn').remove();
@@ -513,7 +551,7 @@ export default class Game {
 
     this.showPlayers();
     this.showSaolText();
-    this.highScoreList();
+
 
     // showAndHide cannot be done unless we have read the showPlayers method
     // this.showAndHidePlayers();
@@ -522,14 +560,75 @@ export default class Game {
     this.buttonEvents();
     this.addEvents();
     this.changeTiles();
+
+    this.highScoreList();
     // this.showPlayerButtons();
   }
 
   highScoreList() {
-    $('.playing-window-left').append(`
-     <div class="highScore">HIGH❄️SCORE</div>
 
-    `)
+    console.log('-------Im in highscorelist-------');
+    $('.highScore').remove();
+
+
+    $('.playing-window').append(`
+     <div class="highScore">HIGH❄️SCORE
+     <div class="highscore-name">Namn<div class="highscore-namelist"></div></div>
+     <div class="highscore-score">Poäng<div class="highscore-scorelist"></div></div>
+     </div>
+    `);
+
+    console.log('store score array', store.score);
+    console.log('length of store score array', store.score.length);
+
+    // Check if it's first round 
+    let samePoints = 0;
+    store.score.filter((x) => {
+      if (x === store.score[0]) {
+        store.score.filter((y) => {
+          if (x.points === y.points) {
+            samePoints++;
+          }
+        });
+      }
+    });
+
+
+    let playerArray = [];
+    if (samePoints === store.score.length) {
+      console.log('Its the first round or the players has the same points!');
+      playerArray = store.score;
+    } else {
+      let scoreArray = [];
+      for (let i = 0; i < store.score.length; i++) {
+        console.log('store score [i].score', store.score[i].points);
+        scoreArray.push(store.score[i].points);
+      }
+      console.log('scorearray', scoreArray);
+      scoreArray.sort((a, b) => b - a);
+
+      for (let i = 0; i < scoreArray.length; i++) {
+        for (let j = 0; j < store.score.length; j++) {
+          console.log('scoreArray[i] === store.score[j].points', scoreArray[i] === store.score[j].points);
+          if (scoreArray[i] === store.score[j].points) {
+            playerArray.push({ name: store.score[j].name, points: store.score[j].points });
+          }
+        }
+      }
+    }
+
+    for (let i = 0; i < playerArray.length; i++) {
+      $('.highscore-namelist').append(`
+      ${playerArray[i].name}<br>
+      `);
+    }
+    for (let i = 0; i < playerArray.length; i++) {
+      $('.highscore-scorelist').append(`
+      ${playerArray[i].points}<br>
+      `)
+    }
+
+
   }
 
   showSaolText() {
@@ -579,15 +678,11 @@ export default class Game {
     $('.pass').on('click', () => {
       console.log('i have clicked on pass button');
       store.passcounter++;
-      console.log('this board in pass', this.tiles[0]);
 
       $('.playertiles').each((i, el) => {
         let $tile = $(el);
         let p = $tile.data().prelBoardPos;
-        console.log('p from .pass button is', p)
-        console.log('the tile from board', $tile);
         if (p) {
-          console.log('There is tiles when I clicked the pass button');
           p = '';
           // The tile renders back to its player tiles if not played and is on board
           $tile.css({ top: '', left: '' });
@@ -601,7 +696,7 @@ export default class Game {
       // this.tilesFromBag = store.tilesFromFile;
 
       this.playerTurn();
-      this.render();
+      // this.render();
       // this.changeTiles();
     });
     $('.help-button').on('click', async () => {
@@ -645,6 +740,7 @@ export default class Game {
       if (this.tilesFromBag.length < 7) {
         console.log('there are 7 or less tiles in bag');
         await Modal.alert('Du kan inte byta brickor när det är mindre än 7 brickor kvar.');
+        return;
         // Put a div and message here instead
       }
       // How many tiles the player wants to remove
@@ -696,7 +792,7 @@ export default class Game {
       console.log('Changing player index', store.currentPlayer);
 
       this.playerTurn();
-      this.render();
+      // this.render();
       // this.changeTiles();
     });
 
@@ -710,7 +806,7 @@ export default class Game {
 
     store.currentPlayer++;
     this.playerTurn();
-    this.render();
+    // this.render();
 
     //apend after render so it will appear in .saol element
     let boxForWord = '';
@@ -811,19 +907,21 @@ export default class Game {
     //Collect all the letters from same column and made it up to en word. 
     //Calulate the points of word even if it has extra points(2x letters,3x letters). 
     //save the words multiple times  if it has extra points(2x word,3x word). 
+    console.log('The wordV array', wordV);
     if (wordV.length > 1) {
       let word = '';
       let points = 0;
       let multiple = 1;
       let position = [];
       for (let i = 0; i < wordV.length; i++) {
+        console.log('WordV.y och WordV.x', wordV[i].y, wordV[i].x);
+
         if (((i < wordV.length - 1) && (wordV[i].y === wordV[i + 1].y)) || ((i > 0) && (wordV[i].y === wordV[i - 1].y))) {
           word += wordV[i].char;
           position.push({ x: wordV[i].x, y: wordV[i].y });
-
+          // Changed here. 
           // count the points
           //if there are some special box then save it to avoid count it again from next round
-
           if (wordV[i].special && !this.usedSpecialTiles.find(tile => (tile.x === wordV[i].x && tile.y === wordV[i].y))) {
             if ((wordV[i].special) === '2xLS') { points += 2 * wordV[i].points }
             else if ((wordV[i].special) === '3xLS') { points += 3 * wordV[i].points }
@@ -840,13 +938,12 @@ export default class Game {
           }
           //only for middle char if it is not the first word (there is a another player's score is not 0)
           //then the middle word will not be count dubble point
+          let sumAllPlayerScore = 0;
           if (wordV[i].special === 'middle-star') {
             for (let k = 0; k < store.players.length; k++) {
-              if (this.name !== store.players[k]) {
-                if (store.players[k].score !== 0) { multiple = 1; }
-              }
-              else if (store.players[k].score === 0) { multiple = 2; }
+              sumAllPlayerScore += store.players[k].score;
             }
+            if (sumAllPlayerScore !== 0) { multiple = 1 }
           }
         }
         //if it is another column then save the word to wordArray. Initialize variables in order to save the new words.
@@ -864,12 +961,16 @@ export default class Game {
     //Collect all the letters from same row and made it up to en word. 
     //Calulate the points of word even if it has extra points(2x letters,3x letters). 
     //save the words multiple times  if it has extra points(2x word,3x word). 
+    console.log('The wordH array', wordH);
     if (wordH.length > 1) {
       let word = '';
       let points = 0;
       let multiple = 1;
       let position = [];
       for (let i = 0; i < wordH.length; i++) {
+
+        console.log('WordH.y och WordH.x', wordH[i].y, wordH[i].x);
+
         if (((i < wordH.length - 1) && (wordH[i].x === wordH[i + 1].x)) || ((i > 0) && (wordH[i].x === wordH[i - 1].x))) {
           word += wordH[i].char;
           position.push({ x: wordH[i].x, y: wordH[i].y });
@@ -1019,12 +1120,9 @@ export default class Game {
         $tile.css(pos);
         boxIndex++;
       });
-
-
-
-
-
     });
+
+
 
 
 
@@ -1061,6 +1159,7 @@ export default class Game {
       console.log("word: " + store.storeCurrentWords[i].word + ", point: " + currentWordPoints)
       this.players[0].score += +currentWordPoints;
     }
+    console.log('This players score after addind currentwordpoints', this.players[0].score);
     console.log('currentWordPoints', currentWordPoints);
     if (this.tiles[0].length === 0) {
       this.players[0].score += 50;
@@ -1074,7 +1173,7 @@ export default class Game {
         console.log('What name in store matches this player?', store.score[i].name);
         console.log('Which index matches that name in score?', i);
         console.log('What is this players score?', this.players[0].score);
-        store.score[i].score = this.players[0].score;
+        store.score[i].points = this.players[0].score;
         console.log('The score array', store.score);
       }
     }
