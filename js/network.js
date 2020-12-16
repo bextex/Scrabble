@@ -93,7 +93,7 @@ export default class Network {
     console.log('my name is ' + name);
     console.log(s.players);
 
-    s.score.push({ name: name, score: 0 });
+    s.score.push({ name: name, points: 0 });
 
     // For all players except the one starting the game will need a render of the board
 
@@ -189,15 +189,16 @@ export default class Network {
 
 
       game.render();
-    } else if (!$('.waiting-box').length) {
-      $('.playing-window').empty();
-      if (store.players.indexOf(this.name) === store.currentPlayer) {
-        $('.not-your-turn').remove();
-      } else {
-        //this.render();
-        $('.playing-window').append(`<div class="not-your-turn"><p>${store.players[store.currentPlayer]} spelar just nu...</p></div>`);
-      }
     }
+    // } else if (!$('.waiting-box').length) {
+    //   $('.playing-window').empty();
+    //   if (store.players.indexOf(this.name) === store.currentPlayer) {
+    //     $('.not-your-turn').remove();
+    //   } else {
+    //     //this.render();
+    //     $('.playing-window').append(`<div class="not-your-turn"><p>${store.players[store.currentPlayer]} spelar just nu...</p></div>`);
+    //   }
+    // }
   }
 }
 

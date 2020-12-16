@@ -980,7 +980,7 @@ footer input {
 .highScore {
   position: absolute;
   bottom: -3.75vh;
-  right: 9.5vh;
+  left: 97.5vh;
   font-family: 'Cabin Sketch', cursive;
   font-size: 30px;
   color: cyan;
@@ -992,20 +992,44 @@ footer input {
   width: 35vh; 
 }
 .highscore-name{
+  font-family: 'Cabin Sketch', cursive;
+  font-size: 20px;
+  color: cyan;
+  /* font-family: 'Langar', cursive; */
+  position: absolute;
+  font-size: 20px;
+  /* color: black; */
+  left: 4vh;
+}
+
+.highscore-score{
+  font-family: 'Cabin Sketch', cursive;
+  font-size: 20px;
+  color: cyan;
+  /* font-family: 'Langar', cursive; */
+  position: absolute;
+  font-size: 20px;
+  /* color: black;  */
+  left: 23vh;
+}
+
+.highscore-namelist{
   font-family: 'Langar', cursive;
   position: absolute;
   font-size: 20px;
   color: black;
-  left: 3vh;
+  text-shadow: none;
 }
 
-.highscore-score{
+.highscore-scorelist{
   font-family: 'Langar', cursive;
   position: absolute;
   font-size: 20px;
   color: black; 
-  left: 23vh;
+  text-shadow: none;
 }
+
+
 
 /*************SNOW-ANIMATION*************/
 
