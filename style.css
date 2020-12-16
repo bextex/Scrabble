@@ -981,6 +981,7 @@ footer input {
 
 /*****************HIGHSCORE-LIST**********************/
 .highScore {
+  background-color: #f2e2d8;;
   position: absolute;
   bottom: -3.75vh;
   left: 97.5vh;
@@ -988,7 +989,7 @@ footer input {
   font-size: 30px;
   color: cyan;
   
-  text-shadow: 3px 3px #A5A686;
+  text-shadow: 3px 3px #4c4d49;
   cursor: default;
   border: 5px solid lightblue;
   height: 30vh;
@@ -1020,7 +1021,7 @@ footer input {
   font-family: 'Langar', cursive;
   position: absolute;
   font-size: 20px;
-  color: black;
+  color: #4c4d49;
   text-shadow: none;
 }
 
@@ -1028,7 +1029,7 @@ footer input {
   font-family: 'Langar', cursive;
   position: absolute;
   font-size: 20px;
-  color: black; 
+  color: #4c4d49;
   text-shadow: none;
 }
 
