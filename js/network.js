@@ -3,6 +3,7 @@ import Start from '../Start.js';
 import Game from './game.js';
 import Player from './player.js';
 import Bag from './bag.js';
+import Modal from './modal.js';
 
 
 export let store;
@@ -53,9 +54,11 @@ export default class Network {
     store = s;
 
     s.passcounter = 0;
+    s.playercount = 0;
 
     // We want the network to listen for which players connecting to the same game (same game key)
     s.players = s.players || [];
+    s.score = s.score || [];
 
     s.storeOldWords = s.storeOldWords || [];
     s.storeCurrentWords = s.storeCurrentWords || [];
@@ -70,6 +73,7 @@ export default class Network {
     // We want to listen for which player is the one currently playing
     // s.currentPlayer = s.currentPlayer || game.playerIndex;
     console.log('Current player has index:', s.currentPlayer);
+    console.log('The playercount is', s.playercount)
 
     // We want to if we're not in the same game anymore
     // s.game = s.game || game;
@@ -87,6 +91,8 @@ export default class Network {
     console.log('my name is ' + name);
     console.log(s.players);
 
+    s.score.push({ name: name, score: 0 });
+
     // For all players except the one starting the game will need a render of the board
 
     // game.start();
@@ -103,7 +109,7 @@ export default class Network {
 
 
     if (s.players.length > 1) {
-      game.start(name);
+      game.start(name, this.playerIndexInNetwork);
     }
 
     // The player that gets a game-key is the only player that can start the game,
@@ -111,21 +117,33 @@ export default class Network {
 
 
 
-    $('.start-new-game').on('click', function () {
-      console.log('im clicking the start button');
+    let that = this;
 
-      // remove the waiting box so it doesn't append in listen for network changes
-      $('.waiting-for-players').remove();
+    $('.start-new-game').on('click', async function () {
 
-      $('.playersName').fadeOut(200);
-      $('.game-screen').fadeOut(200);
-      $('.game-menu').fadeOut(200);
-      $('.scrabble').fadeOut(200);
+      if (s.players.length > 1 && s.players.length < 5) {
+        console.log('im clicking the start button');
 
-      // game.start();
-      game.start(name);
+        // remove the waiting box so it doesn't append in listen for network changes
+        $('.waiting-for-players').remove();
+
+        $('.playersName').fadeOut(200);
+        $('.game-screen').fadeOut(200);
+        $('.game-menu').fadeOut(200);
+        $('.scrabble').fadeOut(200);
+
+        // game.start();
+        game.start(name, that.playerIndexInNetwork);
+      }
+      else if (s.players.length == 1 || s.players.length <= 5) {
+        await Modal.alert('Det måste vara minst 2 spelare och högst 4 för att starta ett spel', 'Stäng');
+        // alert('This is a modal');
+      }
     });
+
+    console.log('----------------------we are less than 2')
   }
+
 
 
   listenForNetworkChanges(game) {
@@ -146,6 +164,7 @@ export default class Network {
         <br>
           ${s.players[i]} har joinat spelet</br>
           `);
+        s.playercount++;
       }
     }
 
@@ -161,13 +180,16 @@ export default class Network {
       game.tilesFromBag = s.tilesFromFile;
       game.storeOldWords = s.storeOldWords;
       game.storeCurrentWords = s.storeCurrentWords;
-
+      // if (s.passcounter === 3) {
+      //   game.endgame();
+      // }
+      // console.log('From network, what is s.passcounter', s.passcounter);
 
 
       game.render();
     }
-
   }
+}
 
 
 
@@ -290,5 +312,5 @@ export default class Network {
 
 
 
-}
+
 

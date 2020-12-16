@@ -4,7 +4,7 @@ import Board from './board.js';
 import Score from './score.js';
 import Modal from './modal.js';
 // import { players } from './player.js';
-import { store } from './network.js';
+import Network, { store } from './network.js';
 import Bag from './bag.js';
 
 console.log("Store från början", store)
@@ -28,6 +28,7 @@ export default class Game {
     //----johanna
     this.players = [];
     this.boxIndex;
+
   }
 
   async checkNewWordsInSAOL() {
@@ -107,9 +108,11 @@ export default class Game {
 
   /* Starting up the game with start() to set how's the first player */
 
-  start(playerName) {
+  start(playerName, myPlayerIndex) {
     this.getTiles();
     this.board = store.board;
+    this.myPlayerIndexInStore = myPlayerIndex;
+    console.log('What is my player index in NETWORK in START?', this.myPlayerIndexInStore);
 
 
     this.name = playerName;
@@ -127,9 +130,53 @@ export default class Game {
     this.buttonEvents();
   }
 
-  endGame() {
-    console.log('Sending player to score screen...')
-    $('.playing-window').hide()
+  endgame() {
+    console.log('Sending player to score screen...');
+    console.log('What is my player index in STORE?', this.myPlayerIndexInStore);
+
+    // Add the total score to the store score for each player before printing it on screen
+
+
+    // Make a new array with the points to be able to sort the array
+    let scoreArray = [];
+    for (let i = 0; i < store.score.length; i++) {
+      scoreArray.push(store.score[i].score);
+    }
+    scoreArray.sort((a, b) => b - a);
+    console.log('The score array', scoreArray);
+
+    let playerArray = [];
+
+    for (let i = 0; i < scoreArray.length; i++) {
+      for (let j = 0; j < store.score.length; j++) {
+        if (scoreArray[i] === store.score[j].score) {
+          playerArray.push({ name: store.score[j].name, score: store.score[j].score });
+        }
+      }
+    }
+
+
+    // for (let i = 0; i < store.score.length; i++) {
+    //   for (let j = 0; j < scoreArray.length; j++) {
+    //     if (scoreArray[j] === store.score[i].score) {
+    //       scoreArray[j].name = store.score[i].name;
+    //     }
+    //   }
+    // }
+
+    console.log('The new score array with name', playerArray);
+
+    // console.log('What is a', a);
+    // console.log('What is a.score', a.score);
+    // console.log('What is b', b);
+    // console.log('What is b.score', b.score);
+    // console.log('Score array after been sorted', store.score);
+
+
+    $('.playing-window').hide();
+
+    // $('.score-screen-contatiner').empty();
+    $('.score-screen-container').empty();
 
     $('.score-screen-container').append(`
         <div class="player-table">
@@ -138,26 +185,30 @@ export default class Game {
           </div>
         </div>
       `);
-    for (let i = 0; i < store.players.length; i++) {
-      //store.players[i].score = this.players[i].score
-      $('.player-table-inner').append(`
-        <div class="scoreboard-players"> 
-        <p class="scoreboard-players-text"> [${i}] ${store.players[i].score} ${store.players[i]}</p>
-        
-        </div>
+    $('.player-table-inner').append(`
+        <div class="scoreboard-players"></div>
         `);
-      $('.waiting-box').append(`
-        <br>
-          
-          `);
+
+    for (let i = 0; i < playerArray.length; i++) {
+      $('.scoreboard-players').append(`
+        <p class="scoreboard-players-text">[${i}] ${playerArray[i].score} ${playerArray[i].name}</p>
+        `);
     }
-    this.render();
+    $('.waiting-box').append(`
+        <br>
+          `);
+
+
+    // this.render();
   }
 
+
+
+
   playerTurn() {
-    if (this.tilesFromBag == 0) {
-      this.endGame();
-    }
+    // if (store.passcounter === 3) {
+    //   this.endgame();
+    // }
     // if (this.tilesFromBag.length == 0) {
     //   alert('game over')
     // }
@@ -447,11 +498,12 @@ export default class Game {
 
     console.log('Index of this player in store.players:', store.players.indexOf(this.name));
     console.log('Current player in store:', store.currentPlayer);
-    if (store.players.indexOf(this.name) === store.currentPlayer) {
+    if (store.passcounter === 3) {
+      this.endgame();
+    } else if (store.players.indexOf(this.name) === store.currentPlayer) {
       $('.not-your-turn').remove();
     } else {
       $('.playing-window').append(`<div class="not-your-turn"><p>${this.player} spelar just nu...</p></div>`);
-
     }
 
     // Empty the player tileboards window before rendering, otherwise there will be double each time it renders
@@ -460,6 +512,7 @@ export default class Game {
 
     this.showPlayers();
     this.showSaolText();
+    this.highScoreList();
 
     // showAndHide cannot be done unless we have read the showPlayers method
     // this.showAndHidePlayers();
@@ -469,6 +522,13 @@ export default class Game {
     this.addEvents();
     this.changeTiles();
     // this.showPlayerButtons();
+  }
+
+  highScoreList() {
+    $('.playing-window-left').append(`
+     <div class="highScore">HIGH❄️SCORE</div>
+
+    `)
   }
 
   showSaolText() {
@@ -517,12 +577,7 @@ export default class Game {
     // When click on 'Stå över'-button, there will be a new player and the board will render
     $('.pass').on('click', () => {
       console.log('i have clicked on pass button');
-      if (store.passcounter == 3) {
-        this.endGame();
-      }
-      else {
-        store.passcounter++;
-      }
+      store.passcounter++;
       console.log('this board in pass', this.tiles[0]);
 
       $('.playertiles').each((i, el) => {
@@ -548,10 +603,14 @@ export default class Game {
       this.render();
       // this.changeTiles();
     });
-
+    $('.help-button').on('click', async () => {
+      await Modal.alert('Blanka brickan: För att använda den blanka brickan, tryck på den och skriv in en bokstav. Om du vill ändra bokstaven senare kan du trycka på den igen. Men när du använder brickan så kommer den att läggas och vara i spel.<br>Byta Brickor: Dubbelklicka på brickorna du vill byta i din brickhållare och tryck sedan på byta brickor.', 'Stäng');
+    });
     // When click on 'Lägg brickor'-button, there will be a new player and the board will render
     // Shoul also count score on word
     $('.play-tiles').on('click', async () => {
+
+      store.passcounter = 0;
       console.log('im pushing play-tiles');
 
       // only a valid move if not first move or center is taken
@@ -573,13 +632,14 @@ export default class Game {
       //----johanna
 
 
-      store.passcounter = 0;
+
     });
 
     // To change tiles, locate what tile wants to be changed and change them to new tiles from bag. 
     // Put back the tiles that wants to be changed and scramble the bag
 
     $('.change-tiles').on('click', async () => {
+      store.passcounter++;
       console.log('im pushing change-tiles');
       if (this.tilesFromBag.length < 7) {
         console.log('there are 7 or less tiles in bag');
@@ -759,8 +819,10 @@ export default class Game {
         if (((i < wordV.length - 1) && (wordV[i].y === wordV[i + 1].y)) || ((i > 0) && (wordV[i].y === wordV[i - 1].y))) {
           word += wordV[i].char;
           position.push({ x: wordV[i].x, y: wordV[i].y });
+
           // count the points
           //if there are some special box then save it to avoid count it again from next round
+
           if (wordV[i].special && !this.usedSpecialTiles.find(tile => (tile.x === wordV[i].x && tile.y === wordV[i].y))) {
             if ((wordV[i].special) === '2xLS') { points += 2 * wordV[i].points }
             else if ((wordV[i].special) === '3xLS') { points += 3 * wordV[i].points }
@@ -974,6 +1036,7 @@ export default class Game {
     $('.play-tiles').remove();
     $('.pass').remove();
     $('.change-tiles').remove();
+    $('.help-button').remove();
 
     console.log('The length of the tile bag array from show player buttons', store.tilesFromFile.length);
     $('.board').append(
@@ -982,6 +1045,7 @@ export default class Game {
       <button class="play-tiles">Lägg brickor</button>
       <button class="pass">Stå över</button>
       <button class="change-tiles">Byt brickor</button>
+      <button class="help-button">Help</button>
     `);
   }
 
@@ -994,7 +1058,7 @@ export default class Game {
     for (let i = 0; i < store.storeCurrentWords.length; i++) {
       currentWordPoints = store.storeCurrentWords[i].points * store.storeCurrentWords[i].multiple;
       console.log("word: " + store.storeCurrentWords[i].word + ", point: " + currentWordPoints)
-      this.players[0].score += currentWordPoints;
+      this.players[0].score += +currentWordPoints;
     }
     console.log('currentWordPoints', currentWordPoints);
     if (this.tiles[0].length === 0) {
@@ -1003,6 +1067,16 @@ export default class Game {
     }
     console.log('this.players[0].score', this.players[0].score);
     // this.render();
+    for (let i = 0; i < store.score.length; i++) {
+      if (i === this.myPlayerIndexInStore) {
+        console.log('What is my player index in store', this.myPlayerIndexInStore);
+        console.log('What name in store matches this player?', store.score[i].name);
+        console.log('Which index matches that name in score?', i);
+        console.log('What is this players score?', this.players[0].score);
+        store.score[i].score = this.players[0].score;
+        console.log('The score array', store.score);
+      }
+    }
 
     ////// NEW ADDED this. ///////
     // players[store.currentPlayer].score += currentWordPoints;
