@@ -989,9 +989,22 @@ footer input {
   cursor: default;
   border: 5px solid lightblue;
   height: 30vh;
-  width: 35vh;
+  width: 35vh; 
+}
+.highscore-name{
+  font-family: 'Langar', cursive;
+  position: absolute;
+  font-size: 20px;
+  color: black;
+  left: 3vh;
+}
 
- 
+.highscore-score{
+  font-family: 'Langar', cursive;
+  position: absolute;
+  font-size: 20px;
+  color: black; 
+  left: 23vh;
 }
 
 /*************SNOW-ANIMATION*************/

@@ -566,9 +566,11 @@ export default class Game {
 
   highScoreList() {
     $('.playing-window').append(`
-     <div class="highScore">HIGH❄️SCORE</div>
-
-    `)
+     <div class="highScore">HIGH❄️SCORE
+     <div class="highscore-name">Namn</div>
+     <div class="highscore-score">Poäng</div>
+     </div>
+    `);
   }
 
   showSaolText() {
