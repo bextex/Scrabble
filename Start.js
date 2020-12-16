@@ -136,37 +136,6 @@ export default class Start {
   }
 }
 
-// $('.start-gameXXX').on('click', function () {
-//   // console.log('clicking the button');
-//   // console.log($('.playersName > input').length);
-//   let length = $('.playersName > input').length
-//   for (let i = 1; i <= length; i++) {
-//     // console.log('im in the loop');
-//     let playerName = document.getElementById(`player${i}Name`).value;
-//     if (playerName === '') {
-//       playerName = `Spelare ${i}`;
-//     }
-//     // console.log(`${playerName}`);
-//     let newPlayer = new Player();
-//     //that is all the tiles from the bag. Which has been created in clickFunctions
-//     let tilesFromBag = that.tiles.splice(0, 7);
-//     newPlayer.setPlayerNames(playerName, tilesFromBag);
-//   }
-
-//   $('.game-screen').fadeOut(1700);
-//   $('.game-menu').fadeOut(1700);
-//   $('.scrabble').fadeOut(1700);
-//   setTimeout(() => {
-//     new Board().start(that.tiles);
-//   }, 1700);
-//   $('.scrabble').fadeOut(2000);
-//   // $('.scrabble').animate({ top: '12px' }, 'slow');
-//   //$('.scrabble').animate({ fontSize: '40px' }, 'slow');
-//   // console.log("new Game().playerTurn - called")
-//   //new Game(that.tiles);
-//   // new Game().countScore();
-//   // new Game().playerTurn();
-// });
 
 
 // rules open-close 
