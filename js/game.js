@@ -830,6 +830,8 @@ export default class Game {
       let multiple = 1;
       let position = [];
       for (let i = 0; i < wordV.length; i++) {
+        console.log('WordV.y och WordV.x', wordV[i].y, wordV[i].x);
+
         if (((i < wordV.length - 1) && (wordV[i].y === wordV[i + 1].y)) || ((i > 0) && (wordV[i].y === wordV[i - 1].y))) {
           word += wordV[i].char;
           position.push({ x: wordV[i].x, y: wordV[i].y });
@@ -871,6 +873,9 @@ export default class Game {
       let multiple = 1;
       let position = [];
       for (let i = 0; i < wordH.length; i++) {
+
+        console.log('WordH.y och WordH.x', wordH[i].y, wordH[i].x);
+
         if (((i < wordH.length - 1) && (wordH[i].x === wordH[i + 1].x)) || ((i > 0) && (wordH[i].x === wordH[i - 1].x))) {
           word += wordH[i].char;
           position.push({ x: wordH[i].x, y: wordH[i].y });
