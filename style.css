@@ -526,6 +526,7 @@ text-align: center;
   display: flex;
   flex-wrap: wrap;
   /* justify-content: space-evenly; */
+  float: left;
   width:300px;  
 }
 
@@ -534,8 +535,8 @@ text-align: center;
   position: absolute;
   font-size: 15px;
   color: black;
-  left: 105vh;
-  bottom: 60vh;
+  /* left: 85vh; */
+  bottom: 8vh;
 }
 
 .score{
@@ -543,8 +544,8 @@ text-align: center;
   position: absolute;
   font-size: 15px;
   color: black; 
-  left: 130vh;
-  bottom: 60vh;
+  left: 40vh;
+  bottom: 8vh;
 }
 
 /* .not-current-player{
@@ -693,8 +694,10 @@ div.playing-window-left{
   /*border: 3px solid  #A5A686;*/
   /* width: 50vh; */
   padding: 10px;
-  margin-top: 84vh;
-  margin-left: 40vh;
+  left: 30vh;
+  bottom: -3.75vh;
+  /* margin-top: 84vh;
+  margin-left: 40vh; */
   /*overflow: hidden;*/
   text-align: center;
   display: inline-block;
@@ -1148,10 +1151,10 @@ color: #000;
     left: 50%;
   }
 
-  .playing-window-left{
+  /* .playing-window-left{
     margin-top: 88.5vh;
     margin-left: 40vh;
-  }
+  } */
 
   /* .playersName{
     font-size: 17px;
@@ -1230,10 +1233,10 @@ color: #000;
     top: 64%;
   }
 
-  .playing-window-left{
+  /* .playing-window-left{
     margin-top: 88.5vh;
     margin-left: 40vh;
-  }
+  } */
 
   .rules-window .add-rules{
     left: 20%;
@@ -1271,10 +1274,10 @@ color: #000;
   font-size: 12vh;
   }
 
-  .playing-window-left{
+  /* .playing-window-left{
     margin-top: 88.5vh;
     margin-left: 40vh;
-  }
+  } */
   .saol{
     font-size: 30px;
   }
@@ -1337,10 +1340,10 @@ color: #000;
   font-size: 10vh;
   }
 
-  .playing-window-left{
+  /* .playing-window-left{
     margin-top: 88.5vh;
     margin-left: 40vh;
-  }
+  } */
     .saol{
     font-size: 30px;
   }
