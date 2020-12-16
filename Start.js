@@ -104,7 +104,7 @@ export default class Start {
       $('.game-menu').fadeOut(250);
 
       // let networkKey = await network.getLocalKey();
-      $('body').append(`<div>
+      $('body').append(`<div class="giveYourKey">
       <button class="join"><span>Gå med</span></button>
       <input type="key-input" class="key-input"><span class="key" placeholder="Skriv nyckel här"></span></input>
       <p class=write-key>Skriv nyckel här</p>
@@ -126,6 +126,7 @@ export default class Start {
           // console.log(players);
           network.connectToStore(insertedNetworkKey, name);
         }
+        $('.giveYourKey').fadeOut(200);
         $('.playersName').fadeOut(200);
         $('.game-screen').fadeOut(200);
         $('.game-menu').fadeOut(200);
@@ -135,37 +136,6 @@ export default class Start {
   }
 }
 
-// $('.start-gameXXX').on('click', function () {
-//   // console.log('clicking the button');
-//   // console.log($('.playersName > input').length);
-//   let length = $('.playersName > input').length
-//   for (let i = 1; i <= length; i++) {
-//     // console.log('im in the loop');
-//     let playerName = document.getElementById(`player${i}Name`).value;
-//     if (playerName === '') {
-//       playerName = `Spelare ${i}`;
-//     }
-//     // console.log(`${playerName}`);
-//     let newPlayer = new Player();
-//     //that is all the tiles from the bag. Which has been created in clickFunctions
-//     let tilesFromBag = that.tiles.splice(0, 7);
-//     newPlayer.setPlayerNames(playerName, tilesFromBag);
-//   }
-
-//   $('.game-screen').fadeOut(1700);
-//   $('.game-menu').fadeOut(1700);
-//   $('.scrabble').fadeOut(1700);
-//   setTimeout(() => {
-//     new Board().start(that.tiles);
-//   }, 1700);
-//   $('.scrabble').fadeOut(2000);
-//   // $('.scrabble').animate({ top: '12px' }, 'slow');
-//   //$('.scrabble').animate({ fontSize: '40px' }, 'slow');
-//   // console.log("new Game().playerTurn - called")
-//   //new Game(that.tiles);
-//   // new Game().countScore();
-//   // new Game().playerTurn();
-// });
 
 
 // rules open-close 
