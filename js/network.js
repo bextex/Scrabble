@@ -190,6 +190,7 @@ export default class Network {
 
       game.render();
     } else if (!$('.waiting-box').length) {
+      $('.playing-window').empty();
       if (store.players.indexOf(this.name) === store.currentPlayer) {
         $('.not-your-turn').remove();
       } else {
