@@ -839,13 +839,12 @@ export default class Game {
           }
           //only for middle char if it is not the first word (there is a another player's score is not 0)
           //then the middle word will not be count dubble point
+          let sumAllPlayerScore = 0;
           if (wordV[i].special === 'middle-star') {
             for (let k = 0; k < store.players.length; k++) {
-              if (this.name !== store.players[k]) {
-                if (store.players[k].score !== 0) { multiple = 1; }
-              }
-              else if (store.players[k].score === 0) { multiple = 2; }
+              sumAllPlayerScore += store.players[k].score;
             }
+            if (sumAllPlayerScore !== 0) { multiple = 1 }
           }
         }
         //if it is another column then save the word to wordArray. Initialize variables in order to save the new words.
