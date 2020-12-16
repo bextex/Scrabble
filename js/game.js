@@ -858,9 +858,9 @@ export default class Game {
         if (((i < wordV.length - 1) && (wordV[i].y === wordV[i + 1].y)) || ((i > 0) && (wordV[i].y === wordV[i - 1].y))) {
           word += wordV[i].char;
           position.push({ x: wordV[i].x, y: wordV[i].y });
+          // Changed here. 
           // count the points
           //if there are some special box then save it to avoid count it again from next round
-
           if (wordV[i].special && !this.usedSpecialTiles.find(tile => (tile.x === wordV[i].x && tile.y === wordV[i].y))) {
             if ((wordV[i].special) === '2xLS') { points += 2 * wordV[i].points }
             else if ((wordV[i].special) === '3xLS') { points += 3 * wordV[i].points }
@@ -877,13 +877,12 @@ export default class Game {
           }
           //only for middle char if it is not the first word (there is a another player's score is not 0)
           //then the middle word will not be count dubble point
+          let sumAllPlayerScore = 0;
           if (wordV[i].special === 'middle-star') {
             for (let k = 0; k < store.players.length; k++) {
-              if (this.name !== store.players[k]) {
-                if (store.players[k].score !== 0) { multiple = 1; }
-              }
-              else if (store.players[k].score === 0) { multiple = 2; }
+              sumAllPlayerScore += store.players[k].score;
             }
+            if (sumAllPlayerScore !== 0) { multiple = 1 }
           }
         }
         //if it is another column then save the word to wordArray. Initialize variables in order to save the new words.
