@@ -35,28 +35,58 @@ export default class Game {
     console.log('3. --- checkNewWordsInSAOL ---')
     let all = true;
     let none = true;
-    console.log(store.storeCurrentWords.length)
-    for (let i = 0; i < store.storeCurrentWords.length; i++) {
-      console.log(store.storeCurrentWords[i])
-      if (/\s/.test(store.storeCurrentWords[i].word) || await SAOLchecker.scrabbleOk(store.storeCurrentWords[i].word) === false) {
+    // console.log(store.storeCurrentWords.length)
+
+    for (let i = 0; i < this.newestWords.length; i++) {
+      console.log(this.newestWords[i])
+      console.log(this.newestWords[i].word);
+      if (/\s/.test(this.newestWords[i].word) || await SAOLchecker.scrabbleOk(this.newestWords[i].word) === false) {
         console.log("one or more words are invalid")
-        if (/\s/.test(store.storeCurrentWords[i].word)) {
+        if (/\s/.test(this.newestWords[i].word)) {
           alert("Fill in the blank tile!")
         }
-        this.newestWords = [];
+        // this.newestWords = [];
         all = false;
       }
       else {
         none = false;
       }
     }
+
+
+
+    // for (let i = 0; i < store.storeCurrentWords.length; i++) {
+    //   console.log(store.storeCurrentWords[i])
+    //   if (/\s/.test(store.storeCurrentWords[i].word) || await SAOLchecker.scrabbleOk(store.storeCurrentWords[i].word) === false) {
+    //     console.log("one or more words are invalid")
+    //     if (/\s/.test(store.storeCurrentWords[i].word)) {
+    //       alert("Fill in the blank tile!")
+    //     }
+    //     this.newestWords = [];
+    //     all = false;
+    //   }
+    //   else {
+    //     none = false;
+    //   }
+    // }
     console.log("all: " + all)
     console.log("none: " + none)
     //if all words in wordsArray are ok in Scrabble
     if (all && !none) {
+
+      // Add the words in store as old words because they are approved words
+
+      console.log('The word is approved!');
+
+      for (let i = 0; i < this.newestWords.length; i++) {
+        // console.log('store.storeCurrentWords[i]', store.storeCurrentWords[i])
+        store.storeOldWords.push(this.newestWords[i]);
+      }
+      console.log('Store old words array: ', store.storeOldWords);
+
       this.countPlayerScore(this.playerIndex);
       this.nextPlayer();
-      console.log("end of round store.storeCurrentWords: ", store.storeCurrentWords)
+      console.log("end of round store.storeCurrentWords: ", this.newestWords);
       //console.log("end of round this.wordArrayCommitted", this.wordArrayCommitted)
     } else {
       console.log('--------Not approved word, will remove it from board-------');
@@ -384,7 +414,6 @@ export default class Game {
     console.log('im in place prel on board');
     $('.playertiles').each((i, el) => {
       let $tile = $(el);
-
       let p = $tile.data().prelBoardPos;
       if (!p) { return; }
       let tileIndex = $(`#box0 > div > div`).index($tile);
@@ -727,7 +756,7 @@ export default class Game {
 
     //apend after render so it will appear in .saol element
     let boxForWord = '';
-    for (let obj of store.storeCurrentWords) {
+    for (let obj of this.newestWords) {
       console.log("appending " + obj.word + "to SAOL window")
       boxForWord = '<div class="boxForWord"><span class="word validWord">' + obj.word + '</span>'
       $('.saol').append(boxForWord)
@@ -766,8 +795,10 @@ export default class Game {
     // this.addEvents();
     // // this.changeTiles();
 
-
     console.log('2. --- checkNewWordsOnBoard ---')
+
+    let localStoreOldWords = store.storeOldWords;
+    this.newestWords = [];
 
     let wordH = [];  //to save  all the infromation on the horisontal 
     let wordV = [];  //to save all the infromation on the vertical 
@@ -785,33 +816,56 @@ export default class Game {
           // if (i === y && j === x) {
           // First check if we have another tile above/below AND side/side
           // Add the letter to both vertical and horisontal word  
+          // if ((j > 0 && j < 14 && i > 0 && i < 14) && (this.board[i + 1][j].tile || this.board[i - 1][j].tile) && (this.board[i][j + 1].tile || this.board[i][j - 1].tile)) {
           if ((this.board[i + 1][j].tile || this.board[i - 1][j].tile) && (this.board[i][j + 1].tile || this.board[i][j - 1].tile)) {
+
+            // console.log('1. Bokstav ovanför mig: ', this.board[i - 1][j].tile);
+            // console.log('1. Bokstav nedanför mig: ', this.board[i + 1][j].tile);
+            // console.log('1. Bokstav höger om mig: ', this.board[i][j + 1].tile);
+            // console.log('1. Bokstav vänster om mig: ', this.board[i][j - 1].tile);
+
             c = this.board[i][j].tile[0].char;
             p = this.board[i][j].tile[0].points;
             s = this.board[i][j].special;
             wordV.push({ x: i, y: j, char: c, points: p, special: s });
             wordH.push({ x: i, y: j, char: c, points: p, special: s });
+            console.log('1. I have pushed c, p and s', c, p, s);
             // If we only have a tile above/below, add the letter to vertical word
-          } else if (this.board[i + 1][j].tile || this.board[i - 1][j].tile) {
+            // } else if ((j === 14 && i > 0 && i < 14) || (j === 0 && i > 0 && i < 14) && (this.board[i + 1][j].tile || this.board[i - 1][j].tile)) {
+          } else if ((this.board[i + 1][j].tile || this.board[i - 1][j].tile)) {
+
+            // console.log('2. Bokstav ovanför mig: ', this.board[i - 1][j].tile);
+            // console.log('2. Bokstav nedanför mig: ', this.board[i + 1][j].tile);
+
+
             c = this.board[i][j].tile[0].char;
             p = this.board[i][j].tile[0].points;
             s = this.board[i][j].special;
             wordV.push({ x: i, y: j, char: c, points: p, special: s });
+            console.log('2. I have pushed c, p and s', c, p, s);
             // If we only have a tile side/side, add the letter to horisontal word
-          } else if (this.board[i][j + 1].tile || this.board[i][j - 1].tile) {
+            // } else if ((i === 0 && j > 0 && j < 14) || (i === 14 && j > 0 && j < 14) && (this.board[i][j + 1].tile || this.board[i][j - 1].tile)) {
+          } else if ((this.board[i][j + 1].tile || this.board[i][j - 1].tile)) {
+
+
+            // console.log('3. Bokstav höger om mig: ', this.board[i][j + 1].tile);
+            // console.log('3. Bokstav vänster om mig: ', this.board[i][j - 1].tile);
+
             c = this.board[i][j].tile[0].char;
             p = this.board[i][j].tile[0].points;
             s = this.board[i][j].special;
             wordH.push({ x: i, y: j, char: c, points: p, special: s });
+            console.log('3. I have pushed c, p and s', c, p, s);
             // If we have a tile but no other tile beside us, add to both vertical and horisontal word
             // This will only be at the start of game, when the first tile is placed
-          } else {
+          } else if (!store.storeOldWords.length) {
             ////// NEW ///////
             c = this.board[i][j].tile[0].char;
             p = this.board[i][j].tile[0].points;
             s = this.board[i][j].special;
             wordV.push({ x: i, y: j, char: c, points: p, special: s });
             wordH.push({ x: i, y: j, char: c, points: p, special: s });
+            console.log('4. I have pushed c, p and s', c, p, s);
           }
         }
       }
@@ -831,6 +885,7 @@ export default class Game {
       let position = [];
       for (let i = 0; i < wordV.length; i++) {
         if (((i < wordV.length - 1) && (wordV[i].y === wordV[i + 1].y)) || ((i > 0) && (wordV[i].y === wordV[i - 1].y))) {
+
           word += wordV[i].char;
           position.push({ x: wordV[i].x, y: wordV[i].y });
           // Changed here. 
@@ -899,36 +954,203 @@ export default class Game {
       }
     }
 
+    for (let i = wordArray.length - 1; i >= 0; i--) {
+      if (!wordArray[i].word) {
+        wordArray.splice(i, 1);
+      }
+    }
+
+
 
     console.log("wordArray before pushing new words: ", wordArray)
     console.log("storeOldWords before pushing new words: ", store.storeOldWords)
     console.log("storeCurrentWords before pushing new words: ", store.storeCurrentWords)
-    //------------------------------
-    this.newestWords = []
-    if (store.storeCurrentWords.length !== undefined && store.storeCurrentWords.length > 0) {
-      // Check if a old words exists in the wordsarray
-      for (let i = 0; i < wordArray.length; i++) {
-        if (store.storeOldWords.indexOf(wordArray[i].word) !== -1) {
-          console.log("old word! ", wordArray[i].word)
 
-        } else {
-          console.log("new word! ", wordArray[i].word)
-          this.newestWords.push(wordArray[i])
+    // DONT PUSH THE WORD ARRAY TO store.storeOldWords until we know if it a word in SAOL. 
+    // Clean store.currentWord after each new round 
+
+    //------------------------------
+    console.log('Store old words array length', store.storeOldWords.length);
+
+    // CHECK IF WORD ALREADY EXIST IN STORE.STOREOLDWORDS ARRAY
+    if (localStoreOldWords.length !== 0) {
+      for (let i = 0; i < wordArray.length; i++) {
+        let oldWord = false;
+        let waPosition = wordArray[i].position;
+        let waY = waPosition.y;
+        let waX = waPosition.x;
+        console.log('WordArray[i]', wordArray[i]);
+        localStoreOldWords.filter(element => {
+          let ePosition = element.position;
+          ePosition.filter((item, index) => {
+            console.log('Index in ePosition', index);
+            console.log('Item in ePosition', item);
+            console.log('eY: ', item.y);
+            console.log('eX: ', item.x);
+            console.log('WA Y: ', wordArray[i].position[index].y);
+            console.log('WA X: ', wordArray[i].position[index].x);
+
+            if (item.y === wordArray[i].position[index].y && item.x === wordArray[i].position[index].x) {
+              console.log('This word already exist!');
+              oldWord = true;
+            }
+          });
+        });
+        if (!oldWord) {
+
         }
       }
-      store.storeCurrentWords = this.newestWords;
+
+      //   for (let j = 0; j < store.storeOldWords.length; j++) {
+      //     console.log('WordArray[i].word', wordArray[i].word);
+      //     console.log('Store.storeOldWords[j].word', store.storeOldWords[j].word);
+      //     if (wordArray[i].word === store.storeOldWords[j].word) {
+      //       for (let k = 0; k < 2; k++) {
+      //         // console.log('What is y position på store', store.storeOldWords[j].position[k].y);
+      //         // console.log('What is x position på store', store.storeOldWords[j].position[k].x);
+      //         // console.log('What is y position på wordarray', wordArray[i].position[k].y);
+      //         // console.log('What is x position på wordarray', wordArray[i].position[k].x);
+      //         if (wordArray[i].position[k].y === store.storeOldWords[j].position[k].y && wordArray[i].position[k].x === store.storeOldWords[j].position[k].x) {
+      //           console.log('This word already exist!', wordArray[i]);
+      //         } else {
+      //           // this.tiles[0] = this.tiles[0].filter(x => !x.onBoard);
+      //           this.newestWords.filter(word => {
+      //             console.log('word: ', word);
+      //             console.log('word.y: ', word.position.y);
+      //             console.log('word.x: ', word.position.x);
+      //             if (word.position.y !== wordArray[i].position[k].y && word.position.x !== wordArray[i].position[k].x) {
+      //               console.log('New word!', wordArray[i]);
+      //               this.newestWords.push(wordArray[i]);
+      //             }
+      //           });
+      //         }
+      //       }
+      //     }
+      //   }
+      // }
     } else {
-      store.storeCurrentWords = wordArray;
+      this.newestWords = wordArray;
     }
 
-    store.storeOldWords = [];
-    //store all words played in this.storeOldWords string value
-    for (let i = 0; i < wordArray.length; i++) {
-      store.storeOldWords.push(wordArray[i].word)
-    }
+    // Loop through the array to find duplicates and remove them 
 
-    console.log("storeOldWords: ", store.storeOldWords)
-    console.log("Checking word array: " + wordArray);
+
+
+    // if (store.storeOldWords.length !== 0) {
+    //   for (let i = 0; i < wordArray.length; i++) {
+    //     if (this.newestWords.length === 0) {
+    //       console.log('The newsest word array is empty.');
+    //       this.newestWords.push(wordArray[i]);
+    //     } else {
+    //       for (let n = 0; n < this.newestWords.length; n++) {
+    //         // console.log('Does word array exist in newest word?', wordArray[i] !== this.newestWords[n]);
+    //         if (wordArray[i].word === this.newestWords[n].word) {
+    //           for (let m = 0; m < 2; m++) {
+    //             // console.log('What is y position på store', store.storeOldWords[j].position[k].y);
+    //             // console.log('What is x position på store', store.storeOldWords[j].position[k].x);
+    //             // console.log('What is y position på wordarray', wordArray[i].position[k].y);
+    //             // console.log('What is x position på wordarray', wordArray[i].position[k].x);
+    //             if (wordArray[i].position[m].y === this.newestWords[n].position[m].y && wordArray[i].position[m].x === this.newestWords[n].position[m].x) {
+    //               console.log('This word already exist!', wordArray[i]);
+    //             } else {
+    //               console.log('New word!', wordArray[i]);
+    //               this.newestWords.push(wordArray[i]);
+    //             }
+    //           }
+
+
+
+
+
+    //     // console.log('WordArray[i]', wordArray[i]);
+    //     // if (store.storeOldWords.indexOf(wordArray[i]))
+    //     for (let j = 0; j < store.storeOldWords.length; j++) {
+    //       // console.log('StoreOldWords[j].word is wordArray[i].word', wordArray[i].word === store.storeOldWords[j].word);
+    //        else {
+
+    //             }
+    //           }
+    //         }
+    //       }
+
+
+    // console.log('What is y position på store', store.storeOldWords[j].position[0]);
+    // console.log('What is x position på store', store.storeOldWords[j].position[1]);
+    // console.log('What is y position på wordarray', wordArray[i].position[0]);
+    // console.log('What is x position på wordarray', wordArray[i].position[1]);
+
+    // console.log('StoreOldWords[j].y is wordArray[i].y', wordArray[i].position[0] === store.storeOldWords[j].position[0]);
+    // console.log('StoreOldWords[j].x is wordArray[i].x', wordArray[i].position[1] === store.storeOldWords[j].position[1]);
+    // if (wordArray[i].position[0] === store.storeOldWords[j].position[0] && wordArray[i].position[1] === store.storeOldWords[j].position[1]) {
+    //   // console.log('Is the new word an old word?', store.storeOldWords[j] === wordArray[i]);
+    //   console.log('Old word', wordArray[i]);
+
+    //   }
+    // }
+    // } else {
+    //         // console.log('Is the new word an old word?', store.storeOldWords[j] === wordArray[i]);
+    //         console.log('New word!', wordArray[i]);
+    //         this.newestWords.push(wordArray[i]);
+
+
+
+    // } else {
+    //   this.newestWords = wordArray;
+    // }
+
+
+    // if (store.storeOldWords.indexOf(wordArray[i].word) !== -1) {
+    //   console.log("old word! ", wordArray[i].word)
+
+    // } else {
+    //   console.log("new word! ", wordArray[i].word)
+    //   this.newestWords.push(wordArray[i])
+    // }
+
+
+
+    console.log('This newest words array', this.newestWords);
+
+    // this.newestWords = []
+    // if (store.storeCurrentWords.length !== undefined && store.storeCurrentWords.length > 0) {
+    //   // Check if a old words exists in the wordsarray
+    //   for (let i = 0; i < wordArray.length; i++) {
+    //     for (let j = 0; j < store.storeOldWords.length; j++) {
+    //       if (store.storeOldWords[j] === wordArray[i]) {
+    //         console.log('Old word', wordArray[i]);
+    //       } else {
+    //         console.log('New word!', wordArray[i]);
+    //         this.newestWords.push(wordArray[i]);
+    //       }
+    //     }
+
+
+    //     // if (store.storeOldWords.indexOf(wordArray[i].word) !== -1) {
+    //     //   console.log("old word! ", wordArray[i].word)
+
+    //     // } else {
+    //     //   console.log("new word! ", wordArray[i].word)
+    //     //   this.newestWords.push(wordArray[i])
+    //     // }
+    //   }
+    //   store.storeCurrentWords = this.newestWords;
+    // } else {
+    //   store.storeCurrentWords = wordArray;
+    // }
+
+    // console.log('What is the stores current words', store.storeCurrentWords);
+
+    // store.storeOldWords = [];
+    // store all words played in this.storeOldWords string value
+
+    // Wait until the words is Approved in SAOL 
+
+    // for (let i = 0; i < wordArray.length; i++) {
+    //   store.storeOldWords.push(wordArray[i].word)
+    // }
+
+    // console.log("storeOldWords: ", store.storeOldWords)
+    // console.log("Checking word array: " + wordArray);
     //------------------------------
   }
 

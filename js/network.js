@@ -165,8 +165,8 @@ export default class Network {
       // game.playerTurn();
       game.board = s.board;
       game.tilesFromBag = s.tilesFromFile;
-      game.storeOldWords = s.storeOldWords;
-      game.storeCurrentWords = s.storeCurrentWords;
+      // game.storeOldWords = s.storeOldWords;
+      // game.storeCurrentWords = s.storeCurrentWords;
       // if (s.passcounter === 3) {
       //   game.endgame();
       // }
