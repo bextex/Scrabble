@@ -538,12 +538,13 @@ export default class Game {
 
     if (store.passcounter === 3 || store.tilesFromFile.length <= 0) {
       this.endgame();
-    } else if (store.players.indexOf(this.name) === store.currentPlayer) {
-      $('.not-your-turn').remove();
-    } else {
-      //this.render();
-      $('.playing-window').append(`<div class="not-your-turn"><p>${store.players[store.currentPlayer]} spelar just nu...</p></div>`);
     }
+    // } else if (store.players.indexOf(this.name) === store.currentPlayer) {
+    //   $('.not-your-turn').remove();
+    // } else {
+    //   //this.render();
+    //   $('.playing-window').append(`<div class="not-your-turn"><p>${store.players[store.currentPlayer]} spelar just nu...</p></div>`);
+    // }
 
     // Empty the player tileboards window before rendering, otherwise there will be double each time it renders
     $('.playing-window-left').empty();
@@ -845,6 +846,7 @@ export default class Game {
     //Collect all the letters from same column and made it up to en word. 
     //Calulate the points of word even if it has extra points(2x letters,3x letters). 
     //save the words multiple times  if it has extra points(2x word,3x word). 
+    console.log('The wordV array', wordV);
     if (wordV.length > 1) {
       let word = '';
       let points = 0;
@@ -856,7 +858,6 @@ export default class Game {
         if (((i < wordV.length - 1) && (wordV[i].y === wordV[i + 1].y)) || ((i > 0) && (wordV[i].y === wordV[i - 1].y))) {
           word += wordV[i].char;
           position.push({ x: wordV[i].x, y: wordV[i].y });
-
           // count the points
           //if there are some special box then save it to avoid count it again from next round
 
@@ -900,6 +901,7 @@ export default class Game {
     //Collect all the letters from same row and made it up to en word. 
     //Calulate the points of word even if it has extra points(2x letters,3x letters). 
     //save the words multiple times  if it has extra points(2x word,3x word). 
+    console.log('The wordH array', wordH);
     if (wordH.length > 1) {
       let word = '';
       let points = 0;

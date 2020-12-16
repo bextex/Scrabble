@@ -123,24 +123,24 @@ export default class Network {
 
     $('.start-new-game').on('click', async function () {
 
-      if (s.players.length > 1 && s.players.length < 5) {
-        console.log('im clicking the start button');
+      // if (s.players.length > 1 && s.players.length < 5) {
+      console.log('im clicking the start button');
 
-        // remove the waiting box so it doesn't append in listen for network changes
-        $('.waiting-for-players').remove();
+      // remove the waiting box so it doesn't append in listen for network changes
+      $('.waiting-for-players').remove();
 
-        $('.playersName').fadeOut(200);
-        $('.game-screen').fadeOut(200);
-        $('.game-menu').fadeOut(200);
-        $('.scrabble').fadeOut(200);
+      $('.playersName').fadeOut(200);
+      $('.game-screen').fadeOut(200);
+      $('.game-menu').fadeOut(200);
+      $('.scrabble').fadeOut(200);
 
-        // game.start();
-        game.start(name, that.playerIndexInNetwork);
-      }
-      else if (s.players.length == 1 || s.players.length <= 5) {
-        await Modal.alert('Det måste vara minst 2 spelare och högst 4 för att starta ett spel', 'Stäng');
-        // alert('This is a modal');
-      }
+      // game.start();
+      game.start(name, that.playerIndexInNetwork);
+      // }
+      // else if (s.players.length == 1 || s.players.length <= 5) {
+      //   await Modal.alert('Det måste vara minst 2 spelare och högst 4 för att starta ett spel', 'Stäng');
+      //   // alert('This is a modal');
+      // }
     });
 
     console.log('----------------------we are less than 2')
