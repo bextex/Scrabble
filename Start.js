@@ -70,7 +70,7 @@ export default class Start {
 
       let networkKey = await network.getLocalKey();
       console.log('network key is ' + networkKey);
-      $('.playersName').append(`<div class="waiting-for-players"><div class="waiting-box">Väntar på spelare...</div>
+      $('body').append(`<div class="waiting-for-players"><div class="waiting-box">Väntar på spelare...</div>
       <button class="start-new-game"><span>Starta</span></button>
       <div type="key-input" class="key-input"><span class="key">NYCKEL: ${networkKey}</span></div>
       </div>`);
@@ -104,7 +104,7 @@ export default class Start {
       $('.game-menu').fadeOut(250);
 
       // let networkKey = await network.getLocalKey();
-      $('.playersName').append(`<div>
+      $('body').append(`<div class="giveYourKey">
       <button class="join"><span>Gå med</span></button>
       <input type="key-input" class="key-input"><span class="key" placeholder="Skriv nyckel här"></span></input>
       <p class=write-key>Skriv nyckel här</p>
@@ -126,6 +126,7 @@ export default class Start {
           // console.log(players);
           network.connectToStore(insertedNetworkKey, name);
         }
+        $('.giveYourKey').fadeOut(200);
         $('.playersName').fadeOut(200);
         $('.game-screen').fadeOut(200);
         $('.game-menu').fadeOut(200);
