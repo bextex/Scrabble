@@ -126,6 +126,7 @@ export default class Start {
           // console.log(players);
           network.connectToStore(insertedNetworkKey, name);
         }
+        $('.giveYourKey').fadeOut(200);
         $('.playersName').fadeOut(200);
         $('.game-screen').fadeOut(200);
         $('.game-menu').fadeOut(200);
