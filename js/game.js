@@ -78,6 +78,16 @@ export default class Game {
         let tileOnBoard = this.board[p.y][p.x].tile;
         // Delete the property 'tile' from board, the tile should not have a tile in that position anymore
         delete this.board[p.y][p.x].tile;
+
+        //Delete the position that saved in the  Array this.usedSpecialTiles because this position saved for the invalid word.
+        let index = -1;
+        for (let k = 0; k < this.usedSpecialTiles.length; k++) {
+          if ((this.usedSpecialTiles[k].x === p.y) && (this.usedSpecialTiles[k].y === p.x)) { index = k; }
+        }
+        if (index >= 0) {
+          this.usedSpecialTiles.splice(index, 1);
+        }
+
         // Get the tileIndex from what tile-box it's currently in (It still think it belongs to a tile-box because we never really move it from the div)
         let tileIndex = $(`#box0 > div > div`).index($tile);
         // Add the tile back to the players this.tiles array, by adding it back at the index it was before and with the tile that was on the board
@@ -810,6 +820,8 @@ export default class Game {
           word += wordV[i].char;
           position.push({ x: wordV[i].x, y: wordV[i].y });
           // Changed here. 
+          // count the points
+          //if there are some special box then save it to avoid count it again from next round
           if (wordV[i].special && !this.usedSpecialTiles.find(tile => (tile.x === wordV[i].x && tile.y === wordV[i].y))) {
             if ((wordV[i].special) === '2xLS') { points += 2 * wordV[i].points }
             else if ((wordV[i].special) === '3xLS') { points += 3 * wordV[i].points }
@@ -817,13 +829,22 @@ export default class Game {
             else if ((wordV[i].special) === '3xLW') { multiple *= 3; points += wordV[i].points; }
             else if ((wordV[i].special) === 'middle-star') { multiple *= 2; points += wordV[i].points; }
             else points += wordV[i].points;
-
             // save the word that have used special box
             this.usedSpecialTiles.push({ x: wordV[i].x, y: wordV[i].y });
 
           }
           else {
             points += wordV[i].points;
+          }
+          //only for middle char if it is not the first word (there is a another player's score is not 0)
+          //then the middle word will not be count dubble point
+          if (wordV[i].special === 'middle-star') {
+            for (let k = 0; k < store.players.length; k++) {
+              if (this.name !== store.players[k]) {
+                if (store.players[k].score !== 0) { multiple = 1; }
+              }
+              else if (store.players[k].score === 0) { multiple = 2; }
+            }
           }
         }
         //if it is another column then save the word to wordArray. Initialize variables in order to save the new words.
@@ -837,6 +858,7 @@ export default class Game {
 
       }
     }
+    console.log('this.usedSpecialTiles', this.usedSpecialTiles)
     //Collect all the letters from same row and made it up to en word. 
     //Calulate the points of word even if it has extra points(2x letters,3x letters). 
     //save the words multiple times  if it has extra points(2x word,3x word). 
@@ -874,7 +896,6 @@ export default class Game {
       }
     }
 
-
     console.log("wordArray before pushing new words: ", wordArray)
     console.log("storeOldWords before pushing new words: ", store.storeOldWords)
     console.log("storeCurrentWords before pushing new words: ", store.storeCurrentWords)
@@ -903,7 +924,7 @@ export default class Game {
     }
 
     console.log("storeOldWords: ", store.storeOldWords)
-    console.log("Checking word array: " + wordArray);
+    console.log("Checking word array: ", wordArray);
     //------------------------------
   }
 
@@ -1041,6 +1062,7 @@ export default class Game {
     console.log('currentWordPoints', currentWordPoints);
     if (this.tiles[0].length === 0) {
       this.players[0].score += 50;
+      await Modal.alert('Grattis! Du fick extra 50 poäng för att du lägga alla 7 brickor en gång');
     }
     console.log('this.players[0].score', this.players[0].score);
     // this.render();
