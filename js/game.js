@@ -839,8 +839,8 @@ export default class Game {
     }
     wordV.sort((a, b) => a.y > b.y ? -1 : 1);//sort by value of y from small to big
     wordH.sort((a, b) => a.x > b.x ? -1 : 1);//sort by value of x from small to big
-    // console.log('vertical wordV: ', wordV);
-    // console.log('horisontal wordH: ', wordH);
+    console.log('vertical wordV: ', wordV);
+    console.log('horisontal wordH: ', wordH);
 
     //Collect all the letters from same column and made it up to en word. 
     //Calulate the points of word even if it has extra points(2x letters,3x letters). 
@@ -883,8 +883,9 @@ export default class Game {
             if (sumAllPlayerScore !== 0) { multiple = 1 }
           }
         }
-        //if it is another column then save the word to wordArray. Initialize variables in order to save the new words.
-        if ((i === wordV.length - 1) || (wordV[i].y !== wordV[i + 1].y)) {
+        //if it is another column or if it has empty box between two char in the same column
+        //then save the word to wordArray.Initialize variables in order to save the new words.
+        if ((i === wordV.length - 1) || (wordV[i].y !== wordV[i + 1].y) || (wordV[i + 1].x - wordV[i].x !== 1)) {
           wordArray.push({ word: word, points: points, multiple: multiple, position: position })
           word = '';
           points = 0;
@@ -924,8 +925,9 @@ export default class Game {
             points += wordH[i].points;
           }
         }
-        //if it is another row then save the word to wordArray. Initialize variables in order to save the new words.
-        if ((i === wordH.length - 1) || (wordH[i].x !== wordH[i + 1].x)) {
+        //if it is another row or if it has empty box between two char in the same row
+        //then save the word to wordArray.Initialize variables in order to save the new words.
+        if ((i === wordH.length - 1) || (wordH[i].x !== wordH[i + 1].x) || (wordH[i + 1].y - wordH[i].y !== 1)) {
           wordArray.push({ word: word, points: points, multiple: multiple, position: position })
           word = '';
           points = 0;
@@ -1093,7 +1095,7 @@ export default class Game {
     for (let i = 0; i < store.storeCurrentWords.length; i++) {
       currentWordPoints = store.storeCurrentWords[i].points * store.storeCurrentWords[i].multiple;
       console.log("word: " + store.storeCurrentWords[i].word + ", point: " + currentWordPoints)
-      this.players[0].score += +currentWordPoints;
+      this.players[0].score += currentWordPoints;
     }
     console.log('This players score after addind currentwordpoints', this.players[0].score);
     console.log('currentWordPoints', currentWordPoints);
