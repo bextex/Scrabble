@@ -945,7 +945,7 @@ export default class Game {
               //then the middle word will not be count dubble point
               let sumAllPlayerScore = 0;
               for (let k = 0; k < store.players.length; k++) {
-                sumAllPlayerScore += store.score[k].score;
+                sumAllPlayerScore += store.score[k].points;
                 console.log('sumAllPlayerScore', sumAllPlayerScore)
               }
               if (isNaN(sumAllPlayerScore) || sumAllPlayerScore === 0) { multiple *= 2 }
@@ -1002,7 +1002,7 @@ export default class Game {
               //then the middle word will not be count dubble point
               let sumAllPlayerScore = 0;
               for (let k = 0; k < store.players.length; k++) {
-                sumAllPlayerScore += store.score[k].score;
+                sumAllPlayerScore += store.score[k].points;
                 console.log('sumAllPlayerScore', sumAllPlayerScore)
               }
               if (isNaN(sumAllPlayerScore) || sumAllPlayerScore === 0) { multiple *= 2 }
