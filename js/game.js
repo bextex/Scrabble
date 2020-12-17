@@ -880,33 +880,134 @@ export default class Game {
           // if (i === y && j === x) {
           // First check if we have another tile above/below AND side/side
           // Add the letter to both vertical and horisontal word  
-          if ((this.board[i + 1][j].tile || this.board[i - 1][j].tile) && (this.board[i][j + 1].tile || this.board[i][j - 1].tile)) {
-            c = this.board[i][j].tile[0].char;
-            p = this.board[i][j].tile[0].points;
-            s = this.board[i][j].special;
-            wordV.push({ x: i, y: j, char: c, points: p, special: s });
-            wordH.push({ x: i, y: j, char: c, points: p, special: s });
-            // If we only have a tile above/below, add the letter to vertical word
-          } else if (this.board[i + 1][j].tile || this.board[i - 1][j].tile) {
-            c = this.board[i][j].tile[0].char;
-            p = this.board[i][j].tile[0].points;
-            s = this.board[i][j].special;
-            wordV.push({ x: i, y: j, char: c, points: p, special: s });
-            // If we only have a tile side/side, add the letter to horisontal word
-          } else if (this.board[i][j + 1].tile || this.board[i][j - 1].tile) {
-            c = this.board[i][j].tile[0].char;
-            p = this.board[i][j].tile[0].points;
-            s = this.board[i][j].special;
-            wordH.push({ x: i, y: j, char: c, points: p, special: s });
-            // If we have a tile but no other tile beside us, add to both vertical and horisontal word
-            // This will only be at the start of game, when the first tile is placed
+
+          if (i === 0 && j === 0) {
+            if (!!this.board[i + 1][j].tile) {
+              // Below (wordV)
+              c = this.board[i][j].tile[0].char;
+              p = this.board[i][j].tile[0].points;
+              s = this.board[i][j].special;
+              wordV.push({ x: i, y: j, char: c, points: p, special: s });
+            } else if (!!this.board[i][j + 1].tile) {
+              // Beside - right (wordH)
+              c = this.board[i][j].tile[0].char;
+              p = this.board[i][j].tile[0].points;
+              s = this.board[i][j].special;
+              wordH.push({ x: i, y: j, char: c, points: p, special: s });
+            }
+          } else if (j === 0 && i > 0 && i < 14) {
+            if (!this.board[i - 1][j].tile || !!this.board[i + 1][j].tile) {
+              // Above and below (wordV)
+              c = this.board[i][j].tile[0].char;
+              p = this.board[i][j].tile[0].points;
+              s = this.board[i][j].special;
+              wordV.push({ x: i, y: j, char: c, points: p, special: s });
+            } else if (!!this.board[i][j + 1].tile) {
+              // Beside + right (wordH)
+              c = this.board[i][j].tile[0].char;
+              p = this.board[i][j].tile[0].points;
+              s = this.board[i][j].special;
+              wordH.push({ x: i, y: j, char: c, points: p, special: s });
+            }
+          } else if (j === 14 && i === 0) {
+            if (!!this.board[i][j - 1].tile) {
+              // Beside - left (wordH)
+              c = this.board[i][j].tile[0].char;
+              p = this.board[i][j].tile[0].points;
+              s = this.board[i][j].special;
+              wordH.push({ x: i, y: j, char: c, points: p, special: s });
+            } else if (!!this.board[i + 1][j].tile) {
+              // Below (wordV)
+              c = this.board[i][j].tile[0].char;
+              p = this.board[i][j].tile[0].points;
+              s = this.board[i][j].special;
+              wordV.push({ x: i, y: j, char: c, points: p, special: s });
+            }
+          } else if (j === 14 && i > 0 && i < 14) {
+            if (!!this.board[i - 1][j].tile || !!this.board[i + 1][j].tile) {
+              // Above and below (wordV)
+              c = this.board[i][j].tile[0].char;
+              p = this.board[i][j].tile[0].points;
+              s = this.board[i][j].special;
+              wordV.push({ x: i, y: j, char: c, points: p, special: s });
+            } else if (!!this.board[i][j - 1].tile) {
+              // Beside - left (wordH)
+              c = this.board[i][j].tile[0].char;
+              p = this.board[i][j].tile[0].points;
+              s = this.board[i][j].special;
+              wordH.push({ x: i, y: j, char: c, points: p, special: s });
+            }
+          } else if (j === 14 && i === 14) {
+            if (!!this.board[i - 1][j].tile) {
+              // Above (wordV)
+              c = this.board[i][j].tile[0].char;
+              p = this.board[i][j].tile[0].points;
+              s = this.board[i][j].special;
+              wordV.push({ x: i, y: j, char: c, points: p, special: s });
+            } else if (!!this.board[i][j - 1].tile) {
+              // Beside - left (wordH)
+              c = this.board[i][j].tile[0].char;
+              p = this.board[i][j].tile[0].points;
+              s = this.board[i][j].special;
+              wordH.push({ x: i, y: j, char: c, points: p, special: s });
+            }
+          } else if (i === 14 && j > 0 && j < 14) {
+            if (!!this.board[y][x + 1].tile || !!this.board[y][x - 1].tile) {
+              // Beside - right and left (wordH)
+              c = this.board[i][j].tile[0].char;
+              p = this.board[i][j].tile[0].points;
+              s = this.board[i][j].special;
+              wordH.push({ x: i, y: j, char: c, points: p, special: s });
+            } else if (!!this.board[i - 1][j].tile) {
+              // Above (wordV)
+              c = this.board[i][j].tile[0].char;
+              p = this.board[i][j].tile[0].points;
+              s = this.board[i][j].special;
+              wordV.push({ x: i, y: j, char: c, points: p, special: s });
+            }
+          } else if (i === 14 && j === 0) {
+            if (!!this.board[i - 1][j].tile) {
+              // Above (wordV)
+              c = this.board[i][j].tile[0].char;
+              p = this.board[i][j].tile[0].points;
+              s = this.board[i][j].special;
+              wordV.push({ x: i, y: j, char: c, points: p, special: s });
+            } else if (!!this.board[i][j + 1].tile) {
+              // Beside - right (wordH)
+              c = this.board[i][j].tile[0].char;
+              p = this.board[i][j].tile[0].points;
+              s = this.board[i][j].special;
+              wordH.push({ x: i, y: j, char: c, points: p, special: s });
+            }
+          } else if (i === 0 && j > 0 && j < 14) {
+            if (!!this.board[i][j - 1].tile || !!this.board[i][j + 1].tile) {
+              // Beside - left and right (wordH)
+              c = this.board[i][j].tile[0].char;
+              p = this.board[i][j].tile[0].points;
+              s = this.board[i][j].special;
+              wordH.push({ x: i, y: j, char: c, points: p, special: s });
+            } else if (!!this.board[i + 1][j].tile) {
+              // Below (wordV)
+              c = this.board[i][j].tile[0].char;
+              p = this.board[i][j].tile[0].points;
+              s = this.board[i][j].special;
+              wordV.push({ x: i, y: j, char: c, points: p, special: s });
+            }
+          } else if (j > 0 && j < 14 && i > 0 && i < 14) {
+            if (!!this.board[i - 1][j].tile || !!this.board[i + 1][j].tile || !!this.board[i][j + 1].tile || !!this.board[i][j - 1].tile) {
+              // All of the board exkl. the tiles around 
+              c = this.board[i][j].tile[0].char;
+              p = this.board[i][j].tile[0].points;
+              s = this.board[i][j].special;
+              wordV.push({ x: i, y: j, char: c, points: p, special: s });
+              wordH.push({ x: i, y: j, char: c, points: p, special: s });
+            }
           } else {
             ////// NEW ///////
+            // If first word
             c = this.board[i][j].tile[0].char;
             p = this.board[i][j].tile[0].points;
             s = this.board[i][j].special;
-            wordV.push({ x: i, y: j, char: c, points: p, special: s });
-            wordH.push({ x: i, y: j, char: c, points: p, special: s });
           }
         }
       }
