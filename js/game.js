@@ -580,50 +580,7 @@ export default class Game {
     // this.showPlayerButtons();
   }
 
-  countingPotentialEndPoints() {
-    // Always count the last tiles points in case the game is over
-    let tilePointsOnRack = 0;
-    this.tiles[0].map((tile) => {
-      tilePointsOnRack += +tile.points;
-      console.log('Tiles points', tile.points);
-    });
 
-    console.log('Points at the end', tilePointsOnRack);
-    store.scoreFromTileLeftOnRack[this.myPlayerIndexInStore] = tilePointsOnRack;
-    console.log('Tile points array', store.scoreFromTileLeftOnRack);
-
-    let totalSubractedPoints = 0;
-    if (this.tiles[0].length === 0) {
-      for (let i = 0; i < store.scoreFromTileLeftOnRack.length; i++) {
-        if (this.myPlayerIndexInStore === i) {
-          continue;
-        } else {
-          totalSubractedPoints += +store.scoreFromTileLeftOnRack[i];
-          console.log('My new total subracted point if cleaned my rack', totalSubractedPoints);
-        }
-      }
-      store.potentialTotalScore[this.myPlayerIndexInStore] = ({ name: store.players[this.myPlayerIndexInStore], points: (store.score[this.myPlayerIndexInStore].points + totalSubractedPoints) });
-      console.log('My potential points if I have a clean rack', store.potentialTotalScore[this.myPlayerIndexInStore]);
-    } else {
-      store.potentialTotalScore[this.myPlayerIndexInStore] = ({ name: store.players[this.myPlayerIndexInStore], points: (store.score[this.myPlayerIndexInStore].points - tilePointsOnRack) });
-      console.log('My new total points if not cleaned rack', store.potentialTotalScore);
-    }
-  }
-
-  playerTurnWindow() {
-
-    // Remove before so the player name of whos playing can be updated
-    $('.not-your-turn').remove();
-
-    if (store.passcounter === 3 || store.tilesFromFile.length <= 0) {
-      this.endgame();
-    } else if (store.players.indexOf(this.name) === store.currentPlayer) {
-      $('.not-your-turn').remove();
-    } else {
-      //this.render();
-      $('.playing-window').append(`<div class="not-your-turn"><p>${store.players[store.currentPlayer]} spelar just nu...</p></div>`);
-    }
-  }
 
   highScoreList() {
 
@@ -641,41 +598,44 @@ export default class Game {
     console.log('store score array', store.score);
     console.log('length of store score array', store.score.length);
 
-    // Check if it's first round 
-    let samePoints = 0;
-    store.score.filter((x) => {
-      if (x === store.score[0]) {
-        store.score.filter((y) => {
-          if (x.points === y.points) {
-            samePoints++;
-          }
-        });
-      }
-    });
-
-
     let playerArray = [];
-    if (samePoints === store.score.length) {
-      console.log('Its the first round or the players has the same points!');
-      playerArray = store.score;
-    } else {
-      let scoreArray = [];
-      for (let i = 0; i < store.score.length; i++) {
-        console.log('store score [i].score', store.score[i].points);
-        scoreArray.push(store.score[i].points);
-      }
-      console.log('scorearray', scoreArray);
-      scoreArray.sort((a, b) => b - a);
+    playerArray = store.score;
 
-      for (let i = 0; i < scoreArray.length; i++) {
-        for (let j = 0; j < store.score.length; j++) {
-          console.log('scoreArray[i] === store.score[j].points', scoreArray[i] === store.score[j].points);
-          if (scoreArray[i] === store.score[j].points) {
-            playerArray.push({ name: store.score[j].name, points: store.score[j].points });
-          }
-        }
-      }
-    }
+    // Check if it's first round 
+    // let samePoints = 0;
+    // store.score.filter((x) => {
+    //   if (x === store.score[0]) {
+    //     store.score.filter((y) => {
+    //       if (x.points === y.points) {
+    //         samePoints++;
+    //       }
+    //     });
+    //   }
+    // });
+
+
+    // let playerArray = [];
+    // if (samePoints === store.score.length) {
+    //   console.log('Its the first round or the players has the same points!');
+    //   playerArray = store.score;
+    // } else {
+    //   let scoreArray = [];
+    //   for (let i = 0; i < store.score.length; i++) {
+    //     console.log('store score [i].score', store.score[i].points);
+    //     scoreArray.push(store.score[i].points);
+    //   }
+    //   console.log('scorearray', scoreArray);
+    //   scoreArray.sort((a, b) => b - a);
+
+    //   for (let i = 0; i < scoreArray.length; i++) {
+    //     for (let j = 0; j < store.score.length; j++) {
+    //       console.log('scoreArray[i] === store.score[j].points', scoreArray[i] === store.score[j].points);
+    //       if (scoreArray[i] === store.score[j].points) {
+    //         playerArray.push({ name: store.score[j].name, points: store.score[j].points });
+    //       }
+    //     }
+    //   }
+    // }
 
     for (let i = 0; i < playerArray.length; i++) {
       $('.highscore-namelist').append(`
@@ -1246,6 +1206,86 @@ export default class Game {
     // players[store.currentPlayer].score += currentWordPoints;
     // this.players[0].score += currentWordPoints;
     ////// END //////
+  }
+
+  countingPotentialEndPoints() {
+    // Always count the last tiles points in case the game is over
+    let tilePointsOnRack = 0;
+    this.tiles[0].map((tile) => {
+      tilePointsOnRack += +tile.points;
+      console.log('Tiles points', tile.points);
+    });
+
+    console.log('Points at the end', tilePointsOnRack);
+    store.scoreFromTileLeftOnRack[this.myPlayerIndexInStore] = tilePointsOnRack;
+    console.log('Tile points array', store.scoreFromTileLeftOnRack);
+
+    let totalSubractedPoints = 0;
+    if (this.tiles[0].length === 0) {
+      for (let i = 0; i < store.scoreFromTileLeftOnRack.length; i++) {
+        if (this.myPlayerIndexInStore === i) {
+          continue;
+        } else {
+          totalSubractedPoints += +store.scoreFromTileLeftOnRack[i];
+          console.log('My new total subracted point if cleaned my rack', totalSubractedPoints);
+        }
+      }
+      store.potentialTotalScore[this.myPlayerIndexInStore] = ({ name: store.players[this.myPlayerIndexInStore], points: (store.score[this.myPlayerIndexInStore].points + totalSubractedPoints) });
+      console.log('My potential points if I have a clean rack', store.potentialTotalScore[this.myPlayerIndexInStore]);
+    } else {
+      store.potentialTotalScore[this.myPlayerIndexInStore] = ({ name: store.players[this.myPlayerIndexInStore], points: (store.score[this.myPlayerIndexInStore].points - tilePointsOnRack) });
+      console.log('My new total points if not cleaned rack', store.potentialTotalScore);
+    }
+  }
+
+  playerTurnWindow() {
+
+    // Remove before so the player name of whos playing can be updated
+    $('.not-your-turn').remove();
+    $('.whos-playing').remove();
+
+    if (store.passcounter === 3 || store.tilesFromFile.length <= 0) {
+      this.endgame();
+    } else if (store.players.indexOf(this.name) === store.currentPlayer) {
+      $('.not-your-turn').remove();
+      $('.whos-playing').remove();
+    } else {
+      //this.render();
+      $('.board').append(`<p class="whos-playing">${store.players[store.currentPlayer]} spelar just nu...</p>`);
+      $('.playing-window').append(`<div class="not-your-turn"><div class="snowflakes" aria-hidden="true">
+      <div class="snowflake">
+        ❅
+      </div>
+      <div class="snowflake">
+        ❅
+      </div>
+      <div class="snowflake">
+        ❆
+      </div>
+      <div class="snowflake">
+        ❄
+      </div>
+      <div class="snowflake">
+        ❅
+      </div>
+      <div class="snowflake">
+        ❆
+      </div>
+      <div class="snowflake">
+        ❄
+      </div>
+      <div class="snowflake">
+        ❅
+      </div>
+      <div class="snowflake">
+        ❆
+      </div>
+      <div class="snowflake">
+        ❄
+      </div>
+    </div>
+</div>`);
+    }
   }
 
 }
