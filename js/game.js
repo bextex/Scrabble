@@ -1014,8 +1014,8 @@ export default class Game {
     }
     wordV.sort((a, b) => a.y > b.y ? -1 : 1);//sort by value of y from small to big
     wordH.sort((a, b) => a.x > b.x ? -1 : 1);//sort by value of x from small to big
-    // console.log('vertical wordV: ', wordV);
-    // console.log('horisontal wordH: ', wordH);
+    console.log('vertical wordV: ', wordV);
+    console.log('horisontal wordH: ', wordH);
 
     //Collect all the letters from same column and made it up to en word. 
     //Calulate the points of word even if it has extra points(2x letters,3x letters). 
@@ -1040,7 +1040,18 @@ export default class Game {
             else if ((wordV[i].special) === '3xLS') { points += 3 * wordV[i].points }
             else if ((wordV[i].special) === '2xWS') { multiple *= 2; points += wordV[i].points; }
             else if ((wordV[i].special) === '3xWS') { multiple *= 3; points += wordV[i].points; }
-            else if ((wordV[i].special) === 'middle-star') { multiple *= 2; points += wordV[i].points; }
+            else if ((wordV[i].special) === 'middle-star') {
+              points += wordV[i].points;
+              //only for middle char if it is not the first word (there is a another player's score is not 0)
+              //then the middle word will not be count dubble point
+              let sumAllPlayerScore = 0;
+              for (let k = 0; k < store.players.length; k++) {
+                sumAllPlayerScore += store.score[k].points;
+                console.log('sumAllPlayerScore', sumAllPlayerScore)
+              }
+              if (isNaN(sumAllPlayerScore) || sumAllPlayerScore === 0) { multiple *= 2 }
+              else { multiple *= 1; }
+            }
             else points += wordV[i].points;
             // save the word that have used special box
             this.usedSpecialTiles.push({ x: wordV[i].x, y: wordV[i].y });
@@ -1049,18 +1060,11 @@ export default class Game {
           else {
             points += wordV[i].points;
           }
-          //only for middle char if it is not the first word (there is a another player's score is not 0)
-          //then the middle word will not be count dubble point
-          let sumAllPlayerScore = 0;
-          if (wordV[i].special === 'middle-star') {
-            for (let k = 0; k < store.players.length; k++) {
-              sumAllPlayerScore += store.players[k].score;
-            }
-            if (sumAllPlayerScore !== 0) { multiple = 1 }
-          }
+
         }
-        //if it is another column then save the word to wordArray. Initialize variables in order to save the new words.
-        if ((i === wordV.length - 1) || (wordV[i].y !== wordV[i + 1].y)) {
+        //if it is another column or if it has empty box between two char in the same column
+        //then save the word to wordArray.Initialize variables in order to save the new words.
+        if ((i === wordV.length - 1) || (wordV[i].y !== wordV[i + 1].y) || (wordV[i + 1].x - wordV[i].x !== 1)) {
           wordArray.push({ word: word, points: points, multiple: multiple, position: position })
           word = '';
           points = 0;
@@ -1093,7 +1097,18 @@ export default class Game {
             else if ((wordH[i].special) === '3xLS') { points += 3 * wordH[i].points }
             else if ((wordH[i].special) === '2xWS') { multiple *= 2; points += wordH[i].points; }
             else if ((wordH[i].special) === '3xWS') { multiple *= 3; points += wordH[i].points; }
-            else if ((wordH[i].special) === 'middle-star') { multiple *= 2; points += wordH[i].points; }
+            else if ((wordH[i].special) === 'middle-star') {
+              points += wordH[i].points;
+              //only for middle char if it is not the first word (there is a another player's score is not 0)
+              //then the middle word will not be count dubble point
+              let sumAllPlayerScore = 0;
+              for (let k = 0; k < store.players.length; k++) {
+                sumAllPlayerScore += store.score[k].points;
+                console.log('sumAllPlayerScore', sumAllPlayerScore)
+              }
+              if (isNaN(sumAllPlayerScore) || sumAllPlayerScore === 0) { multiple *= 2 }
+              else { multiple *= 1; }
+            }
             else points += wordH[i].points;
             // save the word that have used special box
             this.usedSpecialTiles.push({ x: wordH[i].x, y: wordH[i].y });
@@ -1102,8 +1117,9 @@ export default class Game {
             points += wordH[i].points;
           }
         }
-        //if it is another row then save the word to wordArray. Initialize variables in order to save the new words.
-        if ((i === wordH.length - 1) || (wordH[i].x !== wordH[i + 1].x)) {
+        //if it is another row or if it has empty box between two char in the same row
+        //then save the word to wordArray.Initialize variables in order to save the new words.
+        if ((i === wordH.length - 1) || (wordH[i].x !== wordH[i + 1].x) || (wordH[i + 1].y - wordH[i].y !== 1)) {
           wordArray.push({ word: word, points: points, multiple: multiple, position: position })
           word = '';
           points = 0;
@@ -1274,7 +1290,7 @@ export default class Game {
       currentWordPoints = store.storeCurrentWords[i].points * store.storeCurrentWords[i].multiple;
       console.log('currentWordPoints', currentWordPoints);
       console.log("word: " + store.storeCurrentWords[i].word + ", point: " + currentWordPoints)
-      this.players[0].score += +currentWordPoints;
+      this.players[0].score += currentWordPoints;
     }
     console.log('This players score after addind currentwordpoints', this.players[0].score);
     console.log('currentWordPoints', currentWordPoints);
