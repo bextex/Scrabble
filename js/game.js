@@ -598,44 +598,34 @@ export default class Game {
     console.log('store score array', store.score);
     console.log('length of store score array', store.score.length);
 
+
+    let scoreArray = [];
+    for (let i = 0; i < store.score.length; i++) {
+      scoreArray.push(store.score[i].points);
+    }
+
+    console.log('scorearray', scoreArray);
+    scoreArray.sort((a, b) => b - a);
+
     let playerArray = [];
-    playerArray = store.score;
 
-    // Check if it's first round 
-    // let samePoints = 0;
-    // store.score.filter((x) => {
-    //   if (x === store.score[0]) {
-    //     store.score.filter((y) => {
-    //       if (x.points === y.points) {
-    //         samePoints++;
-    //       }
-    //     });
-    //   }
-    // });
+    for (let i = 0; i < scoreArray.length; i++) {
+      for (let j = 0; j < store.score.length; j++) {
+        if (scoreArray[i] === store.score[j].points) {
+          playerArray.push({ name: store.score[j].name, points: store.score[j].points });
+        }
+      }
+    }
+
+    for (let i = playerArray.length - 1; i >= store.score.length; i--) {
+      playerArray.pop();
+    }
 
 
-    // let playerArray = [];
-    // if (samePoints === store.score.length) {
-    //   console.log('Its the first round or the players has the same points!');
-    //   playerArray = store.score;
-    // } else {
-    //   let scoreArray = [];
-    //   for (let i = 0; i < store.score.length; i++) {
-    //     console.log('store score [i].score', store.score[i].points);
-    //     scoreArray.push(store.score[i].points);
-    //   }
-    //   console.log('scorearray', scoreArray);
-    //   scoreArray.sort((a, b) => b - a);
 
-    //   for (let i = 0; i < scoreArray.length; i++) {
-    //     for (let j = 0; j < store.score.length; j++) {
-    //       console.log('scoreArray[i] === store.score[j].points', scoreArray[i] === store.score[j].points);
-    //       if (scoreArray[i] === store.score[j].points) {
-    //         playerArray.push({ name: store.score[j].name, points: store.score[j].points });
-    //       }
-    //     }
-    //   }
-    // }
+
+    console.log('playerarray', playerArray);
+
 
     for (let i = 0; i < playerArray.length; i++) {
       $('.highscore-namelist').append(`
