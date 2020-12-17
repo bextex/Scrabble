@@ -952,7 +952,7 @@ export default class Game {
               wordH.push({ x: i, y: j, char: c, points: p, special: s });
             }
           } else if (i === 14 && j > 0 && j < 14) {
-            if (!!this.board[y][x + 1].tile || !!this.board[y][x - 1].tile) {
+            if (!!this.board[i][j + 1].tile || !!this.board[i][j - 1].tile) {
               // Beside - right and left (wordH)
               c = this.board[i][j].tile[0].char;
               p = this.board[i][j].tile[0].points;
