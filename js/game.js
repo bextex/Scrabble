@@ -947,7 +947,18 @@ export default class Game {
             else if ((wordV[i].special) === '3xLS') { points += 3 * wordV[i].points }
             else if ((wordV[i].special) === '2xWS') { multiple *= 2; points += wordV[i].points; }
             else if ((wordV[i].special) === '3xWS') { multiple *= 3; points += wordV[i].points; }
-            else if ((wordV[i].special) === 'middle-star') { multiple *= 2; points += wordV[i].points; }
+            else if ((wordV[i].special) === 'middle-star') {
+              points += wordV[i].points;
+              //only for middle char if it is not the first word (there is a another player's score is not 0)
+              //then the middle word will not be count dubble point
+              let sumAllPlayerScore = 0;
+              for (let k = 0; k < store.players.length; k++) {
+                sumAllPlayerScore += store.score[k].score;
+                console.log('sumAllPlayerScore', sumAllPlayerScore)
+              }
+              if (isNaN(sumAllPlayerScore) || sumAllPlayerScore === 0) { multiple *= 2 }
+              else { multiple *= 1; }
+            }
             else points += wordV[i].points;
             // save the word that have used special box
             this.usedSpecialTiles.push({ x: wordV[i].x, y: wordV[i].y });
@@ -956,15 +967,7 @@ export default class Game {
           else {
             points += wordV[i].points;
           }
-          //only for middle char if it is not the first word (there is a another player's score is not 0)
-          //then the middle word will not be count dubble point
-          let sumAllPlayerScore = 0;
-          if (wordV[i].special === 'middle-star') {
-            for (let k = 0; k < store.players.length; k++) {
-              sumAllPlayerScore += store.players[k].score;
-            }
-            if (sumAllPlayerScore !== 0) { multiple = 1 }
-          }
+
         }
         //if it is another column or if it has empty box between two char in the same column
         //then save the word to wordArray.Initialize variables in order to save the new words.
@@ -1001,7 +1004,18 @@ export default class Game {
             else if ((wordH[i].special) === '3xLS') { points += 3 * wordH[i].points }
             else if ((wordH[i].special) === '2xWS') { multiple *= 2; points += wordH[i].points; }
             else if ((wordH[i].special) === '3xWS') { multiple *= 3; points += wordH[i].points; }
-            else if ((wordH[i].special) === 'middle-star') { multiple *= 2; points += wordH[i].points; }
+            else if ((wordH[i].special) === 'middle-star') {
+              points += wordH[i].points;
+              //only for middle char if it is not the first word (there is a another player's score is not 0)
+              //then the middle word will not be count dubble point
+              let sumAllPlayerScore = 0;
+              for (let k = 0; k < store.players.length; k++) {
+                sumAllPlayerScore += store.score[k].score;
+                console.log('sumAllPlayerScore', sumAllPlayerScore)
+              }
+              if (isNaN(sumAllPlayerScore) || sumAllPlayerScore === 0) { multiple *= 2 }
+              else { multiple *= 1; }
+            }
             else points += wordH[i].points;
             // save the word that have used special box
             this.usedSpecialTiles.push({ x: wordH[i].x, y: wordH[i].y });
