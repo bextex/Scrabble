@@ -1590,49 +1590,54 @@ th {
   margin-bottom: 20px;
 }
 
-.score-screen{
+/*.score-screen{
    position: relative;
   width: calc(75vh + 50px);
   border: 3px solid black;
   border-radius: 3px;
   display: inline-block;
   padding: 50px 350px 100px 20px;
-
-  /*#F23847*/
-  background-color:  #F23847;
-}
+ 
+}*/
 
 .player-table {
  position: relative;
  margin-top: 5vh;
-  width: calc(25vh + 15x);
-  border: 3px solid black;
+  width: 100vh;
+  /*border: 3px solid #A5A686;*/
   border-radius: 3px;
   display: inline-block;
-  padding: 10px 50px 50px 2px;
+  
+  /*padding: 10px 50px 50px 2px;*/
 
   /*#F23847*/
-  background-color:  #F23847;
+ /* background-color:  #F23847;*/
 }
 .player-table-inner {
  position: relative;
- 
-  width: calc(25vh + 15x);
-  border: 3px solid rgb(145, 125, 125);
+ height: 30vh;
+  width: 50vh;
+  border: 10px solid rgb(241, 237, 237);
   border-radius: 3px;
   display: inline-block;
-  margin-left: 5vh;
-  padding: 50px 400px 600px 50px;
+  text-align: center;
+ 
+ /* padding: 50px 400px 600px 50px;*/
 
   /*#F23847*/
-  background-color:  #A5A686;
+  background-color:  rgb(194, 199, 209);
+  
 }
 .score-screen-container {
   position: absolute;
   width: 100%;
   height: 100%;
+  
+  
+ 
   /*max-width: auto;*/
 }
+
 
 .returnBtn {
   float: right;
@@ -1644,12 +1649,13 @@ th {
   
 }
 .scoreboard-text{
-  font-size: 40px;
-  font-family: 'Stalinist One', cursive;
+  font-size: 70px;
+  font-family: 'Cabin Sketch', cursive;
+   text-shadow: 3px 3px #e1eeece3;
 }
 .scoreboard-players-text{
-  font-size: 40px;
-  font-family: Verdana;
+  font-size: 25px;
+  font-family: 'Big Shoulders Stencil Text', cursive;
 }
 /******** points-box ********/
 .help-button {
@@ -1666,3 +1672,111 @@ th {
     border-radius: 3px;
     padding-bottom: 2px;
 }
+
+
+
+/************************ LIGHTROPE ANIMATION *****************************/
+ .lightrope {
+	 text-align: center;
+	 white-space: nowrap;
+	 overflow: hidden;
+	 position: absolute;
+	 z-index: 1;
+	 margin: -85px 0 0 23vh;
+	 padding: 0;
+	 pointer-events: none;
+	 width: 53%;
+}
+ .lightrope li {
+	 position: relative;
+	 animation-fill-mode: both;
+	 animation-iteration-count: infinite;
+	 list-style: none;
+	 margin: 0;
+	 padding: 0;
+	 display: block;
+	 width: 12px;
+	 height: 28px;
+	 border-radius: 50%;
+	 margin: 20px;
+	 display: inline-block;
+	 background: rgba(0, 247, 165, 1);
+	 box-shadow: 0px 4.6666666667px 24px 3px rgba(0, 247, 165, 1);
+	 animation-name: flash-1;
+	 animation-duration: 2s;
+}
+ .lightrope li:nth-child(2n+1) {
+	 background: rgba(0, 255, 255, 1);
+	 box-shadow: 0px 4.6666666667px 24px 3px rgba(0, 255, 255, 0.5);
+	 animation-name: flash-2;
+	 animation-duration: 0.4s;
+}
+ .lightrope li:nth-child(4n+2) {
+	 background: rgba(247, 0, 148, 1);
+	 box-shadow: 0px 4.6666666667px 24px 3px rgba(247, 0, 148, 1);
+	 animation-name: flash-3;
+	 animation-duration: 1.1s;
+}
+ .lightrope li:nth-child(odd) {
+	 animation-duration: 1.8s;
+}
+ .lightrope li:nth-child(3n+1) {
+	 animation-duration: 1.4s;
+}
+ .lightrope li:before {
+	 content: "";
+	 position: absolute;
+	 background: #222;
+	 width: 10px;
+	 height: 9.3333333333px;
+	 border-radius: 3px;
+	 top: -4.6666666667px;
+	 left: 1px;
+}
+ .lightrope li:after {
+	 content: "";
+	 top: -14px;
+	 left: 9px;
+	 position: absolute;
+	 width: 52px;
+	 height: 18.6666666667px;
+	 border-bottom: solid #222 2px;
+	 border-radius: 50%;
+}
+ .lightrope li:last-child:after {
+	 content: none;
+}
+ .lightrope li:first-child {
+	 margin-left: -40px;
+}
+ @keyframes flash-1 {
+	 0%, 100% {
+		 background: rgba(0, 247, 165, 1);
+		 box-shadow: 0px 4.6666666667px 24px 3px rgba(0, 247, 165, 1);
+	}
+	 50% {
+		 background: rgba(0, 247, 165, 0.4);
+		 box-shadow: 0px 4.6666666667px 24px 3px rgba(0, 247, 165, 0.2);
+	}
+}
+ @keyframes flash-2 {
+	 0%, 100% {
+		 background: rgba(0, 255, 255, 1);
+		 box-shadow: 0px 4.6666666667px 24px 3px rgba(0, 255, 255, 1);
+	}
+	 50% {
+		 background: rgba(0, 255, 255, 0.4);
+		 box-shadow: 0px 4.6666666667px 24px 3px rgba(0, 255, 255, 0.2);
+	}
+}
+ @keyframes flash-3 {
+	 0%, 100% {
+		 background: rgba(247, 0, 148, 1);
+		 box-shadow: 0px 4.6666666667px 24px 3px rgba(247, 0, 148, 1);
+	}
+	 50% {
+		 background: rgba(247, 0, 148, 0.4);
+		 box-shadow: 0px 4.6666666667px 24px 3px rgba(247, 0, 148, 0.2);
+	}
+}
+ 

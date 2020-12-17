@@ -165,9 +165,57 @@ export default class Game {
     $('.score-screen-container').empty();
 
     $('.score-screen-container').append(`
+
+    
         <div class="player-table">
-        <p class="scoreboard-text">  Scoreboard</p>
+        <p class="scoreboard-text">⛄Scoreboard⛄</p>
+        <ul class="lightrope">
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+</ul>
+        
           <div class="player-table-inner">
+          
           </div>
         </div>
       `);
