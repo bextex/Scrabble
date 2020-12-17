@@ -93,7 +93,7 @@ export default class Network {
     console.log('my name is ' + name);
     console.log(s.players);
 
-    s.score.push({ name: name, score: 0 });
+    s.score.push({ name: name, points: 0 });
 
     // For all players except the one starting the game will need a render of the board
 
@@ -123,24 +123,24 @@ export default class Network {
 
     $('.start-new-game').on('click', async function () {
 
-      if (s.players.length > 1 && s.players.length < 5) {
-        console.log('im clicking the start button');
+      // if (s.players.length > 1 && s.players.length < 5) {
+      console.log('im clicking the start button');
 
-        // remove the waiting box so it doesn't append in listen for network changes
-        $('.waiting-for-players').remove();
+      // remove the waiting box so it doesn't append in listen for network changes
+      $('.waiting-for-players').remove();
 
-        $('.playersName').fadeOut(200);
-        $('.game-screen').fadeOut(200);
-        $('.game-menu').fadeOut(200);
-        $('.scrabble').fadeOut(200);
+      $('.playersName').fadeOut(200);
+      $('.game-screen').fadeOut(200);
+      $('.game-menu').fadeOut(200);
+      $('.scrabble').fadeOut(200);
 
-        // game.start();
-        game.start(name, that.playerIndexInNetwork);
-      }
-      else if (s.players.length == 1 || s.players.length <= 5) {
-        await Modal.alert('Det måste vara minst 2 spelare och högst 4 för att starta ett spel', 'Stäng');
-        // alert('This is a modal');
-      }
+      // game.start();
+      game.start(name, that.playerIndexInNetwork);
+      // }
+      // else if (s.players.length == 1 || s.players.length <= 5) {
+      //   await Modal.alert('Det måste vara minst 2 spelare och högst 4 för att starta ett spel', 'Stäng');
+      //   // alert('This is a modal');
+      // }
     });
 
     console.log('----------------------we are less than 2')
@@ -176,27 +176,30 @@ export default class Network {
     console.log('Its ' + s.players[s.currentPlayer] + 's turn');
     console.log('My playerindex in store:', this.playerIndexInNetwork);
     console.log('Should I render?', (s.currentPlayer === this.playerIndexInNetwork))
-    if (!$('.waiting-box').length && s.currentPlayer === this.playerIndexInNetwork) {
-      // game.playerTurn();
+    if (!$('.waiting-box').length) {
       game.board = s.board;
       game.tilesFromBag = s.tilesFromFile;
       game.storeOldWords = s.storeOldWords;
       game.storeCurrentWords = s.storeCurrentWords;
+      // game.playerTurn();
+
+      game.render();
+      //Testing
       // if (s.passcounter === 3) {
       //   game.endgame();
       // }
       // console.log('From network, what is s.passcounter', s.passcounter);
-
-
-      game.render();
-    } else if (!$('.waiting-box').length) {
-      if (store.players.indexOf(this.name) === store.currentPlayer) {
-        $('.not-your-turn').remove();
-      } else {
-        //this.render();
-        $('.playing-window').append(`<div class="not-your-turn"><p>${store.players[store.currentPlayer]} spelar just nu...</p></div>`);
-      }
     }
+
+    // } else if (!$('.waiting-box').length) {
+    //   $('.playing-window').empty();
+    //   if (store.players.indexOf(this.name) === store.currentPlayer) {
+    //     $('.not-your-turn').remove();
+    //   } else {
+    //     //this.render();
+    //     $('.playing-window').append(`<div class="not-your-turn"><p>${store.players[store.currentPlayer]} spelar just nu...</p></div>`);
+    //   }
+    // }
   }
 }
 
