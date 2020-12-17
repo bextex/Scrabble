@@ -831,37 +831,6 @@ export default class Game {
 
   // --- johanna (gamla checkNewWordsOnBoard funktionen)
   checkNewWordsOnBoard() {
-
-
-
-    // // First render the tiles on board
-
-    // if (!$('.board').length) {
-    //   $('.playing-window').append(`
-    //     <div class="board"></div>
-    //     <div class="tiles"></div>
-    //   `);
-    // }
-
-    // $('.board').empty();
-
-    // render the board RENDER THE BOARD AFTER EACH PLAYER
-    // $('.board').html(
-    //   this.board.flat().map(x => `
-    //     <div class="${x.special ? 'special-' + x.special : ''}">
-    //     ${x.tile ? `<div class="layertiles tile" >${x.tile[0].char}<div class="points">${x.tile[0].points}</div></div>` : ''}
-    //     </div>
-    //   `).join('')
-    // );
-
-    // // this.showPlayers();
-    // this.showSaolText();
-
-    // this.buttonEvents();
-    // this.addEvents();
-    // // this.changeTiles();
-
-
     console.log('2. --- checkNewWordsOnBoard ---')
 
     let wordH = [];  //to save  all the infromation on the horisontal 
@@ -877,9 +846,6 @@ export default class Game {
       for (let j = 0; j < this.board[i].length; j++) {
         // If we come across a board square that has a tile on it 
         if (this.board[i][j].tile) {
-          // if (i === y && j === x) {
-          // First check if we have another tile above/below AND side/side
-          // Add the letter to both vertical and horisontal word  
 
           if (i === 0 && j === 0) {
             if (!!this.board[i + 1][j].tile) {
@@ -896,7 +862,7 @@ export default class Game {
               wordH.push({ x: i, y: j, char: c, points: p, special: s });
             }
           } else if (j === 0 && i > 0 && i < 14) {
-            if (!this.board[i - 1][j].tile || !!this.board[i + 1][j].tile) {
+            if (!!this.board[i - 1][j].tile || !!this.board[i + 1][j].tile) {
               // Above and below (wordV)
               c = this.board[i][j].tile[0].char;
               p = this.board[i][j].tile[0].points;
@@ -994,24 +960,35 @@ export default class Game {
               wordV.push({ x: i, y: j, char: c, points: p, special: s });
             }
           } else if (j > 0 && j < 14 && i > 0 && i < 14) {
-            if (!!this.board[i - 1][j].tile || !!this.board[i + 1][j].tile || !!this.board[i][j + 1].tile || !!this.board[i][j - 1].tile) {
-              // All of the board exkl. the tiles around 
+            if ((!!this.board[i - 1][j].tile || !!this.board[i + 1][j].tile) && (!!this.board[i][j + 1].tile || !!this.board[i][j - 1].tile)) {
+              // All of the board exkl. the tiles around
               c = this.board[i][j].tile[0].char;
               p = this.board[i][j].tile[0].points;
               s = this.board[i][j].special;
               wordV.push({ x: i, y: j, char: c, points: p, special: s });
               wordH.push({ x: i, y: j, char: c, points: p, special: s });
+            } else if (!!this.board[i - 1][j].tile || !!this.board[i + 1][j].tile) {
+              c = this.board[i][j].tile[0].char;
+              p = this.board[i][j].tile[0].points;
+              s = this.board[i][j].special;
+              wordV.push({ x: i, y: j, char: c, points: p, special: s });
+            } else if (!!this.board[i][j + 1].tile || !!this.board[i][j - 1].tile) {
+              c = this.board[i][j].tile[0].char;
+              p = this.board[i][j].tile[0].points;
+              s = this.board[i][j].special;
+              wordH.push({ x: i, y: j, char: c, points: p, special: s });
+            } else {
+              c = this.board[i][j].tile[0].char;
+              p = this.board[i][j].tile[0].points;
+              s = this.board[i][j].special;
+              wordH.push({ x: i, y: j, char: c, points: p, special: s });
+              wordV.push({ x: i, y: j, char: c, points: p, special: s });
             }
-          } else {
-            ////// NEW ///////
-            // If first word
-            c = this.board[i][j].tile[0].char;
-            p = this.board[i][j].tile[0].points;
-            s = this.board[i][j].special;
           }
         }
       }
     }
+
     wordV.sort((a, b) => a.y > b.y ? -1 : 1);//sort by value of y from small to big
     wordH.sort((a, b) => a.x > b.x ? -1 : 1);//sort by value of x from small to big
     console.log('vertical wordV: ', wordV);
@@ -1055,12 +1032,10 @@ export default class Game {
             else points += wordV[i].points;
             // save the word that have used special box
             this.usedSpecialTiles.push({ x: wordV[i].x, y: wordV[i].y });
-
           }
           else {
             points += wordV[i].points;
           }
-
         }
         //if it is another column or if it has empty box between two char in the same column
         //then save the word to wordArray.Initialize variables in order to save the new words.
@@ -1071,7 +1046,6 @@ export default class Game {
           multiple = 1;
           position = [];
         }
-
       }
     }
     console.log('this.usedSpecialTiles', this.usedSpecialTiles)
@@ -1085,8 +1059,6 @@ export default class Game {
       let multiple = 1;
       let position = [];
       for (let i = 0; i < wordH.length; i++) {
-
-        console.log('WordH.y och WordH.x', wordH[i].y, wordH[i].x);
 
         if (((i < wordH.length - 1) && (wordH[i].x === wordH[i + 1].x)) || ((i > 0) && (wordH[i].x === wordH[i - 1].x))) {
           word += wordH[i].char;
@@ -1129,13 +1101,6 @@ export default class Game {
       }
     }
 
-    for (let i = wordArray.length - 1; i >= 0; i--) {
-      let word = wordArray[i].word;
-      if (word === '' || word.length < 2) {
-        wordArray.splice(i, 1);
-      }
-    }
-
     console.log("wordArray before pushing new words: ", wordArray)
     console.log("storeOldWords before pushing new words: ", store.storeOldWords)
     console.log("storeCurrentWords before pushing new words: ", store.storeCurrentWords)
@@ -1146,7 +1111,6 @@ export default class Game {
       for (let i = 0; i < wordArray.length; i++) {
         if (store.storeOldWords.indexOf(wordArray[i].word) !== -1) {
           console.log("old word! ", wordArray[i].word)
-
         } else {
           console.log("new word! ", wordArray[i].word)
           this.newestWords.push(wordArray[i])
@@ -1156,13 +1120,11 @@ export default class Game {
     } else {
       store.storeCurrentWords = wordArray;
     }
-
     store.storeOldWords = [];
     //store all words played in this.storeOldWords string value
     for (let i = 0; i < wordArray.length; i++) {
       store.storeOldWords.push(wordArray[i].word)
     }
-
     console.log("storeOldWords: ", store.storeOldWords)
     console.log("Checking word array: ", wordArray);
     //------------------------------
@@ -1297,7 +1259,7 @@ export default class Game {
       currentWordPoints = store.storeCurrentWords[i].points * store.storeCurrentWords[i].multiple;
       console.log('currentWordPoints', currentWordPoints);
       console.log("word: " + store.storeCurrentWords[i].word + ", point: " + currentWordPoints)
-      this.players[0].score += currentWordPoints;
+      this.players[0].score += +currentWordPoints;
     }
     console.log('This players score after addind currentwordpoints', this.players[0].score);
     console.log('currentWordPoints', currentWordPoints);
