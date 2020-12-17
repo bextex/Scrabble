@@ -973,8 +973,8 @@ export default class Game {
           if (wordV[i].special && !this.usedSpecialTiles.find(tile => (tile.x === wordV[i].x && tile.y === wordV[i].y))) {
             if ((wordV[i].special) === '2xLS') { points += 2 * wordV[i].points }
             else if ((wordV[i].special) === '3xLS') { points += 3 * wordV[i].points }
-            else if ((wordV[i].special) === '2xLW') { multiple *= 2; points += wordV[i].points; }
-            else if ((wordV[i].special) === '3xLW') { multiple *= 3; points += wordV[i].points; }
+            else if ((wordV[i].special) === '2xWS') { multiple *= 2; points += wordV[i].points; }
+            else if ((wordV[i].special) === '3xWS') { multiple *= 3; points += wordV[i].points; }
             else if ((wordV[i].special) === 'middle-star') { multiple *= 2; points += wordV[i].points; }
             else points += wordV[i].points;
             // save the word that have used special box
@@ -1022,11 +1022,12 @@ export default class Game {
         if (((i < wordH.length - 1) && (wordH[i].x === wordH[i + 1].x)) || ((i > 0) && (wordH[i].x === wordH[i - 1].x))) {
           word += wordH[i].char;
           position.push({ x: wordH[i].x, y: wordH[i].y });
+
           if (wordH[i].special && !this.usedSpecialTiles.find(tile => (tile.x === wordH[i].x && tile.y === wordH[i].y))) {
             if ((wordH[i].special) === '2xLS') { points += 2 * wordH[i].points; }
             else if ((wordH[i].special) === '3xLS') { points += 3 * wordH[i].points }
-            else if ((wordH[i].special) === '2xLW') { multiple *= 2; points += wordH[i].points; }
-            else if ((wordH[i].special) === '3xLW') { multiple *= 3; points += wordH[i].points; }
+            else if ((wordH[i].special) === '2xWS') { multiple *= 2; points += wordH[i].points; }
+            else if ((wordH[i].special) === '3xWS') { multiple *= 3; points += wordH[i].points; }
             else if ((wordH[i].special) === 'middle-star') { multiple *= 2; points += wordH[i].points; }
             else points += wordH[i].points;
             // save the word that have used special box
@@ -1203,7 +1204,10 @@ export default class Game {
 
     let currentWordPoints = 0;
     for (let i = 0; i < store.storeCurrentWords.length; i++) {
+      console.log('store.storeCurrentWords[i].points', store.storeCurrentWords[i].points);
+      console.log('store.storeCurrentWords[i].multiple', store.storeCurrentWords[i].multiple);
       currentWordPoints = store.storeCurrentWords[i].points * store.storeCurrentWords[i].multiple;
+      console.log('currentWordPoints', currentWordPoints);
       console.log("word: " + store.storeCurrentWords[i].word + ", point: " + currentWordPoints)
       this.players[0].score += +currentWordPoints;
     }
