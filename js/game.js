@@ -598,44 +598,34 @@ export default class Game {
     console.log('store score array', store.score);
     console.log('length of store score array', store.score.length);
 
+
+    let scoreArray = [];
+    for (let i = 0; i < store.score.length; i++) {
+      scoreArray.push(store.score[i].points);
+    }
+
+    console.log('scorearray', scoreArray);
+    scoreArray.sort((a, b) => b - a);
+
     let playerArray = [];
-    playerArray = store.score;
 
-    // Check if it's first round 
-    // let samePoints = 0;
-    // store.score.filter((x) => {
-    //   if (x === store.score[0]) {
-    //     store.score.filter((y) => {
-    //       if (x.points === y.points) {
-    //         samePoints++;
-    //       }
-    //     });
-    //   }
-    // });
+    for (let i = 0; i < scoreArray.length; i++) {
+      for (let j = 0; j < store.score.length; j++) {
+        if (scoreArray[i] === store.score[j].points) {
+          playerArray.push({ name: store.score[j].name, points: store.score[j].points });
+        }
+      }
+    }
+
+    for (let i = playerArray.length - 1; i >= store.score.length; i--) {
+      playerArray.pop();
+    }
 
 
-    // let playerArray = [];
-    // if (samePoints === store.score.length) {
-    //   console.log('Its the first round or the players has the same points!');
-    //   playerArray = store.score;
-    // } else {
-    //   let scoreArray = [];
-    //   for (let i = 0; i < store.score.length; i++) {
-    //     console.log('store score [i].score', store.score[i].points);
-    //     scoreArray.push(store.score[i].points);
-    //   }
-    //   console.log('scorearray', scoreArray);
-    //   scoreArray.sort((a, b) => b - a);
 
-    //   for (let i = 0; i < scoreArray.length; i++) {
-    //     for (let j = 0; j < store.score.length; j++) {
-    //       console.log('scoreArray[i] === store.score[j].points', scoreArray[i] === store.score[j].points);
-    //       if (scoreArray[i] === store.score[j].points) {
-    //         playerArray.push({ name: store.score[j].name, points: store.score[j].points });
-    //       }
-    //     }
-    //   }
-    // }
+
+    console.log('playerarray', playerArray);
+
 
     for (let i = 0; i < playerArray.length; i++) {
       $('.highscore-namelist').append(`
@@ -720,7 +710,9 @@ export default class Game {
       // this.changeTiles();
     });
     $('.help-button').on('click', async () => {
-      await Modal.alert('Blanka brickan: För att använda den blanka brickan, tryck på den och skriv in en bokstav. Om du vill ändra bokstaven senare kan du trycka på den igen. Men när du använder brickan så kommer den att läggas och vara i spel.<br>Byta Brickor: Dubbelklicka på brickorna du vill byta i din brickhållare och tryck sedan på byta brickor.', 'Stäng');
+      await Modal.alert(`<b>Blanka brickan:</b> För att använda den blanka brickan, tryck på den och skriv in en bokstav. Om du vill ändra bokstaven senare kan du trycka på den igen. Men när du använder brickan så kommer den att läggas och vara i spel.
+      <br><b>Byta Brickor:</b> Dubbelklicka på brickorna du vill byta i din brickhållare och tryck sedan på byta brickor.
+      <br><b>Tänk på!</b> Om du och dina medspelare passar eller byter tre gånger i rad så avslutas spelet!`, 'Stäng');
     });
     // When click on 'Lägg brickor'-button, there will be a new player and the board will render
     // Shoul also count score on word
@@ -1181,7 +1173,7 @@ export default class Game {
       <button class="play-tiles">Lägg brickor</button>
       <button class="pass">Stå över</button>
       <button class="change-tiles">Byt brickor</button>
-      <button class="help-button">Help</button>
+      <button class="help-button">Hjälp</button>
     `);
   }
 
