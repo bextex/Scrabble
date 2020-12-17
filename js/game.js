@@ -710,7 +710,9 @@ export default class Game {
       // this.changeTiles();
     });
     $('.help-button').on('click', async () => {
-      await Modal.alert('Blanka brickan: För att använda den blanka brickan, tryck på den och skriv in en bokstav. Om du vill ändra bokstaven senare kan du trycka på den igen. Men när du använder brickan så kommer den att läggas och vara i spel.<br>Byta Brickor: Dubbelklicka på brickorna du vill byta i din brickhållare och tryck sedan på byta brickor.', 'Stäng');
+      await Modal.alert(`<b>Blanka brickan:</b> För att använda den blanka brickan, tryck på den och skriv in en bokstav. Om du vill ändra bokstaven senare kan du trycka på den igen. Men när du använder brickan så kommer den att läggas och vara i spel.
+      <br><b>Byta Brickor:</b> Dubbelklicka på brickorna du vill byta i din brickhållare och tryck sedan på byta brickor.
+      <br><b>Tänk på!</b> Om du och dina medspelare passar eller byter tre gånger i rad så avslutas spelet!`, 'Stäng');
     });
     // When click on 'Lägg brickor'-button, there will be a new player and the board will render
     // Shoul also count score on word
@@ -1155,7 +1157,7 @@ export default class Game {
       <button class="play-tiles">Lägg brickor</button>
       <button class="pass">Stå över</button>
       <button class="change-tiles">Byt brickor</button>
-      <button class="help-button">Help</button>
+      <button class="help-button">Hjälp</button>
     `);
   }
 
