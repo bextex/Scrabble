@@ -176,20 +176,21 @@ export default class Network {
     console.log('Its ' + s.players[s.currentPlayer] + 's turn');
     console.log('My playerindex in store:', this.playerIndexInNetwork);
     console.log('Should I render?', (s.currentPlayer === this.playerIndexInNetwork))
-    if (!$('.waiting-box').length && s.currentPlayer === this.playerIndexInNetwork) {
-      // game.playerTurn();
+    if (!$('.waiting-box').length) {
       game.board = s.board;
       game.tilesFromBag = s.tilesFromFile;
       game.storeOldWords = s.storeOldWords;
       game.storeCurrentWords = s.storeCurrentWords;
+      // game.playerTurn();
+
+      game.render();
+      //Testing
       // if (s.passcounter === 3) {
       //   game.endgame();
       // }
       // console.log('From network, what is s.passcounter', s.passcounter);
-
-
-      game.render();
     }
+
     // } else if (!$('.waiting-box').length) {
     //   $('.playing-window').empty();
     //   if (store.players.indexOf(this.name) === store.currentPlayer) {

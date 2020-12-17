@@ -556,6 +556,31 @@ export default class Game {
     console.log('Index of this player in store.players:', store.players.indexOf(this.name));
     console.log('Current player in store:', store.currentPlayer);
 
+    this.countingPotentialEndPoints();
+
+    this.playerTurnWindow();
+
+    // Empty the player tileboards window before rendering, otherwise there will be double each time it renders
+    $('.playing-window-left').empty();
+    // showPlayers needs to be first
+
+    this.showPlayers();
+    this.showSaolText();
+
+
+    // showAndHide cannot be done unless we have read the showPlayers method
+    // this.showAndHidePlayers();
+    // We want the addEvents to be last so the player can make their move
+
+    this.buttonEvents();
+    this.addEvents();
+    this.changeTiles();
+
+    this.highScoreList();
+    // this.showPlayerButtons();
+  }
+
+  countingPotentialEndPoints() {
     // Always count the last tiles points in case the game is over
     let tilePointsOnRack = 0;
     this.tiles[0].map((tile) => {
@@ -583,6 +608,12 @@ export default class Game {
       store.potentialTotalScore[this.myPlayerIndexInStore] = ({ name: store.players[this.myPlayerIndexInStore], points: (store.score[this.myPlayerIndexInStore].points - tilePointsOnRack) });
       console.log('My new total points if not cleaned rack', store.potentialTotalScore);
     }
+  }
+
+  playerTurnWindow() {
+
+    // Remove before so the player name of whos playing can be updated
+    $('.not-your-turn').remove();
 
     if (store.passcounter === 3 || store.tilesFromFile.length <= 0) {
       this.endgame();
@@ -592,25 +623,6 @@ export default class Game {
       //this.render();
       $('.playing-window').append(`<div class="not-your-turn"><p>${store.players[store.currentPlayer]} spelar just nu...</p></div>`);
     }
-
-    // Empty the player tileboards window before rendering, otherwise there will be double each time it renders
-    $('.playing-window-left').empty();
-    // showPlayers needs to be first
-
-    this.showPlayers();
-    this.showSaolText();
-
-
-    // showAndHide cannot be done unless we have read the showPlayers method
-    // this.showAndHidePlayers();
-    // We want the addEvents to be last so the player can make their move
-
-    this.buttonEvents();
-    this.addEvents();
-    this.changeTiles();
-
-    this.highScoreList();
-    // this.showPlayerButtons();
   }
 
   highScoreList() {
