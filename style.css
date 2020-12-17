@@ -1615,7 +1615,7 @@ th {
 }
 .player-table-inner {
  position: relative;
- height: 25vh;
+ height: 30vh;
   width: 50vh;
   border: 10px solid rgb(241, 237, 237);
   border-radius: 3px;
@@ -1650,13 +1650,12 @@ th {
 }
 .scoreboard-text{
   font-size: 70px;
-  
   font-family: 'Cabin Sketch', cursive;
    text-shadow: 3px 3px #e1eeece3;
 }
 .scoreboard-players-text{
-  font-size: 20px;
-  font-family: Verdana;
+  font-size: 25px;
+  font-family: 'Big Shoulders Stencil Text', cursive;
 }
 /******** points-box ********/
 .help-button {
