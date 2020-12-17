@@ -1129,6 +1129,13 @@ export default class Game {
       }
     }
 
+    for (let i = wordArray.length - 1; i >= 0; i--) {
+      let word = wordArray[i].word;
+      if (word === '' || word.length < 2) {
+        wordArray.splice(i, 1);
+      }
+    }
+
     console.log("wordArray before pushing new words: ", wordArray)
     console.log("storeOldWords before pushing new words: ", store.storeOldWords)
     console.log("storeCurrentWords before pushing new words: ", store.storeCurrentWords)
