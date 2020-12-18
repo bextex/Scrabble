@@ -1,6 +1,7 @@
 import Store from 'https://network-lite.nodehill.com/store';
 import Game from './game.js';
 import Bag from './bag.js';
+import Modal from './modal.js';
 
 export let store;
 
@@ -60,17 +61,8 @@ export default class Network {
     // Want to be able to hear changes if players put tiles on board
     s.board = s.board || game.createBoard();
 
-    // We want to listen for which player is the one currently playing
-    // s.currentPlayer = s.currentPlayer || game.playerIndex;
-    console.log('Current player has index:', s.currentPlayer);
-    console.log('The playercount is', s.playercount)
-
     // Which player index am I? (0, 1, 2 or 3?)
     this.playerIndexInNetwork = s.players.length;
-
-    console.log('My index is ', this.playerIndexInNetwork);
-    // console.log('My index is ' + (1 + this.playerIndexInNetwork));
-
 
     // Add my name to s.players array
     s.players.push(name);
@@ -88,28 +80,22 @@ export default class Network {
     let that = this;
     $('.start-new-game').on('click', async function () {
 
-      // if (s.players.length > 1 && s.players.length < 5) {
-      console.log('im clicking the start button');
+      if (s.players.length > 1 && s.players.length < 5) {
+        // remove the waiting box so it doesn't append in listen for network changes
+        $('.waiting-for-players').remove();
 
-      // remove the waiting box so it doesn't append in listen for network changes
-      $('.waiting-for-players').remove();
+        $('.playersName').fadeOut(200);
+        $('.game-screen').fadeOut(200);
+        $('.game-menu').fadeOut(200);
+        $('.scrabble').fadeOut(200);
 
-      $('.playersName').fadeOut(200);
-      $('.game-screen').fadeOut(200);
-      $('.game-menu').fadeOut(200);
-      $('.scrabble').fadeOut(200);
-
-      // game.start();
-      game.start(name, that.playerIndexInNetwork);
-      // }
-      // else if (s.players.length == 1 || s.players.length <= 5) {
-      //   await Modal.alert('Det måste vara minst 2 spelare och högst 4 för att starta ett spel', 'Stäng');
-      //   // alert('This is a modal');
-      // }
+        game.start(name, that.playerIndexInNetwork);
+      }
+      else if (s.players.length == 1 || s.players.length <= 5) {
+        await Modal.alert('Det måste vara minst 2 spelare och högst 4 för att starta ett spel', 'Stäng');
+      }
     });
   }
-
-
 
   listenForNetworkChanges(game) {
     let s = this.networkStore;

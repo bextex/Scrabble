@@ -3,11 +3,8 @@ import SAOLchecker from './SAOLchecker.js';
 import Board from './board.js';
 import Score from './score.js';
 import Modal from './modal.js';
-// import { players } from './player.js';
 import Network, { store } from './network.js';
 import Bag from './bag.js';
-
-console.log("Store från början", store)
 
 export default class Game {
 
