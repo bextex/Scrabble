@@ -225,7 +225,7 @@ export default class Game {
 
     for (let i = 0; i < playerArray.length; i++) {
       $('.scoreboard-players').append(`
-        <p class="scoreboard-players-text">[${i}] ${playerArray[i].points} ${playerArray[i].name}</p>
+        <p class="scoreboard-players-text">[${i + 1}] ${playerArray[i].points} ${playerArray[i].name}</p>
         `);
     }
     $('.waiting-box').append(`
@@ -851,13 +851,13 @@ export default class Game {
             if (!!this.board[i + 1][j].tile) {
               // Below (wordV)
               c = this.board[i][j].tile[0].char;
-              p = this.board[i][j].tile[0].points;
+              p = +this.board[i][j].tile[0].points;//make sure it is a integer
               s = this.board[i][j].special;
               wordV.push({ x: i, y: j, char: c, points: p, special: s });
             } else if (!!this.board[i][j + 1].tile) {
               // Beside - right (wordH)
               c = this.board[i][j].tile[0].char;
-              p = this.board[i][j].tile[0].points;
+              p = +this.board[i][j].tile[0].points;
               s = this.board[i][j].special;
               wordH.push({ x: i, y: j, char: c, points: p, special: s });
             }
@@ -865,13 +865,13 @@ export default class Game {
             if (!!this.board[i - 1][j].tile || !!this.board[i + 1][j].tile) {
               // Above and below (wordV)
               c = this.board[i][j].tile[0].char;
-              p = this.board[i][j].tile[0].points;
+              p = +this.board[i][j].tile[0].points;
               s = this.board[i][j].special;
               wordV.push({ x: i, y: j, char: c, points: p, special: s });
             } else if (!!this.board[i][j + 1].tile) {
               // Beside + right (wordH)
               c = this.board[i][j].tile[0].char;
-              p = this.board[i][j].tile[0].points;
+              p = +this.board[i][j].tile[0].points;
               s = this.board[i][j].special;
               wordH.push({ x: i, y: j, char: c, points: p, special: s });
             }
@@ -879,13 +879,13 @@ export default class Game {
             if (!!this.board[i][j - 1].tile) {
               // Beside - left (wordH)
               c = this.board[i][j].tile[0].char;
-              p = this.board[i][j].tile[0].points;
+              p = +this.board[i][j].tile[0].points;
               s = this.board[i][j].special;
               wordH.push({ x: i, y: j, char: c, points: p, special: s });
             } else if (!!this.board[i + 1][j].tile) {
               // Below (wordV)
               c = this.board[i][j].tile[0].char;
-              p = this.board[i][j].tile[0].points;
+              p = +this.board[i][j].tile[0].points;
               s = this.board[i][j].special;
               wordV.push({ x: i, y: j, char: c, points: p, special: s });
             }
@@ -893,13 +893,13 @@ export default class Game {
             if (!!this.board[i - 1][j].tile || !!this.board[i + 1][j].tile) {
               // Above and below (wordV)
               c = this.board[i][j].tile[0].char;
-              p = this.board[i][j].tile[0].points;
+              p = +this.board[i][j].tile[0].points;
               s = this.board[i][j].special;
               wordV.push({ x: i, y: j, char: c, points: p, special: s });
             } else if (!!this.board[i][j - 1].tile) {
               // Beside - left (wordH)
               c = this.board[i][j].tile[0].char;
-              p = this.board[i][j].tile[0].points;
+              p = +this.board[i][j].tile[0].points;
               s = this.board[i][j].special;
               wordH.push({ x: i, y: j, char: c, points: p, special: s });
             }
@@ -907,13 +907,13 @@ export default class Game {
             if (!!this.board[i - 1][j].tile) {
               // Above (wordV)
               c = this.board[i][j].tile[0].char;
-              p = this.board[i][j].tile[0].points;
+              p = +this.board[i][j].tile[0].points;
               s = this.board[i][j].special;
               wordV.push({ x: i, y: j, char: c, points: p, special: s });
             } else if (!!this.board[i][j - 1].tile) {
               // Beside - left (wordH)
               c = this.board[i][j].tile[0].char;
-              p = this.board[i][j].tile[0].points;
+              p = +this.board[i][j].tile[0].points;
               s = this.board[i][j].special;
               wordH.push({ x: i, y: j, char: c, points: p, special: s });
             }
@@ -921,13 +921,13 @@ export default class Game {
             if (!!this.board[i][j + 1].tile || !!this.board[i][j - 1].tile) {
               // Beside - right and left (wordH)
               c = this.board[i][j].tile[0].char;
-              p = this.board[i][j].tile[0].points;
+              p = +this.board[i][j].tile[0].points;
               s = this.board[i][j].special;
               wordH.push({ x: i, y: j, char: c, points: p, special: s });
             } else if (!!this.board[i - 1][j].tile) {
               // Above (wordV)
               c = this.board[i][j].tile[0].char;
-              p = this.board[i][j].tile[0].points;
+              p = +this.board[i][j].tile[0].points;
               s = this.board[i][j].special;
               wordV.push({ x: i, y: j, char: c, points: p, special: s });
             }
@@ -935,13 +935,13 @@ export default class Game {
             if (!!this.board[i - 1][j].tile) {
               // Above (wordV)
               c = this.board[i][j].tile[0].char;
-              p = this.board[i][j].tile[0].points;
+              p = +this.board[i][j].tile[0].points;
               s = this.board[i][j].special;
               wordV.push({ x: i, y: j, char: c, points: p, special: s });
             } else if (!!this.board[i][j + 1].tile) {
               // Beside - right (wordH)
               c = this.board[i][j].tile[0].char;
-              p = this.board[i][j].tile[0].points;
+              p = +this.board[i][j].tile[0].points;
               s = this.board[i][j].special;
               wordH.push({ x: i, y: j, char: c, points: p, special: s });
             }
@@ -949,13 +949,13 @@ export default class Game {
             if (!!this.board[i][j - 1].tile || !!this.board[i][j + 1].tile) {
               // Beside - left and right (wordH)
               c = this.board[i][j].tile[0].char;
-              p = this.board[i][j].tile[0].points;
+              p = +this.board[i][j].tile[0].points;
               s = this.board[i][j].special;
               wordH.push({ x: i, y: j, char: c, points: p, special: s });
             } else if (!!this.board[i + 1][j].tile) {
               // Below (wordV)
               c = this.board[i][j].tile[0].char;
-              p = this.board[i][j].tile[0].points;
+              p = +this.board[i][j].tile[0].points;
               s = this.board[i][j].special;
               wordV.push({ x: i, y: j, char: c, points: p, special: s });
             }
@@ -963,23 +963,23 @@ export default class Game {
             if ((!!this.board[i - 1][j].tile || !!this.board[i + 1][j].tile) && (!!this.board[i][j + 1].tile || !!this.board[i][j - 1].tile)) {
               // All of the board exkl. the tiles around
               c = this.board[i][j].tile[0].char;
-              p = this.board[i][j].tile[0].points;
+              p = +this.board[i][j].tile[0].points;
               s = this.board[i][j].special;
               wordV.push({ x: i, y: j, char: c, points: p, special: s });
               wordH.push({ x: i, y: j, char: c, points: p, special: s });
             } else if (!!this.board[i - 1][j].tile || !!this.board[i + 1][j].tile) {
               c = this.board[i][j].tile[0].char;
-              p = this.board[i][j].tile[0].points;
+              p = +this.board[i][j].tile[0].points;
               s = this.board[i][j].special;
               wordV.push({ x: i, y: j, char: c, points: p, special: s });
             } else if (!!this.board[i][j + 1].tile || !!this.board[i][j - 1].tile) {
               c = this.board[i][j].tile[0].char;
-              p = this.board[i][j].tile[0].points;
+              p = +this.board[i][j].tile[0].points;
               s = this.board[i][j].special;
               wordH.push({ x: i, y: j, char: c, points: p, special: s });
             } else {
               c = this.board[i][j].tile[0].char;
-              p = this.board[i][j].tile[0].points;
+              p = +this.board[i][j].tile[0].points;
               s = this.board[i][j].special;
               wordH.push({ x: i, y: j, char: c, points: p, special: s });
               wordV.push({ x: i, y: j, char: c, points: p, special: s });
