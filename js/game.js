@@ -1018,23 +1018,23 @@ export default class Game {
             else if ((wordV[i].special) === '2xWS') { multiple *= 2; points += wordV[i].points; }
             else if ((wordV[i].special) === '3xWS') { multiple *= 3; points += wordV[i].points; }
             else if ((wordV[i].special) === 'middle-star') {
-              points += wordV[i].points;
+              points += +wordV[i].points;
               //only for middle char if it is not the first word (there is a another player's score is not 0)
               //then the middle word will not be count dubble point
               let sumAllPlayerScore = 0;
               for (let k = 0; k < store.players.length; k++) {
-                sumAllPlayerScore += store.score[k].points;
+                sumAllPlayerScore += +store.score[k].points;
                 console.log('sumAllPlayerScore', sumAllPlayerScore)
               }
               if (isNaN(sumAllPlayerScore) || sumAllPlayerScore === 0) { multiple *= 2 }
               else { multiple *= 1; }
             }
-            else points += wordV[i].points;
+            else points += +wordV[i].points;
             // save the word that have used special box
             this.usedSpecialTiles.push({ x: wordV[i].x, y: wordV[i].y });
           }
           else {
-            points += wordV[i].points;
+            points += +wordV[i].points;
           }
         }
         //if it is another column or if it has empty box between two char in the same column
@@ -1070,23 +1070,23 @@ export default class Game {
             else if ((wordH[i].special) === '2xWS') { multiple *= 2; points += wordH[i].points; }
             else if ((wordH[i].special) === '3xWS') { multiple *= 3; points += wordH[i].points; }
             else if ((wordH[i].special) === 'middle-star') {
-              points += wordH[i].points;
+              points += +wordH[i].points;
               //only for middle char if it is not the first word (there is a another player's score is not 0)
               //then the middle word will not be count dubble point
               let sumAllPlayerScore = 0;
               for (let k = 0; k < store.players.length; k++) {
-                sumAllPlayerScore += store.score[k].points;
+                sumAllPlayerScore += +store.score[k].points;
                 console.log('sumAllPlayerScore', sumAllPlayerScore)
               }
               if (isNaN(sumAllPlayerScore) || sumAllPlayerScore === 0) { multiple *= 2 }
               else { multiple *= 1; }
             }
-            else points += wordH[i].points;
+            else points += +wordH[i].points;
             // save the word that have used special box
             this.usedSpecialTiles.push({ x: wordH[i].x, y: wordH[i].y });
           }
           else {
-            points += wordH[i].points;
+            points += +wordH[i].points;
           }
         }
         //if it is another row or if it has empty box between two char in the same row
