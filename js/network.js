@@ -68,7 +68,8 @@ export default class Network {
     // Which player index am I? (0, 1, 2 or 3?)
     this.playerIndexInNetwork = s.players.length;
 
-    console.log('My index is ' + (1 + this.playerIndexInNetwork));
+    console.log('My index is ', this.playerIndexInNetwork);
+    // console.log('My index is ' + (1 + this.playerIndexInNetwork));
 
 
     // Add my name to s.players array
@@ -133,7 +134,7 @@ export default class Network {
       game.board = s.board;
       game.tilesFromBag = s.tilesFromFile;
       game.storeOldWords = s.storeOldWords;
-      game.storeCurrentWords = s.storeCurrentWords;
+      game.storeCurrentWords = [];
 
       game.render();
     }

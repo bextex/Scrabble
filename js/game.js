@@ -54,7 +54,13 @@ export default class Game {
     console.log("none: " + none)
     //if all words in wordsArray are ok in Scrabble
     if (all && !none) {
-      this.countPlayerScore(this.playerIndex);
+      // Save all new words in storeOldWords
+      for (let i = 0; i < store.storeCurrentWords.length; i++) {
+        store.storeOldWords.push(store.storeCurrentWords[i].word)
+      }
+      console.log('Old word array after approved word', store.storeOldWords);
+
+      this.countPlayerScore();
       this.nextPlayer();
       console.log("end of round store.storeCurrentWords: ", store.storeCurrentWords)
       //console.log("end of round this.wordArrayCommitted", this.wordArrayCommitted)
@@ -1120,11 +1126,11 @@ export default class Game {
     } else {
       store.storeCurrentWords = wordArray;
     }
-    store.storeOldWords = [];
+    // store.storeOldWords = [];
     //store all words played in this.storeOldWords string value
-    for (let i = 0; i < wordArray.length; i++) {
-      store.storeOldWords.push(wordArray[i].word)
-    }
+    // for (let i = 0; i < wordArray.length; i++) {
+    //   store.storeOldWords.push(wordArray[i].word)
+    // }
     console.log("storeOldWords: ", store.storeOldWords)
     console.log("Checking word array: ", wordArray);
     //------------------------------
