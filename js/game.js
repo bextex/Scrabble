@@ -225,7 +225,7 @@ export default class Game {
 
     for (let i = 0; i < playerArray.length; i++) {
       $('.scoreboard-players').append(`
-        <p class="scoreboard-players-text">[${i}] ${playerArray[i].points} ${playerArray[i].name}</p>
+        <p class="scoreboard-players-text">[${i + 1}] ${playerArray[i].points} ${playerArray[i].name}</p>
         `);
     }
     $('.waiting-box').append(`
