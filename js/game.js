@@ -1125,8 +1125,8 @@ export default class Game {
     for (let i = 0; i < wordArray.length; i++) {
       store.storeOldWords.push(wordArray[i].word)
     }
-    console.log("storeOldWords: ", store.storeOldWords)
-    console.log("Checking word array: ", wordArray);
+    console.log("after pushing to storeOldWords[]: ", store.storeOldWords)
+    console.log("after pushing to storeCurrentWords[]: ", store.storeCurrentWords);
     //------------------------------
   }
 
